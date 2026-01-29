@@ -1,0 +1,15 @@
+{
+  "id": "trade_1768850567254_nopl7er28",
+  "seller": "אופק",
+  "offering": {
+    "gold": 2250400005432
+  },
+  "requesting": {
+    "food": 1
+  },
+  "status": "cancelled",
+  "createdAt": 1768850567254,
+  "expiresAt": 1768936967254,
+  "acceptedBy": null,
+  "cancelledAt": 1768851695024
+}

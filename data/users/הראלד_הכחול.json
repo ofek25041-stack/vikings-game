@@ -1,0 +1,130 @@
+{
+  "username": "הראלד_הכחול",
+  "password": "ai_player",
+  "state": {
+    "homeCoords": {
+      "x": 437,
+      "y": 813
+    },
+    "resources": {
+      "gold": 55000,
+      "wood": 36000,
+      "food": 32000,
+      "wine": 7000,
+      "marble": 4000,
+      "crystal": 2500,
+      "sulfur": 1200
+    },
+    "buildings": {
+      "townHall": {
+        "level": 11
+      },
+      "barracks": {
+        "level": 9
+      },
+      "warehouse": {
+        "level": 8
+      },
+      "farm": {
+        "level": 10
+      },
+      "lumberMill": {
+        "level": 9
+      }
+    },
+    "army": {
+      "spearman": 320,
+      "archer": 160,
+      "swordsman": 80
+    },
+    "research": {},
+    "stats": {
+      "battles": 47,
+      "wins": 2,
+      "losses": 29
+    },
+    "city": {
+      "population": 1600,
+      "happiness": 84
+    },
+    "mapEntities": {
+      "437,813": {
+        "type": "city",
+        "name": "הראלד_הכחול",
+        "user": "הראלד_הכחול",
+        "level": 11,
+        "x": 437,
+        "y": 813,
+        "isMyCity": false,
+        "motto": "יחד אנחנו חזקים"
+      },
+      "439,796": {
+        "type": "farm",
+        "resource": "wine",
+        "name": "כרם ענבים",
+        "owner": "הראלד_הכחול",
+        "level": 1,
+        "x": 439,
+        "y": 796
+      },
+      "419,823": {
+        "type": "wood",
+        "resource": "wood",
+        "name": "מחנה חוטבים",
+        "owner": "הראלד_הכחול",
+        "level": 1,
+        "x": 419,
+        "y": 823
+      },
+      "452,798": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "owner": "הראלד_הכחול",
+        "level": 1,
+        "x": 452,
+        "y": 798
+      },
+      "433,809": {
+        "type": "farm",
+        "resource": "wine",
+        "name": "כרם ענבים",
+        "owner": "הראלד_הכחול",
+        "level": 3,
+        "x": 433,
+        "y": 809
+      },
+      "447,811": {
+        "type": "wood",
+        "resource": "wood",
+        "name": "מחנה חוטבים",
+        "owner": "הראלד_הכחול",
+        "level": 3,
+        "x": 447,
+        "y": 811
+      }
+    },
+    "lastLogin": 1768936444864,
+    "reports": [
+      {
+        "id": "mkogdu8mgpqryfcudp",
+        "type": "clan_invite",
+        "from": "Ofek",
+        "clanId": "clan_1769025793466_7k8i2wm21",
+        "clanName": "God",
+        "clanTag": "GOD",
+        "timestamp": 1769025964630,
+        "read": false,
+        "title": "הזמנה לקלאן [GOD] God",
+        "data": {
+          "from": "Ofek",
+          "clanId": "clan_1769025793466_7k8i2wm21",
+          "clanName": "God",
+          "clanTag": "GOD"
+        }
+      }
+    ],
+    "chats": {},
+    "motto": "יחד אנחנו חזקים"
+  }
+}

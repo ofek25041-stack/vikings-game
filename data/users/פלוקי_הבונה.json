@@ -1,0 +1,103 @@
+{
+  "username": "פלוקי_הבונה",
+  "password": "ai_player",
+  "state": {
+    "homeCoords": {
+      "x": 304,
+      "y": 270
+    },
+    "resources": {
+      "gold": 46000,
+      "wood": 30000,
+      "food": 26000,
+      "wine": 5500,
+      "marble": 3200,
+      "crystal": 2000,
+      "sulfur": 900
+    },
+    "buildings": {
+      "townHall": {
+        "level": 7
+      },
+      "barracks": {
+        "level": 5
+      },
+      "warehouse": {
+        "level": 4
+      },
+      "farm": {
+        "level": 6
+      },
+      "lumberMill": {
+        "level": 5
+      }
+    },
+    "army": {
+      "spearman": 240,
+      "archer": 120,
+      "swordsman": 60
+    },
+    "research": {},
+    "stats": {
+      "battles": 2,
+      "wins": 14,
+      "losses": 9
+    },
+    "city": {
+      "population": 1200,
+      "happiness": 90
+    },
+    "mapEntities": {
+      "304,270": {
+        "type": "city",
+        "name": "פלוקי_הבונה",
+        "user": "פלוקי_הבונה",
+        "level": 7,
+        "x": 304,
+        "y": 270,
+        "isMyCity": false,
+        "motto": "הכל במידה"
+      },
+      "294,253": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "owner": "פלוקי_הבונה",
+        "level": 2,
+        "x": 294,
+        "y": 253
+      },
+      "304,283": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "owner": "פלוקי_הבונה",
+        "level": 3,
+        "x": 304,
+        "y": 283
+      },
+      "288,289": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "owner": "פלוקי_הבונה",
+        "level": 1,
+        "x": 288,
+        "y": 289
+      },
+      "314,274": {
+        "type": "wood",
+        "resource": "wood",
+        "name": "מחנה חוטבים",
+        "owner": "פלוקי_הבונה",
+        "level": 1,
+        "x": 314,
+        "y": 274
+      }
+    },
+    "lastLogin": 1768936444864,
+    "reports": [],
+    "chats": {},
+    "motto": "הכל במידה"
+  }
+}

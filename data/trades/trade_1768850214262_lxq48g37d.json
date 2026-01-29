@@ -1,0 +1,15 @@
+{
+  "id": "trade_1768850214262_lxq48g37d",
+  "seller": "אופק",
+  "offering": {
+    "gold": 10000000000
+  },
+  "requesting": {
+    "food": 1000000
+  },
+  "status": "cancelled",
+  "createdAt": 1768850214262,
+  "expiresAt": 1768936614262,
+  "acceptedBy": null,
+  "cancelledAt": 1768851702727
+}

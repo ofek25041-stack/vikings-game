@@ -1,0 +1,68 @@
+{
+  "id": "clan_1769169282429_pgds9a1ge",
+  "name": "TestFortress",
+  "tag": "TF",
+  "description": "",
+  "icon": "🛡️",
+  "leader": "test",
+  "members": {
+    "test": {
+      "role": "leader",
+      "joinedAt": 1769169282429,
+      "contribution": {
+        "gold": 50000,
+        "wood": 30000,
+        "food": 0
+      },
+      "lastSeen": 1769169282429
+    }
+  },
+  "treasury": {
+    "gold": 0,
+    "wood": 0,
+    "food": 0,
+    "wine": 0,
+    "marble": 0,
+    "crystal": 0,
+    "sulfur": 0
+  },
+  "upgrades": {
+    "treasury": 1,
+    "militaryBonus": 0,
+    "economyBonus": 0
+  },
+  "stats": {
+    "totalMembers": 1,
+    "territories": 0,
+    "wins": 0,
+    "losses": 0
+  },
+  "messages": [
+    {
+      "id": "1769174131407_vxuky15zu",
+      "sender": "system",
+      "text": "🏰 המבצר נבנה בהצלחה ב-(47, 47)!",
+      "timestamp": 1769174131407
+    }
+  ],
+  "invitations": {},
+  "applications": {},
+  "createdAt": 1769169282429,
+  "lastActivity": 1769174131407,
+  "deleted": false,
+  "fortress": {
+    "x": 47,
+    "y": 47,
+    "troops": {
+      "spearman": 0,
+      "archer": 0,
+      "swordsman": 0
+    },
+    "resources": {
+      "gold": 0,
+      "wood": 0,
+      "food": 0
+    },
+    "createdAt": 1769174131394
+  }
+}

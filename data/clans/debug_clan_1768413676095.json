@@ -1,0 +1,17 @@
+{
+  "id": "debug_clan_1768413676095",
+  "name": "DebugClan",
+  "tag": "DBG",
+  "leader": "DebugLeader",
+  "members": {
+    "DebugLeader": {
+      "role": "Leader"
+    }
+  },
+  "invitations": {
+    "DebugMember": {
+      "timestamp": 1768413676100
+    }
+  },
+  "messages": []
+}

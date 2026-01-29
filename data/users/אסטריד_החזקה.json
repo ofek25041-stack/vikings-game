@@ -1,0 +1,103 @@
+{
+  "username": "אסטריד_החזקה",
+  "password": "ai_player",
+  "state": {
+    "homeCoords": {
+      "x": 155,
+      "y": 361
+    },
+    "resources": {
+      "gold": 51000,
+      "wood": 33000,
+      "food": 29000,
+      "wine": 6200,
+      "marble": 3600,
+      "crystal": 2300,
+      "sulfur": 1050
+    },
+    "buildings": {
+      "townHall": {
+        "level": 9
+      },
+      "barracks": {
+        "level": 7
+      },
+      "warehouse": {
+        "level": 6
+      },
+      "farm": {
+        "level": 8
+      },
+      "lumberMill": {
+        "level": 7
+      }
+    },
+    "army": {
+      "spearman": 280,
+      "archer": 140,
+      "swordsman": 70
+    },
+    "research": {},
+    "stats": {
+      "battles": 55,
+      "wins": 19,
+      "losses": 2
+    },
+    "city": {
+      "population": 1400,
+      "happiness": 89
+    },
+    "mapEntities": {
+      "155,361": {
+        "type": "city",
+        "name": "אסטריד_החזקה",
+        "user": "אסטריד_החזקה",
+        "level": 9,
+        "x": 155,
+        "y": 361,
+        "isMyCity": false,
+        "motto": "כוח באיזון"
+      },
+      "172,377": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "owner": "אסטריד_החזקה",
+        "level": 3,
+        "x": 172,
+        "y": 377
+      },
+      "166,354": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "owner": "אסטריד_החזקה",
+        "level": 3,
+        "x": 166,
+        "y": 354
+      },
+      "155,349": {
+        "type": "farm",
+        "resource": "wine",
+        "name": "כרם ענבים",
+        "owner": "אסטריד_החזקה",
+        "level": 3,
+        "x": 155,
+        "y": 349
+      },
+      "156,344": {
+        "type": "farm",
+        "resource": "wine",
+        "name": "כרם ענבים",
+        "owner": "אסטריד_החזקה",
+        "level": 3,
+        "x": 156,
+        "y": 344
+      }
+    },
+    "lastLogin": 1768936444863,
+    "reports": [],
+    "chats": {},
+    "motto": "כוח באיזון"
+  }
+}

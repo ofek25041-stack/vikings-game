@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Vikings Strategy</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Outfit:wght@300;400;600&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="login.css">
+    <link rel="stylesheet" href="graphics_overhaul.css">
+    <link rel="stylesheet" href="world_map_tiles.css">
+    <link rel="stylesheet" href="mailbox.css">
+    <link rel="stylesheet" href="clan.css">
+    <link rel="stylesheet" href="city_imagemap.css">
+    <link rel="stylesheet" href="chat.css">
+    <!-- <link rel="stylesheet" href="scrollable_map.css"> -->
+</head>
+
+<body>
+    <div id="app">
+        <!-- Top Bar: Resources -->
+        <header class="resource-bar">
+            <!-- Row 1: Basic Resources (4 items) -->
+            <div class="res-row">
+                <div class="resource" title="Gold">
+                    <span class="icon">💰</span>
+                    <span id="res-gold">0</span>
+                </div>
+                <div class="resource" title="Wood">
+                    <span class="icon">🌲</span>
+                    <span id="res-wood">0</span>
+                </div>
+                <div class="resource" title="Food">
+                    <span class="icon">🌾</span>
+                    <span id="res-food">0</span>
+                </div>
+                <div class="resource" title="Wine">
+                    <span class="icon">🍷</span>
+                    <span id="res-wine">0</span>
+                </div>
+            </div>
+
+            <!-- Row 2: Advanced Resources (4 items) -->
+            <div class="res-row">
+                <div class="resource" title="Marble">
+                    <span class="icon">🏛️</span>
+                    <span id="res-marble">0</span>
+                </div>
+                <div class="resource" title="Crystal">
+                    <span class="icon">💎</span>
+                    <span id="res-crystal">0</span>
+                </div>
+                <div class="resource" title="Sulfur">
+                    <span class="icon">🔥</span>
+                    <span id="res-sulfur">0</span>
+                </div>
+                <div class="resource" title="Citizens">
+                    <span class="icon">👥</span>
+                    <span id="res-citizens">0</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Viewport -->
+        <main id="main-view" class="view-city">
+            <!-- Dynamic Content Here -->
+        </main>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <button class="nav-btn active" onclick="switchView('city')">🏰 העיר שלי</button>
+            <button class="nav-btn" onclick="switchView('world')">🌎 העולם</button>
+            <button class="nav-btn" onclick="switchView('clan')">🛡️ קלאן</button>
+            <button class="nav-btn" onclick="toggleMainMenu()" id="btn-main-menu">☰ תפריט</button>
+        </nav>
+
+        <!-- Main Menu Dropdown/Modal -->
+        <div id="main-menu-dropdown" class="menu-dropdown" style="display:none;">
+            <div class="menu-header">תפריט ראשי</div>
+            <button class="menu-item" onclick="Mailbox.open(); toggleMainMenu()">
+                📧 דואר
+                <span id="menu-badge-mail" class="badge" style="display:none;"></span>
+            </button>
+            <button class="menu-item" onclick="switchView('market'); toggleMainMenu()">
+                🏪 שוק מסחר
+            </button>
+            <button class="menu-item" onclick="switchView('rankings'); toggleMainMenu()">
+                🏆 דירוג קלאנים
+            </button>
+            <button class="menu-item" onclick="Missions.openUI(); toggleMainMenu()">
+                📜 משימות
+                <span id="menu-badge-missions" class="badge" style="display:none;"></span>
+            </button>
+            <button class="menu-item" onclick="openGameGuide(); toggleMainMenu()">
+                📖 מדריך למשחק
+            </button>
+            <button class="menu-item" onclick="openPlayersLeaderboard(); toggleMainMenu()">
+                🏆 שחקנים
+            </button>
+        </div>
+        </nav>
+    </div>
+
+    <!-- Templates for dynamic views -->
+    <!-- Login Template -->
+    <template id="template-login">
+        <div class="login-view">
+            <div class="login-card">
+                <h1 class="game-title">PartushWorld</h1>
+                <p class="game-subtitle">בנה. הילחם. כבוש.</p>
+                <div class="login-form">
+                    <input type="text" id="username" placeholder="שם משתמש" class="login-input">
+                    <input type="password" id="password" placeholder="סיסמא" class="login-input">
+
+                    <button class="modal-btn" onclick="handleLogin()">התחבר</button>
+                    <button class="modal-btn btn-secondary" onclick="handleRegister()">הרשמה לחדשים</button>
+                </div>
+                <div id="login-msg" class="login-msg"></div>
+            </div>
+        </div>
+    </template>
+
+    <template id="template-city">
+        <!-- Isometric Scene Container -->
+        <div class="city-landscape">
+            <div class="iso-viewport">
+                <div class="iso-plane">
+                    <!-- Environment -->
+                    <div class="iso-water-bg"></div>
+                    <div class="iso-water-surface"></div>
+
+                    <div class="iso-island">
+                        <!-- Single Composite Image with Clickable Map -->
+                        <img src="assets/city_complete.png" alt="City View" usemap="#citymap" id="city-image"
+                            class="city-composite-image">
+
+                        <!-- Image Map with Clickable Areas -->
+                        <map name="citymap">
+                            <!-- Town Hall - Center Top -->
+                            <area shape="rect" coords="400,280,650,480" href="#" alt="Town Hall"
+                                data-building="townhall" onclick="openBuildingModal('townhall'); return false;">
+
+                            <!-- Academy - Middle Left -->
+                            <area shape="rect" coords="220,420,380,580" href="#" alt="Academy" data-building="academy"
+                                onclick="openBuildingModal('academy'); return false;">
+
+                            <!-- Warehouse - Middle Right -->
+                            <area shape="rect" coords="620,420,780,580" href="#" alt="Warehouse"
+                                data-building="warehouse" onclick="openBuildingModal('warehouse'); return false;">
+
+                            <!-- Barracks - Lower Center -->
+                            <area shape="rect" coords="380,550,620,700" href="#" alt="Barracks" data-building="barracks"
+                                onclick="openBuildingModal('barracks'); return false;">
+
+                            <!-- Lumber Mill - Lower Left -->
+                            <area shape="rect" coords="100,520,260,680" href="#" alt="Lumber" data-building="lumber"
+                                onclick="openBuildingModal('lumber'); return false;">
+
+                            <!-- Mine - Lower Right -->
+                            <area shape="rect" coords="740,520,900,680" href="#" alt="Mine" data-building="mine"
+                                onclick="openBuildingModal('mine'); return false;">
+
+                            <!-- Port - Bottom -->
+                            <area shape="rect" coords="450,750,650,900" href="#" alt="Port" data-building="port"
+                                onclick="openBuildingModal('port'); return false;">
+                        </map>
+
+                        <!-- Dynamic Labels Overlay (positioned above image) -->
+                        <div class="building-labels-overlay">
+                            <div class="building-label-item" data-building="townhall" style="left: 42%; top: 30%;">
+                                <span class="label-name">Town Hall</span>
+                                <span class="label-lvl" id="label-townhall-lvl">1</span>
+                            </div>
+                            <div class="building-label-item" data-building="academy" style="left: 25%; top: 42%;">
+                                <span class="label-name">Academy</span>
+                                <span class="label-lvl" id="label-academy-lvl">0</span>
+                            </div>
+                            <div class="building-label-item" data-building="warehouse" style="left: 60%; top: 42%;">
+                                <span class="label-name">Warehouse</span>
+                                <span class="label-lvl" id="label-warehouse-lvl">0</span>
+                            </div>
+                            <div class="building-label-item" data-building="barracks" style="left: 42%; top: 55%;">
+                                <span class="label-name">Barracks</span>
+                                <span class="label-lvl" id="label-barracks-lvl">0</span>
+                            </div>
+                            <div class="building-label-item" data-building="lumber" style="left: 18%; top: 50%;">
+                                <span class="label-name">Lumber</span>
+                                <span class="label-lvl" id="label-lumber-lvl">1</span>
+                            </div>
+                            <div class="building-label-item" data-building="mine" style="left: 70%; top: 50%;">
+                                <span class="label-name">Mine</span>
+                                <span class="label-lvl" id="label-mine-lvl">1</span>
+                            </div>
+                            <div class="building-label-item" data-building="port" style="left: 50%; top: 72%;">
+                                <span class="label-name">Port</span>
+                                <span class="label-lvl" id="label-port-lvl">0</span>
+                            </div>
+                        </div>
+
+                    </div> <!-- End Island -->
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="template-world">
+        <div class="world-view-container">
+            <!-- Top HUD: Coordinates & Info -->
+            <div class="world-hud-top">
+                <div class="hud-coords">
+                    <span class="coord-label">X:</span> <span id="map-x">0</span>
+                    <span class="coord-label">Y:</span> <span id="map-y">0</span>
+                </div>
+                <div class="hud-nav-inputs">
+                    <input type="number" id="nav-x" placeholder="X" class="nav-input">
+                    <input type="number" id="nav-y" placeholder="Y" class="nav-input">
+                    <button class="btn-icon header-btn" onclick="jumpToCoords()">Go</button>
+                </div>
+                <div class="hud-title">ממלכת מידגארד</div>
+                <button class="btn-icon" onclick="centerMapOnHome()">🏠</button>
+            </div>
+
+            <!-- Map Viewport -->
+            <div id="world-map-viewport" class="map-viewport">
+                <div id="world-map-grid" class="map-grid">
+                    <!-- March Visualization Layers (must be inside grid to share coordinate space) -->
+                    <svg id="march-lines-layer" class="march-layer"></svg>
+                    <div id="march-armies-layer" class="march-layer"></div>
+                    <!-- Tiles injected by JS -->
+                </div>
+
+                <!-- Navigation Overlays (Desktop/Click) -->
+                <div class="nav-arrow nav-up" onclick="moveMap(0, -1)">▲</div>
+                <div class="nav-arrow nav-down" onclick="moveMap(0, 1)">▼</div>
+                <div class="nav-arrow nav-left" onclick="moveMap(1, 0)">◀</div>
+                <div class="nav-arrow nav-right" onclick="moveMap(-1, 0)">▶</div>
+            </div>
+
+            <!-- Action Panel (Bottom) -->
+            <div class="world-action-panel">
+                <div class="mini-Log">
+                    <span>אזור: יערות העד</span>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="template-island">
+        <div class="island-view">
+            <div class="island-bg">
+                <!-- Island shape handled by CSS -->
+
+                <!-- Shared Resources (Center) -->
+                <div class="resource-node node-sawmill" onclick="interactIsland('sawmill')">
+                    <div class="node-label">מנסרה (עץ)</div>
+                    <div class="node-icon">🌲</div>
+                </div>
+                <div class="resource-node node-luxury" onclick="interactIsland('luxury')">
+                    <div class="node-label">כרם (יין)</div>
+                    <div class="node-icon">🍇</div>
+                </div>
+
+                <!-- 16 City Slots -->
+                <!-- We will generate these dynamically or static. Let's do static for precision -->
+                <div class="city-spot spot-1" onclick="interactSpot(1)">
+                    <div class="spot-flag"></div>
+                </div>
+                <div class="city-spot spot-2" onclick="interactSpot(2)">
+                    <div class="spot-flag"></div>
+                </div>
+                <div class="city-spot spot-3" onclick="interactSpot(3)">
+                    <div class="spot-flag"></div>
+                </div>
+                <div class="city-spot spot-4" onclick="interactSpot(4)">
+                    <div class="spot-flag"></div>
+                </div>
+                <div class="city-spot spot-5" onclick="interactSpot(5)">
+                    <div class="spot-flag"></div>
+                </div>
+                <div class="city-spot spot-6" onclick="interactSpot(6)">
+                    <div class="spot-flag"></div>
+                </div>
+                <div class="city-spot spot-7" onclick="interactSpot(7)">
+                    <div class="spot-flag"></div>
+                </div>
+                <div class="city-spot spot-8" onclick="interactSpot(8)">
+                    <div class="spot-flag"></div>
+                </div>
+                <div class="city-spot spot-9" onclick="interactSpot(9)">
+                    <div class="spot-flag"></div>
+                </div>
+                <div class="city-spot spot-10" onclick="interactSpot(10)">
+                    <div class="spot-flag"></div>
+                </div>
+                <div class="city-spot spot-11" onclick="interactSpot(11)">
+                    <div class="spot-flag"></div>
+                </div>
+                <div class="city-spot spot-12" onclick="interactSpot(12)">
+                    <div class="spot-flag"></div>
+                </div>
+                <div class="city-spot spot-13" onclick="interactSpot(13)">
+                    <div class="spot-flag"></div>
+                </div>
+                <div class="city-spot spot-14" onclick="interactSpot(14)">
+                    <div class="spot-flag"></div>
+                </div>
+                <div class="city-spot spot-15" onclick="interactSpot(15)">
+                    <div class="spot-flag"></div>
+                </div>
+                <div class="city-spot spot-16" onclick="interactSpot(16)">
+                    <div class="spot-flag"></div>
+                </div>
+            </div>
+
+            <div class="island-hud">
+                <div class="hud-title">אי: פוליס (יין)</div>
+            </div>
+        </div>
+    </template>
+
+    <!-- Modal for Building Actions -->
+    <div id="modal-overlay" class="hidden">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="modal-title">כותרת</h3>
+                <button onclick="closeModal()">✕</button>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <!-- Actions -->
+            </div>
+            <div class="modal-actions">
+                <button id="modal-action-btn" class="btn-primary">פעולה</button>
+            </div>
+        </div>
+    </div>
+
+    <template id="template-mailbox">
+        <div class="mailbox-container">
+            <div class="mailbox-header">
+                <h2>דואר</h2>
+                <button class="close-btn" onclick="switchView('world')">❌</button>
+            </div>
+            <div class="mailbox-body">
+                <div id="mailbox-list" class="mailbox-list">
+                    <!-- Items go here -->
+                </div>
+                <div id="mailbox-viewer" class="mailbox-viewer" style="display:none;">
+                    <button class="back-btn" onclick="Mailbox.closeDetail()">🔙 חזרה</button>
+                    <div id="mailbox-content" class="mailbox-content"></div>
+                </div>
+            </div>
+    </template>
+
+    <template id="template-missions">
+        <div class="mailbox-container"> <!-- Reuse container style -->
+            <div class="mailbox-header">
+                <h2>בנק המשימות</h2>
+                <button class="close-btn" onclick="switchView('city')">❌</button>
+            </div>
+            <div class="mailbox-body">
+                <div id="missions-list" class="mailbox-list" style="padding:15px;">
+                    <!-- Missions Render Here -->
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- Players Leaderboard Template -->
+    <template id="template-players">
+        <div class="mailbox-container">
+            <div class="mailbox-header">
+                <h2>🏆 לוח שחקנים</h2>
+                <button class="close-btn" onclick="switchView('world')">❌</button>
+            </div>
+            <div class="mailbox-body">
+                <div id="players-list" class="mailbox-list" style="padding:15px;">
+                    <!-- Players Render Here -->
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- Market Template -->
+    <template id="template-market">
+        <div class="mailbox-container"> <!-- Reuse mailbox styling -->
+            <div class="mailbox-header">
+                <h2>🏪 שוק מסחר</h2>
+                <button class="close-btn" onclick="switchView('world')">❌</button>
+            </div>
+
+            <!-- Tabs -->
+            <div
+                style="display:flex; gap:5px; padding:10px; background:rgba(0,0,0,0.3); border-bottom:1px solid rgba(255,255,255,0.1);">
+                <button id="market-tab-browse" class="tab-btn active" onclick="Market.switchTab('browse')"
+                    style="flex:1; padding:10px; background:#3b82f6; border:none; border-radius:8px; color:white; cursor:pointer; font-weight:bold;">📋
+                    הצעות</button>
+                <button id="market-tab-create" class="tab-btn" onclick="Market.switchTab('create')"
+                    style="flex:1; padding:10px; background:rgba(255,255,255,0.1); border:none; border-radius:8px; color:white; cursor:pointer;">➕
+                    צור הצעה</button>
+                <button id="market-tab-mytrades" class="tab-btn" onclick="Market.switchTab('mytrades')"
+                    style="flex:1; padding:10px; background:rgba(255,255,255,0.1); border:none; border-radius:8px; color:white; cursor:pointer;">📜
+                    ההצעות שלי</button>
+            </div>
+
+            <div class="mailbox-body" style="overflow-y: auto; max-height: calc(100vh - 250px);">
+                <!-- Tab content will be rendered here -->
+                <div id="market-content" style="padding:15px;"></div>
+            </div>
+        </div>
+    </template>
+
+    <!-- Rankings Template -->
+    <template id="template-rankings">
+        <div class="mailbox-container"> <!-- Reuse mailbox styling -->
+            <div class="mailbox-header">
+                <h2>🏆 דירוג קלאנים - TOP 10</h2>
+                <button class="close-btn" onclick="switchView('world')">❌</button>
+            </div>
+
+            <div class="mailbox-body" style="overflow-y: auto; max-height: calc(100vh - 250px);">
+                <div id="rankings-content" style="padding:15px;">
+                    <div style="text-align:center; padding:20px; color:#94a3b8;">טוען דירוגים...</div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- Clan Template -->
+    <template id="template-clan">
+        <div id="clan-main-container" class="clan-view-container">
+            <!-- Content will be injected by ClanUI -->
+        </div>
+    </template>
+
+    <!-- SCRIPTS -->
+    <link rel="stylesheet" href="clan.css">
+    <script src="tutorial.js"></script>
+    <script src="mailbox.js"></script>
+    <script src="missions.js"></script>
+    <script src="clan.js"></script>
+    <script src="market.js"></script>
+    <script src="rankings.js"></script>
+    <script src="territory_upgrade.js"></script>
+    <script src="fortress_attack.js"></script>
+    <script src="main.js"></script>
+    <script src="city_imagemap.js"></script>
+    <script src="clan_invite.js"></script>
+    <script src="guide_content.js"></script>
+    <script src="march_visualization.js"></script>
+
+</body>
+
+</body>
+
+</html>

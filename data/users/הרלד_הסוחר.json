@@ -1,0 +1,130 @@
+{
+  "username": "הרלד_הסוחר",
+  "password": "ai_player",
+  "state": {
+    "homeCoords": {
+      "x": 483,
+      "y": 523
+    },
+    "resources": {
+      "gold": 60000,
+      "wood": 40000,
+      "food": 35000,
+      "wine": 8000,
+      "marble": 5000,
+      "crystal": 3000,
+      "sulfur": 1500
+    },
+    "buildings": {
+      "townHall": {
+        "level": 11
+      },
+      "barracks": {
+        "level": 9
+      },
+      "warehouse": {
+        "level": 8
+      },
+      "farm": {
+        "level": 10
+      },
+      "lumberMill": {
+        "level": 9
+      }
+    },
+    "army": {
+      "spearman": 320,
+      "archer": 160,
+      "swordsman": 80
+    },
+    "research": {},
+    "stats": {
+      "battles": 51,
+      "wins": 17,
+      "losses": 23
+    },
+    "city": {
+      "population": 1600,
+      "happiness": 76
+    },
+    "mapEntities": {
+      "483,523": {
+        "type": "city",
+        "name": "הרלד_הסוחר",
+        "user": "הרלד_הסוחר",
+        "level": 11,
+        "x": 483,
+        "y": 523,
+        "isMyCity": false,
+        "motto": "זהב פותח כל דלת"
+      },
+      "485,542": {
+        "type": "wood",
+        "resource": "wood",
+        "name": "מחנה חוטבים",
+        "owner": "הרלד_הסוחר",
+        "level": 1,
+        "x": 485,
+        "y": 542
+      },
+      "482,517": {
+        "type": "wood",
+        "resource": "wood",
+        "name": "מחנה חוטבים",
+        "owner": "הרלד_הסוחר",
+        "level": 3,
+        "x": 482,
+        "y": 517
+      },
+      "489,540": {
+        "type": "farm",
+        "resource": "wine",
+        "name": "כרם ענבים",
+        "owner": "הרלד_הסוחר",
+        "level": 3,
+        "x": 489,
+        "y": 540
+      },
+      "496,539": {
+        "type": "wood",
+        "resource": "wood",
+        "name": "מחנה חוטבים",
+        "owner": "הרלד_הסוחר",
+        "level": 2,
+        "x": 496,
+        "y": 539
+      },
+      "488,516": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "owner": "הרלד_הסוחר",
+        "level": 1,
+        "x": 488,
+        "y": 516
+      }
+    },
+    "lastLogin": 1768936444860,
+    "reports": [
+      {
+        "id": "mkogdpkmd0907x9z26",
+        "type": "clan_invite",
+        "from": "Ofek",
+        "clanId": "clan_1769025793466_7k8i2wm21",
+        "clanName": "God",
+        "clanTag": "GOD",
+        "timestamp": 1769025958582,
+        "read": false,
+        "title": "הזמנה לקלאן [GOD] God",
+        "data": {
+          "from": "Ofek",
+          "clanId": "clan_1769025793466_7k8i2wm21",
+          "clanName": "God",
+          "clanTag": "GOD"
+        }
+      }
+    ],
+    "chats": {},
+    "motto": "זהב פותח כל דלת"
+  }
+}

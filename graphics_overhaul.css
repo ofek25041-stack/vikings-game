@@ -1,0 +1,361 @@
+/* --- PROFESSIONAL GRAPHICS OVERHAUL --- */
+
+
+/* 1. Global Atmosphere & Lighting */
+body {
+    background-color: #0f172a;
+    color: #e2e8f0;
+    font-family: 'Outfit', sans-serif;
+    overflow: hidden;
+    /* Immersive view */
+}
+
+/* Cinematic Vignette Overlay */
+.city-landscape::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, transparent 30%, rgba(0, 0, 0, 0.6) 100%);
+    pointer-events: none;
+    z-index: 100;
+}
+
+/* Sunlight / Bloom Effect */
+.city-landscape::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at 80% 20%, rgba(253, 224, 71, 0.15), transparent 60%);
+    mix-blend-mode: screen;
+    pointer-events: none;
+    z-index: 90;
+}
+
+/* 2. Realistic Water Shader */
+.iso-water-bg {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    /* Deep Ocean Base */
+    background: linear-gradient(to bottom, #1e3a8a, #0f172a);
+    z-index: 0;
+}
+
+.iso-water-surface {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    /* Multi-layered caustics simulation */
+    background-image:
+        radial-gradient(1px 1px at 50% 50%, rgba(255, 255, 255, 0.05) 0%, transparent 100%),
+        repeating-radial-gradient(circle at 50% 50%, transparent 0, transparent 20px, rgba(255, 255, 255, 0.03) 21px, transparent 40px);
+    background-size: 100px 100px, 200px 200px;
+    opacity: 0.6;
+    animation: oceanSwell 30s infinite linear alternate, shimmer 10s infinite linear;
+    filter: blur(1px) contrast(1.2);
+    /* Simplified transform to match new 45deg angle */
+    transform: rotateX(45deg) scale(2);
+    z-index: 1;
+}
+
+@keyframes oceanSwell {
+    0% {
+        transform: rotateX(45deg) scale(2) translateY(0);
+    }
+
+    100% {
+        transform: rotateX(45deg) scale(2.05) translateY(-20px);
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: 0 0, 0 0;
+    }
+
+    100% {
+        background-position: 50px 50px, 100px 100px;
+    }
+}
+
+/* 3. The Realistic Island */
+.iso-island {
+    position: absolute;
+    top: 15%;
+    left: 20%;
+    width: 1200px;
+    height: 1200px;
+
+    /* NO BACKGROUND: city_complete.png already includes the island! */
+    background: none;
+
+    /* Reset all clipping - let the composite image show naturally */
+    -webkit-mask-image: none !important;
+    mask-image: none !important;
+    -webkit-clip-path: none;
+    clip-path: none;
+
+    mix-blend-mode: normal;
+    border-radius: 0;
+    box-shadow: none;
+    transform: none;
+    z-index: 5;
+    pointer-events: auto;
+    overflow: visible;
+}
+
+/* Cloud shadows removed to reduce visual clutter */
+
+/* Old building slots removed - now using image map approach */
+
+
+
+/* 5. UI Polish - Glassmorphism */
+.resource-bar {
+    background: rgba(15, 23, 42, 0.8) !important;
+    backdrop-filter: blur(12px) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3) !important;
+}
+
+.res-pill {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 12px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.5px !important;
+}
+
+.bottom-nav {
+    background: rgba(15, 23, 42, 0.9) !important;
+    backdrop-filter: blur(16px) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+    bottom: 20px !important;
+    left: 50% !important;
+    width: auto !important;
+    transform: translateX(-50%) !important;
+    border-radius: 24px !important;
+    padding: 10px 20px !important;
+    gap: 10px !important;
+}
+
+.nav-btn {
+    background: transparent !important;
+    color: #94a3b8 !important;
+    border-radius: 16px !important;
+    transition: all 0.3s ease !important;
+}
+
+.nav-btn.active {
+    background: linear-gradient(135deg, #f59e0b, #d97706) !important;
+    color: white !important;
+    box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4) !important;
+}
+
+.nav-btn:hover:not(.active) {
+    background: rgba(255, 255, 255, 0.1) !important;
+    color: white !important;
+}
+
+/* 6. Layout Fixes */
+.city-landscape {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #1e293b;
+    /* Removed perspective to avoid extreme distortion at edges */
+    /* Enable scrolling/bouncing on mobile */
+    touch-action: auto !important;
+    overflow: auto !important;
+    /* Allow scroll */
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Enable Map Panning */
+#world-map-viewport {
+    touch-action: auto !important;
+    overflow: auto !important;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    /* Contain grid */
+
+    /* CRITICAL FIX: Ensure above water background (z-index 1) */
+    z-index: 5;
+}
+
+/* Fix Map Grid size consistency */
+/* Sparse Absolute Layout */
+.map-grid,
+#world-map-grid {
+    display: block;
+    position: relative;
+
+    /* Deep Real Ocean */
+    background: linear-gradient(180deg, #0c4a6e 0%, #082f49 100%);
+    background-image:
+        radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 60px 60px;
+
+    /* Size controlled by JavaScript scrollable_map.js */
+    /* width and height set dynamically */
+    margin: 0;
+}
+
+.map-tile {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 1;
+}
+
+/* Round Cities */
+.tile-city-container {
+    border-radius: 50%;
+    box-shadow: 0 0 15px rgba(251, 191, 36, 0.4);
+    background: rgba(30, 41, 59, 0.8);
+    border: 2px solid #fbbf24;
+    /* overflow: hidden; REMOVED to allow label to show */
+    z-index: 100;
+}
+
+/* Hide Arrows on Mobile (Use Panning) */
+/* .nav-arrow {
+    display: none !important;
+} */
+
+.iso-viewport {
+    /* Scale slightly but allow scrolling (PANNING) */
+    transform: scale(0.7) !important;
+    image-rendering: -webkit-optimize-contrast;
+    transform-origin: top left !important;
+    position: relative !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 1200px;
+    height: 1200px;
+    margin: 0;
+}
+
+.iso-plane {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 5%;
+    /* Slight adjustment down */
+}
+
+/* Perspective removed in .city-landscape rule above */
+/* iso-plane cleaned up in previous block */
+
+
+/* Old building labels and slot positions removed - now using image map */
+
+/* --- CITY LIFE (VILLAGERS) --- */
+.city-life {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 20;
+}
+
+.villager {
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    background-image: url('assets/villager.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+
+    /* Multiply for transparent bg */
+    mix-blend-mode: multiply;
+}
+
+.v1 {
+    top: 40%;
+    left: 40%;
+    animation: patrol1 10s infinite linear;
+}
+
+.v2 {
+    top: 50%;
+    left: 60%;
+    animation: patrol2 15s infinite linear;
+}
+
+.v3 {
+    top: 30%;
+    left: 30%;
+    animation: work1 5s infinite alternate;
+}
+
+@keyframes patrol1 {
+    0% {
+        transform: translate(0, 0) scaleX(1);
+    }
+
+    40% {
+        transform: translate(100px, 50px) scaleX(1);
+    }
+
+    50% {
+        transform: translate(100px, 50px) scaleX(-1);
+    }
+
+    90% {
+        transform: translate(0, 0) scaleX(-1);
+    }
+
+    100% {
+        transform: translate(0, 0) scaleX(1);
+    }
+}
+
+@keyframes patrol2 {
+    0% {
+        transform: translate(0, 0) scaleX(-1);
+    }
+
+    50% {
+        transform: translate(-120px, 40px) scaleX(-1);
+    }
+
+    60% {
+        transform: translate(-120px, 40px) scaleX(1);
+    }
+
+    100% {
+        transform: translate(0, 0) scaleX(1);
+    }
+}
+
+@keyframes work1 {
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}

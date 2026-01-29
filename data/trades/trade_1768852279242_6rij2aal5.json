@@ -1,0 +1,17 @@
+{
+  "id": "trade_1768852279242_6rij2aal5",
+  "seller": "אופק",
+  "safeSeller": "____",
+  "offering": {
+    "gold": 3343700008071
+  },
+  "requesting": {
+    "food": 11
+  },
+  "status": "completed",
+  "createdAt": 1768852279243,
+  "expiresAt": 1768938679243,
+  "acceptedBy": "בדיקתית",
+  "safeAcceptedBy": "_______",
+  "completedAt": 1768852314619
+}

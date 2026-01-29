@@ -1,0 +1,28 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="goldGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#fde047;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ca8a04;stop-opacity:0" />
+    </radialGradient>
+  </defs>
+
+  <g transform="translate(100, 160)">
+    <!-- Mountain Base -->
+    <path d="M0 20 L-60 -10 L-40 -80 L0 -100 L40 -80 L60 -10 Z" fill="#57534e" />
+    
+    <!-- Cave Entrance -->
+    <path d="M-20 -20 A 20 20 0 0 1 20 -20 L 20 0 L -20 0 Z" fill="#1c1917" transform="translate(0, -10)"/>
+    
+    <!-- Wooden Beams -->
+    <rect x="-25" y="-30" width="5" height="30" fill="#78350f" transform="skewY(10)"/>
+    <rect x="20" y="-30" width="5" height="30" fill="#78350f" transform="skewY(-10)"/>
+    <rect x="-25" y="-35" width="50" height="5" fill="#92400e" />
+    
+    <!-- Gold Nuggets -->
+    <circle cx="-30" cy="0" r="3" fill="#fbbf24" />
+    <circle cx="35" cy="-10" r="4" fill="#fbbf24" />
+    
+    <!-- Glow from inside -->
+    <ellipse cx="0" cy="-10" rx="10" ry="5" fill="url(#goldGlow)" opacity="0.6"/>
+  </g>
+</svg>

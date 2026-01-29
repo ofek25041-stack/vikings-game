@@ -1,0 +1,272 @@
+{
+  "username": "testuser",
+  "password": "testpass",
+  "state": {
+    "resources": {
+      "gold": 70285,
+      "wood": 24160,
+      "food": 100,
+      "wine": 0,
+      "marble": 0,
+      "crystal": 0,
+      "sulfur": 0,
+      "citizens": 150
+    },
+    "stats": {
+      "battles": 0,
+      "wins": 0,
+      "losses": 0
+    },
+    "viewport": {
+      "x": 600,
+      "y": 600
+    },
+    "homeCoords": {
+      "x": 87,
+      "y": 51
+    },
+    "mapEntities": {
+      "87,51": {
+        "type": "city",
+        "name": "testuser's City",
+        "user": "testuser",
+        "level": 1,
+        "isMyCity": true,
+        "lastLogin": 1768157033255
+      },
+      "64,88": {
+        "type": "city",
+        "name": "test's City",
+        "user": "test",
+        "level": 1,
+        "score": 100,
+        "lastLogin": 1768157030933,
+        "isMyCity": false
+      },
+      "57,60": {
+        "type": "city",
+        "name": "אופק's City",
+        "user": "אופק",
+        "level": 6,
+        "score": 100,
+        "lastLogin": 1768156737222,
+        "isMyCity": false
+      },
+      "73,35": {
+        "type": "city",
+        "name": "בדיקהה's City",
+        "user": "בדיקהה",
+        "level": 1,
+        "score": 100,
+        "lastLogin": 1768076460862,
+        "isMyCity": false
+      },
+      "57,62": {
+        "type": "city",
+        "name": "בדיקתית's City",
+        "user": "בדיקתית",
+        "level": 1,
+        "score": 100,
+        "lastLogin": 1768155252035,
+        "isMyCity": false
+      },
+      "54,89": {
+        "type": "city",
+        "name": "בדיקהנוספת's City",
+        "user": "בדיקהנוספת",
+        "level": 1,
+        "score": 100,
+        "lastLogin": 1768076445903,
+        "isMyCity": false
+      },
+      "36,64": {
+        "type": "city",
+        "name": "testuser123's City",
+        "user": "testuser123",
+        "level": 1,
+        "score": 100,
+        "lastLogin": 1768158229338,
+        "isMyCity": false
+      }
+    },
+    "buildings": {
+      "townHall": {
+        "level": 1,
+        "name": "בית העירייה",
+        "costFactor": 1.5,
+        "baseCost": {
+          "wood": 50,
+          "marble": 0
+        },
+        "description": "מנהל את העיר והתושבים"
+      },
+      "academy": {
+        "level": 0,
+        "name": "אקדמיה",
+        "costFactor": 1.5,
+        "baseCost": {
+          "wood": 100,
+          "crystal": 50
+        },
+        "description": "מאפשר מחקר טכנולוגיות חדשות"
+      },
+      "warehouse": {
+        "level": 0,
+        "name": "מחסן",
+        "costFactor": 1.3,
+        "baseCost": {
+          "wood": 100,
+          "marble": 50
+        },
+        "description": "מגדיל את קיבולת המשאבים"
+      },
+      "barracks": {
+        "level": 0,
+        "name": "בסיס צבאי",
+        "costFactor": 1.5,
+        "baseCost": {
+          "wood": 150,
+          "marble": 50
+        },
+        "description": "מאפשר אימון חיילים שונים"
+      },
+      "port": {
+        "level": 0,
+        "name": "נמל מסחרי",
+        "costFactor": 1.4,
+        "baseCost": {
+          "wood": 200,
+          "marble": 100
+        },
+        "description": "מאפשר מסחר עם ערים אחרות"
+      },
+      "wall": {
+        "level": 0,
+        "name": "חומה",
+        "costFactor": 1.6,
+        "baseCost": {
+          "marble": 200,
+          "wood": 100
+        },
+        "description": "מגנה על העיר מפני התקפות"
+      },
+      "lumber": {
+        "level": 1,
+        "name": "מנסרה",
+        "costFactor": 1.5,
+        "baseCost": {
+          "wood": 50,
+          "gold": 50
+        },
+        "description": "מייצרת עצים לבנייה (Lumber)"
+      },
+      "mine": {
+        "level": 1,
+        "name": "מכרה",
+        "costFactor": 1.5,
+        "baseCost": {
+          "wood": 100,
+          "gold": 100
+        },
+        "description": "מכרה אבנים ומתכות יקרות"
+      }
+    },
+    "army": {
+      "spearman": 0,
+      "archer": 0,
+      "swordsman": 0
+    },
+    "research": {
+      "architecture": 0,
+      "weaponry": 0,
+      "defense": 0,
+      "logistics": 0
+    },
+    "timers": [],
+    "city": {
+      "population": 10,
+      "happiness": 100
+    },
+    "reports": [
+      {
+        "id": "mka31naks4exf57c637",
+        "timestamp": 1768157034284,
+        "read": false,
+        "type": "system",
+        "title": "ברוך הבא!",
+        "data": {
+          "loot": {}
+        }
+      }
+    ],
+    "missions": {
+      "daily": [
+        {
+          "id": "d_1768157034284_0",
+          "title": "שדרג מבנים (1)",
+          "type": "build",
+          "target": 1,
+          "current": 0,
+          "reward": {
+            "gold": 2,
+            "wood": 1
+          },
+          "claimed": false
+        },
+        {
+          "id": "d_1768157034284_1",
+          "title": "אסוף משאבים (361)",
+          "type": "gather",
+          "target": 361,
+          "current": 0,
+          "reward": {
+            "gold": 722,
+            "wood": 361
+          },
+          "claimed": false
+        },
+        {
+          "id": "d_1768157034284_2",
+          "title": "אמן חיילים (6)",
+          "type": "train",
+          "target": 6,
+          "current": 0,
+          "reward": {
+            "gold": 12,
+            "wood": 6
+          },
+          "claimed": false
+        }
+      ],
+      "weekly": [
+        {
+          "id": "w_1768157034285_0",
+          "title": "אתגר שבועי: אסוף כמות גדולה (16534)",
+          "type": "gather",
+          "target": 16534,
+          "current": 0,
+          "reward": {
+            "gold": 49602,
+            "wine": 1653
+          },
+          "claimed": false
+        },
+        {
+          "id": "w_1768157034285_1",
+          "title": "אתגר שבועי: תקוף אויבים (7)",
+          "type": "attack",
+          "target": 7,
+          "current": 0,
+          "reward": {
+            "gold": 21,
+            "wine": 0
+          },
+          "claimed": false
+        }
+      ],
+      "lastDailyReset": 1768157034284,
+      "lastWeeklyReset": 1768157034284
+    },
+    "lastLogin": 1768161845639
+  }
+}

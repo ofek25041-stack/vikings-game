@@ -1,0 +1,103 @@
+{
+  "username": "רולו_הצפוני",
+  "password": "ai_player",
+  "state": {
+    "homeCoords": {
+      "x": 833,
+      "y": 518
+    },
+    "resources": {
+      "gold": 48000,
+      "wood": 31000,
+      "food": 27000,
+      "wine": 5800,
+      "marble": 3400,
+      "crystal": 2100,
+      "sulfur": 950
+    },
+    "buildings": {
+      "townHall": {
+        "level": 8
+      },
+      "barracks": {
+        "level": 6
+      },
+      "warehouse": {
+        "level": 5
+      },
+      "farm": {
+        "level": 7
+      },
+      "lumberMill": {
+        "level": 6
+      }
+    },
+    "army": {
+      "spearman": 260,
+      "archer": 130,
+      "swordsman": 65
+    },
+    "research": {},
+    "stats": {
+      "battles": 51,
+      "wins": 23,
+      "losses": 22
+    },
+    "city": {
+      "population": 1300,
+      "happiness": 77
+    },
+    "mapEntities": {
+      "833,518": {
+        "type": "city",
+        "name": "רולו_הצפוני",
+        "user": "רולו_הצפוני",
+        "level": 8,
+        "x": 833,
+        "y": 518,
+        "isMyCity": false,
+        "motto": "הסתגלנות היא הישרדות"
+      },
+      "814,537": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "owner": "רולו_הצפוני",
+        "level": 1,
+        "x": 814,
+        "y": 537
+      },
+      "840,534": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "owner": "רולו_הצפוני",
+        "level": 1,
+        "x": 840,
+        "y": 534
+      },
+      "817,514": {
+        "type": "farm",
+        "resource": "wine",
+        "name": "כרם ענבים",
+        "owner": "רולו_הצפוני",
+        "level": 1,
+        "x": 817,
+        "y": 514
+      },
+      "825,536": {
+        "type": "farm",
+        "resource": "wine",
+        "name": "כרם ענבים",
+        "owner": "רולו_הצפוני",
+        "level": 3,
+        "x": 825,
+        "y": 536
+      }
+    },
+    "lastLogin": 1768936444863,
+    "reports": [],
+    "chats": {},
+    "motto": "הסתגלנות היא הישרדות"
+  }
+}

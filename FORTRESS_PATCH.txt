@@ -1,0 +1,32 @@
+// Patch for server.js fortress attack deferred resolution
+// Find line 1619 and replace the section
+
+/* REPLACE THIS:
+
+                    console.log(`[FORTRESS_ATTACK] Attack validated and deferred for ${attacker} -> (${targetX},${targetY})`);
+                    
+                    return sendJSON(res, 200, { 
+                        success: true, 
+                        deferred: true,
+                        message: 'Fortress attack queued - battle will resolve upon arrival'
+                    });
+
+WITH THIS:
+
+                    if (!body.resolve) {
+                        console.log(`[FORTRESS_ATTACK] Attack validated and deferred for ${attacker} -> (${targetX},${targetY})`);
+                        
+                        return sendJSON(res, 200, { 
+                            success: true, 
+                            deferred: true,
+                            message: 'Fortress attack queued - battle will resolve upon arrival'
+                        });
+                    }
+
+                    console.log(`[FORTRESS_ATTACK] Resolving deferred battle for ${attacker} -> (${targetX},${targetY})`);
+                    attackerResources = clan.treasury;
+                    attackerArmyRef = garrisonRef;
+
+*/
+
+// Then restart server with start_server.bat

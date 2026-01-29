@@ -1,0 +1,102 @@
+{
+  "username": "פרגיה_האמיצה",
+  "password": "ai_player",
+  "state": {
+    "homeCoords": {
+      "x": 435,
+      "y": 248
+    },
+    "resources": {
+      "gold": 50000,
+      "wood": 33000,
+      "food": 29000,
+      "wine": 6200,
+      "crystal": 2200,
+      "sulfur": 1050
+    },
+    "buildings": {
+      "townHall": {
+        "level": 8
+      },
+      "barracks": {
+        "level": 6
+      },
+      "warehouse": {
+        "level": 5
+      },
+      "farm": {
+        "level": 7
+      },
+      "lumberMill": {
+        "level": 6
+      }
+    },
+    "army": {
+      "spearman": 260,
+      "archer": 130,
+      "swordsman": 65
+    },
+    "research": {},
+    "stats": {
+      "battles": 40,
+      "wins": 20,
+      "losses": 18
+    },
+    "city": {
+      "population": 1300,
+      "happiness": 89
+    },
+    "mapEntities": {
+      "435,248": {
+        "type": "city",
+        "name": "פרגיה_האמיצה",
+        "user": "פרגיה_האמיצה",
+        "level": 8,
+        "x": 435,
+        "y": 248,
+        "isMyCity": false,
+        "motto": "נלחם יחד או נפול לבד"
+      },
+      "418,248": {
+        "type": "wood",
+        "resource": "wood",
+        "name": "מחנה חוטבים",
+        "owner": "פרגיה_האמיצה",
+        "level": 2,
+        "x": 418,
+        "y": 248
+      },
+      "450,230": {
+        "type": "wood",
+        "resource": "wood",
+        "name": "מחנה חוטבים",
+        "owner": "פרגיה_האמיצה",
+        "level": 1,
+        "x": 450,
+        "y": 230
+      },
+      "423,231": {
+        "type": "farm",
+        "resource": "wine",
+        "name": "כרם ענבים",
+        "owner": "פרגיה_האמיצה",
+        "level": 3,
+        "x": 423,
+        "y": 231
+      },
+      "446,228": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "owner": "פרגיה_האמיצה",
+        "level": 1,
+        "x": 446,
+        "y": 228
+      }
+    },
+    "lastLogin": 1768936444865,
+    "reports": [],
+    "chats": {},
+    "motto": "נלחם יחד או נפול לבד"
+  }
+}

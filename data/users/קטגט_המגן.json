@@ -1,0 +1,121 @@
+{
+  "username": "קטגט_המגן",
+  "password": "ai_player",
+  "state": {
+    "homeCoords": {
+      "x": 192,
+      "y": 810
+    },
+    "resources": {
+      "gold": 53000,
+      "wood": 34500,
+      "food": 30500,
+      "wine": 6600,
+      "marble": 3800,
+      "crystal": 2350,
+      "sulfur": 1120
+    },
+    "buildings": {
+      "townHall": {
+        "level": 9
+      },
+      "barracks": {
+        "level": 7
+      },
+      "warehouse": {
+        "level": 6
+      },
+      "farm": {
+        "level": 8
+      },
+      "lumberMill": {
+        "level": 7
+      }
+    },
+    "army": {
+      "spearman": 280,
+      "archer": 140,
+      "swordsman": 70
+    },
+    "research": {},
+    "stats": {
+      "battles": 16,
+      "wins": 34,
+      "losses": 10
+    },
+    "city": {
+      "population": 1400,
+      "happiness": 83
+    },
+    "mapEntities": {
+      "192,810": {
+        "type": "city",
+        "name": "קטגט_המגן",
+        "user": "קטגט_המגן",
+        "level": 9,
+        "x": 192,
+        "y": 810,
+        "isMyCity": false,
+        "motto": "הגנה משותפת"
+      },
+      "201,796": {
+        "type": "wood",
+        "resource": "wood",
+        "name": "מחנה חוטבים",
+        "owner": "קטגט_המגן",
+        "level": 3,
+        "x": 201,
+        "y": 796
+      },
+      "195,811": {
+        "type": "farm",
+        "resource": "wine",
+        "name": "כרם ענבים",
+        "owner": "קטגט_המגן",
+        "level": 3,
+        "x": 195,
+        "y": 811
+      },
+      "173,807": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "owner": "קטגט_המגן",
+        "level": 1,
+        "x": 173,
+        "y": 807
+      },
+      "191,817": {
+        "type": "farm",
+        "resource": "wine",
+        "name": "כרם ענבים",
+        "owner": "קטגט_המגן",
+        "level": 2,
+        "x": 191,
+        "y": 817
+      }
+    },
+    "lastLogin": 1768936444866,
+    "reports": [
+      {
+        "id": "mkogdt6hk2fugce7adp",
+        "type": "clan_invite",
+        "from": "Ofek",
+        "clanId": "clan_1769025793466_7k8i2wm21",
+        "clanName": "God",
+        "clanTag": "GOD",
+        "timestamp": 1769025963257,
+        "read": false,
+        "title": "הזמנה לקלאן [GOD] God",
+        "data": {
+          "from": "Ofek",
+          "clanId": "clan_1769025793466_7k8i2wm21",
+          "clanName": "God",
+          "clanTag": "GOD"
+        }
+      }
+    ],
+    "chats": {},
+    "motto": "הגנה משותפת"
+  }
+}

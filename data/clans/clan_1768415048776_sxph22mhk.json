@@ -1,0 +1,45 @@
+{
+  "id": "clan_1768415048776_sxph22mhk",
+  "name": "BossClan",
+  "tag": "BOS",
+  "description": "",
+  "icon": "🛡️",
+  "leader": "TestBoss",
+  "members": {
+    "TestBoss": {
+      "role": "leader",
+      "joinedAt": 1768415048776,
+      "contribution": {
+        "gold": 0,
+        "wood": 0,
+        "food": 0
+      },
+      "lastSeen": 1768415048776
+    }
+  },
+  "treasury": {
+    "gold": 0,
+    "wood": 0,
+    "food": 0,
+    "wine": 0,
+    "marble": 0,
+    "crystal": 0,
+    "sulfur": 0
+  },
+  "upgrades": {
+    "treasury": 1,
+    "militaryBonus": 0,
+    "economyBonus": 0
+  },
+  "stats": {
+    "totalMembers": 1,
+    "territories": 0,
+    "wins": 0,
+    "losses": 0
+  },
+  "messages": [],
+  "invitations": {},
+  "applications": {},
+  "createdAt": 1768415048776,
+  "lastActivity": 1768415048776
+}

@@ -1,0 +1,112 @@
+{
+  "username": "נמרוד_הכובש",
+  "password": "ai_player",
+  "state": {
+    "homeCoords": {
+      "x": 894,
+      "y": 232
+    },
+    "resources": {
+      "gold": 50000,
+      "wood": 30000,
+      "food": 25000,
+      "wine": 5000,
+      "marble": 3000,
+      "crystal": 2000,
+      "sulfur": 1000
+    },
+    "buildings": {
+      "townHall": {
+        "level": 10
+      },
+      "barracks": {
+        "level": 8
+      },
+      "warehouse": {
+        "level": 7
+      },
+      "farm": {
+        "level": 9
+      },
+      "lumberMill": {
+        "level": 8
+      }
+    },
+    "army": {
+      "spearman": 300,
+      "archer": 150,
+      "swordsman": 75
+    },
+    "research": {},
+    "stats": {
+      "battles": 35,
+      "wins": 10,
+      "losses": 17
+    },
+    "city": {
+      "population": 1500,
+      "happiness": 90
+    },
+    "mapEntities": {
+      "894,232": {
+        "type": "city",
+        "name": "נמרוד_הכובש",
+        "user": "נמרוד_הכובש",
+        "level": 10,
+        "x": 894,
+        "y": 232,
+        "isMyCity": false,
+        "motto": "הכוח הוא הכל!"
+      },
+      "887,250": {
+        "type": "wood",
+        "resource": "wood",
+        "name": "מחנה חוטבים",
+        "owner": "נמרוד_הכובש",
+        "level": 2,
+        "x": 887,
+        "y": 250
+      },
+      "911,232": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "owner": "נמרוד_הכובש",
+        "level": 1,
+        "x": 911,
+        "y": 232
+      },
+      "891,220": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "owner": "נמרוד_הכובש",
+        "level": 2,
+        "x": 891,
+        "y": 220
+      },
+      "892,235": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "owner": "נמרוד_הכובש",
+        "level": 2,
+        "x": 892,
+        "y": 235
+      },
+      "878,247": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "owner": "נמרוד_הכובש",
+        "level": 1,
+        "x": 878,
+        "y": 247
+      }
+    },
+    "lastLogin": 1768936444858,
+    "reports": [],
+    "chats": {},
+    "motto": "הכוח הוא הכל!"
+  }
+}

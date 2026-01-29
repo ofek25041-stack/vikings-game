@@ -1,0 +1,10 @@
+{
+  "username": "DebugLeader",
+  "password": "123",
+  "state": {
+    "resources": {
+      "gold": 100000,
+      "wood": 100000
+    }
+  }
+}

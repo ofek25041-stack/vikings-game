@@ -1,0 +1,17 @@
+{
+  "id": "trade_1768852280849_ltqp03bt2",
+  "seller": "אופק",
+  "safeSeller": "____",
+  "offering": {
+    "gold": 3343700008071
+  },
+  "requesting": {
+    "food": 11
+  },
+  "status": "completed",
+  "createdAt": 1768852280849,
+  "expiresAt": 1768938680849,
+  "acceptedBy": "בדיקתית",
+  "safeAcceptedBy": "_______",
+  "completedAt": 1768852972405
+}

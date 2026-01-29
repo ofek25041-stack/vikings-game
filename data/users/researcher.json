@@ -1,0 +1,308 @@
+{
+  "username": "Researcher",
+  "password": "pass123",
+  "state": {
+    "resources": {
+      "gold": 3119,
+      "wood": 1083,
+      "food": 7,
+      "wine": 0,
+      "marble": 0,
+      "crystal": 0,
+      "sulfur": 0,
+      "citizens": 150
+    },
+    "stats": {
+      "battles": 0,
+      "wins": 0,
+      "losses": 0
+    },
+    "viewport": {
+      "x": 67,
+      "y": 43
+    },
+    "homeCoords": {
+      "x": 67,
+      "y": 43
+    },
+    "mapEntities": {
+      "67,43": {
+        "type": "city",
+        "name": "Researcher's City",
+        "user": "Researcher",
+        "level": 1,
+        "isMyCity": true,
+        "lastLogin": 1768163282980
+      },
+      "64,88": {
+        "type": "city",
+        "name": "test's City",
+        "user": "test",
+        "level": 1,
+        "score": 100,
+        "lastLogin": 1768161845637,
+        "isMyCity": false
+      },
+      "87,51": {
+        "type": "city",
+        "name": "testuser's City",
+        "user": "testuser",
+        "level": 1,
+        "score": 100,
+        "lastLogin": 1768161845639,
+        "isMyCity": false
+      },
+      "36,64": {
+        "type": "city",
+        "name": "testuser123's City",
+        "user": "testuser123",
+        "level": 1,
+        "score": 100,
+        "lastLogin": 1768161845636,
+        "isMyCity": false
+      },
+      "37,45": {
+        "type": "city",
+        "name": "TestUserNew's City",
+        "user": "TestUserNew",
+        "level": 1,
+        "score": 100,
+        "lastLogin": 1768163285285,
+        "isMyCity": false
+      },
+      "57,60": {
+        "type": "city",
+        "name": "אופק's City",
+        "user": "אופק",
+        "level": 6,
+        "score": 100,
+        "lastLogin": 1768163150627,
+        "isMyCity": false
+      },
+      "73,35": {
+        "type": "city",
+        "name": "בדיקהה's City",
+        "user": "בדיקהה",
+        "level": 1,
+        "score": 100,
+        "lastLogin": 1768076460862,
+        "isMyCity": false
+      },
+      "57,62": {
+        "type": "city",
+        "name": "בדיקתית's City",
+        "user": "בדיקתית",
+        "level": 1,
+        "score": 100,
+        "lastLogin": 1768155252035,
+        "isMyCity": false
+      },
+      "54,89": {
+        "type": "city",
+        "name": "בדיקהנוספת's City",
+        "user": "בדיקהנוספת",
+        "level": 1,
+        "score": 100,
+        "lastLogin": 1768076445903,
+        "isMyCity": false
+      },
+      "18,10": {
+        "type": "city",
+        "name": "viking1's City",
+        "user": "viking1",
+        "level": 1,
+        "score": 100,
+        "lastLogin": 1768166126090,
+        "isMyCity": false
+      },
+      "68,87": {
+        "type": "city",
+        "name": "Tester's City",
+        "user": "Tester",
+        "level": 1,
+        "score": 100,
+        "lastLogin": 1768166335092,
+        "isMyCity": false
+      }
+    },
+    "buildings": {
+      "townHall": {
+        "level": 1,
+        "name": "בית העירייה",
+        "costFactor": 1.5,
+        "baseCost": {
+          "wood": 50,
+          "marble": 0
+        },
+        "description": "מנהל את העיר והתושבים"
+      },
+      "academy": {
+        "level": 0,
+        "name": "אקדמיה",
+        "costFactor": 1.5,
+        "baseCost": {
+          "wood": 100,
+          "crystal": 50
+        },
+        "description": "מאפשר מחקר טכנולוגיות חדשות"
+      },
+      "warehouse": {
+        "level": 0,
+        "name": "מחסן",
+        "costFactor": 1.3,
+        "baseCost": {
+          "wood": 100,
+          "marble": 50
+        },
+        "description": "מגדיל את קיבולת המשאבים"
+      },
+      "barracks": {
+        "level": 0,
+        "name": "בסיס צבאי",
+        "costFactor": 1.5,
+        "baseCost": {
+          "wood": 150,
+          "marble": 50
+        },
+        "description": "מאפשר אימון חיילים שונים"
+      },
+      "port": {
+        "level": 0,
+        "name": "נמל מסחרי",
+        "costFactor": 1.4,
+        "baseCost": {
+          "wood": 200,
+          "marble": 100
+        },
+        "description": "מאפשר מסחר עם ערים אחרות"
+      },
+      "wall": {
+        "level": 0,
+        "name": "חומה",
+        "costFactor": 1.6,
+        "baseCost": {
+          "marble": 200,
+          "wood": 100
+        },
+        "description": "מגנה על העיר מפני התקפות"
+      },
+      "lumber": {
+        "level": 1,
+        "name": "מנסרה",
+        "costFactor": 1.5,
+        "baseCost": {
+          "wood": 50,
+          "gold": 50
+        },
+        "description": "מייצרת עצים לבנייה (Lumber)"
+      },
+      "mine": {
+        "level": 1,
+        "name": "מכרה",
+        "costFactor": 1.5,
+        "baseCost": {
+          "wood": 100,
+          "gold": 100
+        },
+        "description": "מכרה אבנים ומתכות יקרות"
+      }
+    },
+    "army": {
+      "spearman": 0,
+      "archer": 0,
+      "swordsman": 0
+    },
+    "research": {
+      "architecture": 0,
+      "weaponry": 0,
+      "defense": 0,
+      "logistics": 0
+    },
+    "timers": [],
+    "city": {
+      "population": 10,
+      "happiness": 100
+    },
+    "reports": [
+      {
+        "id": "mka6rllpd5zu5wzbi6w",
+        "timestamp": 1768163283997,
+        "read": false,
+        "type": "system",
+        "title": "ברוך הבא!",
+        "data": {
+          "loot": {}
+        }
+      }
+    ],
+    "missions": {
+      "daily": [
+        {
+          "id": "d_1768163283998_0",
+          "title": "אמן חיילים (8)",
+          "type": "train",
+          "target": 8,
+          "current": 0,
+          "reward": {
+            "gold": 16,
+            "wood": 8
+          },
+          "claimed": false
+        },
+        {
+          "id": "d_1768163283998_1",
+          "title": "שדרג מבנים (3)",
+          "type": "build",
+          "target": 3,
+          "current": 0,
+          "reward": {
+            "gold": 6,
+            "wood": 3
+          },
+          "claimed": false
+        },
+        {
+          "id": "d_1768163283998_2",
+          "title": "אמן חיילים (18)",
+          "type": "train",
+          "target": 18,
+          "current": 0,
+          "reward": {
+            "gold": 36,
+            "wood": 18
+          },
+          "claimed": false
+        }
+      ],
+      "weekly": [
+        {
+          "id": "w_1768163283998_0",
+          "title": "אתגר שבועי: אסוף כמות גדולה (12583)",
+          "type": "gather",
+          "target": 12583,
+          "current": 0,
+          "reward": {
+            "gold": 37749,
+            "wine": 1258
+          },
+          "claimed": false
+        },
+        {
+          "id": "w_1768163283998_1",
+          "title": "אתגר שבועי: תקוף אויבים (10)",
+          "type": "attack",
+          "target": 10,
+          "current": 0,
+          "reward": {
+            "gold": 30,
+            "wine": 1
+          },
+          "claimed": false
+        }
+      ],
+      "lastDailyReset": 1768163283998,
+      "lastWeeklyReset": 1768163283998
+    },
+    "lastLogin": 1768167015548
+  }
+}

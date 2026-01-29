@@ -1,0 +1,32 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="roughStone">
+      <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" result="noise"/>
+      <feDiffuseLighting in="noise" lighting-color="white" surfaceScale="2">
+        <feDistantLight azimuth="45" elevation="60" />
+      </feDiffuseLighting>
+      <feComposite operator="in" in2="SourceGraphic"/>
+    </filter>
+  </defs>
+
+  <g transform="translate(100, 150)">
+    <!-- Fort Base -->
+    <path d="M0 20 L-70 -10 L-70 -60 L0 -30 Z" fill="#57534e" />
+    <path d="M0 20 L70 -10 L70 -60 L0 -30 Z" fill="#44403c" />
+    
+    <!-- Stone Walls -->
+    <g transform="translate(0, -30)">
+        <rect x="-60" y="-50" width="120" height="40" fill="#78716c" filter="url(#roughStone)" transform="skewY(-10)"/> <!-- FAKE 3D simplifies -->
+        
+        <!-- Battlements -->
+        <rect x="-60" y="-60" width="20" height="10" fill="#44403c" transform="skewY(-10)"/>
+        <rect x="-20" y="-60" width="20" height="10" fill="#44403c" transform="skewY(-10)"/>
+        <rect x="20" y="-60" width="20" height="10" fill="#44403c" transform="skewY(-10)"/>
+        <rect x="60" y="-60" width="20" height="10" fill="#44403c" transform="skewY(-10)"/>
+        
+        <!-- Training Dummy -->
+        <circle cx="0" cy="10" r="5" fill="#fca5a5" />
+        <line x1="0" y1="10" x2="0" y2="30" stroke="#7f1d1d" stroke-width="2" />
+    </g>
+  </g>
+</svg>

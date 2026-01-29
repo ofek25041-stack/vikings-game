@@ -1,0 +1,103 @@
+{
+  "username": "יורוק_האחד",
+  "password": "ai_player",
+  "state": {
+    "homeCoords": {
+      "x": 279,
+      "y": 308
+    },
+    "resources": {
+      "gold": 52000,
+      "wood": 34000,
+      "food": 30000,
+      "wine": 6500,
+      "marble": 3700,
+      "crystal": 2300,
+      "sulfur": 1100
+    },
+    "buildings": {
+      "townHall": {
+        "level": 9
+      },
+      "barracks": {
+        "level": 7
+      },
+      "warehouse": {
+        "level": 6
+      },
+      "farm": {
+        "level": 8
+      },
+      "lumberMill": {
+        "level": 7
+      }
+    },
+    "army": {
+      "spearman": 280,
+      "archer": 140,
+      "swordsman": 70
+    },
+    "research": {},
+    "stats": {
+      "battles": 52,
+      "wins": 7,
+      "losses": 5
+    },
+    "city": {
+      "population": 1400,
+      "happiness": 82
+    },
+    "mapEntities": {
+      "279,308": {
+        "type": "city",
+        "name": "יורוק_האחד",
+        "user": "יורוק_האחד",
+        "level": 9,
+        "x": 279,
+        "y": 308,
+        "isMyCity": false,
+        "motto": "הקלאן הוא המשפחה"
+      },
+      "274,307": {
+        "type": "wood",
+        "resource": "wood",
+        "name": "מחנה חוטבים",
+        "owner": "יורוק_האחד",
+        "level": 1,
+        "x": 274,
+        "y": 307
+      },
+      "265,298": {
+        "type": "wood",
+        "resource": "wood",
+        "name": "מחנה חוטבים",
+        "owner": "יורוק_האחד",
+        "level": 3,
+        "x": 265,
+        "y": 298
+      },
+      "286,311": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "owner": "יורוק_האחד",
+        "level": 3,
+        "x": 286,
+        "y": 311
+      },
+      "290,312": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "owner": "יורוק_האחד",
+        "level": 3,
+        "x": 290,
+        "y": 312
+      }
+    },
+    "lastLogin": 1768936444865,
+    "reports": [],
+    "chats": {},
+    "motto": "הקלאן הוא המשפחה"
+  }
+}

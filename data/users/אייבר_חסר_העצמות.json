@@ -1,0 +1,94 @@
+{
+  "username": "אייבר_חסר_העצמות",
+  "password": "ai_player",
+  "state": {
+    "homeCoords": {
+      "x": 599,
+      "y": 869
+    },
+    "resources": {
+      "gold": 38000,
+      "wood": 24000,
+      "food": 19000,
+      "wine": 3800,
+      "marble": 2300,
+      "crystal": 1400,
+      "sulfur": 750
+    },
+    "buildings": {
+      "townHall": {
+        "level": 6
+      },
+      "barracks": {
+        "level": 4
+      },
+      "warehouse": {
+        "level": 3
+      },
+      "farm": {
+        "level": 5
+      },
+      "lumberMill": {
+        "level": 4
+      }
+    },
+    "army": {
+      "spearman": 220,
+      "archer": 110,
+      "swordsman": 55
+    },
+    "research": {},
+    "stats": {
+      "battles": 20,
+      "wins": 0,
+      "losses": 4
+    },
+    "city": {
+      "population": 1100,
+      "happiness": 92
+    },
+    "mapEntities": {
+      "599,869": {
+        "type": "city",
+        "name": "אייבר_חסר_העצמות",
+        "user": "אייבר_חסר_העצמות",
+        "level": 6,
+        "x": 599,
+        "y": 869,
+        "isMyCity": false,
+        "motto": "פחד הוא חולשה"
+      },
+      "616,857": {
+        "type": "farm",
+        "resource": "wine",
+        "name": "כרם ענבים",
+        "owner": "אייבר_חסר_העצמות",
+        "level": 2,
+        "x": 616,
+        "y": 857
+      },
+      "582,856": {
+        "type": "wood",
+        "resource": "wood",
+        "name": "מחנה חוטבים",
+        "owner": "אייבר_חסר_העצמות",
+        "level": 1,
+        "x": 582,
+        "y": 856
+      },
+      "594,860": {
+        "type": "farm",
+        "resource": "wine",
+        "name": "כרם ענבים",
+        "owner": "אייבר_חסר_העצמות",
+        "level": 3,
+        "x": 594,
+        "y": 860
+      }
+    },
+    "lastLogin": 1768936444860,
+    "reports": [],
+    "chats": {},
+    "motto": "פחד הוא חולשה"
+  }
+}

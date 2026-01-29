@@ -1,0 +1,103 @@
+{
+  "username": "פרייה_הבונה",
+  "password": "ai_player",
+  "state": {
+    "homeCoords": {
+      "x": 416,
+      "y": 872
+    },
+    "resources": {
+      "gold": 52000,
+      "wood": 36000,
+      "food": 30000,
+      "wine": 6500,
+      "marble": 4200,
+      "crystal": 2600,
+      "sulfur": 1200
+    },
+    "buildings": {
+      "townHall": {
+        "level": 8
+      },
+      "barracks": {
+        "level": 6
+      },
+      "warehouse": {
+        "level": 5
+      },
+      "farm": {
+        "level": 7
+      },
+      "lumberMill": {
+        "level": 6
+      }
+    },
+    "army": {
+      "spearman": 260,
+      "archer": 130,
+      "swordsman": 65
+    },
+    "research": {},
+    "stats": {
+      "battles": 30,
+      "wins": 22,
+      "losses": 20
+    },
+    "city": {
+      "population": 1300,
+      "happiness": 85
+    },
+    "mapEntities": {
+      "416,872": {
+        "type": "city",
+        "name": "פרייה_הבונה",
+        "user": "פרייה_הבונה",
+        "level": 8,
+        "x": 416,
+        "y": 872,
+        "isMyCity": false,
+        "motto": "עיר חזקה היא מגן"
+      },
+      "412,864": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "owner": "פרייה_הבונה",
+        "level": 2,
+        "x": 412,
+        "y": 864
+      },
+      "421,881": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "owner": "פרייה_הבונה",
+        "level": 1,
+        "x": 421,
+        "y": 881
+      },
+      "419,861": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "owner": "פרייה_הבונה",
+        "level": 3,
+        "x": 419,
+        "y": 861
+      },
+      "416,870": {
+        "type": "wood",
+        "resource": "wood",
+        "name": "מחנה חוטבים",
+        "owner": "פרייה_הבונה",
+        "level": 2,
+        "x": 416,
+        "y": 870
+      }
+    },
+    "lastLogin": 1768936444862,
+    "reports": [],
+    "chats": {},
+    "motto": "עיר חזקה היא מגן"
+  }
+}

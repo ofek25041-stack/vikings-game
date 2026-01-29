@@ -1,0 +1,997 @@
+{
+  "id": "clan_1768412047124_hkrks1yml",
+  "name": "Winners Israel",
+  "tag": "ISR",
+  "description": "Winners israel",
+  "icon": "👑",
+  "leader": "אופק",
+  "members": {
+    "אופק": {
+      "role": "leader",
+      "joinedAt": 1768412047125,
+      "contribution": {
+        "gold": 14339228154316,
+        "wood": 28987595652,
+        "food": 11000,
+        "wine": 28895014872,
+        "sulfur": 28995006406,
+        "crystal": 26985011350,
+        "marble": 27994999881
+      },
+      "lastSeen": 1768412047125
+    },
+    "בדיקתית": {
+      "role": "member",
+      "joinedAt": 1768417749660,
+      "contribution": {
+        "gold": 0,
+        "wood": 0,
+        "food": 0
+      },
+      "lastSeen": 1768417749660
+    },
+    "דידיד": {
+      "role": "member",
+      "joinedAt": 1768511473862
+    }
+  },
+  "treasury": {
+    "gold": 14339228004316,
+    "wood": 28987465652,
+    "food": 5990,
+    "wine": 28895014872,
+    "marble": 27994999881,
+    "crystal": 26985011350,
+    "sulfur": 28995006406
+  },
+  "upgrades": {
+    "treasury": 1,
+    "militaryBonus": 0,
+    "economyBonus": 0
+  },
+  "stats": {
+    "totalMembers": 2,
+    "territories": 0,
+    "wins": 0,
+    "losses": 0
+  },
+  "messages": [
+    {
+      "id": "1768417749661_7hndavpl3",
+      "sender": "system",
+      "text": "בדיקתית joined the clan!",
+      "timestamp": 1768417749661
+    },
+    {
+      "id": "1768418012889_vtqoisdym",
+      "sender": "system",
+      "text": "בדיקתית is now officer!",
+      "timestamp": 1768418012889
+    },
+    {
+      "id": "1768421987876_afoy0li4c",
+      "sender": "system",
+      "text": "🏰 המבצר נבנה בהצלחה ב-(39, 42)!",
+      "timestamp": 1768421987876
+    },
+    {
+      "id": "1768468672453_vgc6snxh6",
+      "sender": "system",
+      "text": "בדיקתית is now officer!",
+      "timestamp": 1768468672453
+    },
+    {
+      "id": "1768507093031_agn5fg5do",
+      "sender": "system",
+      "text": "בדיקתית is now officer!",
+      "timestamp": 1768507093031
+    },
+    {
+      "id": "1768507095533_wvz3cvmly",
+      "sender": "system",
+      "text": "בדיקתית is now member!",
+      "timestamp": 1768507095533
+    },
+    {
+      "id": "1768511562322_7y5l58fst",
+      "sender": "system",
+      "text": "אופק העביר משאבים ל-בדיקתית",
+      "timestamp": 1768511562322
+    },
+    {
+      "id": "1768929010701_vgf5ea6gx",
+      "sender": "system",
+      "text": "אופק העביר משאבים ל-אופק",
+      "timestamp": 1768929010701
+    }
+  ],
+  "invitations": {},
+  "applications": {},
+  "createdAt": 1768412047125,
+  "lastActivity": 1768929010701,
+  "fortress": {
+    "x": 39,
+    "y": 42,
+    "troops": {
+      "spearman": 1800161010,
+      "archer": 1799917672,
+      "swordsman": 1798999102
+    },
+    "resources": {
+      "gold": 0,
+      "wood": 0,
+      "food": 0
+    },
+    "createdAt": 1768421987772,
+    "deposits": {
+      "אופק": {
+        "spearman": 1800161010,
+        "archer": 1799905712,
+        "swordsman": 1798999102
+      }
+    },
+    "attacks": [
+      {
+        "id": "1768722350447_s0utyzv3q",
+        "target": {
+          "x": 37,
+          "y": 45,
+          "name": "TestUserNew's City",
+          "type": "city"
+        },
+        "attackPower": 81001957220,
+        "defensePower": 0,
+        "troops": {
+          "spearman": 1800171010,
+          "archer": 1800017672,
+          "swordsman": 1799999102
+        },
+        "casualties": {
+          "attacker": {
+            "spearman": 0,
+            "archer": 0,
+            "swordsman": 0
+          },
+          "defender": {
+            "spearman": 0,
+            "archer": 0,
+            "swordsman": 0
+          }
+        },
+        "result": "victory",
+        "loot": {
+          "gold": 12904,
+          "wood": 4455,
+          "food": 21
+        },
+        "distribution": {
+          "אופק": {
+            "gold": 12903,
+            "wood": 4454,
+            "food": 20
+          }
+        },
+        "timestamp": 1768722350447,
+        "leader": "אופק"
+      },
+      {
+        "id": "1768574463093_dss4w2nco",
+        "target": {
+          "x": 37,
+          "y": 45,
+          "name": "TestUserNew's City",
+          "type": "city"
+        },
+        "attackPower": 10262725,
+        "defensePower": 0,
+        "troops": {
+          "spearman": 1000000,
+          "archer": 17515,
+          "swordsman": 0
+        },
+        "casualties": {
+          "attacker": {
+            "spearman": 0,
+            "archer": 0,
+            "swordsman": 0
+          },
+          "defender": {
+            "spearman": 0,
+            "archer": 0,
+            "swordsman": 0
+          }
+        },
+        "result": "victory",
+        "loot": {
+          "gold": 18435,
+          "wood": 6364,
+          "food": 30
+        },
+        "distribution": {
+          "אופק": {
+            "gold": 18112,
+            "wood": 6252,
+            "food": 29
+          }
+        },
+        "timestamp": 1768574463093,
+        "leader": "אופק"
+      },
+      {
+        "id": "1768571710531_gm7h8vlr0",
+        "target": {
+          "x": 67,
+          "y": 43,
+          "name": "Researcher's City",
+          "type": "city"
+        },
+        "attackPower": 254400,
+        "defensePower": 0,
+        "troops": {
+          "spearman": 0,
+          "archer": 16960,
+          "swordsman": 0
+        },
+        "casualties": {
+          "attacker": {
+            "spearman": 0,
+            "archer": 0,
+            "swordsman": 0
+          },
+          "defender": {
+            "spearman": 0,
+            "archer": 0,
+            "swordsman": 0
+          }
+        },
+        "result": "victory",
+        "loot": {
+          "gold": 11358,
+          "wood": 3939,
+          "food": 21
+        },
+        "distribution": {
+          "אופק": {
+            "gold": 3348,
+            "wood": 1161,
+            "food": 6
+          }
+        },
+        "timestamp": 1768571710531,
+        "leader": "אופק"
+      },
+      {
+        "id": "1768571635863_dn72ev1ng",
+        "target": {
+          "x": 67,
+          "y": 17,
+          "name": "1234's City",
+          "type": "city"
+        },
+        "attackPower": 267780,
+        "defensePower": 0,
+        "troops": {
+          "spearman": 0,
+          "archer": 16960,
+          "swordsman": 0
+        },
+        "casualties": {
+          "attacker": {
+            "spearman": 0,
+            "archer": 892,
+            "swordsman": 0
+          },
+          "defender": {
+            "spearman": 0,
+            "archer": 0,
+            "swordsman": 0
+          }
+        },
+        "result": "victory",
+        "loot": {
+          "gold": 34,
+          "wood": 34,
+          "food": 30
+        },
+        "distribution": {
+          "אופק": {
+            "gold": 9,
+            "wood": 9,
+            "food": 8
+          }
+        },
+        "timestamp": 1768571635863,
+        "leader": "אופק"
+      },
+      {
+        "id": "1768571601389_juwnvi5tw",
+        "target": {
+          "x": 55,
+          "y": 38,
+          "name": "TestBoss's City",
+          "type": "city"
+        },
+        "attackPower": 312780,
+        "defensePower": 150000,
+        "troops": {
+          "spearman": 0,
+          "archer": 17852,
+          "swordsman": 0
+        },
+        "casualties": {
+          "attacker": {
+            "spearman": 0,
+            "archer": 3000,
+            "swordsman": 0
+          },
+          "defender": {
+            "spearman": 0,
+            "archer": 9500,
+            "swordsman": 0
+          }
+        },
+        "result": "victory",
+        "loot": {
+          "gold": 177468,
+          "wood": 1051,
+          "food": 0
+        },
+        "distribution": {
+          "אופק": {
+            "gold": 42554,
+            "wood": 252,
+            "food": 0
+          }
+        },
+        "timestamp": 1768571601389,
+        "leader": "אופק"
+      },
+      {
+        "id": "1768571363373_zszonjhak",
+        "target": {
+          "x": 67,
+          "y": 43,
+          "name": "Researcher's City",
+          "type": "city"
+        },
+        "attackPower": 329235,
+        "defensePower": 0,
+        "troops": {
+          "spearman": 0,
+          "archer": 20852,
+          "swordsman": 0
+        },
+        "casualties": {
+          "attacker": {
+            "spearman": 0,
+            "archer": 1097,
+            "swordsman": 0
+          },
+          "defender": {
+            "spearman": 0,
+            "archer": 0,
+            "swordsman": 0
+          }
+        },
+        "result": "victory",
+        "loot": {
+          "gold": 16225,
+          "wood": 5628,
+          "food": 30
+        },
+        "distribution": {
+          "אופק": {
+            "gold": 3696,
+            "wood": 1282,
+            "food": 6
+          }
+        },
+        "timestamp": 1768571363373,
+        "leader": "אופק"
+      },
+      {
+        "id": "1768571326841_lefr9vulx",
+        "target": {
+          "x": 75,
+          "y": 40,
+          "name": "TestMember's City",
+          "type": "city"
+        },
+        "attackPower": 346560,
+        "defensePower": 0,
+        "troops": {
+          "spearman": 0,
+          "archer": 21949,
+          "swordsman": 0
+        },
+        "casualties": {
+          "attacker": {
+            "spearman": 0,
+            "archer": 1155,
+            "swordsman": 0
+          },
+          "defender": {
+            "spearman": 0,
+            "archer": 0,
+            "swordsman": 0
+          }
+        },
+        "result": "victory",
+        "loot": {
+          "gold": 240,
+          "wood": 195,
+          "food": 30
+        },
+        "distribution": {
+          "אופק": {
+            "gold": 51,
+            "wood": 42,
+            "food": 6
+          }
+        },
+        "timestamp": 1768571326841,
+        "leader": "אופק"
+      },
+      {
+        "id": "1768570934827_3d6894c4w",
+        "target": {
+          "x": 36,
+          "y": 64,
+          "name": "testuser123's City",
+          "type": "city"
+        },
+        "attackPower": 364800,
+        "defensePower": 0,
+        "troops": {
+          "spearman": 0,
+          "archer": 23104,
+          "swordsman": 0
+        },
+        "casualties": {
+          "attacker": {
+            "spearman": 0,
+            "archer": 1216,
+            "swordsman": 0
+          },
+          "defender": {
+            "spearman": 0,
+            "archer": 0,
+            "swordsman": 0
+          }
+        },
+        "result": "victory",
+        "loot": {
+          "gold": 15663,
+          "wood": 5440,
+          "food": 30
+        },
+        "distribution": {
+          "אופק": {
+            "gold": 3220,
+            "wood": 1118,
+            "food": 6
+          }
+        },
+        "timestamp": 1768570934827,
+        "leader": "אופק"
+      },
+      {
+        "id": "1768430312291_b36j1i4xj",
+        "target": {
+          "x": 54,
+          "y": 89,
+          "name": "בדיקהנוספת's City",
+          "type": "city"
+        },
+        "attackPower": 383985,
+        "defensePower": 0,
+        "troops": {
+          "spearman": 0,
+          "archer": 24320,
+          "swordsman": 0
+        },
+        "casualties": {
+          "attacker": {
+            "spearman": 0,
+            "archer": 1279,
+            "swordsman": 0
+          },
+          "defender": {
+            "spearman": 0,
+            "archer": 0,
+            "swordsman": 0
+          }
+        },
+        "result": "victory",
+        "loot": {
+          "gold": 9,
+          "wood": 9,
+          "food": 0
+        },
+        "distribution": {
+          "אופק": {
+            "gold": 1,
+            "wood": 1,
+            "food": 0
+          }
+        },
+        "timestamp": 1768430312291,
+        "leader": "אופק"
+      },
+      {
+        "id": "1768430068258_it2dviqzo",
+        "target": {
+          "x": 54,
+          "y": 89,
+          "name": "בדיקהנוספת's City",
+          "type": "city"
+        },
+        "attackPower": 404190,
+        "defensePower": 0,
+        "troops": {
+          "spearman": 0,
+          "archer": 25599,
+          "swordsman": 0
+        },
+        "casualties": {
+          "attacker": {
+            "spearman": 0,
+            "archer": 1347,
+            "swordsman": 0
+          },
+          "defender": {
+            "spearman": 0,
+            "archer": 0,
+            "swordsman": 0
+          }
+        },
+        "result": "victory",
+        "loot": {
+          "gold": 12,
+          "wood": 12,
+          "food": 0
+        },
+        "distribution": {
+          "אופק": {
+            "gold": 2,
+            "wood": 2,
+            "food": 0
+          }
+        },
+        "timestamp": 1768430068258,
+        "leader": "אופק"
+      },
+      {
+        "id": "1768429959690_rwbjnsiqw",
+        "target": {
+          "x": 54,
+          "y": 89,
+          "name": "בדיקהנוספת's City",
+          "type": "city"
+        },
+        "attackPower": 425460,
+        "defensePower": 0,
+        "troops": {
+          "spearman": 0,
+          "archer": 26946,
+          "swordsman": 0
+        },
+        "casualties": {
+          "attacker": {
+            "spearman": 0,
+            "archer": 1418,
+            "swordsman": 0
+          },
+          "defender": {
+            "spearman": 0,
+            "archer": 0,
+            "swordsman": 0
+          }
+        },
+        "result": "victory",
+        "loot": {
+          "gold": 18,
+          "wood": 18,
+          "food": 0
+        },
+        "distribution": {
+          "אופק": {
+            "gold": 3,
+            "wood": 3,
+            "food": 0
+          }
+        },
+        "timestamp": 1768429959690,
+        "leader": "אופק"
+      },
+      {
+        "id": "1768429854979_152afbbv7",
+        "target": {
+          "x": 54,
+          "y": 89,
+          "name": "בדיקהנוספת's City",
+          "type": "city"
+        },
+        "attackPower": 447840,
+        "defensePower": 0,
+        "troops": {
+          "spearman": 0,
+          "archer": 28364,
+          "swordsman": 0
+        },
+        "casualties": {
+          "attacker": {
+            "spearman": 0,
+            "archer": 1492,
+            "swordsman": 0
+          },
+          "defender": {
+            "spearman": 0,
+            "archer": 0,
+            "swordsman": 0
+          }
+        },
+        "result": "victory",
+        "loot": {
+          "gold": 25,
+          "wood": 25,
+          "food": 0
+        },
+        "distribution": {
+          "אופק": {
+            "gold": 4,
+            "wood": 4,
+            "food": 0
+          }
+        },
+        "timestamp": 1768429854979,
+        "leader": "אופק"
+      },
+      {
+        "id": "1768429758814_jdotns8ug",
+        "target": {
+          "x": 54,
+          "y": 89,
+          "name": "בדיקהנוספת's City",
+          "type": "city"
+        },
+        "attackPower": 471405,
+        "defensePower": 0,
+        "troops": {
+          "spearman": 0,
+          "archer": 29856,
+          "swordsman": 0
+        },
+        "casualties": {
+          "attacker": {
+            "spearman": 0,
+            "archer": 1571,
+            "swordsman": 0
+          },
+          "defender": {
+            "spearman": 0,
+            "archer": 0,
+            "swordsman": 0
+          }
+        },
+        "result": "victory",
+        "loot": {
+          "gold": 36,
+          "wood": 36,
+          "food": 0
+        },
+        "distribution": {
+          "אופק": {
+            "gold": 5,
+            "wood": 5,
+            "food": 0
+          }
+        },
+        "timestamp": 1768429758814,
+        "leader": "אופק"
+      },
+      {
+        "id": "1768429568975_thtoxfyw6",
+        "target": {
+          "x": 54,
+          "y": 89,
+          "name": "בדיקהנוספת's City",
+          "type": "city"
+        },
+        "attackPower": 496215,
+        "defensePower": 0,
+        "troops": {
+          "spearman": 0,
+          "archer": 31427,
+          "swordsman": 0
+        },
+        "casualties": {
+          "attacker": {
+            "spearman": 0,
+            "archer": 1654,
+            "swordsman": 0
+          },
+          "defender": {
+            "spearman": 0,
+            "archer": 0,
+            "swordsman": 0
+          }
+        },
+        "result": "victory",
+        "loot": {
+          "gold": 52,
+          "wood": 52,
+          "food": 0
+        },
+        "distribution": {
+          "אופק": {
+            "gold": 7,
+            "wood": 7,
+            "food": 0
+          }
+        },
+        "timestamp": 1768429568975,
+        "leader": "אופק"
+      },
+      {
+        "id": "1768429348342_xm5x1wyot",
+        "target": {
+          "x": 54,
+          "y": 89,
+          "name": "בדיקהנוספת's City",
+          "type": "city"
+        },
+        "attackPower": 522330,
+        "defensePower": 0,
+        "troops": {
+          "spearman": 0,
+          "archer": 33081,
+          "swordsman": 0
+        },
+        "casualties": {
+          "attacker": {
+            "spearman": 0,
+            "archer": 1741,
+            "swordsman": 0
+          },
+          "defender": {
+            "spearman": 0,
+            "archer": 0,
+            "swordsman": 0
+          }
+        },
+        "result": "victory",
+        "loot": {
+          "gold": 74,
+          "wood": 74,
+          "food": 0
+        },
+        "distribution": {
+          "אופק": {
+            "gold": 10,
+            "wood": 10,
+            "food": 0
+          }
+        },
+        "timestamp": 1768429348342,
+        "leader": "אופק"
+      },
+      {
+        "id": "1768429289194_9rly6fvdh",
+        "target": {
+          "x": 54,
+          "y": 89,
+          "name": "בדיקהנוספת's City",
+          "type": "city"
+        },
+        "attackPower": 549810,
+        "defensePower": 0,
+        "troops": {
+          "spearman": 0,
+          "archer": 34822,
+          "swordsman": 0
+        },
+        "casualties": {
+          "attacker": {
+            "spearman": 0,
+            "archer": 1832,
+            "swordsman": 0
+          },
+          "defender": {
+            "spearman": 0,
+            "archer": 0,
+            "swordsman": 0
+          }
+        },
+        "result": "victory",
+        "loot": {
+          "gold": 106,
+          "wood": 106,
+          "food": 0
+        },
+        "distribution": {
+          "אופק": {
+            "gold": 14,
+            "wood": 14,
+            "food": 0
+          }
+        },
+        "timestamp": 1768429289195,
+        "leader": "אופק"
+      },
+      {
+        "id": "1768427776135_2qnl6p8tq",
+        "target": {
+          "x": 54,
+          "y": 89,
+          "name": "בדיקהנוספת's City",
+          "type": "city"
+        },
+        "attackPower": 578745,
+        "defensePower": 0,
+        "troops": {
+          "spearman": 0,
+          "archer": 36654,
+          "swordsman": 0
+        },
+        "casualties": {
+          "attacker": {
+            "spearman": 0,
+            "archer": 1929,
+            "swordsman": 0
+          },
+          "defender": {
+            "spearman": 0,
+            "archer": 0,
+            "swordsman": 0
+          }
+        },
+        "result": "victory",
+        "loot": {
+          "gold": 151,
+          "wood": 151,
+          "food": 0
+        },
+        "distribution": {
+          "אופק": {
+            "gold": 19,
+            "wood": 19,
+            "food": 0
+          }
+        },
+        "timestamp": 1768427776135,
+        "leader": "אופק"
+      },
+      {
+        "id": "1768427551309_bg21loa6m",
+        "target": {
+          "x": 54,
+          "y": 89,
+          "name": "בדיקהנוספת's City",
+          "type": "city"
+        },
+        "attackPower": 609195,
+        "defensePower": 0,
+        "troops": {
+          "spearman": 0,
+          "archer": 38583,
+          "swordsman": 0
+        },
+        "casualties": {
+          "attacker": {
+            "spearman": 0,
+            "archer": 2030,
+            "swordsman": 0
+          },
+          "defender": {
+            "spearman": 0,
+            "archer": 0,
+            "swordsman": 0
+          }
+        },
+        "result": "victory",
+        "loot": {
+          "gold": 216,
+          "wood": 216,
+          "food": 0
+        },
+        "distribution": {
+          "אופק": {
+            "gold": 26,
+            "wood": 26,
+            "food": 0
+          }
+        },
+        "timestamp": 1768427551309,
+        "leader": "אופק"
+      },
+      {
+        "id": "1768427301060_vq307sggd",
+        "target": {
+          "x": 64,
+          "y": 88,
+          "name": "test's City",
+          "type": "city"
+        },
+        "attackPower": 641250,
+        "defensePower": 0,
+        "troops": {
+          "spearman": 0,
+          "archer": 40613,
+          "swordsman": 0
+        },
+        "casualties": {
+          "attacker": {
+            "spearman": 0,
+            "archer": 2137,
+            "swordsman": 0
+          },
+          "defender": {
+            "spearman": 0,
+            "archer": 0,
+            "swordsman": 0
+          }
+        },
+        "result": "victory",
+        "loot": {
+          "gold": 22534,
+          "wood": 7731,
+          "food": 30
+        },
+        "distribution": {
+          "אופק": {
+            "gold": 2635,
+            "wood": 904,
+            "food": 3
+          }
+        },
+        "timestamp": 1768427301060,
+        "leader": "אופק"
+      },
+      {
+        "id": "1768427124774_vh5n4181k",
+        "target": {
+          "x": 54,
+          "y": 89,
+          "name": "בדיקהנוספת's City",
+          "type": "city"
+        },
+        "attackPower": 675000,
+        "defensePower": 0,
+        "troops": {
+          "spearman": 0,
+          "archer": 42750,
+          "swordsman": 0
+        },
+        "casualties": {
+          "attacker": {
+            "spearman": 0,
+            "archer": 2250,
+            "swordsman": 0
+          },
+          "defender": {
+            "spearman": 0,
+            "archer": 0,
+            "swordsman": 0
+          }
+        },
+        "result": "victory",
+        "loot": {
+          "gold": 309,
+          "wood": 309,
+          "food": 0
+        },
+        "distribution": {
+          "אופק": {
+            "gold": 34,
+            "wood": 34,
+            "food": 0
+          }
+        },
+        "timestamp": 1768427124774,
+        "leader": "אופק"
+      }
+    ]
+  },
+  "fortressTimers": []
+}

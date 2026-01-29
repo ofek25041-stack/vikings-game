@@ -1,0 +1,39 @@
+<svg width="1000" height="1000" viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Grass Texture simulation -->
+    <filter id="grassNoise">
+      <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" stitchTiles="stitch" />
+      <feColorMatrix type="saturate" values="0" />
+      <feComponentTransfer>
+         <feFuncA type="linear" slope="0.2"/>
+      </feComponentTransfer>
+    </filter>
+    
+    <!-- Ground Gradient -->
+    <linearGradient id="groundGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#4ade80;stop-opacity:1" /> <!-- Sunny top -->
+      <stop offset="100%" style="stop-color:#15803d;stop-opacity:1" /> <!-- Shadowed bottom -->
+    </linearGradient>
+    
+    <!-- Cliff Side Gradient -->
+    <linearGradient id="cliffGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#713f12;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3f2c22;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- The Island Shape (Diamond for Isometric) -->
+  <!-- Center is 500,500. Width ~800. -->
+  <g transform="translate(500, 500)">
+    
+    <!-- Cliff Faces (Simulated 3D depth by offsetting layers) -->
+    <path d="M0 420 L-400 220 L-400 250 L0 450 L400 250 L400 220 Z" fill="url(#cliffGrad)" />
+    
+    <!-- Top Surface -->
+    <path d="M0 420 L-400 220 L0 20 L400 220 Z" fill="url(#groundGrad)" stroke="#22c55e" stroke-width="2"/>
+    
+    <!-- Grass Noise Overlay -->
+    <path d="M0 420 L-400 220 L0 20 L400 220 Z" fill="#000" filter="url(#grassNoise)" opacity="0.3" style="mix-blend-mode: overlay;" />
+
+  </g>
+</svg>

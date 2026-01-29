@@ -1,0 +1,112 @@
+{
+  "username": "אודין_השליט",
+  "password": "ai_player",
+  "state": {
+    "homeCoords": {
+      "x": 655,
+      "y": 447
+    },
+    "resources": {
+      "gold": 54000,
+      "wood": 35000,
+      "food": 31000,
+      "wine": 6800,
+      "marble": 3900,
+      "crystal": 2400,
+      "sulfur": 1150
+    },
+    "buildings": {
+      "townHall": {
+        "level": 10
+      },
+      "barracks": {
+        "level": 8
+      },
+      "warehouse": {
+        "level": 7
+      },
+      "farm": {
+        "level": 9
+      },
+      "lumberMill": {
+        "level": 8
+      }
+    },
+    "army": {
+      "spearman": 300,
+      "archer": 150,
+      "swordsman": 75
+    },
+    "research": {},
+    "stats": {
+      "battles": 10,
+      "wins": 11,
+      "losses": 26
+    },
+    "city": {
+      "population": 1500,
+      "happiness": 86
+    },
+    "mapEntities": {
+      "655,447": {
+        "type": "city",
+        "name": "אודין_השליט",
+        "user": "אודין_השליט",
+        "level": 10,
+        "x": 655,
+        "y": 447,
+        "isMyCity": false,
+        "motto": "מנהיגות דרך שיתוף"
+      },
+      "660,430": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "owner": "אודין_השליט",
+        "level": 3,
+        "x": 660,
+        "y": 430
+      },
+      "638,460": {
+        "type": "wood",
+        "resource": "wood",
+        "name": "מחנה חוטבים",
+        "owner": "אודין_השליט",
+        "level": 1,
+        "x": 638,
+        "y": 460
+      },
+      "661,437": {
+        "type": "wood",
+        "resource": "wood",
+        "name": "מחנה חוטבים",
+        "owner": "אודין_השליט",
+        "level": 3,
+        "x": 661,
+        "y": 437
+      },
+      "635,430": {
+        "type": "farm",
+        "resource": "wine",
+        "name": "כרם ענבים",
+        "owner": "אודין_השליט",
+        "level": 1,
+        "x": 635,
+        "y": 430
+      },
+      "656,460": {
+        "type": "wood",
+        "resource": "wood",
+        "name": "מחנה חוטבים",
+        "owner": "אודין_השליט",
+        "level": 1,
+        "x": 656,
+        "y": 460
+      }
+    },
+    "lastLogin": 1768936444865,
+    "reports": [],
+    "chats": {},
+    "motto": "מנהיגות דרך שיתוף"
+  }
+}

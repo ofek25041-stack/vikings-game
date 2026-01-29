@@ -1,0 +1,365 @@
+{
+  "username": "TestLeader",
+  "password": "123",
+  "state": {
+    "resources": {
+      "gold": 252995440152.1395,
+      "wood": 999990404,
+      "food": 0,
+      "wine": 1000000000,
+      "marble": 1000000000,
+      "crystal": 1000000000,
+      "sulfur": 1000000000,
+      "citizens": 1000000089
+    },
+    "stats": {
+      "battles": 0,
+      "wins": 0,
+      "losses": 0
+    },
+    "viewport": {
+      "x": 81,
+      "y": 27
+    },
+    "homeCoords": {
+      "x": 81,
+      "y": 27
+    },
+    "mapEntities": {
+      "81,27": {
+        "type": "city",
+        "name": "TestLeader's City",
+        "user": "TestLeader",
+        "level": 1,
+        "isMyCity": true,
+        "lastLogin": 1768414072707
+      },
+      "67,43": {
+        "type": "city",
+        "name": "Researcher's City",
+        "user": "Researcher",
+        "level": 1,
+        "score": 100,
+        "lastLogin": 1768167015548,
+        "clanTag": null,
+        "isMyCity": false
+      },
+      "64,88": {
+        "type": "city",
+        "name": "test's City",
+        "user": "test",
+        "level": 1,
+        "score": 100,
+        "lastLogin": 1768161845637,
+        "clanTag": null,
+        "isMyCity": false
+      },
+      "68,87": {
+        "type": "city",
+        "name": "Tester's City",
+        "user": "Tester",
+        "level": 1,
+        "score": 100,
+        "lastLogin": 1768167015094,
+        "clanTag": null,
+        "isMyCity": false
+      },
+      "87,51": {
+        "type": "city",
+        "name": "testuser's City",
+        "user": "testuser",
+        "level": 1,
+        "score": 100,
+        "lastLogin": 1768161845639,
+        "clanTag": null,
+        "isMyCity": false
+      },
+      "36,64": {
+        "type": "city",
+        "name": "testuser123's City",
+        "user": "testuser123",
+        "level": 1,
+        "score": 100,
+        "lastLogin": 1768161845636,
+        "clanTag": null,
+        "isMyCity": false
+      },
+      "37,45": {
+        "type": "city",
+        "name": "TestUserNew's City",
+        "user": "TestUserNew",
+        "level": 1,
+        "score": 100,
+        "lastLogin": 1768167015268,
+        "clanTag": null,
+        "isMyCity": false
+      },
+      "18,10": {
+        "type": "city",
+        "name": "viking1's City",
+        "user": "viking1",
+        "level": 1,
+        "score": 100,
+        "lastLogin": 1768166880607,
+        "clanTag": null,
+        "isMyCity": false
+      },
+      "57,60": {
+        "type": "city",
+        "name": "אופק's City",
+        "user": "אופק",
+        "level": 7,
+        "score": 100,
+        "lastLogin": 1768414015948,
+        "clanTag": "ISR",
+        "isMyCity": false
+      },
+      "73,35": {
+        "type": "city",
+        "name": "בדיקהה's City",
+        "user": "בדיקהה",
+        "level": 1,
+        "score": 100,
+        "lastLogin": 1768076460862,
+        "clanTag": null,
+        "isMyCity": false
+      },
+      "57,62": {
+        "type": "city",
+        "name": "בדיקתית's City",
+        "user": "בדיקתית",
+        "level": 1,
+        "score": 100,
+        "lastLogin": 1768414015880,
+        "clanTag": null,
+        "isMyCity": false
+      },
+      "54,89": {
+        "type": "city",
+        "name": "בדיקהנוספת's City",
+        "user": "בדיקהנוספת",
+        "level": 1,
+        "score": 100,
+        "lastLogin": 1768076445903,
+        "clanTag": null,
+        "isMyCity": false
+      },
+      "75,40": {
+        "type": "city",
+        "name": "TestMember's City",
+        "user": "TestMember",
+        "level": 1,
+        "score": 100,
+        "lastLogin": 1768414305281,
+        "clanTag": null,
+        "isMyCity": false
+      },
+      "55,38": {
+        "type": "city",
+        "name": "TestBoss's City",
+        "user": "TestBoss",
+        "level": 1,
+        "score": 100,
+        "lastLogin": 1768414787077,
+        "clanTag": null,
+        "isMyCity": false
+      },
+      "38,49": {
+        "type": "city",
+        "name": "TestMinion's City",
+        "user": "TestMinion",
+        "level": 1,
+        "score": 100,
+        "lastLogin": 1768414860732,
+        "clanTag": null,
+        "isMyCity": false
+      }
+    },
+    "buildings": {
+      "townHall": {
+        "level": 1,
+        "name": "בית העירייה",
+        "costFactor": 1.5,
+        "baseCost": {
+          "wood": 50,
+          "marble": 0
+        },
+        "description": "מנהל את העיר והתושבים"
+      },
+      "academy": {
+        "level": 0,
+        "name": "אקדמיה",
+        "costFactor": 1.5,
+        "baseCost": {
+          "wood": 100,
+          "crystal": 50
+        },
+        "description": "מאפשר מחקר טכנולוגיות חדשות"
+      },
+      "warehouse": {
+        "level": 0,
+        "name": "מחסן",
+        "costFactor": 1.3,
+        "baseCost": {
+          "wood": 100,
+          "marble": 50
+        },
+        "description": "מגדיל את קיבולת המשאבים"
+      },
+      "barracks": {
+        "level": 0,
+        "name": "בסיס צבאי",
+        "costFactor": 1.5,
+        "baseCost": {
+          "wood": 150,
+          "marble": 50
+        },
+        "description": "מאפשר אימון חיילים שונים"
+      },
+      "port": {
+        "level": 0,
+        "name": "נמל מסחרי",
+        "costFactor": 1.4,
+        "baseCost": {
+          "wood": 200,
+          "marble": 100
+        },
+        "description": "מאפשר מסחר עם ערים אחרות"
+      },
+      "wall": {
+        "level": 0,
+        "name": "חומה",
+        "costFactor": 1.6,
+        "baseCost": {
+          "marble": 200,
+          "wood": 100
+        },
+        "description": "מגנה על העיר מפני התקפות"
+      },
+      "lumber": {
+        "level": 1,
+        "name": "מנסרה",
+        "costFactor": 1.5,
+        "baseCost": {
+          "wood": 50,
+          "gold": 50
+        },
+        "description": "מייצרת עצים לבנייה (Lumber)"
+      },
+      "mine": {
+        "level": 1,
+        "name": "מכרה",
+        "costFactor": 1.5,
+        "baseCost": {
+          "wood": 100,
+          "gold": 100
+        },
+        "description": "מכרה אבנים ומתכות יקרות"
+      }
+    },
+    "army": {
+      "spearman": 0,
+      "archer": 25,
+      "swordsman": 0,
+      "axeman": null,
+      "cavalry": null
+    },
+    "research": {
+      "architecture": 0,
+      "weaponry": 0,
+      "defense": 0,
+      "logistics": 0
+    },
+    "timers": [],
+    "city": {
+      "population": 10,
+      "happiness": 100
+    },
+    "reports": [
+      {
+        "id": "mkec2w70exa4i56ct4b",
+        "timestamp": 1768414073724,
+        "read": false,
+        "type": "system",
+        "title": "ברוך הבא!",
+        "data": {
+          "loot": {}
+        }
+      }
+    ],
+    "missions": {
+      "daily": [
+        {
+          "id": "d_1768414073725_0",
+          "title": "אסוף משאבים (342)",
+          "type": "gather",
+          "target": 342,
+          "current": 0,
+          "reward": {
+            "gold": 684,
+            "wood": 342
+          },
+          "claimed": false
+        },
+        {
+          "id": "d_1768414073725_1",
+          "title": "אסוף משאבים (307)",
+          "type": "gather",
+          "target": 307,
+          "current": 0,
+          "reward": {
+            "gold": 614,
+            "wood": 307
+          },
+          "claimed": false
+        },
+        {
+          "id": "d_1768414073725_2",
+          "title": "אמן חיילים (11)",
+          "type": "train",
+          "target": 11,
+          "current": 0,
+          "reward": {
+            "gold": 22,
+            "wood": 11
+          },
+          "claimed": false
+        }
+      ],
+      "weekly": [
+        {
+          "id": "w_1768414073725_0",
+          "title": "אתגר שבועי: תקוף אויבים (6)",
+          "type": "attack",
+          "target": 6,
+          "current": 0,
+          "reward": {
+            "gold": 18,
+            "wine": 0
+          },
+          "claimed": false
+        },
+        {
+          "id": "w_1768414073725_1",
+          "title": "אתגר שבועי: תקוף אויבים (8)",
+          "type": "attack",
+          "target": 8,
+          "current": 0,
+          "reward": {
+            "gold": 24,
+            "wine": 0
+          },
+          "claimed": false
+        }
+      ],
+      "lastDailyReset": 1768414073725,
+      "lastWeeklyReset": 1768414073725
+    },
+    "lastLogin": 1768416900484,
+    "clan": {
+      "id": "clan_1768414380201_x3q779q6g",
+      "role": "leader",
+      "joinedAt": 1768414380202
+    }
+  }
+}

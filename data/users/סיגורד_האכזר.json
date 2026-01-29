@@ -1,0 +1,103 @@
+{
+  "username": "סיגורד_האכזר",
+  "password": "ai_player",
+  "state": {
+    "homeCoords": {
+      "x": 578,
+      "y": 835
+    },
+    "resources": {
+      "gold": 40000,
+      "wood": 25000,
+      "food": 20000,
+      "wine": 4000,
+      "marble": 2500,
+      "crystal": 1500,
+      "sulfur": 800
+    },
+    "buildings": {
+      "townHall": {
+        "level": 7
+      },
+      "barracks": {
+        "level": 5
+      },
+      "warehouse": {
+        "level": 4
+      },
+      "farm": {
+        "level": 6
+      },
+      "lumberMill": {
+        "level": 5
+      }
+    },
+    "army": {
+      "spearman": 240,
+      "archer": 120,
+      "swordsman": 60
+    },
+    "research": {},
+    "stats": {
+      "battles": 3,
+      "wins": 19,
+      "losses": 20
+    },
+    "city": {
+      "population": 1200,
+      "happiness": 86
+    },
+    "mapEntities": {
+      "578,835": {
+        "type": "city",
+        "name": "סיגורד_האכזר",
+        "user": "סיגורד_האכזר",
+        "level": 7,
+        "x": 578,
+        "y": 835,
+        "isMyCity": false,
+        "motto": "רק החזקים שורדים"
+      },
+      "592,836": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "owner": "סיגורד_האכזר",
+        "level": 1,
+        "x": 592,
+        "y": 836
+      },
+      "577,815": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "owner": "סיגורד_האכזר",
+        "level": 1,
+        "x": 577,
+        "y": 815
+      },
+      "585,838": {
+        "type": "farm",
+        "resource": "wine",
+        "name": "כרם ענבים",
+        "owner": "סיגורד_האכזר",
+        "level": 2,
+        "x": 585,
+        "y": 838
+      },
+      "574,839": {
+        "type": "wood",
+        "resource": "wood",
+        "name": "מחנה חוטבים",
+        "owner": "סיגורד_האכזר",
+        "level": 2,
+        "x": 574,
+        "y": 839
+      }
+    },
+    "lastLogin": 1768936444859,
+    "reports": [],
+    "chats": {},
+    "motto": "רק החזקים שורדים"
+  }
+}

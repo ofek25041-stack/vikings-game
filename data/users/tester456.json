@@ -1,0 +1,537 @@
+{
+  "username": "tester456",
+  "password": "12345678",
+  "state": {
+    "resources": {
+      "gold": 71815,
+      "wood": 24670,
+      "food": 100,
+      "wine": 0,
+      "marble": 0,
+      "crystal": 0,
+      "sulfur": 0,
+      "citizens": 150
+    },
+    "stats": {
+      "battles": 0,
+      "wins": 0,
+      "losses": 0
+    },
+    "viewport": {
+      "x": 52,
+      "y": 81
+    },
+    "homeCoords": {
+      "x": 52,
+      "y": 81
+    },
+    "mapEntities": {
+      "59,59": {
+        "type": "farm",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "level": 2,
+        "owner": "אופק",
+        "user": "אופק"
+      },
+      "61,61": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "level": 1,
+        "owner": "אופק",
+        "user": "אופק"
+      },
+      "56,59": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "level": 5,
+        "owner": "אופק",
+        "user": "אופק"
+      },
+      "53,61": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "level": 4,
+        "owner": "אופק",
+        "user": "אופק"
+      },
+      "58,58": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "level": 3,
+        "owner": "אופק",
+        "user": "אופק"
+      },
+      "56,63": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "level": 5,
+        "owner": "אופק",
+        "user": "אופק",
+        "garrison": {
+          "units": {
+            "archer": 950
+          },
+          "total": 950
+        }
+      },
+      "50,64": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "level": 5,
+        "owner": "אופק",
+        "user": "אופק"
+      },
+      "62,56": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "level": 2,
+        "owner": "אופק",
+        "user": "אופק",
+        "garrison": {
+          "units": {
+            "archer": 10,
+            "swordsman": 19
+          },
+          "total": 29
+        }
+      },
+      "39,42": {
+        "type": "fortress",
+        "name": "Winners Israel Fortress",
+        "clanId": "clan_1768412047124_hkrks1yml",
+        "clanName": "Winners Israel",
+        "clanTag": "ISR",
+        "fortressX": 39,
+        "fortressY": 42,
+        "isCenter": true
+      },
+      "39,43": {
+        "type": "fortress",
+        "name": "Winners Israel Fortress",
+        "clanId": "clan_1768412047124_hkrks1yml",
+        "clanName": "Winners Israel",
+        "clanTag": "ISR",
+        "fortressX": 39,
+        "fortressY": 42,
+        "isCenter": false
+      },
+      "40,42": {
+        "type": "fortress",
+        "name": "Winners Israel Fortress",
+        "clanId": "clan_1768412047124_hkrks1yml",
+        "clanName": "Winners Israel",
+        "clanTag": "ISR",
+        "fortressX": 39,
+        "fortressY": 42,
+        "isCenter": false
+      },
+      "40,43": {
+        "type": "fortress",
+        "name": "Winners Israel Fortress",
+        "clanId": "clan_1768412047124_hkrks1yml",
+        "clanName": "Winners Israel",
+        "clanTag": "ISR",
+        "fortressX": 39,
+        "fortressY": 42,
+        "isCenter": false
+      },
+      "67,17": {
+        "type": "city",
+        "name": "1234's City",
+        "user": "1234",
+        "level": 1,
+        "score": 100,
+        "lastLogin": 1768555660824,
+        "clanTag": null,
+        "isMyCity": false
+      },
+      "78,82": {
+        "type": "city",
+        "name": "admin's City",
+        "user": "admin",
+        "level": 1,
+        "score": 100,
+        "lastLogin": 1768670545566,
+        "clanTag": null,
+        "isMyCity": false
+      },
+      "67,43": {
+        "type": "city",
+        "name": "Researcher's City",
+        "user": "Researcher",
+        "level": 1,
+        "score": 100,
+        "lastLogin": 1768167015548,
+        "clanTag": null,
+        "isMyCity": false
+      },
+      "25,52": {
+        "type": "city",
+        "name": "Ron otmazgin's City",
+        "user": "Ron otmazgin",
+        "level": 1,
+        "score": 100,
+        "lastLogin": 1768506725691,
+        "clanTag": null,
+        "isMyCity": false
+      },
+      "64,88": {
+        "type": "city",
+        "name": "test's City",
+        "user": "test",
+        "level": 1,
+        "score": 100,
+        "lastLogin": 1768161845637,
+        "clanTag": null,
+        "isMyCity": false
+      },
+      "55,38": {
+        "type": "city",
+        "name": "TestBoss's City",
+        "user": "TestBoss",
+        "level": 1,
+        "score": 100,
+        "lastLogin": 1768670545561,
+        "clanTag": "BOS",
+        "isMyCity": false
+      },
+      "68,87": {
+        "type": "city",
+        "name": "Tester's City",
+        "user": "Tester",
+        "level": 1,
+        "score": 100,
+        "lastLogin": 1768167015094,
+        "clanTag": null,
+        "isMyCity": false
+      },
+      "37,66": {
+        "type": "city",
+        "name": "Tester123's City",
+        "user": "Tester123",
+        "level": 1,
+        "score": 100,
+        "lastLogin": 1768670545248,
+        "clanTag": null,
+        "isMyCity": false
+      },
+      "52,81": {
+        "type": "city",
+        "name": "tester456's City",
+        "user": "tester456",
+        "level": 1,
+        "score": 100,
+        "lastLogin": 1768670545033,
+        "clanTag": null,
+        "isMyCity": false
+      },
+      "81,27": {
+        "type": "city",
+        "name": "TestLeader's City",
+        "user": "TestLeader",
+        "level": 1,
+        "score": 100,
+        "lastLogin": 1768416900484,
+        "clanTag": "TST",
+        "isMyCity": false
+      },
+      "75,40": {
+        "type": "city",
+        "name": "TestMember's City",
+        "user": "TestMember",
+        "level": 1,
+        "score": 100,
+        "lastLogin": 1768414305281,
+        "clanTag": null,
+        "isMyCity": false
+      },
+      "38,49": {
+        "type": "city",
+        "name": "TestMinion's City",
+        "user": "TestMinion",
+        "level": 1,
+        "score": 100,
+        "lastLogin": 1768414880210,
+        "clanTag": null,
+        "isMyCity": false
+      },
+      "87,51": {
+        "type": "city",
+        "name": "testuser's City",
+        "user": "testuser",
+        "level": 1,
+        "score": 100,
+        "lastLogin": 1768161845639,
+        "clanTag": null,
+        "isMyCity": false
+      },
+      "36,64": {
+        "type": "city",
+        "name": "testuser123's City",
+        "user": "testuser123",
+        "level": 1,
+        "score": 100,
+        "lastLogin": 1768161845636,
+        "clanTag": null,
+        "isMyCity": false
+      },
+      "37,45": {
+        "type": "city",
+        "name": "TestUserNew's City",
+        "user": "TestUserNew",
+        "level": 1,
+        "score": 100,
+        "lastLogin": 1768167015268,
+        "clanTag": null,
+        "isMyCity": false
+      },
+      "18,10": {
+        "type": "city",
+        "name": "viking1's City",
+        "user": "viking1",
+        "level": 1,
+        "score": 100,
+        "lastLogin": 1768166880607,
+        "clanTag": null,
+        "isMyCity": false
+      },
+      "57,60": {
+        "type": "city",
+        "name": "אופק's City",
+        "user": "אופק",
+        "level": 9,
+        "score": 100,
+        "lastLogin": 1768670388153,
+        "clanTag": "ISR",
+        "isMyCity": false
+      },
+      "18,25": {
+        "type": "city",
+        "name": "דידיד's City",
+        "user": "דידיד",
+        "level": 2,
+        "score": 100,
+        "lastLogin": 1768511464875,
+        "clanTag": "ISR",
+        "isMyCity": false
+      },
+      "73,35": {
+        "type": "city",
+        "name": "בדיקהה's City",
+        "user": "בדיקהה",
+        "level": 1,
+        "score": 100,
+        "lastLogin": 1768076460862,
+        "clanTag": null,
+        "isMyCity": false
+      },
+      "57,62": {
+        "type": "city",
+        "name": "בדיקתית's City",
+        "user": "בדיקתית",
+        "level": 2,
+        "score": 100,
+        "lastLogin": 1768568082148,
+        "clanTag": "ISR",
+        "isMyCity": false
+      },
+      "54,89": {
+        "type": "city",
+        "name": "בדיקהנוספת's City",
+        "user": "בדיקהנוספת",
+        "level": 1,
+        "score": 100,
+        "lastLogin": 1768076445903,
+        "clanTag": null,
+        "isMyCity": false
+      }
+    },
+    "buildings": {
+      "townHall": {
+        "level": 1,
+        "name": "בית העירייה",
+        "costFactor": 1.5,
+        "baseCost": {
+          "wood": 50,
+          "marble": 0
+        },
+        "description": "מנהל את העיר והתושבים"
+      },
+      "academy": {
+        "level": 0,
+        "name": "אקדמיה",
+        "costFactor": 1.5,
+        "baseCost": {
+          "wood": 100,
+          "crystal": 50
+        },
+        "description": "מאפשר מחקר טכנולוגיות חדשות"
+      },
+      "warehouse": {
+        "level": 0,
+        "name": "מחסן",
+        "costFactor": 1.3,
+        "baseCost": {
+          "wood": 100,
+          "marble": 50
+        },
+        "description": "מגדיל את קיבולת המשאבים"
+      },
+      "barracks": {
+        "level": 0,
+        "name": "בסיס צבאי",
+        "costFactor": 1.5,
+        "baseCost": {
+          "wood": 150,
+          "marble": 50
+        },
+        "description": "מאפשר אימון חיילים שונים"
+      },
+      "port": {
+        "level": 0,
+        "name": "נמל מסחרי",
+        "costFactor": 1.4,
+        "baseCost": {
+          "wood": 200,
+          "marble": 100
+        },
+        "description": "מאפשר מסחר עם ערים אחרות"
+      },
+      "wall": {
+        "level": 0,
+        "name": "חומה",
+        "costFactor": 1.6,
+        "baseCost": {
+          "marble": 200,
+          "wood": 100
+        },
+        "description": "מגנה על העיר מפני התקפות"
+      },
+      "lumber": {
+        "level": 1,
+        "name": "מנסרה",
+        "costFactor": 1.5,
+        "baseCost": {
+          "wood": 50,
+          "gold": 50
+        },
+        "description": "מייצרת עצים לבנייה (Lumber)"
+      },
+      "mine": {
+        "level": 1,
+        "name": "מכרה",
+        "costFactor": 1.5,
+        "baseCost": {
+          "wood": 100,
+          "gold": 100
+        },
+        "description": "מכרה אבנים ומתכות יקרות"
+      }
+    },
+    "army": {
+      "spearman": 0,
+      "archer": 0,
+      "swordsman": 0
+    },
+    "research": {
+      "architecture": 0,
+      "weaponry": 0,
+      "defense": 0,
+      "logistics": 0
+    },
+    "timers": [],
+    "city": {
+      "population": 10,
+      "happiness": 100
+    },
+    "reports": [
+      {
+        "id": "mkihupuxwj14fmpwnb",
+        "timestamp": 1768665634665,
+        "read": false,
+        "type": "system",
+        "title": "ברוך הבא!",
+        "data": {
+          "loot": {}
+        }
+      }
+    ],
+    "missions": {
+      "daily": [
+        {
+          "id": "d_1768665634666_0",
+          "title": "אסוף משאבים (261)",
+          "type": "gather",
+          "target": 261,
+          "current": 0,
+          "reward": {
+            "gold": 522,
+            "wood": 261
+          },
+          "claimed": false
+        },
+        {
+          "id": "d_1768665634666_1",
+          "title": "אמן חיילים (13)",
+          "type": "train",
+          "target": 13,
+          "current": 0,
+          "reward": {
+            "gold": 26,
+            "wood": 13
+          },
+          "claimed": false
+        },
+        {
+          "id": "d_1768665634666_2",
+          "title": "שדרג מבנים (2)",
+          "type": "build",
+          "target": 2,
+          "current": 0,
+          "reward": {
+            "gold": 4,
+            "wood": 2
+          },
+          "claimed": false
+        }
+      ],
+      "weekly": [
+        {
+          "id": "w_1768665634666_0",
+          "title": "אתגר שבועי: תקוף אויבים (8)",
+          "type": "attack",
+          "target": 8,
+          "current": 0,
+          "reward": {
+            "gold": 24,
+            "wine": 0
+          },
+          "claimed": false
+        },
+        {
+          "id": "w_1768665634666_1",
+          "title": "אתגר שבועי: אסוף כמות גדולה (12551)",
+          "type": "gather",
+          "target": 12551,
+          "current": 0,
+          "reward": {
+            "gold": 37653,
+            "wine": 1255
+          },
+          "claimed": false
+        }
+      ],
+      "lastDailyReset": 1768665634666,
+      "lastWeeklyReset": 1768665634666
+    },
+    "lastLogin": 1768670550030
+  }
+}

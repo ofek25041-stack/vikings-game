@@ -1,0 +1,103 @@
+{
+  "username": "ביורן_המלך",
+  "password": "ai_player",
+  "state": {
+    "homeCoords": {
+      "x": 622,
+      "y": 872
+    },
+    "resources": {
+      "gold": 42000,
+      "wood": 26000,
+      "food": 21000,
+      "wine": 4200,
+      "marble": 2600,
+      "crystal": 1600,
+      "sulfur": 850
+    },
+    "buildings": {
+      "townHall": {
+        "level": 8
+      },
+      "barracks": {
+        "level": 6
+      },
+      "warehouse": {
+        "level": 5
+      },
+      "farm": {
+        "level": 7
+      },
+      "lumberMill": {
+        "level": 6
+      }
+    },
+    "army": {
+      "spearman": 260,
+      "archer": 130,
+      "swordsman": 65
+    },
+    "research": {},
+    "stats": {
+      "battles": 52,
+      "wins": 4,
+      "losses": 5
+    },
+    "city": {
+      "population": 1300,
+      "happiness": 90
+    },
+    "mapEntities": {
+      "622,872": {
+        "type": "city",
+        "name": "ביורן_המלך",
+        "user": "ביורן_המלך",
+        "level": 8,
+        "x": 622,
+        "y": 872,
+        "isMyCity": false,
+        "motto": "אין כבוד בלי קרב"
+      },
+      "605,890": {
+        "type": "farm",
+        "resource": "wine",
+        "name": "כרם ענבים",
+        "owner": "ביורן_המלך",
+        "level": 3,
+        "x": 605,
+        "y": 890
+      },
+      "635,855": {
+        "type": "farm",
+        "resource": "wine",
+        "name": "כרם ענבים",
+        "owner": "ביורן_המלך",
+        "level": 2,
+        "x": 635,
+        "y": 855
+      },
+      "637,887": {
+        "type": "wood",
+        "resource": "wood",
+        "name": "מחנה חוטבים",
+        "owner": "ביורן_המלך",
+        "level": 2,
+        "x": 637,
+        "y": 887
+      },
+      "602,852": {
+        "type": "wood",
+        "resource": "wood",
+        "name": "מחנה חוטבים",
+        "owner": "ביורן_המלך",
+        "level": 1,
+        "x": 602,
+        "y": 852
+      }
+    },
+    "lastLogin": 1768936444860,
+    "reports": [],
+    "chats": {},
+    "motto": "אין כבוד בלי קרב"
+  }
+}

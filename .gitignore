@@ -1,0 +1,45 @@
+# Dependencies
+node_modules/
+npm-debug.log
+package-lock.json
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+temp/
+
+# Build files (if any)
+dist/
+build/
+
+# Test files
+test.js
+test_*.js
+debug_*.js
+fix_*.js
+
+# Backup files
+*.bak
+*.backup
+
+# ngrok
+ngrok.exe
+cloudflared.exe

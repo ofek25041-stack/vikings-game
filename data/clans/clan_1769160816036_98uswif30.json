@@ -1,0 +1,599 @@
+{
+  "id": "clan_1769160816036_98uswif30",
+  "name": "Professional",
+  "tag": "PRO",
+  "description": "Winners israel",
+  "icon": "🏰",
+  "leader": "Ofek",
+  "members": {
+    "Ofek": {
+      "role": "leader",
+      "joinedAt": 1769160816036,
+      "contribution": {
+        "gold": 7900685647,
+        "wood": 550000,
+        "food": 600000
+      },
+      "lastSeen": 1769160816036
+    }
+  },
+  "treasury": {
+    "gold": 7900635647,
+    "wood": 520000,
+    "food": 600000,
+    "wine": 0,
+    "marble": 0,
+    "crystal": 0,
+    "sulfur": 0
+  },
+  "upgrades": {
+    "treasury": 1,
+    "militaryBonus": 0,
+    "economyBonus": 0
+  },
+  "stats": {
+    "totalMembers": 1,
+    "territories": 0,
+    "wins": 0,
+    "losses": 0
+  },
+  "messages": [
+    {
+      "id": "1769160831562_osyq054sp",
+      "sender": "system",
+      "text": "🏰 המבצר נבנה בהצלחה ב-(16, 21)!",
+      "timestamp": 1769160831562
+    }
+  ],
+  "invitations": {},
+  "applications": {},
+  "createdAt": 1769160816036,
+  "lastActivity": 1769160831562,
+  "deleted": false,
+  "fortress": {
+    "x": 16,
+    "y": 21,
+    "troops": {
+      "spearman": 93167,
+      "archer": 93627,
+      "swordsman": 93341,
+      "mountedRaider": 98019,
+      "heavyCavalry": 98011,
+      "mountedArcher": 98028,
+      "berserker": 98017,
+      "shieldWall": 98017,
+      "dualWielder": 98018,
+      "catapult": 98015,
+      "batteringRam": 98006,
+      "ballista": 5,
+      "axeman": 210000,
+      "cavalry": 210000,
+      "giantArcher": 100000
+    },
+    "resources": {
+      "gold": 0,
+      "wood": 0,
+      "food": 0
+    },
+    "createdAt": 1769160831552,
+    "deposits": {
+      "Ofek": {
+        "spearman": 97870,
+        "archer": 98554,
+        "swordsman": 98253,
+        "mountedRaider": 98019,
+        "heavyCavalry": 98011,
+        "mountedArcher": 98028,
+        "berserker": 98017,
+        "shieldWall": 98017,
+        "dualWielder": 98018,
+        "catapult": 98015,
+        "batteringRam": 98006,
+        "ballista": 5,
+        "axeman": 210000,
+        "cavalry": 210000,
+        "giantArcher": 100000
+      }
+    },
+    "attacks": [
+      {
+        "id": "1769712146458_uhixoraf8",
+        "target": {
+          "x": 75,
+          "y": 40,
+          "name": "TestMember's City",
+          "type": "city"
+        },
+        "attackPower": 4202895,
+        "defensePower": 0,
+        "troops": {
+          "spearman": 93167,
+          "archer": 93627,
+          "swordsman": 93341,
+          "mountedRaider": 98019,
+          "heavyCavalry": 98011,
+          "mountedArcher": 98028,
+          "berserker": 98017,
+          "shieldWall": 98017,
+          "dualWielder": 98018,
+          "catapult": 98015,
+          "batteringRam": 98006,
+          "ballista": 5,
+          "axeman": 210000,
+          "cavalry": 210000,
+          "giantArcher": 100000
+        },
+        "casualties": {
+          "attacker": {
+            "spearman": 0,
+            "archer": 0,
+            "swordsman": 0
+          },
+          "defender": {
+            "spearman": 0,
+            "archer": 0,
+            "swordsman": 0
+          }
+        },
+        "result": "victory",
+        "loot": {
+          "gold": 82,
+          "wood": 67,
+          "food": 10
+        },
+        "distribution": {
+          "Ofek": {
+            "gold": 86,
+            "wood": 70,
+            "food": 10
+          }
+        },
+        "timestamp": 1769712146458,
+        "leader": "Ofek"
+      },
+      {
+        "id": "1769711952641_ad0c0zqdd",
+        "target": {
+          "x": 67,
+          "y": 43,
+          "name": "Researcher's City",
+          "type": "city"
+        },
+        "attackPower": 4202895,
+        "defensePower": 0,
+        "troops": {
+          "spearman": 93167,
+          "archer": 93627,
+          "swordsman": 93341,
+          "mountedRaider": 98019,
+          "heavyCavalry": 98011,
+          "mountedArcher": 98028,
+          "berserker": 98017,
+          "shieldWall": 98017,
+          "dualWielder": 98018,
+          "catapult": 98015,
+          "batteringRam": 98006,
+          "ballista": 5,
+          "axeman": 210000,
+          "cavalry": 210000,
+          "giantArcher": 100000
+        },
+        "casualties": {
+          "attacker": {
+            "spearman": 0,
+            "archer": 0,
+            "swordsman": 0
+          },
+          "defender": {
+            "spearman": 0,
+            "archer": 0,
+            "swordsman": 0
+          }
+        },
+        "result": "victory",
+        "loot": {
+          "gold": 1336,
+          "wood": 464,
+          "food": 3
+        },
+        "distribution": {
+          "Ofek": {
+            "gold": 1403,
+            "wood": 487,
+            "food": 3
+          }
+        },
+        "timestamp": 1769711952641,
+        "leader": "Ofek"
+      },
+      {
+        "id": "1769711805694_pb50fxqz3",
+        "target": {
+          "x": 67,
+          "y": 43,
+          "name": "Researcher's City",
+          "type": "city"
+        },
+        "attackPower": 4202895,
+        "defensePower": 0,
+        "troops": {
+          "spearman": 93167,
+          "archer": 93627,
+          "swordsman": 93341,
+          "mountedRaider": 98019,
+          "heavyCavalry": 98011,
+          "mountedArcher": 98028,
+          "berserker": 98017,
+          "shieldWall": 98017,
+          "dualWielder": 98018,
+          "catapult": 98015,
+          "batteringRam": 98006,
+          "ballista": 5,
+          "axeman": 210000,
+          "cavalry": 210000,
+          "giantArcher": 100000
+        },
+        "casualties": {
+          "attacker": {
+            "spearman": 0,
+            "archer": 0,
+            "swordsman": 0
+          },
+          "defender": {
+            "spearman": 0,
+            "archer": 0,
+            "swordsman": 0
+          }
+        },
+        "result": "victory",
+        "loot": {
+          "gold": 1909,
+          "wood": 662,
+          "food": 3
+        },
+        "distribution": {
+          "Ofek": {
+            "gold": 2004,
+            "wood": 695,
+            "food": 3
+          }
+        },
+        "timestamp": 1769711805694,
+        "leader": "Ofek"
+      },
+      {
+        "id": "1769711385058_23vrdsd6w",
+        "target": {
+          "x": 67,
+          "y": 43,
+          "name": "Researcher's City",
+          "type": "city"
+        },
+        "attackPower": 4202895,
+        "defensePower": 0,
+        "troops": {
+          "spearman": 93167,
+          "archer": 93627,
+          "swordsman": 93341,
+          "mountedRaider": 98019,
+          "heavyCavalry": 98011,
+          "mountedArcher": 98028,
+          "berserker": 98017,
+          "shieldWall": 98017,
+          "dualWielder": 98018,
+          "catapult": 98015,
+          "batteringRam": 98006,
+          "ballista": 5,
+          "axeman": 210000,
+          "cavalry": 210000,
+          "giantArcher": 100000
+        },
+        "casualties": {
+          "attacker": {
+            "spearman": 0,
+            "archer": 0,
+            "swordsman": 0
+          },
+          "defender": {
+            "spearman": 0,
+            "archer": 0,
+            "swordsman": 0
+          }
+        },
+        "result": "victory",
+        "loot": {
+          "gold": 2727,
+          "wood": 946,
+          "food": 5
+        },
+        "distribution": {
+          "Ofek": {
+            "gold": 2864,
+            "wood": 993,
+            "food": 5
+          }
+        },
+        "timestamp": 1769711385058,
+        "leader": "Ofek"
+      },
+      {
+        "id": "1769711249125_pknyvj8ag",
+        "target": {
+          "x": 67,
+          "y": 43,
+          "name": "Researcher's City",
+          "type": "city"
+        },
+        "attackPower": 4202895,
+        "defensePower": 0,
+        "troops": {
+          "spearman": 93167,
+          "archer": 93627,
+          "swordsman": 93341,
+          "mountedRaider": 98019,
+          "heavyCavalry": 98011,
+          "mountedArcher": 98028,
+          "berserker": 98017,
+          "shieldWall": 98017,
+          "dualWielder": 98018,
+          "catapult": 98015,
+          "batteringRam": 98006,
+          "ballista": 5,
+          "axeman": 210000,
+          "cavalry": 210000,
+          "giantArcher": 100000
+        },
+        "casualties": {
+          "attacker": {
+            "spearman": 0,
+            "archer": 0,
+            "swordsman": 0
+          },
+          "defender": {
+            "spearman": 0,
+            "archer": 0,
+            "swordsman": 0
+          }
+        },
+        "result": "victory",
+        "loot": {
+          "gold": 3896,
+          "wood": 1351,
+          "food": 7
+        },
+        "distribution": {
+          "Ofek": {
+            "gold": 4091,
+            "wood": 1418,
+            "food": 7
+          }
+        },
+        "timestamp": 1769711249125,
+        "leader": "Ofek"
+      },
+      {
+        "id": "1769710786660_u2spg7iba",
+        "target": {
+          "x": 67,
+          "y": 43,
+          "name": "Researcher's City",
+          "type": "city"
+        },
+        "attackPower": 4202895,
+        "defensePower": 0,
+        "troops": {
+          "spearman": 93167,
+          "archer": 93627,
+          "swordsman": 93341,
+          "mountedRaider": 98019,
+          "heavyCavalry": 98011,
+          "mountedArcher": 98028,
+          "berserker": 98017,
+          "shieldWall": 98017,
+          "dualWielder": 98018,
+          "catapult": 98015,
+          "batteringRam": 98006,
+          "ballista": 5,
+          "axeman": 210000,
+          "cavalry": 210000,
+          "giantArcher": 100000
+        },
+        "casualties": {
+          "attacker": {
+            "spearman": 0,
+            "archer": 0,
+            "swordsman": 0
+          },
+          "defender": {
+            "spearman": 0,
+            "archer": 0,
+            "swordsman": 0
+          }
+        },
+        "result": "victory",
+        "loot": {
+          "gold": 5565,
+          "wood": 1930,
+          "food": 10
+        },
+        "distribution": {
+          "Ofek": {
+            "gold": 5844,
+            "wood": 2026,
+            "food": 10
+          }
+        },
+        "timestamp": 1769710786660,
+        "leader": "Ofek"
+      },
+      {
+        "id": "1769710009166_mwevpxh3m",
+        "target": {
+          "x": 67,
+          "y": 43,
+          "name": "Researcher's City",
+          "type": "city"
+        },
+        "attackPower": 4202895,
+        "defensePower": 0,
+        "troops": {
+          "spearman": 93167,
+          "archer": 93627,
+          "swordsman": 93341,
+          "mountedRaider": 98019,
+          "heavyCavalry": 98011,
+          "mountedArcher": 98028,
+          "berserker": 98017,
+          "shieldWall": 98017,
+          "dualWielder": 98018,
+          "catapult": 98015,
+          "batteringRam": 98006,
+          "ballista": 5,
+          "axeman": 210000,
+          "cavalry": 210000,
+          "giantArcher": 100000
+        },
+        "casualties": {
+          "attacker": {
+            "spearman": 0,
+            "archer": 0,
+            "swordsman": 0
+          },
+          "defender": {
+            "spearman": 0,
+            "archer": 0,
+            "swordsman": 0
+          }
+        },
+        "result": "victory",
+        "loot": {
+          "gold": 7950,
+          "wood": 2757,
+          "food": 14
+        },
+        "distribution": {
+          "Ofek": {
+            "gold": 8349,
+            "wood": 2895,
+            "food": 14
+          }
+        },
+        "timestamp": 1769710009166,
+        "leader": "Ofek"
+      },
+      {
+        "id": "1769709597560_n1s57db5g",
+        "target": {
+          "x": 37,
+          "y": 45,
+          "name": "TestUserNew's City",
+          "type": "city"
+        },
+        "attackPower": 4202895,
+        "defensePower": 0,
+        "troops": {
+          "spearman": 93167,
+          "archer": 93627,
+          "swordsman": 93341,
+          "mountedRaider": 98019,
+          "heavyCavalry": 98011,
+          "mountedArcher": 98028,
+          "berserker": 98017,
+          "shieldWall": 98017,
+          "dualWielder": 98018,
+          "catapult": 98015,
+          "batteringRam": 98006,
+          "ballista": 5,
+          "axeman": 210000,
+          "cavalry": 210000,
+          "giantArcher": 100000
+        },
+        "casualties": {
+          "attacker": {
+            "spearman": 0,
+            "archer": 0,
+            "swordsman": 0
+          },
+          "defender": {
+            "spearman": 0,
+            "archer": 0,
+            "swordsman": 0
+          }
+        },
+        "result": "victory",
+        "loot": {
+          "gold": 6323,
+          "wood": 2183,
+          "food": 10
+        },
+        "distribution": {
+          "Ofek": {
+            "gold": 6655,
+            "wood": 2297,
+            "food": 10
+          }
+        },
+        "timestamp": 1769709597560,
+        "leader": "Ofek"
+      },
+      {
+        "id": "1769174986260_2mclieuir",
+        "target": {
+          "x": 55,
+          "y": 38,
+          "name": "TestBoss's City",
+          "type": "city"
+        },
+        "attackPower": 4424070,
+        "defensePower": 375,
+        "troops": {
+          "spearman": 93167,
+          "archer": 93627,
+          "swordsman": 93341,
+          "mountedRaider": 98019,
+          "heavyCavalry": 98011,
+          "mountedArcher": 98028,
+          "berserker": 98017,
+          "shieldWall": 98017,
+          "dualWielder": 98018,
+          "catapult": 98015,
+          "batteringRam": 98006,
+          "ballista": 5,
+          "axeman": 210000,
+          "cavalry": 210000,
+          "giantArcher": 100000
+        },
+        "casualties": {
+          "attacker": {
+            "spearman": 4903,
+            "archer": 4927,
+            "swordsman": 4912
+          },
+          "defender": {
+            "spearman": 0,
+            "archer": 23,
+            "swordsman": 0
+          }
+        },
+        "result": "victory",
+        "loot": {
+          "gold": 2800744,
+          "wood": 605,
+          "food": 0
+        },
+        "distribution": {
+          "Ofek": {
+            "gold": 2800744,
+            "wood": 605,
+            "food": 0
+          }
+        },
+        "timestamp": 1769174986260,
+        "leader": "Ofek"
+      }
+    ],
+    "garrison": {
+      "spearman": 1584
+    }
+  }
+}

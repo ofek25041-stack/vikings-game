@@ -1,0 +1,103 @@
+{
+  "username": "תורסטן_החכם",
+  "password": "ai_player",
+  "state": {
+    "homeCoords": {
+      "x": 641,
+      "y": 110
+    },
+    "resources": {
+      "gold": 48000,
+      "wood": 34000,
+      "food": 28000,
+      "wine": 6000,
+      "marble": 3800,
+      "crystal": 2400,
+      "sulfur": 1100
+    },
+    "buildings": {
+      "townHall": {
+        "level": 7
+      },
+      "barracks": {
+        "level": 5
+      },
+      "warehouse": {
+        "level": 4
+      },
+      "farm": {
+        "level": 6
+      },
+      "lumberMill": {
+        "level": 5
+      }
+    },
+    "army": {
+      "spearman": 240,
+      "archer": 120,
+      "swordsman": 60
+    },
+    "research": {},
+    "stats": {
+      "battles": 57,
+      "wins": 35,
+      "losses": 1
+    },
+    "city": {
+      "population": 1200,
+      "happiness": 82
+    },
+    "mapEntities": {
+      "641,110": {
+        "type": "city",
+        "name": "תורסטן_החכם",
+        "user": "תורסטן_החכם",
+        "level": 7,
+        "x": 641,
+        "y": 110,
+        "isMyCity": false,
+        "motto": "תכנון הוא המפתח"
+      },
+      "646,114": {
+        "type": "farm",
+        "resource": "wine",
+        "name": "כרם ענבים",
+        "owner": "תורסטן_החכם",
+        "level": 2,
+        "x": 646,
+        "y": 114
+      },
+      "632,112": {
+        "type": "wood",
+        "resource": "wood",
+        "name": "מחנה חוטבים",
+        "owner": "תורסטן_החכם",
+        "level": 3,
+        "x": 632,
+        "y": 112
+      },
+      "650,115": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "owner": "תורסטן_החכם",
+        "level": 2,
+        "x": 650,
+        "y": 115
+      },
+      "648,91": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "owner": "תורסטן_החכם",
+        "level": 1,
+        "x": 648,
+        "y": 91
+      }
+    },
+    "lastLogin": 1768936444862,
+    "reports": [],
+    "chats": {},
+    "motto": "תכנון הוא המפתח"
+  }
+}

@@ -1,0 +1,121 @@
+{
+  "username": "רגנר_הפורע",
+  "password": "ai_player",
+  "state": {
+    "homeCoords": {
+      "x": 421,
+      "y": 772
+    },
+    "resources": {
+      "gold": 45000,
+      "wood": 28000,
+      "food": 23000,
+      "wine": 4500,
+      "marble": 2800,
+      "crystal": 1800,
+      "sulfur": 900
+    },
+    "buildings": {
+      "townHall": {
+        "level": 9
+      },
+      "barracks": {
+        "level": 7
+      },
+      "warehouse": {
+        "level": 6
+      },
+      "farm": {
+        "level": 8
+      },
+      "lumberMill": {
+        "level": 7
+      }
+    },
+    "army": {
+      "spearman": 280,
+      "archer": 140,
+      "swordsman": 70
+    },
+    "research": {},
+    "stats": {
+      "battles": 47,
+      "wins": 39,
+      "losses": 21
+    },
+    "city": {
+      "population": 1400,
+      "happiness": 86
+    },
+    "mapEntities": {
+      "421,772": {
+        "type": "city",
+        "name": "רגנר_הפורע",
+        "user": "רגנר_הפורע",
+        "level": 9,
+        "x": 421,
+        "y": 772,
+        "isMyCity": false,
+        "motto": "כל הארץ תהיה שלי"
+      },
+      "435,757": {
+        "type": "wood",
+        "resource": "wood",
+        "name": "מחנה חוטבים",
+        "owner": "רגנר_הפורע",
+        "level": 3,
+        "x": 435,
+        "y": 757
+      },
+      "410,775": {
+        "type": "farm",
+        "resource": "wine",
+        "name": "כרם ענבים",
+        "owner": "רגנר_הפורע",
+        "level": 1,
+        "x": 410,
+        "y": 775
+      },
+      "414,771": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "owner": "רגנר_הפורע",
+        "level": 2,
+        "x": 414,
+        "y": 771
+      },
+      "414,759": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "owner": "רגנר_הפורע",
+        "level": 3,
+        "x": 414,
+        "y": 759
+      }
+    },
+    "lastLogin": 1768936444859,
+    "reports": [
+      {
+        "id": "mkogds2z4q0s3qq2bkt",
+        "type": "clan_invite",
+        "from": "Ofek",
+        "clanId": "clan_1769025793466_7k8i2wm21",
+        "clanName": "God",
+        "clanTag": "GOD",
+        "timestamp": 1769025961835,
+        "read": false,
+        "title": "הזמנה לקלאן [GOD] God",
+        "data": {
+          "from": "Ofek",
+          "clanId": "clan_1769025793466_7k8i2wm21",
+          "clanName": "God",
+          "clanTag": "GOD"
+        }
+      }
+    ],
+    "chats": {},
+    "motto": "כל הארץ תהיה שלי"
+  }
+}

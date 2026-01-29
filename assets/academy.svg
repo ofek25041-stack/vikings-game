@@ -1,0 +1,38 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="marble" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#f5f5f5;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#e5e5e5;stop-opacity:1" />
+    </linearGradient>
+    <radialGradient id="domeBlue" cx="30%" cy="30%" r="60%">
+      <stop offset="0%" style="stop-color:#93c5fd;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1d4ed8;stop-opacity:1" />
+    </radialGradient>
+    <filter id="glow">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <g transform="translate(100, 150)">
+    <!-- Base Cylinder -->
+    <path d="M0 0 L-50 -20 L-50 -70 L0 -50 Z" fill="#e5e5e5" />
+    <path d="M0 0 L50 -20 L50 -70 L0 -50 Z" fill="#d4d4d4" />
+    
+    <!-- Entrance Arch -->
+    <path d="M-10 -10 L10 -20 L10 -50 L-10 -40 Z" fill="#404040" transform="translate(0, -10)" />
+
+    <!-- Dome Base Ring -->
+    <ellipse cx="0" cy="-60" rx="55" ry="25" fill="#94a3b8" />
+    
+    <!-- Dome -->
+    <path d="M-45 -65 A 45 45 0 0 1 45 -65 L 45 -60 A 45 20 0 0 1 -45 -60 Z" fill="url(#domeBlue)" stroke="#1e3a8a" stroke-width="1"/>
+    
+    <!-- Magical Top -->
+    <circle cx="0" cy="-110" r="5" fill="#60a5fa" filter="url(#glow)" />
+    <line x1="0" y1="-110" x2="0" y2="-90" stroke="#cbd5e1" stroke-width="2" />
+  </g>
+</svg>

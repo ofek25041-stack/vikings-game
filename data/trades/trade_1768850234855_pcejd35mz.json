@@ -1,0 +1,15 @@
+{
+  "id": "trade_1768850234855_pcejd35mz",
+  "seller": "אופק",
+  "offering": {
+    "gold": 10000
+  },
+  "requesting": {
+    "food": 100
+  },
+  "status": "completed",
+  "createdAt": 1768850234855,
+  "expiresAt": 1768936634855,
+  "acceptedBy": "בדיקתית",
+  "completedAt": 1768850442448
+}

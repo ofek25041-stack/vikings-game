@@ -1,0 +1,103 @@
+{
+  "username": "אייריק_האדום",
+  "password": "ai_player",
+  "state": {
+    "homeCoords": {
+      "x": 517,
+      "y": 479
+    },
+    "resources": {
+      "gold": 50000,
+      "wood": 32000,
+      "food": 28000,
+      "wine": 6000,
+      "marble": 3500,
+      "crystal": 2200,
+      "sulfur": 1000
+    },
+    "buildings": {
+      "townHall": {
+        "level": 9
+      },
+      "barracks": {
+        "level": 7
+      },
+      "warehouse": {
+        "level": 6
+      },
+      "farm": {
+        "level": 8
+      },
+      "lumberMill": {
+        "level": 7
+      }
+    },
+    "army": {
+      "spearman": 280,
+      "archer": 140,
+      "swordsman": 70
+    },
+    "research": {},
+    "stats": {
+      "battles": 57,
+      "wins": 12,
+      "losses": 9
+    },
+    "city": {
+      "population": 1400,
+      "happiness": 83
+    },
+    "mapEntities": {
+      "517,479": {
+        "type": "city",
+        "name": "אייריק_האדום",
+        "user": "אייריק_האדום",
+        "level": 9,
+        "x": 517,
+        "y": 479,
+        "isMyCity": false,
+        "motto": "איזון הוא המפתח"
+      },
+      "514,476": {
+        "type": "farm",
+        "resource": "wine",
+        "name": "כרם ענבים",
+        "owner": "אייריק_האדום",
+        "level": 2,
+        "x": 514,
+        "y": 476
+      },
+      "500,477": {
+        "type": "wood",
+        "resource": "wood",
+        "name": "מחנה חוטבים",
+        "owner": "אייריק_האדום",
+        "level": 2,
+        "x": 500,
+        "y": 477
+      },
+      "527,482": {
+        "type": "wood",
+        "resource": "wood",
+        "name": "מחנה חוטבים",
+        "owner": "אייריק_האדום",
+        "level": 3,
+        "x": 527,
+        "y": 482
+      },
+      "527,464": {
+        "type": "farm",
+        "resource": "wine",
+        "name": "כרם ענבים",
+        "owner": "אייריק_האדום",
+        "level": 2,
+        "x": 527,
+        "y": 464
+      }
+    },
+    "lastLogin": 1768936444862,
+    "reports": [],
+    "chats": {},
+    "motto": "איזון הוא המפתח"
+  }
+}

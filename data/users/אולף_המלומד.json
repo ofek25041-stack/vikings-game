@@ -1,0 +1,140 @@
+{
+  "username": "אולף_המלומד",
+  "password": "ai_player",
+  "state": {
+    "homeCoords": {
+      "x": 701,
+      "y": 439
+    },
+    "resources": {
+      "gold": 58000,
+      "wood": 39000,
+      "food": 34000,
+      "wine": 7500,
+      "marble": 4800,
+      "crystal": 2900,
+      "sulfur": 1400
+    },
+    "buildings": {
+      "townHall": {
+        "level": 10
+      },
+      "barracks": {
+        "level": 8
+      },
+      "warehouse": {
+        "level": 7
+      },
+      "farm": {
+        "level": 9
+      },
+      "lumberMill": {
+        "level": 8
+      }
+    },
+    "army": {
+      "spearman": 300,
+      "archer": 150,
+      "swordsman": 75
+    },
+    "research": {},
+    "stats": {
+      "battles": 22,
+      "wins": 33,
+      "losses": 11
+    },
+    "city": {
+      "population": 1500,
+      "happiness": 86
+    },
+    "mapEntities": {
+      "701,439": {
+        "type": "city",
+        "name": "אולף_המלומד",
+        "user": "אולף_המלומד",
+        "level": 10,
+        "x": 701,
+        "y": 439,
+        "isMyCity": false,
+        "motto": "חכמה עדיפה על כוח"
+      },
+      "682,456": {
+        "type": "farm",
+        "resource": "wine",
+        "name": "כרם ענבים",
+        "owner": "אולף_המלומד",
+        "level": 3,
+        "x": 682,
+        "y": 456
+      },
+      "701,454": {
+        "type": "wood",
+        "resource": "wood",
+        "name": "מחנה חוטבים",
+        "owner": "אולף_המלומד",
+        "level": 3,
+        "x": 701,
+        "y": 454
+      },
+      "706,441": {
+        "type": "farm",
+        "resource": "wine",
+        "name": "כרם ענבים",
+        "owner": "אולף_המלומד",
+        "level": 2,
+        "x": 706,
+        "y": 441
+      },
+      "701,432": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "owner": "אולף_המלומד",
+        "level": 2,
+        "x": 701,
+        "y": 432
+      },
+      "705,421": {
+        "type": "farm",
+        "resource": "wine",
+        "name": "כרם ענבים",
+        "owner": "אולף_המלומד",
+        "level": 1,
+        "x": 705,
+        "y": 421
+      }
+    },
+    "lastLogin": 1768936444861,
+    "reports": [
+      {
+        "id": "mkogdlhvyirlkw67c1a",
+        "type": "clan_invite",
+        "from": "Ofek",
+        "clanId": "clan_1769025793466_7k8i2wm21",
+        "clanName": "God",
+        "clanTag": "GOD",
+        "timestamp": 1769025953299,
+        "read": false,
+        "title": "הזמנה לקלאן [GOD] God",
+        "data": {
+          "from": "Ofek",
+          "clanId": "clan_1769025793466_7k8i2wm21",
+          "clanName": "God",
+          "clanTag": "GOD"
+        }
+      }
+    ],
+    "chats": {
+      "Ofek": [
+        {
+          "id": "mkogdcvaha99c9rd7tk",
+          "from": "Ofek",
+          "to": "אולף_המלומד",
+          "timestamp": 1769025942118,
+          "content": "היי"
+        }
+      ]
+    },
+    "motto": "חכמה עדיפה על כוח"
+  }
+}

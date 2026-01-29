@@ -1,0 +1,2608 @@
+{
+  "username": "Ofek",
+  "password": "1234",
+  "state": {
+    "resources": {
+      "gold": 17406126.10000992,
+      "wood": 276860,
+      "food": 156950.41111111682,
+      "wine": 878083,
+      "marble": 89465,
+      "crystal": 178611,
+      "sulfur": 90018,
+      "citizens": 1650
+    },
+    "stats": {
+      "battles": 14,
+      "wins": 7,
+      "losses": 7
+    },
+    "viewport": {
+      "x": 68,
+      "y": 40
+    },
+    "homeCoords": {
+      "x": 68,
+      "y": 40
+    },
+    "mapEntities": {
+      "56,36": {
+        "type": "farm",
+        "resource": "wine",
+        "name": "כרם ענבים",
+        "level": 3,
+        "owner": "TestBoss",
+        "user": "TestBoss",
+        "garrison": {
+          "units": {
+            "archer": 95
+          },
+          "total": 95
+        }
+      },
+      "46,26": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "level": 1,
+        "owner": "TestBoss",
+        "user": "TestBoss",
+        "garrison": {
+          "units": {
+            "archer": 380
+          },
+          "total": 380
+        }
+      },
+      "660,430": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "owner": "אודין_השליט",
+        "level": 3,
+        "x": 660,
+        "y": 430
+      },
+      "638,460": {
+        "type": "wood",
+        "resource": "wood",
+        "name": "מחנה חוטבים",
+        "owner": "אודין_השליט",
+        "level": 1,
+        "x": 638,
+        "y": 460
+      },
+      "661,437": {
+        "type": "wood",
+        "resource": "wood",
+        "name": "מחנה חוטבים",
+        "owner": "אודין_השליט",
+        "level": 3,
+        "x": 661,
+        "y": 437
+      },
+      "635,430": {
+        "type": "farm",
+        "resource": "wine",
+        "name": "כרם ענבים",
+        "owner": "אודין_השליט",
+        "level": 1,
+        "x": 635,
+        "y": 430
+      },
+      "656,460": {
+        "type": "wood",
+        "resource": "wood",
+        "name": "מחנה חוטבים",
+        "owner": "אודין_השליט",
+        "level": 1,
+        "x": 656,
+        "y": 460
+      },
+      "682,456": {
+        "type": "farm",
+        "resource": "wine",
+        "name": "כרם ענבים",
+        "owner": "אולף_המלומד",
+        "level": 3,
+        "x": 682,
+        "y": 456
+      },
+      "701,454": {
+        "type": "wood",
+        "resource": "wood",
+        "name": "מחנה חוטבים",
+        "owner": "אולף_המלומד",
+        "level": 3,
+        "x": 701,
+        "y": 454
+      },
+      "706,441": {
+        "type": "farm",
+        "resource": "wine",
+        "name": "כרם ענבים",
+        "owner": "אולף_המלומד",
+        "level": 2,
+        "x": 706,
+        "y": 441
+      },
+      "701,432": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "owner": "אולף_המלומד",
+        "level": 2,
+        "x": 701,
+        "y": 432
+      },
+      "705,421": {
+        "type": "farm",
+        "resource": "wine",
+        "name": "כרם ענבים",
+        "owner": "אולף_המלומד",
+        "level": 1,
+        "x": 705,
+        "y": 421
+      },
+      "616,857": {
+        "type": "farm",
+        "resource": "wine",
+        "name": "כרם ענבים",
+        "owner": "אייבר_חסר_העצמות",
+        "level": 2,
+        "x": 616,
+        "y": 857
+      },
+      "582,856": {
+        "type": "wood",
+        "resource": "wood",
+        "name": "מחנה חוטבים",
+        "owner": "אייבר_חסר_העצמות",
+        "level": 1,
+        "x": 582,
+        "y": 856
+      },
+      "594,860": {
+        "type": "farm",
+        "resource": "wine",
+        "name": "כרם ענבים",
+        "owner": "אייבר_חסר_העצמות",
+        "level": 3,
+        "x": 594,
+        "y": 860
+      },
+      "514,476": {
+        "type": "farm",
+        "resource": "wine",
+        "name": "כרם ענבים",
+        "owner": "אייריק_האדום",
+        "level": 2,
+        "x": 514,
+        "y": 476
+      },
+      "500,477": {
+        "type": "wood",
+        "resource": "wood",
+        "name": "מחנה חוטבים",
+        "owner": "אייריק_האדום",
+        "level": 2,
+        "x": 500,
+        "y": 477
+      },
+      "527,482": {
+        "type": "wood",
+        "resource": "wood",
+        "name": "מחנה חוטבים",
+        "owner": "אייריק_האדום",
+        "level": 3,
+        "x": 527,
+        "y": 482
+      },
+      "527,464": {
+        "type": "farm",
+        "resource": "wine",
+        "name": "כרם ענבים",
+        "owner": "אייריק_האדום",
+        "level": 2,
+        "x": 527,
+        "y": 464
+      },
+      "172,377": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "owner": "אסטריד_החזקה",
+        "level": 3,
+        "x": 172,
+        "y": 377
+      },
+      "166,354": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "owner": "אסטריד_החזקה",
+        "level": 3,
+        "x": 166,
+        "y": 354
+      },
+      "155,349": {
+        "type": "farm",
+        "resource": "wine",
+        "name": "כרם ענבים",
+        "owner": "אסטריד_החזקה",
+        "level": 3,
+        "x": 155,
+        "y": 349
+      },
+      "156,344": {
+        "type": "farm",
+        "resource": "wine",
+        "name": "כרם ענבים",
+        "owner": "אסטריד_החזקה",
+        "level": 3,
+        "x": 156,
+        "y": 344
+      },
+      "605,890": {
+        "type": "farm",
+        "resource": "wine",
+        "name": "כרם ענבים",
+        "owner": "ביורן_המלך",
+        "level": 3,
+        "x": 605,
+        "y": 890
+      },
+      "635,855": {
+        "type": "farm",
+        "resource": "wine",
+        "name": "כרם ענבים",
+        "owner": "ביורן_המלך",
+        "level": 2,
+        "x": 635,
+        "y": 855
+      },
+      "637,887": {
+        "type": "wood",
+        "resource": "wood",
+        "name": "מחנה חוטבים",
+        "owner": "ביורן_המלך",
+        "level": 2,
+        "x": 637,
+        "y": 887
+      },
+      "602,852": {
+        "type": "wood",
+        "resource": "wood",
+        "name": "מחנה חוטבים",
+        "owner": "ביורן_המלך",
+        "level": 1,
+        "x": 602,
+        "y": 852
+      },
+      "373,428": {
+        "type": "farm",
+        "resource": "wine",
+        "name": "כרם ענבים",
+        "owner": "גונהילד_העשירה",
+        "level": 3,
+        "x": 373,
+        "y": 428
+      },
+      "360,429": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "owner": "גונהילד_העשירה",
+        "level": 1,
+        "x": 360,
+        "y": 429
+      },
+      "384,437": {
+        "type": "wood",
+        "resource": "wood",
+        "name": "מחנה חוטבים",
+        "owner": "גונהילד_העשירה",
+        "level": 2,
+        "x": 384,
+        "y": 437
+      },
+      "364,441": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "owner": "גונהילד_העשירה",
+        "level": 3,
+        "x": 364,
+        "y": 441
+      },
+      "439,796": {
+        "type": "farm",
+        "resource": "wine",
+        "name": "כרם ענבים",
+        "owner": "הראלד_הכחול",
+        "level": 1,
+        "x": 439,
+        "y": 796
+      },
+      "419,823": {
+        "type": "wood",
+        "resource": "wood",
+        "name": "מחנה חוטבים",
+        "owner": "הראלד_הכחול",
+        "level": 1,
+        "x": 419,
+        "y": 823
+      },
+      "452,798": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "owner": "הראלד_הכחול",
+        "level": 1,
+        "x": 452,
+        "y": 798
+      },
+      "433,809": {
+        "type": "farm",
+        "resource": "wine",
+        "name": "כרם ענבים",
+        "owner": "הראלד_הכחול",
+        "level": 3,
+        "x": 433,
+        "y": 809
+      },
+      "447,811": {
+        "type": "wood",
+        "resource": "wood",
+        "name": "מחנה חוטבים",
+        "owner": "הראלד_הכחול",
+        "level": 3,
+        "x": 447,
+        "y": 811
+      },
+      "485,542": {
+        "type": "wood",
+        "resource": "wood",
+        "name": "מחנה חוטבים",
+        "owner": "הרלד_הסוחר",
+        "level": 1,
+        "x": 485,
+        "y": 542
+      },
+      "482,517": {
+        "type": "wood",
+        "resource": "wood",
+        "name": "מחנה חוטבים",
+        "owner": "הרלד_הסוחר",
+        "level": 3,
+        "x": 482,
+        "y": 517
+      },
+      "489,540": {
+        "type": "farm",
+        "resource": "wine",
+        "name": "כרם ענבים",
+        "owner": "הרלד_הסוחר",
+        "level": 3,
+        "x": 489,
+        "y": 540
+      },
+      "496,539": {
+        "type": "wood",
+        "resource": "wood",
+        "name": "מחנה חוטבים",
+        "owner": "הרלד_הסוחר",
+        "level": 2,
+        "x": 496,
+        "y": 539
+      },
+      "488,516": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "owner": "הרלד_הסוחר",
+        "level": 1,
+        "x": 488,
+        "y": 516
+      },
+      "274,307": {
+        "type": "wood",
+        "resource": "wood",
+        "name": "מחנה חוטבים",
+        "owner": "יורוק_האחד",
+        "level": 1,
+        "x": 274,
+        "y": 307
+      },
+      "265,298": {
+        "type": "wood",
+        "resource": "wood",
+        "name": "מחנה חוטבים",
+        "owner": "יורוק_האחד",
+        "level": 3,
+        "x": 265,
+        "y": 298
+      },
+      "286,311": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "owner": "יורוק_האחד",
+        "level": 3,
+        "x": 286,
+        "y": 311
+      },
+      "290,312": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "owner": "יורוק_האחד",
+        "level": 3,
+        "x": 290,
+        "y": 312
+      },
+      "799,705": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "owner": "לגרתה_המלכה",
+        "level": 2,
+        "x": 799,
+        "y": 705
+      },
+      "801,680": {
+        "type": "wood",
+        "resource": "wood",
+        "name": "מחנה חוטבים",
+        "owner": "לגרתה_המלכה",
+        "level": 3,
+        "x": 801,
+        "y": 680
+      },
+      "787,712": {
+        "type": "wood",
+        "resource": "wood",
+        "name": "מחנה חוטבים",
+        "owner": "לגרתה_המלכה",
+        "level": 1,
+        "x": 787,
+        "y": 712
+      },
+      "793,695": {
+        "type": "wood",
+        "resource": "wood",
+        "name": "מחנה חוטבים",
+        "owner": "לגרתה_המלכה",
+        "level": 2,
+        "x": 793,
+        "y": 695
+      },
+      "887,250": {
+        "type": "wood",
+        "resource": "wood",
+        "name": "מחנה חוטבים",
+        "owner": "נמרוד_הכובש",
+        "level": 2,
+        "x": 887,
+        "y": 250
+      },
+      "911,232": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "owner": "נמרוד_הכובש",
+        "level": 1,
+        "x": 911,
+        "y": 232
+      },
+      "891,220": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "owner": "נמרוד_הכובש",
+        "level": 2,
+        "x": 891,
+        "y": 220
+      },
+      "892,235": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "owner": "נמרוד_הכובש",
+        "level": 2,
+        "x": 892,
+        "y": 235
+      },
+      "878,247": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "owner": "נמרוד_הכובש",
+        "level": 1,
+        "x": 878,
+        "y": 247
+      },
+      "592,836": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "owner": "סיגורד_האכזר",
+        "level": 1,
+        "x": 592,
+        "y": 836
+      },
+      "577,815": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "owner": "סיגורד_האכזר",
+        "level": 1,
+        "x": 577,
+        "y": 815
+      },
+      "585,838": {
+        "type": "farm",
+        "resource": "wine",
+        "name": "כרם ענבים",
+        "owner": "סיגורד_האכזר",
+        "level": 2,
+        "x": 585,
+        "y": 838
+      },
+      "574,839": {
+        "type": "wood",
+        "resource": "wood",
+        "name": "מחנה חוטבים",
+        "owner": "סיגורד_האכזר",
+        "level": 2,
+        "x": 574,
+        "y": 839
+      },
+      "294,253": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "owner": "פלוקי_הבונה",
+        "level": 2,
+        "x": 294,
+        "y": 253
+      },
+      "304,283": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "owner": "פלוקי_הבונה",
+        "level": 3,
+        "x": 304,
+        "y": 283
+      },
+      "288,289": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "owner": "פלוקי_הבונה",
+        "level": 1,
+        "x": 288,
+        "y": 289
+      },
+      "314,274": {
+        "type": "wood",
+        "resource": "wood",
+        "name": "מחנה חוטבים",
+        "owner": "פלוקי_הבונה",
+        "level": 1,
+        "x": 314,
+        "y": 274
+      },
+      "418,248": {
+        "type": "wood",
+        "resource": "wood",
+        "name": "מחנה חוטבים",
+        "owner": "פרגיה_האמיצה",
+        "level": 2,
+        "x": 418,
+        "y": 248
+      },
+      "450,230": {
+        "type": "wood",
+        "resource": "wood",
+        "name": "מחנה חוטבים",
+        "owner": "פרגיה_האמיצה",
+        "level": 1,
+        "x": 450,
+        "y": 230
+      },
+      "423,231": {
+        "type": "farm",
+        "resource": "wine",
+        "name": "כרם ענבים",
+        "owner": "פרגיה_האמיצה",
+        "level": 3,
+        "x": 423,
+        "y": 231
+      },
+      "446,228": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "owner": "פרגיה_האמיצה",
+        "level": 1,
+        "x": 446,
+        "y": 228
+      },
+      "412,864": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "owner": "פרייה_הבונה",
+        "level": 2,
+        "x": 412,
+        "y": 864
+      },
+      "421,881": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "owner": "פרייה_הבונה",
+        "level": 1,
+        "x": 421,
+        "y": 881
+      },
+      "419,861": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "owner": "פרייה_הבונה",
+        "level": 3,
+        "x": 419,
+        "y": 861
+      },
+      "416,870": {
+        "type": "wood",
+        "resource": "wood",
+        "name": "מחנה חוטבים",
+        "owner": "פרייה_הבונה",
+        "level": 2,
+        "x": 416,
+        "y": 870
+      },
+      "201,796": {
+        "type": "wood",
+        "resource": "wood",
+        "name": "מחנה חוטבים",
+        "owner": "קטגט_המגן",
+        "level": 3,
+        "x": 201,
+        "y": 796
+      },
+      "195,811": {
+        "type": "farm",
+        "resource": "wine",
+        "name": "כרם ענבים",
+        "owner": "קטגט_המגן",
+        "level": 3,
+        "x": 195,
+        "y": 811
+      },
+      "173,807": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "owner": "קטגט_המגן",
+        "level": 1,
+        "x": 173,
+        "y": 807
+      },
+      "191,817": {
+        "type": "farm",
+        "resource": "wine",
+        "name": "כרם ענבים",
+        "owner": "קטגט_המגן",
+        "level": 2,
+        "x": 191,
+        "y": 817
+      },
+      "435,757": {
+        "type": "wood",
+        "resource": "wood",
+        "name": "מחנה חוטבים",
+        "owner": "רגנר_הפורע",
+        "level": 3,
+        "x": 435,
+        "y": 757
+      },
+      "410,775": {
+        "type": "farm",
+        "resource": "wine",
+        "name": "כרם ענבים",
+        "owner": "רגנר_הפורע",
+        "level": 1,
+        "x": 410,
+        "y": 775
+      },
+      "414,771": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "owner": "רגנר_הפורע",
+        "level": 2,
+        "x": 414,
+        "y": 771
+      },
+      "414,759": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "owner": "רגנר_הפורע",
+        "level": 3,
+        "x": 414,
+        "y": 759
+      },
+      "814,537": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "owner": "רולו_הצפוני",
+        "level": 1,
+        "x": 814,
+        "y": 537
+      },
+      "840,534": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "owner": "רולו_הצפוני",
+        "level": 1,
+        "x": 840,
+        "y": 534
+      },
+      "817,514": {
+        "type": "farm",
+        "resource": "wine",
+        "name": "כרם ענבים",
+        "owner": "רולו_הצפוני",
+        "level": 1,
+        "x": 817,
+        "y": 514
+      },
+      "825,536": {
+        "type": "farm",
+        "resource": "wine",
+        "name": "כרם ענבים",
+        "owner": "רולו_הצפוני",
+        "level": 3,
+        "x": 825,
+        "y": 536
+      },
+      "646,114": {
+        "type": "farm",
+        "resource": "wine",
+        "name": "כרם ענבים",
+        "owner": "תורסטן_החכם",
+        "level": 2,
+        "x": 646,
+        "y": 114
+      },
+      "632,112": {
+        "type": "wood",
+        "resource": "wood",
+        "name": "מחנה חוטבים",
+        "owner": "תורסטן_החכם",
+        "level": 3,
+        "x": 632,
+        "y": 112
+      },
+      "650,115": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "owner": "תורסטן_החכם",
+        "level": 2,
+        "x": 650,
+        "y": 115
+      },
+      "648,91": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "owner": "תורסטן_החכם",
+        "level": 1,
+        "x": 648,
+        "y": 91
+      },
+      "39,42": {
+        "type": "fortress",
+        "name": "Winners Israel Fortress",
+        "clanId": "clan_1768412047124_hkrks1yml",
+        "clanName": "Winners Israel",
+        "clanTag": "ISR",
+        "fortressX": 39,
+        "fortressY": 42,
+        "isCenter": true
+      },
+      "39,43": {
+        "type": "fortress",
+        "name": "Winners Israel Fortress",
+        "clanId": "clan_1768412047124_hkrks1yml",
+        "clanName": "Winners Israel",
+        "clanTag": "ISR",
+        "fortressX": 39,
+        "fortressY": 42,
+        "isCenter": false
+      },
+      "40,42": {
+        "type": "fortress",
+        "name": "Winners Israel Fortress",
+        "clanId": "clan_1768412047124_hkrks1yml",
+        "clanName": "Winners Israel",
+        "clanTag": "ISR",
+        "fortressX": 39,
+        "fortressY": 42,
+        "isCenter": false
+      },
+      "40,43": {
+        "type": "fortress",
+        "name": "Winners Israel Fortress",
+        "clanId": "clan_1768412047124_hkrks1yml",
+        "clanName": "Winners Israel",
+        "clanTag": "ISR",
+        "fortressX": 39,
+        "fortressY": 42,
+        "isCenter": false
+      },
+      "39,1": {
+        "type": "mine",
+        "resource": "gold",
+        "name": "מכרה זהב",
+        "level": 2
+      },
+      "30,46": {
+        "type": "quarry",
+        "resource": "marble",
+        "name": "מחצבת שיש",
+        "level": 3
+      },
+      "71,36": {
+        "type": "mine",
+        "resource": "sulfur",
+        "name": "מכרה גופרית",
+        "level": 1
+      },
+      "64,40": {
+        "type": "farm",
+        "resource": "wine",
+        "name": "כרם ענבים",
+        "level": 4,
+        "owner": "Ofek",
+        "user": "Ofek",
+        "garrison": {
+          "units": {
+            "swordsman": 95
+          },
+          "total": 95
+        }
+      },
+      "65,43": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "level": 1,
+        "owner": "Ofek",
+        "user": "Ofek",
+        "garrison": {
+          "units": {
+            "spearman": 15
+          },
+          "total": 15
+        }
+      },
+      "64,45": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "level": 1
+      },
+      "74,50": {
+        "type": "wood",
+        "resource": "wood",
+        "name": "מחנה חוטבים",
+        "level": 5,
+        "owner": "Ofek",
+        "user": "Ofek",
+        "garrison": {
+          "units": {
+            "spearman": 95
+          },
+          "total": 95
+        }
+      },
+      "58,48": {
+        "type": "mine",
+        "resource": "gold",
+        "name": "מכרה זהב",
+        "level": 4
+      },
+      "73,44": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "level": 1,
+        "owner": "Ofek",
+        "user": "Ofek",
+        "garrison": {
+          "units": {
+            "spearman": 190
+          },
+          "total": 190
+        }
+      },
+      "76,44": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "level": 1,
+        "owner": "Ofek",
+        "user": "Ofek",
+        "garrison": {
+          "units": {
+            "spearman": 95
+          },
+          "total": 95
+        }
+      },
+      "75,48": {
+        "type": "wood",
+        "resource": "wood",
+        "name": "מחנה חוטבים",
+        "level": 2,
+        "owner": "Ofek",
+        "user": "Ofek",
+        "garrison": {
+          "units": {
+            "spearman": 950
+          },
+          "total": 950
+        }
+      },
+      "78,41": {
+        "type": "wood",
+        "resource": "wood",
+        "name": "מחנה חוטבים",
+        "level": 2,
+        "owner": "Ofek",
+        "user": "Ofek",
+        "garrison": {
+          "units": {
+            "archer": 1045
+          },
+          "total": 1045
+        }
+      },
+      "72,36": {
+        "type": "wood",
+        "resource": "wood",
+        "name": "מחנה חוטבים",
+        "level": 4,
+        "owner": "Ofek",
+        "user": "Ofek",
+        "garrison": {
+          "units": {
+            "swordsman": 95
+          },
+          "total": 95
+        }
+      },
+      "79,35": {
+        "type": "wood",
+        "resource": "wood",
+        "name": "מחנה חוטבים",
+        "level": 4,
+        "owner": "Ofek",
+        "user": "Ofek",
+        "garrison": {
+          "units": {
+            "archer": 95
+          },
+          "total": 95
+        }
+      },
+      "86,39": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "level": 3,
+        "owner": "Ofek",
+        "user": "Ofek",
+        "garrison": {
+          "units": {
+            "archer": 1900
+          },
+          "total": 1900
+        }
+      },
+      "93,45": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "level": 5,
+        "owner": "Ofek",
+        "user": "Ofek",
+        "garrison": {
+          "units": {
+            "archer": 23750
+          },
+          "total": 23750
+        }
+      },
+      "94,49": {
+        "type": "quarry",
+        "resource": "marble",
+        "name": "מחצבת שיש",
+        "level": 3,
+        "owner": "Ofek",
+        "user": "Ofek",
+        "garrison": {
+          "units": {
+            "spearman": 95,
+            "archer": 95,
+            "swordsman": 95
+          },
+          "total": 285
+        }
+      },
+      "54,54": {
+        "type": "farm",
+        "resource": "wine",
+        "name": "כרם ענבים",
+        "level": 4,
+        "owner": "Ofek",
+        "user": "Ofek",
+        "garrison": {
+          "units": {
+            "spearman": 4750
+          },
+          "total": 4750
+        }
+      },
+      "57,56": {
+        "type": "farm",
+        "resource": "wine",
+        "name": "כרם ענבים",
+        "level": 2,
+        "owner": "Ofek",
+        "user": "Ofek",
+        "garrison": {
+          "units": {
+            "archer": 4750
+          },
+          "total": 4750
+        }
+      },
+      "43,37": {
+        "type": "farm",
+        "resource": "wine",
+        "name": "כרם ענבים",
+        "level": 4,
+        "owner": "Ofek",
+        "user": "Ofek",
+        "garrison": {
+          "units": {
+            "archer": 475
+          },
+          "total": 475
+        }
+      },
+      "44,37": {
+        "type": "farm",
+        "resource": "wine",
+        "name": "כרם ענבים",
+        "level": 4,
+        "owner": "Ofek",
+        "user": "Ofek",
+        "garrison": {
+          "units": {
+            "archer": 4750
+          },
+          "total": 4750
+        }
+      },
+      "47,40": {
+        "type": "farm",
+        "resource": "wine",
+        "name": "כרם ענבים",
+        "level": 2,
+        "owner": "Ofek",
+        "user": "Ofek",
+        "garrison": {
+          "units": {
+            "archer": 475
+          },
+          "total": 475
+        }
+      },
+      "39,55": {
+        "type": "wood",
+        "resource": "wood",
+        "name": "מחנה חוטבים",
+        "level": 5,
+        "owner": "Ofek",
+        "user": "Ofek",
+        "garrison": {
+          "units": {
+            "archer": 4750
+          },
+          "total": 4750
+        }
+      },
+      "46,58": {
+        "type": "mine",
+        "resource": "sulfur",
+        "name": "מכרה גופרית",
+        "level": 3,
+        "owner": "Ofek",
+        "user": "Ofek",
+        "garrison": {
+          "units": {
+            "spearman": 475
+          },
+          "total": 475
+        }
+      },
+      "57,67": {
+        "type": "farm",
+        "resource": "wine",
+        "name": "כרם ענבים",
+        "level": 4,
+        "owner": "Ofek",
+        "user": "Ofek",
+        "garrison": {
+          "units": {
+            "archer": 475
+          },
+          "total": 475
+        }
+      },
+      "60,76": {
+        "type": "wood",
+        "resource": "wood",
+        "name": "מחנה חוטבים",
+        "level": 5,
+        "owner": "Ofek",
+        "user": "Ofek",
+        "garrison": {
+          "units": {
+            "archer": 4750
+          },
+          "total": 4750
+        }
+      },
+      "68,66": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "level": 5,
+        "owner": "Ofek",
+        "user": "Ofek",
+        "garrison": {
+          "units": {
+            "spearman": 979
+          },
+          "total": 979
+        }
+      },
+      "93,75": {
+        "type": "mine",
+        "resource": "gold",
+        "name": "מכרה זהב",
+        "level": 4
+      },
+      "74,84": {
+        "type": "farm",
+        "resource": "wine",
+        "name": "��ר�� ענבים",
+        "level": 2,
+        "owner": "Ofek",
+        "user": "Ofek",
+        "garrison": {
+          "units": {
+            "spearman": 26
+          },
+          "total": 26
+        }
+      },
+      "78,48": {
+        "type": "farm",
+        "resource": "wine",
+        "name": "כרם ענבים",
+        "level": 3,
+        "owner": "Ofek",
+        "user": "Ofek",
+        "garrison": {
+          "units": {
+            "spearman": 42
+          },
+          "total": 42
+        }
+      },
+      "64,48": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "level": 1,
+        "owner": "Ofek",
+        "user": "Ofek",
+        "garrison": {
+          "units": {
+            "spearman": 17,
+            "archer": 3
+          },
+          "total": 20
+        }
+      },
+      "59,45": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "level": 1,
+        "owner": "Ofek",
+        "user": "Ofek",
+        "garrison": {
+          "units": {
+            "spearman": 95,
+            "archer": 95,
+            "swordsman": 950
+          },
+          "total": 1140
+        }
+      },
+      "57,44": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "level": 1,
+        "owner": "Ofek",
+        "user": "Ofek",
+        "garrison": {
+          "units": {
+            "spearman": 95,
+            "archer": 95,
+            "swordsman": 95
+          },
+          "total": 285
+        }
+      },
+      "84,48": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "level": 1,
+        "owner": "Ofek",
+        "user": "Ofek",
+        "garrison": {
+          "units": {
+            "spearman": 95,
+            "archer": 950,
+            "swordsman": 950
+          },
+          "total": 1995
+        }
+      },
+      "83,42": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "level": 1,
+        "owner": "Ofek",
+        "user": "Ofek",
+        "garrison": {
+          "units": {
+            "spearman": 950,
+            "archer": 950
+          },
+          "total": 1900
+        }
+      },
+      "82,45": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "level": 1,
+        "owner": "Ofek",
+        "user": "Ofek",
+        "garrison": {
+          "units": {
+            "archer": 950,
+            "swordsman": 950
+          },
+          "total": 1900
+        }
+      },
+      "77,16": {
+        "type": "fountain",
+        "resource": "crystal",
+        "name": "מערת קריסטל",
+        "level": 3,
+        "owner": "Ofek",
+        "user": "Ofek",
+        "garrison": {
+          "units": {
+            "spearman": 9500,
+            "archer": 950
+          },
+          "total": 10450
+        }
+      },
+      "81,12": {
+        "type": "fountain",
+        "resource": "crystal",
+        "name": "מערת קריסטל",
+        "level": 3,
+        "owner": "Ofek",
+        "user": "Ofek",
+        "garrison": {
+          "units": {
+            "spearman": 95
+          },
+          "total": 95
+        }
+      },
+      "67,15": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "level": 4,
+        "owner": "Ofek",
+        "user": "Ofek",
+        "garrison": {
+          "units": {
+            "spearman": 95,
+            "archer": 95
+          },
+          "total": 190
+        }
+      },
+      "71,25": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "level": 3,
+        "owner": "Ofek",
+        "user": "Ofek",
+        "garrison": {
+          "units": {
+            "swordsman": 1045
+          },
+          "total": 1045
+        }
+      },
+      "47,47": {
+        "type": "fortress",
+        "name": "TestFortress Fortress",
+        "clanId": "clan_1769169282429_pgds9a1ge",
+        "clanName": "TestFortress",
+        "clanTag": "TF",
+        "fortressX": 47,
+        "fortressY": 47,
+        "isCenter": true
+      },
+      "47,48": {
+        "type": "fortress",
+        "name": "TestFortress Fortress",
+        "clanId": "clan_1769169282429_pgds9a1ge",
+        "clanName": "TestFortress",
+        "clanTag": "TF",
+        "fortressX": 47,
+        "fortressY": 47,
+        "isCenter": false
+      },
+      "48,47": {
+        "type": "fortress",
+        "name": "TestFortress Fortress",
+        "clanId": "clan_1769169282429_pgds9a1ge",
+        "clanName": "TestFortress",
+        "clanTag": "TF",
+        "fortressX": 47,
+        "fortressY": 47,
+        "isCenter": false
+      },
+      "48,48": {
+        "type": "fortress",
+        "name": "TestFortress Fortress",
+        "clanId": "clan_1769169282429_pgds9a1ge",
+        "clanName": "TestFortress",
+        "clanTag": "TF",
+        "fortressX": 47,
+        "fortressY": 47,
+        "isCenter": false
+      },
+      "63,40": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "level": 1
+      },
+      "70,41": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "level": 1,
+        "owner": "Ofek",
+        "user": "Ofek",
+        "garrison": {
+          "units": {
+            "spearman": 32
+          },
+          "total": 32
+        }
+      },
+      "64,41": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "level": 1,
+        "owner": "Ofek",
+        "user": "Ofek",
+        "garrison": {
+          "units": {
+            "spearman": 95
+          },
+          "total": 95
+        }
+      },
+      "68,42": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "level": 1
+      },
+      "69,44": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "level": 1
+      },
+      "55,43": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "level": 1
+      },
+      "64,44": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "level": 1
+      },
+      "16,21": {
+        "type": "fortress",
+        "name": "Professional Fortress",
+        "clanId": "clan_1769160816036_98uswif30",
+        "clanName": "Professional",
+        "clanTag": "PRO",
+        "fortressX": 16,
+        "fortressY": 21,
+        "isCenter": true
+      },
+      "16,22": {
+        "type": "fortress",
+        "name": "Professional Fortress",
+        "clanId": "clan_1769160816036_98uswif30",
+        "clanName": "Professional",
+        "clanTag": "PRO",
+        "fortressX": 16,
+        "fortressY": 21,
+        "isCenter": false
+      },
+      "17,21": {
+        "type": "fortress",
+        "name": "Professional Fortress",
+        "clanId": "clan_1769160816036_98uswif30",
+        "clanName": "Professional",
+        "clanTag": "PRO",
+        "fortressX": 16,
+        "fortressY": 21,
+        "isCenter": false
+      },
+      "17,22": {
+        "type": "fortress",
+        "name": "Professional Fortress",
+        "clanId": "clan_1769160816036_98uswif30",
+        "clanName": "Professional",
+        "clanTag": "PRO",
+        "fortressX": 16,
+        "fortressY": 21,
+        "isCenter": false
+      },
+      "68,40": {
+        "type": "city",
+        "name": "Ofek's City",
+        "user": "Ofek",
+        "level": 16,
+        "isMyCity": true,
+        "lastLogin": 1769723525834
+      },
+      "67,17": {
+        "type": "city",
+        "name": "1234's City",
+        "user": "1234",
+        "level": 1,
+        "score": 100,
+        "lastLogin": 1768555660824,
+        "clanTag": null,
+        "isMyCity": false
+      },
+      "78,82": {
+        "type": "city",
+        "name": "admin's City",
+        "user": "admin",
+        "level": 1,
+        "score": 100,
+        "lastLogin": 1768670550571,
+        "clanTag": null,
+        "isMyCity": false
+      },
+      "67,43": {
+        "type": "city",
+        "name": "Researcher's City",
+        "user": "Researcher",
+        "level": 1,
+        "score": 100,
+        "lastLogin": 1768167015548,
+        "clanTag": null,
+        "isMyCity": false
+      },
+      "64,88": {
+        "type": "city",
+        "name": "test's City",
+        "user": "test",
+        "level": 1,
+        "score": 100,
+        "lastLogin": 1769175015612,
+        "clanTag": "TF",
+        "isMyCity": false
+      },
+      "58,53": {
+        "type": "city",
+        "name": "testagent's City",
+        "user": "testagent",
+        "level": 1,
+        "score": 100,
+        "lastLogin": 1769708505794,
+        "clanTag": null,
+        "isMyCity": false
+      },
+      "55,38": {
+        "type": "city",
+        "name": "TestBoss's City",
+        "user": "TestBoss",
+        "level": 1,
+        "score": 100,
+        "lastLogin": 1768757137851,
+        "clanTag": "BOS",
+        "isMyCity": false
+      },
+      "68,87": {
+        "type": "city",
+        "name": "Tester's City",
+        "user": "Tester",
+        "level": 1,
+        "score": 100,
+        "lastLogin": 1768167015094,
+        "clanTag": null,
+        "isMyCity": false
+      },
+      "37,66": {
+        "type": "city",
+        "name": "Tester123's City",
+        "user": "Tester123",
+        "level": 1,
+        "score": 100,
+        "lastLogin": 1768757135247,
+        "clanTag": null,
+        "isMyCity": false
+      },
+      "52,81": {
+        "type": "city",
+        "name": "tester456's City",
+        "user": "tester456",
+        "level": 1,
+        "score": 100,
+        "lastLogin": 1768670550030,
+        "clanTag": null,
+        "isMyCity": false
+      },
+      "81,27": {
+        "type": "city",
+        "name": "TestLeader's City",
+        "user": "TestLeader",
+        "level": 1,
+        "score": 100,
+        "lastLogin": 1768416900484,
+        "clanTag": "TST",
+        "isMyCity": false
+      },
+      "75,40": {
+        "type": "city",
+        "name": "TestMember's City",
+        "user": "TestMember",
+        "level": 1,
+        "score": 100,
+        "lastLogin": 1768414305281,
+        "clanTag": null,
+        "isMyCity": false
+      },
+      "38,49": {
+        "type": "city",
+        "name": "TestMinion's City",
+        "user": "TestMinion",
+        "level": 1,
+        "score": 100,
+        "lastLogin": 1768414880210,
+        "clanTag": null,
+        "isMyCity": false
+      },
+      "87,51": {
+        "type": "city",
+        "name": "testuser's City",
+        "user": "testuser",
+        "level": 1,
+        "score": 100,
+        "lastLogin": 1768161845639,
+        "clanTag": null,
+        "isMyCity": false
+      },
+      "36,64": {
+        "type": "city",
+        "name": "testuser123's City",
+        "user": "testuser123",
+        "level": 1,
+        "score": 100,
+        "lastLogin": 1768161845636,
+        "clanTag": null,
+        "isMyCity": false
+      },
+      "37,45": {
+        "type": "city",
+        "name": "TestUserNew's City",
+        "user": "TestUserNew",
+        "level": 1,
+        "score": 100,
+        "lastLogin": 1768167015268,
+        "clanTag": null,
+        "isMyCity": false
+      },
+      "18,10": {
+        "type": "city",
+        "name": "viking1's City",
+        "user": "viking1",
+        "level": 1,
+        "score": 100,
+        "lastLogin": 1768166880607,
+        "clanTag": null,
+        "isMyCity": false
+      },
+      "655,447": {
+        "type": "city",
+        "name": "אודין_השליט's City",
+        "user": "אודין_השליט",
+        "level": 10,
+        "score": 15000,
+        "lastLogin": 1768936444865,
+        "clanTag": null,
+        "isMyCity": false
+      },
+      "701,439": {
+        "type": "city",
+        "name": "אולף_המלומד's City",
+        "user": "אולף_המלומד",
+        "level": 10,
+        "score": 15000,
+        "lastLogin": 1768936444861,
+        "clanTag": null,
+        "isMyCity": false
+      },
+      "599,869": {
+        "type": "city",
+        "name": "אייבר_חסר_העצמות's City",
+        "user": "אייבר_חסר_העצמות",
+        "level": 6,
+        "score": 11000,
+        "lastLogin": 1768936444860,
+        "clanTag": null,
+        "isMyCity": false
+      },
+      "517,479": {
+        "type": "city",
+        "name": "אייריק_האדום's City",
+        "user": "אייריק_האדום",
+        "level": 9,
+        "score": 14000,
+        "lastLogin": 1768936444862,
+        "clanTag": null,
+        "isMyCity": false
+      },
+      "155,361": {
+        "type": "city",
+        "name": "אסטריד_החזקה's City",
+        "user": "אסטריד_החזקה",
+        "level": 9,
+        "score": 14000,
+        "lastLogin": 1768936444863,
+        "clanTag": null,
+        "isMyCity": false
+      },
+      "622,872": {
+        "type": "city",
+        "name": "ביורן_המלך's City",
+        "user": "ביורן_המלך",
+        "level": 8,
+        "score": 13000,
+        "lastLogin": 1768936444860,
+        "clanTag": null,
+        "isMyCity": false
+      },
+      "366,426": {
+        "type": "city",
+        "name": "גונהילד_העשירה's City",
+        "user": "גונהילד_העשירה",
+        "level": 9,
+        "score": 14000,
+        "lastLogin": 1768936444861,
+        "clanTag": null,
+        "isMyCity": false
+      },
+      "437,813": {
+        "type": "city",
+        "name": "הראלד_הכחול's City",
+        "user": "הראלד_הכחול",
+        "level": 11,
+        "score": 16000,
+        "lastLogin": 1768936444864,
+        "clanTag": null,
+        "isMyCity": false
+      },
+      "483,523": {
+        "type": "city",
+        "name": "הרלד_הסוחר's City",
+        "user": "הרלד_הסוחר",
+        "level": 11,
+        "score": 16000,
+        "lastLogin": 1768936444860,
+        "clanTag": null,
+        "isMyCity": false
+      },
+      "279,308": {
+        "type": "city",
+        "name": "יורוק_האחד's City",
+        "user": "יורוק_האחד",
+        "level": 9,
+        "score": 14000,
+        "lastLogin": 1768936444865,
+        "clanTag": null,
+        "isMyCity": false
+      },
+      "793,697": {
+        "type": "city",
+        "name": "לגרתה_המלכה's City",
+        "user": "לגרתה_המלכה",
+        "level": 10,
+        "score": 15000,
+        "lastLogin": 1768936444863,
+        "clanTag": null,
+        "isMyCity": false
+      },
+      "894,232": {
+        "type": "city",
+        "name": "נמרוד_הכובש's City",
+        "user": "נמרוד_הכובש",
+        "level": 10,
+        "score": 15000,
+        "lastLogin": 1768936444858,
+        "clanTag": null,
+        "isMyCity": false
+      },
+      "578,835": {
+        "type": "city",
+        "name": "סיגורד_האכזר's City",
+        "user": "סיגורד_האכזר",
+        "level": 7,
+        "score": 12000,
+        "lastLogin": 1768936444859,
+        "clanTag": null,
+        "isMyCity": false
+      },
+      "304,270": {
+        "type": "city",
+        "name": "פלוקי_הבונה's City",
+        "user": "פלוקי_הבונה",
+        "level": 7,
+        "score": 12000,
+        "lastLogin": 1768936444864,
+        "clanTag": null,
+        "isMyCity": false
+      },
+      "435,248": {
+        "type": "city",
+        "name": "פרגיה_האמיצה's City",
+        "user": "פרגיה_האמיצה",
+        "level": 8,
+        "score": 13000,
+        "lastLogin": 1768936444865,
+        "clanTag": null,
+        "isMyCity": false
+      },
+      "416,872": {
+        "type": "city",
+        "name": "פרייה_הבונה's City",
+        "user": "פרייה_הבונה",
+        "level": 8,
+        "score": 13000,
+        "lastLogin": 1768936444862,
+        "clanTag": null,
+        "isMyCity": false
+      },
+      "192,810": {
+        "type": "city",
+        "name": "קטגט_המגן's City",
+        "user": "קטגט_המגן",
+        "level": 9,
+        "score": 14000,
+        "lastLogin": 1768936444866,
+        "clanTag": null,
+        "isMyCity": false
+      },
+      "421,772": {
+        "type": "city",
+        "name": "רגנר_הפורע's City",
+        "user": "רגנר_הפורע",
+        "level": 9,
+        "score": 14000,
+        "lastLogin": 1768936444859,
+        "clanTag": null,
+        "isMyCity": false
+      },
+      "833,518": {
+        "type": "city",
+        "name": "רולו_הצפוני's City",
+        "user": "רולו_הצפוני",
+        "level": 8,
+        "score": 13000,
+        "lastLogin": 1768936444863,
+        "clanTag": null,
+        "isMyCity": false
+      },
+      "641,110": {
+        "type": "city",
+        "name": "תורסטן_החכם's City",
+        "user": "תורסטן_החכם",
+        "level": 7,
+        "score": 12000,
+        "lastLogin": 1768936444862,
+        "clanTag": null,
+        "isMyCity": false
+      }
+    },
+    "buildings": {
+      "townHall": {
+        "level": 16,
+        "name": "בית העירייה",
+        "costFactor": 1.5,
+        "baseCost": {
+          "wood": 50,
+          "marble": 0
+        },
+        "description": "מנהל את העיר והתושבים"
+      },
+      "academy": {
+        "level": 16,
+        "name": "אקדמיה",
+        "costFactor": 1.5,
+        "baseCost": {
+          "wood": 100,
+          "crystal": 50
+        },
+        "description": "מאפשר מחקר טכנולוגיות חדשות"
+      },
+      "warehouse": {
+        "level": 16,
+        "name": "מחסן",
+        "costFactor": 1.3,
+        "baseCost": {
+          "wood": 100,
+          "marble": 50
+        },
+        "description": "מגדיל את קיבולת המשאבים"
+      },
+      "barracks": {
+        "level": 16,
+        "name": "בסיס צבאי",
+        "costFactor": 1.5,
+        "baseCost": {
+          "wood": 150,
+          "marble": 50
+        },
+        "description": "מאפש�� אימון חיילים שונים"
+      },
+      "port": {
+        "level": 2,
+        "name": "נמל מסחרי",
+        "costFactor": 1.4,
+        "baseCost": {
+          "wood": 200,
+          "marble": 100
+        },
+        "description": "מאפשר מסחר עם ערים אחרות"
+      },
+      "wall": {
+        "level": 15,
+        "name": "חומה",
+        "costFactor": 1.6,
+        "baseCost": {
+          "marble": 200,
+          "wood": 100
+        },
+        "description": "מגנה על העיר מפני התקפות"
+      },
+      "lumber": {
+        "level": 4,
+        "name": "מנסרה",
+        "costFactor": 1.5,
+        "baseCost": {
+          "wood": 50,
+          "gold": 50
+        },
+        "description": "מייצרת עצים לבנייה (Lumber)"
+      },
+      "mine": {
+        "level": 2,
+        "name": "מכרה",
+        "costFactor": 1.5,
+        "baseCost": {
+          "wood": 100,
+          "gold": 100
+        },
+        "description": "מכרה אבנים ומתכות יקרות"
+      },
+      "farm": {
+        "level": 15
+      },
+      "lumberMill": {
+        "level": 15
+      },
+      "stable": {
+        "level": 15
+      },
+      "workshop": {
+        "level": 15
+      }
+    },
+    "army": {
+      "spearman": 180,
+      "archer": 0,
+      "swordsman": 0,
+      "mountedRaider": 0,
+      "heavyCavalry": 0,
+      "mountedArcher": 0,
+      "berserker": 0,
+      "shieldWall": 0,
+      "dualWielder": 0,
+      "catapult": 0,
+      "batteringRam": 0,
+      "ballista": 0,
+      "axeman": 0,
+      "cavalry": 0,
+      "giantArcher": 0
+    },
+    "research": {
+      "architecture": 0,
+      "weaponry": 0,
+      "defense": 0,
+      "logistics": 0
+    },
+    "timers": [],
+    "city": {
+      "population": 0,
+      "happiness": 100
+    },
+    "reports": [
+      {
+        "id": "mkzyypexdn6ft8mtp1",
+        "timestamp": 1769722299177,
+        "read": true,
+        "type": "attack",
+        "title": "Victory vs NPC_Barbarian",
+        "data": {
+          "winner": true,
+          "enemy": "NPC_Barbarian",
+          "enemyLevel": 3,
+          "defenderArmy": {
+            "spearman": 11,
+            "archer": 4
+          },
+          "defenderPower": 500,
+          "loot": {
+            "gold": 47,
+            "wood": 175,
+            "food": 116
+          },
+          "unitsLost": {
+            "spearman": 16
+          },
+          "unitsReturned": {}
+        }
+      },
+      {
+        "id": "1769712146460_7xjh9tmgw",
+        "type": "victory",
+        "title": "ניצחון: התקפה על TestMember's City",
+        "content": "\n                                    <div style=\"padding: 10px; text-align: center;\">\n                                        <div style=\"font-size: 4rem; margin-bottom: 10px;\">\n                                            🎉\n                                        </div>\n                                        <h2 style=\"color: #10b981; margin-bottom: 15px;\">\n                                            ניצחון!\n                                        </h2>\n                                        <p style=\"color: #cbd5e1; margin-bottom: 20px;\">התקפה משותפת בהובלת Ofek</p>\n                                        \n                                        <div style=\"display: flex; gap: 10px; margin-bottom: 20px;\">\n                                            <div style=\"flex: 1; background: rgba(59,130,246,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h4 style=\"color: #60a5fa; margin: 0 0 5px 0;\">כוח התקפה</h4>\n                                                <p style=\"color: #cbd5e1; font-size: 1.2rem; margin: 0;\">4202895</p>\n                                            </div>\n                                            <div style=\"flex: 1; background: rgba(239,68,68,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h4 style=\"color: #f87171; margin: 0 0 5px 0;\">כוח הגנה</h4>\n                                                <p style=\"color: #cbd5e1; font-size: 1.2rem; margin: 0;\">0</p>\n                                            </div>\n                                        </div>\n\n                                        <h4 style=\"color: #fbbf24; margin: 15px 0 10px 0;\">אבדות</h4>\n                                        <div style=\"display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;\">\n                                            <div style=\"background: rgba(59,130,246,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h5 style=\"color: #60a5fa; margin: 0 0 5px 0;\">שלנו</h5>\n                                                <div style=\"color: #cbd5e1; font-size: 0.85em;\">\n                                                    <div>🔱 0 חניתים</div>\n                                                    <div>🏹 0 קשתים</div>\n                                                    <div>⚔️ 0 לוחמי חרב</div>\n                                                </div>\n                                            </div>\n                                            <div style=\"background: rgba(239,68,68,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h5 style=\"color: #f87171; margin: 0 0 5px 0;\">שלהם</h5>\n                                                <div style=\"color: #cbd5e1; font-size: 0.85em;\">\n                                                    <div>🔱 0 חניתים</div>\n                                                    <div>🏹 0 קשתים</div>\n                                                    <div>⚔️ 0 לוחמי חרב</div>\n                                                </div>\n                                            </div>\n                                        </div>\n\n                                        \n                                        <div style=\"background: rgba(16,185,129,0.1); padding: 15px; border-radius: 8px; margin-top: 15px;\">\n                                            <h4 style=\"color: #10b981; margin: 0 0 10px 0;\">💰 החלק שלך בשלל</h4>\n                                            <div style=\"display: flex; justify-content: center; gap: 15px; font-size: 1.1rem; color: #cbd5e1;\">\n                                                <span>💰 86</span>\n                                                <span>🌲 70</span>\n                                                <span>🌾 10</span>\n                                            </div>\n                                        </div>\n                                        \n                                    </div>\n                                ",
+        "timestamp": 1769712146460,
+        "read": true
+      },
+      {
+        "id": "1769711952643_ko6gr55eh",
+        "type": "victory",
+        "title": "ניצחון: התקפה על Researcher's City",
+        "content": "\n                                    <div style=\"padding: 10px; text-align: center;\">\n                                        <div style=\"font-size: 4rem; margin-bottom: 10px;\">\n                                            🎉\n                                        </div>\n                                        <h2 style=\"color: #10b981; margin-bottom: 15px;\">\n                                            ניצחון!\n                                        </h2>\n                                        <p style=\"color: #cbd5e1; margin-bottom: 20px;\">התקפה משותפת בהובלת Ofek</p>\n                                        \n                                        <div style=\"display: flex; gap: 10px; margin-bottom: 20px;\">\n                                            <div style=\"flex: 1; background: rgba(59,130,246,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h4 style=\"color: #60a5fa; margin: 0 0 5px 0;\">כוח התקפה</h4>\n                                                <p style=\"color: #cbd5e1; font-size: 1.2rem; margin: 0;\">4202895</p>\n                                            </div>\n                                            <div style=\"flex: 1; background: rgba(239,68,68,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h4 style=\"color: #f87171; margin: 0 0 5px 0;\">כוח הגנה</h4>\n                                                <p style=\"color: #cbd5e1; font-size: 1.2rem; margin: 0;\">0</p>\n                                            </div>\n                                        </div>\n\n                                        <h4 style=\"color: #fbbf24; margin: 15px 0 10px 0;\">אבדות</h4>\n                                        <div style=\"display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;\">\n                                            <div style=\"background: rgba(59,130,246,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h5 style=\"color: #60a5fa; margin: 0 0 5px 0;\">שלנו</h5>\n                                                <div style=\"color: #cbd5e1; font-size: 0.85em;\">\n                                                    <div>🔱 0 חניתים</div>\n                                                    <div>🏹 0 קשתים</div>\n                                                    <div>⚔️ 0 לוחמי חרב</div>\n                                                </div>\n                                            </div>\n                                            <div style=\"background: rgba(239,68,68,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h5 style=\"color: #f87171; margin: 0 0 5px 0;\">שלהם</h5>\n                                                <div style=\"color: #cbd5e1; font-size: 0.85em;\">\n                                                    <div>🔱 0 חניתים</div>\n                                                    <div>🏹 0 קשתים</div>\n                                                    <div>⚔️ 0 לוחמי חרב</div>\n                                                </div>\n                                            </div>\n                                        </div>\n\n                                        \n                                        <div style=\"background: rgba(16,185,129,0.1); padding: 15px; border-radius: 8px; margin-top: 15px;\">\n                                            <h4 style=\"color: #10b981; margin: 0 0 10px 0;\">💰 החלק שלך בשלל</h4>\n                                            <div style=\"display: flex; justify-content: center; gap: 15px; font-size: 1.1rem; color: #cbd5e1;\">\n                                                <span>💰 1403</span>\n                                                <span>🌲 487</span>\n                                                <span>🌾 3</span>\n                                            </div>\n                                        </div>\n                                        \n                                    </div>\n                                ",
+        "timestamp": 1769711952643,
+        "read": true
+      },
+      {
+        "id": "1769711805695_wt7z0pu4e",
+        "type": "victory",
+        "title": "ניצחון: התקפה על Researcher's City",
+        "content": "\n                                    <div style=\"padding: 10px; text-align: center;\">\n                                        <div style=\"font-size: 4rem; margin-bottom: 10px;\">\n                                            🎉\n                                        </div>\n                                        <h2 style=\"color: #10b981; margin-bottom: 15px;\">\n                                            ניצחון!\n                                        </h2>\n                                        <p style=\"color: #cbd5e1; margin-bottom: 20px;\">התקפה משותפת בהובלת Ofek</p>\n                                        \n                                        <div style=\"display: flex; gap: 10px; margin-bottom: 20px;\">\n                                            <div style=\"flex: 1; background: rgba(59,130,246,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h4 style=\"color: #60a5fa; margin: 0 0 5px 0;\">כוח התקפה</h4>\n                                                <p style=\"color: #cbd5e1; font-size: 1.2rem; margin: 0;\">4202895</p>\n                                            </div>\n                                            <div style=\"flex: 1; background: rgba(239,68,68,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h4 style=\"color: #f87171; margin: 0 0 5px 0;\">כוח הגנה</h4>\n                                                <p style=\"color: #cbd5e1; font-size: 1.2rem; margin: 0;\">0</p>\n                                            </div>\n                                        </div>\n\n                                        <h4 style=\"color: #fbbf24; margin: 15px 0 10px 0;\">אבדות</h4>\n                                        <div style=\"display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;\">\n                                            <div style=\"background: rgba(59,130,246,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h5 style=\"color: #60a5fa; margin: 0 0 5px 0;\">שלנו</h5>\n                                                <div style=\"color: #cbd5e1; font-size: 0.85em;\">\n                                                    <div>🔱 0 חניתים</div>\n                                                    <div>🏹 0 קשתים</div>\n                                                    <div>⚔️ 0 לוחמי חרב</div>\n                                                </div>\n                                            </div>\n                                            <div style=\"background: rgba(239,68,68,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h5 style=\"color: #f87171; margin: 0 0 5px 0;\">שלהם</h5>\n                                                <div style=\"color: #cbd5e1; font-size: 0.85em;\">\n                                                    <div>🔱 0 חניתים</div>\n                                                    <div>🏹 0 קשתים</div>\n                                                    <div>⚔️ 0 לוחמי חרב</div>\n                                                </div>\n                                            </div>\n                                        </div>\n\n                                        \n                                        <div style=\"background: rgba(16,185,129,0.1); padding: 15px; border-radius: 8px; margin-top: 15px;\">\n                                            <h4 style=\"color: #10b981; margin: 0 0 10px 0;\">💰 החלק שלך בשלל</h4>\n                                            <div style=\"display: flex; justify-content: center; gap: 15px; font-size: 1.1rem; color: #cbd5e1;\">\n                                                <span>💰 2004</span>\n                                                <span>🌲 695</span>\n                                                <span>🌾 3</span>\n                                            </div>\n                                        </div>\n                                        \n                                    </div>\n                                ",
+        "timestamp": 1769711805695,
+        "read": true
+      },
+      {
+        "id": "1769711385059_31ftqd5df",
+        "type": "victory",
+        "title": "ניצחון: התקפה על Researcher's City",
+        "content": "\n                                    <div style=\"padding: 10px; text-align: center;\">\n                                        <div style=\"font-size: 4rem; margin-bottom: 10px;\">\n                                            🎉\n                                        </div>\n                                        <h2 style=\"color: #10b981; margin-bottom: 15px;\">\n                                            ניצחון!\n                                        </h2>\n                                        <p style=\"color: #cbd5e1; margin-bottom: 20px;\">התקפה משותפת בהובלת Ofek</p>\n                                        \n                                        <div style=\"display: flex; gap: 10px; margin-bottom: 20px;\">\n                                            <div style=\"flex: 1; background: rgba(59,130,246,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h4 style=\"color: #60a5fa; margin: 0 0 5px 0;\">כוח התקפה</h4>\n                                                <p style=\"color: #cbd5e1; font-size: 1.2rem; margin: 0;\">4202895</p>\n                                            </div>\n                                            <div style=\"flex: 1; background: rgba(239,68,68,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h4 style=\"color: #f87171; margin: 0 0 5px 0;\">כוח הגנה</h4>\n                                                <p style=\"color: #cbd5e1; font-size: 1.2rem; margin: 0;\">0</p>\n                                            </div>\n                                        </div>\n\n                                        <h4 style=\"color: #fbbf24; margin: 15px 0 10px 0;\">אבדות</h4>\n                                        <div style=\"display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;\">\n                                            <div style=\"background: rgba(59,130,246,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h5 style=\"color: #60a5fa; margin: 0 0 5px 0;\">שלנו</h5>\n                                                <div style=\"color: #cbd5e1; font-size: 0.85em;\">\n                                                    <div>🔱 0 חניתים</div>\n                                                    <div>🏹 0 קשתים</div>\n                                                    <div>⚔️ 0 לוחמי חרב</div>\n                                                </div>\n                                            </div>\n                                            <div style=\"background: rgba(239,68,68,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h5 style=\"color: #f87171; margin: 0 0 5px 0;\">שלהם</h5>\n                                                <div style=\"color: #cbd5e1; font-size: 0.85em;\">\n                                                    <div>🔱 0 חניתים</div>\n                                                    <div>🏹 0 קשתים</div>\n                                                    <div>⚔️ 0 לוחמי חרב</div>\n                                                </div>\n                                            </div>\n                                        </div>\n\n                                        \n                                        <div style=\"background: rgba(16,185,129,0.1); padding: 15px; border-radius: 8px; margin-top: 15px;\">\n                                            <h4 style=\"color: #10b981; margin: 0 0 10px 0;\">💰 החלק שלך בשלל</h4>\n                                            <div style=\"display: flex; justify-content: center; gap: 15px; font-size: 1.1rem; color: #cbd5e1;\">\n                                                <span>💰 2864</span>\n                                                <span>🌲 993</span>\n                                                <span>🌾 5</span>\n                                            </div>\n                                        </div>\n                                        \n                                    </div>\n                                ",
+        "timestamp": 1769711385059,
+        "read": true
+      },
+      {
+        "id": "1769711249126_6zs6u13fn",
+        "type": "victory",
+        "title": "ניצחון: התקפה על Researcher's City",
+        "content": "\n                                    <div style=\"padding: 10px; text-align: center;\">\n                                        <div style=\"font-size: 4rem; margin-bottom: 10px;\">\n                                            🎉\n                                        </div>\n                                        <h2 style=\"color: #10b981; margin-bottom: 15px;\">\n                                            ניצחון!\n                                        </h2>\n                                        <p style=\"color: #cbd5e1; margin-bottom: 20px;\">התקפה משותפת בהובלת Ofek</p>\n                                        \n                                        <div style=\"display: flex; gap: 10px; margin-bottom: 20px;\">\n                                            <div style=\"flex: 1; background: rgba(59,130,246,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h4 style=\"color: #60a5fa; margin: 0 0 5px 0;\">כוח התקפה</h4>\n                                                <p style=\"color: #cbd5e1; font-size: 1.2rem; margin: 0;\">4202895</p>\n                                            </div>\n                                            <div style=\"flex: 1; background: rgba(239,68,68,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h4 style=\"color: #f87171; margin: 0 0 5px 0;\">כוח הגנה</h4>\n                                                <p style=\"color: #cbd5e1; font-size: 1.2rem; margin: 0;\">0</p>\n                                            </div>\n                                        </div>\n\n                                        <h4 style=\"color: #fbbf24; margin: 15px 0 10px 0;\">אבדות</h4>\n                                        <div style=\"display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;\">\n                                            <div style=\"background: rgba(59,130,246,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h5 style=\"color: #60a5fa; margin: 0 0 5px 0;\">שלנו</h5>\n                                                <div style=\"color: #cbd5e1; font-size: 0.85em;\">\n                                                    <div>🔱 0 חניתים</div>\n                                                    <div>🏹 0 קשתים</div>\n                                                    <div>⚔️ 0 לוחמי חרב</div>\n                                                </div>\n                                            </div>\n                                            <div style=\"background: rgba(239,68,68,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h5 style=\"color: #f87171; margin: 0 0 5px 0;\">שלהם</h5>\n                                                <div style=\"color: #cbd5e1; font-size: 0.85em;\">\n                                                    <div>🔱 0 חניתים</div>\n                                                    <div>🏹 0 קשתים</div>\n                                                    <div>⚔️ 0 לוחמי חרב</div>\n                                                </div>\n                                            </div>\n                                        </div>\n\n                                        \n                                        <div style=\"background: rgba(16,185,129,0.1); padding: 15px; border-radius: 8px; margin-top: 15px;\">\n                                            <h4 style=\"color: #10b981; margin: 0 0 10px 0;\">💰 החלק שלך בשלל</h4>\n                                            <div style=\"display: flex; justify-content: center; gap: 15px; font-size: 1.1rem; color: #cbd5e1;\">\n                                                <span>💰 4091</span>\n                                                <span>🌲 1418</span>\n                                                <span>🌾 7</span>\n                                            </div>\n                                        </div>\n                                        \n                                    </div>\n                                ",
+        "timestamp": 1769711249126,
+        "read": true
+      },
+      {
+        "id": "1769710786662_l0e6c3yr8",
+        "type": "victory",
+        "title": "ניצחון: התקפה על Researcher's City",
+        "content": "\n                                    <div style=\"padding: 10px; text-align: center;\">\n                                        <div style=\"font-size: 4rem; margin-bottom: 10px;\">\n                                            🎉\n                                        </div>\n                                        <h2 style=\"color: #10b981; margin-bottom: 15px;\">\n                                            ניצחון!\n                                        </h2>\n                                        <p style=\"color: #cbd5e1; margin-bottom: 20px;\">התקפה משותפת בהובלת Ofek</p>\n                                        \n                                        <div style=\"display: flex; gap: 10px; margin-bottom: 20px;\">\n                                            <div style=\"flex: 1; background: rgba(59,130,246,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h4 style=\"color: #60a5fa; margin: 0 0 5px 0;\">כוח התקפה</h4>\n                                                <p style=\"color: #cbd5e1; font-size: 1.2rem; margin: 0;\">4202895</p>\n                                            </div>\n                                            <div style=\"flex: 1; background: rgba(239,68,68,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h4 style=\"color: #f87171; margin: 0 0 5px 0;\">כוח הגנה</h4>\n                                                <p style=\"color: #cbd5e1; font-size: 1.2rem; margin: 0;\">0</p>\n                                            </div>\n                                        </div>\n\n                                        <h4 style=\"color: #fbbf24; margin: 15px 0 10px 0;\">אבדות</h4>\n                                        <div style=\"display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;\">\n                                            <div style=\"background: rgba(59,130,246,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h5 style=\"color: #60a5fa; margin: 0 0 5px 0;\">שלנו</h5>\n                                                <div style=\"color: #cbd5e1; font-size: 0.85em;\">\n                                                    <div>🔱 0 חניתים</div>\n                                                    <div>🏹 0 קשתים</div>\n                                                    <div>⚔️ 0 לוחמי חרב</div>\n                                                </div>\n                                            </div>\n                                            <div style=\"background: rgba(239,68,68,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h5 style=\"color: #f87171; margin: 0 0 5px 0;\">שלהם</h5>\n                                                <div style=\"color: #cbd5e1; font-size: 0.85em;\">\n                                                    <div>🔱 0 חניתים</div>\n                                                    <div>🏹 0 קשתים</div>\n                                                    <div>⚔️ 0 לוחמי חרב</div>\n                                                </div>\n                                            </div>\n                                        </div>\n\n                                        \n                                        <div style=\"background: rgba(16,185,129,0.1); padding: 15px; border-radius: 8px; margin-top: 15px;\">\n                                            <h4 style=\"color: #10b981; margin: 0 0 10px 0;\">💰 החלק שלך בשלל</h4>\n                                            <div style=\"display: flex; justify-content: center; gap: 15px; font-size: 1.1rem; color: #cbd5e1;\">\n                                                <span>💰 5844</span>\n                                                <span>🌲 2026</span>\n                                                <span>🌾 10</span>\n                                            </div>\n                                        </div>\n                                        \n                                    </div>\n                                ",
+        "timestamp": 1769710786662,
+        "read": true
+      },
+      {
+        "id": "1769710009167_ryrvfiic0",
+        "type": "victory",
+        "title": "ניצחון: התקפה על Researcher's City",
+        "content": "\n                                    <div style=\"padding: 10px; text-align: center;\">\n                                        <div style=\"font-size: 4rem; margin-bottom: 10px;\">\n                                            🎉\n                                        </div>\n                                        <h2 style=\"color: #10b981; margin-bottom: 15px;\">\n                                            ניצחון!\n                                        </h2>\n                                        <p style=\"color: #cbd5e1; margin-bottom: 20px;\">התקפה משותפת בהובלת Ofek</p>\n                                        \n                                        <div style=\"display: flex; gap: 10px; margin-bottom: 20px;\">\n                                            <div style=\"flex: 1; background: rgba(59,130,246,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h4 style=\"color: #60a5fa; margin: 0 0 5px 0;\">כוח התקפה</h4>\n                                                <p style=\"color: #cbd5e1; font-size: 1.2rem; margin: 0;\">4202895</p>\n                                            </div>\n                                            <div style=\"flex: 1; background: rgba(239,68,68,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h4 style=\"color: #f87171; margin: 0 0 5px 0;\">כוח הגנה</h4>\n                                                <p style=\"color: #cbd5e1; font-size: 1.2rem; margin: 0;\">0</p>\n                                            </div>\n                                        </div>\n\n                                        <h4 style=\"color: #fbbf24; margin: 15px 0 10px 0;\">אבדות</h4>\n                                        <div style=\"display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;\">\n                                            <div style=\"background: rgba(59,130,246,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h5 style=\"color: #60a5fa; margin: 0 0 5px 0;\">שלנו</h5>\n                                                <div style=\"color: #cbd5e1; font-size: 0.85em;\">\n                                                    <div>🔱 0 חניתים</div>\n                                                    <div>🏹 0 קשתים</div>\n                                                    <div>⚔️ 0 לוחמי חרב</div>\n                                                </div>\n                                            </div>\n                                            <div style=\"background: rgba(239,68,68,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h5 style=\"color: #f87171; margin: 0 0 5px 0;\">שלהם</h5>\n                                                <div style=\"color: #cbd5e1; font-size: 0.85em;\">\n                                                    <div>🔱 0 חניתים</div>\n                                                    <div>🏹 0 קשתים</div>\n                                                    <div>⚔️ 0 לוחמי חרב</div>\n                                                </div>\n                                            </div>\n                                        </div>\n\n                                        \n                                        <div style=\"background: rgba(16,185,129,0.1); padding: 15px; border-radius: 8px; margin-top: 15px;\">\n                                            <h4 style=\"color: #10b981; margin: 0 0 10px 0;\">💰 החלק שלך בשלל</h4>\n                                            <div style=\"display: flex; justify-content: center; gap: 15px; font-size: 1.1rem; color: #cbd5e1;\">\n                                                <span>💰 8349</span>\n                                                <span>🌲 2895</span>\n                                                <span>🌾 14</span>\n                                            </div>\n                                        </div>\n                                        \n                                    </div>\n                                ",
+        "timestamp": 1769710009167,
+        "read": true
+      },
+      {
+        "id": "mkzrlsy7i9vnixlcyhh",
+        "timestamp": 1769709939919,
+        "read": true,
+        "type": "attack",
+        "title": "Victory vs NPC_Barbarian",
+        "data": {
+          "winner": true,
+          "enemy": "NPC_Barbarian",
+          "enemyLevel": 1,
+          "defenderArmy": {
+            "spearman": 13,
+            "archer": 8
+          },
+          "defenderPower": 300,
+          "loot": {
+            "gold": 95,
+            "wood": 181,
+            "food": 183
+          },
+          "unitsLost": {
+            "spearman": 20
+          },
+          "unitsReturned": {}
+        }
+      },
+      {
+        "id": "1769709597561_4b8ujctp6",
+        "type": "victory",
+        "title": "ניצחון: התקפה על TestUserNew's City",
+        "content": "\n                                    <div style=\"padding: 10px; text-align: center;\">\n                                        <div style=\"font-size: 4rem; margin-bottom: 10px;\">\n                                            🎉\n                                        </div>\n                                        <h2 style=\"color: #10b981; margin-bottom: 15px;\">\n                                            ניצחון!\n                                        </h2>\n                                        <p style=\"color: #cbd5e1; margin-bottom: 20px;\">התקפה משותפת בהובלת Ofek</p>\n                                        \n                                        <div style=\"display: flex; gap: 10px; margin-bottom: 20px;\">\n                                            <div style=\"flex: 1; background: rgba(59,130,246,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h4 style=\"color: #60a5fa; margin: 0 0 5px 0;\">כוח התקפה</h4>\n                                                <p style=\"color: #cbd5e1; font-size: 1.2rem; margin: 0;\">4202895</p>\n                                            </div>\n                                            <div style=\"flex: 1; background: rgba(239,68,68,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h4 style=\"color: #f87171; margin: 0 0 5px 0;\">כוח הגנה</h4>\n                                                <p style=\"color: #cbd5e1; font-size: 1.2rem; margin: 0;\">0</p>\n                                            </div>\n                                        </div>\n\n                                        <h4 style=\"color: #fbbf24; margin: 15px 0 10px 0;\">אבדות</h4>\n                                        <div style=\"display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;\">\n                                            <div style=\"background: rgba(59,130,246,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h5 style=\"color: #60a5fa; margin: 0 0 5px 0;\">שלנו</h5>\n                                                <div style=\"color: #cbd5e1; font-size: 0.85em;\">\n                                                    <div>🔱 0 חניתים</div>\n                                                    <div>🏹 0 קשתים</div>\n                                                    <div>⚔️ 0 לוחמי חרב</div>\n                                                </div>\n                                            </div>\n                                            <div style=\"background: rgba(239,68,68,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h5 style=\"color: #f87171; margin: 0 0 5px 0;\">שלהם</h5>\n                                                <div style=\"color: #cbd5e1; font-size: 0.85em;\">\n                                                    <div>🔱 0 חניתים</div>\n                                                    <div>🏹 0 קשתים</div>\n                                                    <div>⚔️ 0 לוחמי חרב</div>\n                                                </div>\n                                            </div>\n                                        </div>\n\n                                        \n                                        <div style=\"background: rgba(16,185,129,0.1); padding: 15px; border-radius: 8px; margin-top: 15px;\">\n                                            <h4 style=\"color: #10b981; margin: 0 0 10px 0;\">💰 החלק שלך בשלל</h4>\n                                            <div style=\"display: flex; justify-content: center; gap: 15px; font-size: 1.1rem; color: #cbd5e1;\">\n                                                <span>💰 6655</span>\n                                                <span>🌲 2297</span>\n                                                <span>🌾 10</span>\n                                            </div>\n                                        </div>\n                                        \n                                    </div>\n                                ",
+        "timestamp": 1769709597561,
+        "read": true
+      },
+      {
+        "id": "1769174986261_qtu9iz7j4",
+        "type": "victory",
+        "title": "ניצחון: התקפה על TestBoss's City",
+        "content": "\n                                    <div style=\"padding: 10px; text-align: center;\">\n                                        <div style=\"font-size: 4rem; margin-bottom: 10px;\">\n                                            🎉\n                                        </div>\n                                        <h2 style=\"color: #10b981; margin-bottom: 15px;\">\n                                            ניצחון!\n                                        </h2>\n                                        <p style=\"color: #cbd5e1; margin-bottom: 20px;\">התקפה משותפ������ בהובלת Ofek</p>\n                                        \n                                        <div style=\"display: flex; gap: 10px; margin-bottom: 20px;\">\n                                            <div style=\"flex: 1; background: rgba(59,130,246,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h4 style=\"color: #60a5fa; margin: 0 0 5px 0;\">כוח התקפה</h4>\n                                                <p style=\"color: #cbd5e1; font-size: 1.2rem; margin: 0;\">4424070</p>\n                                            </div>\n                                            <div style=\"flex: 1; background: rgba(239,68,68,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h4 style=\"color: #f87171; margin: 0 0 5px 0;\">כוח הגנה</h4>\n                                                <p style=\"color: #cbd5e1; font-size: 1.2rem; margin: 0;\">375</p>\n                                            </div>\n                                        </div>\n\n                                        <h4 style=\"color: #fbbf24; margin: 15px 0 10px 0;\">אבדות</h4>\n                                        <div style=\"display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;\">\n                                            <div style=\"background: rgba(59,130,246,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h5 style=\"color: #60a5fa; margin: 0 0 5px 0;\">שלנו</h5>\n                                                <div style=\"color: #cbd5e1; font-size: 0.85em;\">\n                                                    <div>🔱 4903 חניתים</div>\n                                                    <div>🏹 4927 קשתים</div>\n                                                    <div>⚔️ 4912 לוחמי חרב</div>\n                                                </div>\n                                            </div>\n                                            <div style=\"background: rgba(239,68,68,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h5 style=\"color: #f87171; margin: 0 0 5px 0;\">שלהם</h5>\n                                                <div style=\"color: #cbd5e1; font-size: 0.85em;\">\n                                                    <div>🔱 0 חניתים</div>\n                                                    <div>🏹 23 קשתים</div>\n                                                    <div>⚔️ 0 לוחמי חרב</div>\n                                                </div>\n                                            </div>\n                                        </div>\n\n                                        \n                                        <div style=\"background: rgba(16,185,129,0.1); padding: 15px; border-radius: 8px; margin-top: 15px;\">\n                                            <h4 style=\"color: #10b981; margin: 0 0 10px 0;\">💰 החלק שלך בשלל</h4>\n                                            <div style=\"display: flex; justify-content: center; gap: 15px; font-size: 1.1rem; color: #cbd5e1;\">\n                                                <span>💰 2800744</span>\n                                                <span>🌲 605</span>\n                                                <span>🌾 0</span>\n                                            </div>\n                                        </div>\n                                        \n                                    </div>\n                                ",
+        "timestamp": 1769174986261,
+        "read": true
+      },
+      {
+        "id": "mkqwtvdbuxs2k7chfjj",
+        "timestamp": 1769174518799,
+        "read": true,
+        "type": "attack",
+        "title": "Victory vs NPC_Barbarian",
+        "data": {
+          "winner": true,
+          "enemy": "NPC_Barbarian",
+          "enemyLevel": 2,
+          "defenderArmy": {
+            "spearman": 15,
+            "archer": 9
+          },
+          "defenderPower": 400,
+          "loot": {
+            "gold": 124,
+            "wood": 141,
+            "food": 65
+          },
+          "unitsLost": {
+            "spearman": 2002,
+            "archer": 2012,
+            "swordsman": 2006,
+            "mountedRaider": 2001,
+            "heavyCavalry": 2001,
+            "mountedArcher": 2001,
+            "berserker": 2001,
+            "shieldWall": 2001,
+            "dualWielder": 2001,
+            "catapult": 2001,
+            "batteringRam": 2001,
+            "ballista": 1
+          },
+          "unitsReturned": {}
+        }
+      },
+      {
+        "id": "1769114033263_2z8d8lfby",
+        "type": "victory",
+        "title": "ניצחון: התקפה על TestMember's City",
+        "content": "\n                                    <div style=\"padding: 10px; text-align: center;\">\n                                        <div style=\"font-size: 4rem; margin-bottom: 10px;\">\n                                            🎉\n                                        </div>\n                                        <h2 style=\"color: #10b981; margin-bottom: 15px;\">\n                                            ניצחון!\n                                        </h2>\n                                        <p style=\"color: #cbd5e1; margin-bottom: 20px;\">התקפה משותפת בהובלת Ofek</p>\n                                        \n                                        <div style=\"display: flex; gap: 10px; margin-bottom: 20px;\">\n                                            <div style=\"flex: 1; background: rgba(59,130,246,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h4 style=\"color: #60a5fa; margin: 0 0 5px 0;\">כוח התקפה</h4>\n                                                <p style=\"color: #cbd5e1; font-size: 1.2rem; margin: 0;\">3243400</p>\n                                            </div>\n                                            <div style=\"flex: 1; background: rgba(239,68,68,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h4 style=\"color: #f87171; margin: 0 0 5px 0;\">כוח הגנה</h4>\n                                                <p style=\"color: #cbd5e1; font-size: 1.2rem; margin: 0;\">0</p>\n                                            </div>\n                                        </div>\n\n                                        <h4 style=\"color: #fbbf24; margin: 15px 0 10px 0;\">אבדות</h4>\n                                        <div style=\"display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;\">\n                                            <div style=\"background: rgba(59,130,246,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h5 style=\"color: #60a5fa; margin: 0 0 5px 0;\">שלנו</h5>\n                                                <div style=\"color: #cbd5e1; font-size: 0.85em;\">\n                                                    <div>🔱 0 חניתים</div>\n                                                    <div>🏹 0 קשתים</div>\n                                                    <div>⚔️ 0 לוחמי חרב</div>\n                                                </div>\n                                            </div>\n                                            <div style=\"background: rgba(239,68,68,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h5 style=\"color: #f87171; margin: 0 0 5px 0;\">שלהם</h5>\n                                                <div style=\"color: #cbd5e1; font-size: 0.85em;\">\n                                                    <div>🔱 0 חניתים</div>\n                                                    <div>🏹 0 קשתים</div>\n                                                    <div>⚔️ 0 לוחמי חרב</div>\n                                                </div>\n                                            </div>\n                                        </div>\n\n                                        \n                                        <div style=\"background: rgba(16,185,129,0.1); padding: 15px; border-radius: 8px; margin-top: 15px;\">\n                                            <h4 style=\"color: #10b981; margin: 0 0 10px 0;\">💰 החלק שלך בשלל</h4>\n                                            <div style=\"display: flex; justify-content: center; gap: 15px; font-size: 1.1rem; color: #cbd5e1;\">\n                                                <span>💰 144</span>\n                                                <span>🌲 116</span>\n                                                <span>🌾 17</span>\n                                            </div>\n                                        </div>\n                                        \n                                    </div>\n                                ",
+        "timestamp": 1769114033263,
+        "read": true
+      },
+      {
+        "id": "1769113257448_9ugxjy0so",
+        "type": "victory",
+        "title": "ניצחון: התקפה על TestLeader's City",
+        "content": "\n                                    <div style=\"padding: 10px; text-align: center;\">\n                                        <div style=\"font-size: 4rem; margin-bottom: 10px;\">\n                                            🎉\n                                        </div>\n                                        <h2 style=\"color: #10b981; margin-bottom: 15px;\">\n                                            ניצחון!\n                                        </h2>\n                                        <p style=\"color: #cbd5e1; margin-bottom: 20px;\">התקפה משותפת בהובלת Ofek</p>\n                                        \n                                        <div style=\"display: flex; gap: 10px; margin-bottom: 20px;\">\n                                            <div style=\"flex: 1; background: rgba(59,130,246,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h4 style=\"color: #60a5fa; margin: 0 0 5px 0;\">כוח התקפה</h4>\n                                                <p style=\"color: #cbd5e1; font-size: 1.2rem; margin: 0;\">3414090</p>\n                                            </div>\n                                            <div style=\"flex: 1; background: rgba(239,68,68,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h4 style=\"color: #f87171; margin: 0 0 5px 0;\">כוח הגנה</h4>\n                                                <p style=\"color: #cbd5e1; font-size: 1.2rem; margin: 0;\">7500</p>\n                                            </div>\n                                        </div>\n\n                                        <h4 style=\"color: #fbbf24; margin: 15px 0 10px 0;\">אבדות</h4>\n                                        <div style=\"display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;\">\n                                            <div style=\"background: rgba(59,130,246,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h5 style=\"color: #60a5fa; margin: 0 0 5px 0;\">שלנו</h5>\n                                                <div style=\"color: #cbd5e1; font-size: 0.85em;\">\n                                                    <div>🔱 3863 חניתים</div>\n                                                    <div>🏹 2796 קשתים</div>\n                                                    <div>⚔️ 4506 לוחמי חרב</div>\n                                                </div>\n                                            </div>\n                                            <div style=\"background: rgba(239,68,68,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h5 style=\"color: #f87171; margin: 0 0 5px 0;\">שלהם</h5>\n                                                <div style=\"color: #cbd5e1; font-size: 0.85em;\">\n                                                    <div>🔱 0 חניתים</div>\n                                                    <div>🏹 475 קשתים</div>\n                                                    <div>⚔️ 0 לוחמי חרב</div>\n                                                </div>\n                                            </div>\n                                        </div>\n\n                                        \n                                        <div style=\"background: rgba(16,185,129,0.1); padding: 15px; border-radius: 8px; margin-top: 15px;\">\n                                            <h4 style=\"color: #10b981; margin: 0 0 10px 0;\">💰 החלק שלך בשלל</h4>\n                                            <div style=\"display: flex; justify-content: center; gap: 15px; font-size: 1.1rem; color: #cbd5e1;\">\n                                                <span>💰 2464081</span>\n                                                <span>🌲 9738</span>\n                                                <span>🌾 0</span>\n                                            </div>\n                                        </div>\n                                        \n                                    </div>\n                                ",
+        "timestamp": 1769113257448,
+        "read": true
+      },
+      {
+        "id": "mkpsztiqtn9fz8ja38",
+        "timestamp": 1769107611698,
+        "read": true,
+        "type": "attack",
+        "title": "Victory vs Clan Fortress [ISR]",
+        "data": {
+          "winner": true,
+          "enemy": "Clan Fortress [ISR]",
+          "enemyLevel": 1,
+          "defenderArmy": {},
+          "defenderPower": 2625,
+          "loot": {
+            "gold": 0,
+            "wood": 0,
+            "food": 0
+          },
+          "unitsLost": {
+            "spearman": 6,
+            "archer": 30,
+            "swordsman": 14
+          },
+          "unitsReturned": {}
+        }
+      },
+      {
+        "id": "mkolu1lbyfx6dua8ai",
+        "timestamp": 1769035118735,
+        "read": true,
+        "type": "attack",
+        "title": "Victory vs Clan Fortress [ISR]",
+        "data": {
+          "winner": true,
+          "enemy": "Clan Fortress [ISR]",
+          "enemyLevel": 1,
+          "defenderArmy": {},
+          "defenderPower": 2625,
+          "loot": {
+            "gold": 0,
+            "wood": 0,
+            "food": 0
+          },
+          "unitsLost": {
+            "spearman": 6,
+            "archer": 29,
+            "swordsman": 13
+          },
+          "unitsReturned": {}
+        }
+      },
+      {
+        "id": "1769035077900_t13hc20w3",
+        "type": "victory",
+        "title": "ניצחון: התקפה על TestBoss's City",
+        "content": "\n                                    <div style=\"padding: 10px; text-align: center;\">\n                                        <div style=\"font-size: 4rem; margin-bottom: 10px;\">\n                                            🎉\n                                        </div>\n                                        <h2 style=\"color: #10b981; margin-bottom: 15px;\">\n                                            ניצחון!\n                                        </h2>\n                                        <p style=\"color: #cbd5e1; margin-bottom: 20px;\">התקפה משותפת בהובלת Ofek</p>\n                                        \n                                        <div style=\"display: flex; gap: 10px; margin-bottom: 20px;\">\n                                            <div style=\"flex: 1; background: rgba(59,130,246,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h4 style=\"color: #60a5fa; margin: 0 0 5px 0;\">כוח התקפה</h4>\n                                                <p style=\"color: #cbd5e1; font-size: 1.2rem; margin: 0;\">3587455</p>\n                                            </div>\n                                            <div style=\"flex: 1; background: rgba(239,68,68,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h4 style=\"color: #f87171; margin: 0 0 5px 0;\">כוח הגנה</h4>\n                                                <p style=\"color: #cbd5e1; font-size: 1.2rem; margin: 0;\">7500</p>\n                                            </div>\n                                        </div>\n\n                                        <h4 style=\"color: #fbbf24; margin: 15px 0 10px 0;\">אבדות</h4>\n                                        <div style=\"display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;\">\n                                            <div style=\"background: rgba(59,130,246,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h5 style=\"color: #60a5fa; margin: 0 0 5px 0;\">שלנו</h5>\n                                                <div style=\"color: #cbd5e1; font-size: 0.85em;\">\n                                                    <div>🔱 4061 חניתים</div>\n                                                    <div>🏹 2933 קשתים</div>\n                                                    <div>⚔️ 4738 לוחמי חרב</div>\n                                                </div>\n                                            </div>\n                                            <div style=\"background: rgba(239,68,68,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h5 style=\"color: #f87171; margin: 0 0 5px 0;\">שלהם</h5>\n                                                <div style=\"color: #cbd5e1; font-size: 0.85em;\">\n                                                    <div>🔱 0 חניתים</div>\n                                                    <div>🏹 475 קשתים</div>\n                                                    <div>⚔️ 0 לוחמי חרב</div>\n                                                </div>\n                                            </div>\n                                        </div>\n\n                                        \n                                        <div style=\"background: rgba(16,185,129,0.1); padding: 15px; border-radius: 8px; margin-top: 15px;\">\n                                            <h4 style=\"color: #10b981; margin: 0 0 10px 0;\">💰 החלק שלך בשלל</h4>\n                                            <div style=\"display: flex; justify-content: center; gap: 15px; font-size: 1.1rem; color: #cbd5e1;\">\n                                                <span>💰 2469470</span>\n                                                <span>��� 532</span>\n                                                <span>🌾 0</span>\n                                            </div>\n                                        </div>\n                                        \n                                    </div>\n                                ",
+        "timestamp": 1769035077900,
+        "read": true
+      },
+      {
+        "id": "mkol50mie30ybf04fge",
+        "timestamp": 1769033951082,
+        "read": true,
+        "type": "attack",
+        "title": "תבוסה בקרב",
+        "data": {
+          "winner": false,
+          "loot": {
+            "gold": 0,
+            "wood": 0,
+            "food": 0
+          },
+          "unitsLost": {},
+          "unitsReturned": {
+            "spearman": 160,
+            "archer": 808,
+            "swordsman": 360
+          },
+          "enemy": "Unknown"
+        }
+      },
+      {
+        "id": "mkoktgqesznjf9527jk",
+        "timestamp": 1769033412086,
+        "read": true,
+        "type": "attack",
+        "title": "תבוסה בקרב",
+        "data": {
+          "winner": false,
+          "loot": {
+            "gold": 0,
+            "wood": 0,
+            "food": 0
+          },
+          "unitsLost": {},
+          "unitsReturned": {
+            "spearman": 160,
+            "archer": 808,
+            "swordsman": 360
+          },
+          "enemy": "Unknown"
+        }
+      },
+      {
+        "id": "mkok31mik9yiil9n7v8",
+        "timestamp": 1769032179450,
+        "read": true,
+        "type": "attack",
+        "title": "תבוסה בקרב",
+        "data": {
+          "winner": false,
+          "loot": {
+            "gold": 0,
+            "wood": 0,
+            "food": 0
+          },
+          "unitsLost": {},
+          "unitsReturned": {
+            "spearman": 160,
+            "archer": 808,
+            "swordsman": 360
+          },
+          "enemy": "Unknown"
+        }
+      },
+      {
+        "id": "mkojtqqa4oz2nk4xtr2",
+        "timestamp": 1769031745426,
+        "read": true,
+        "type": "attack",
+        "title": "תבוסה בקרב",
+        "data": {
+          "winner": false,
+          "loot": {
+            "gold": 0,
+            "wood": 0,
+            "food": 0
+          },
+          "unitsLost": {},
+          "unitsReturned": {
+            "spearman": 160,
+            "archer": 808,
+            "swordsman": 360
+          },
+          "enemy": "Unknown"
+        }
+      },
+      {
+        "id": "mkojkow8rmmn1o90je",
+        "timestamp": 1769031323144,
+        "read": true,
+        "type": "attack",
+        "title": "תבוסה בקרב",
+        "data": {
+          "winner": false,
+          "loot": {
+            "gold": 0,
+            "wood": 0,
+            "food": 0
+          },
+          "unitsLost": {},
+          "unitsReturned": {
+            "spearman": 160,
+            "archer": 808,
+            "swordsman": 360
+          },
+          "enemy": "Unknown"
+        }
+      },
+      {
+        "id": "mkojic1h9lcgyq86kil",
+        "timestamp": 1769031213173,
+        "read": true,
+        "type": "attack",
+        "title": "תבוסה בקרב",
+        "data": {
+          "winner": false,
+          "loot": {
+            "gold": 0,
+            "wood": 0,
+            "food": 0
+          },
+          "unitsLost": {},
+          "unitsReturned": {
+            "spearman": 160,
+            "archer": 808,
+            "swordsman": 360
+          },
+          "enemy": "Unknown"
+        }
+      },
+      {
+        "id": "mkojbnansa1g5yyvdqd",
+        "timestamp": 1769030901167,
+        "read": true,
+        "type": "attack",
+        "title": "תבוסה בקרב",
+        "data": {
+          "winner": false,
+          "loot": {
+            "gold": 0,
+            "wood": 0,
+            "food": 0
+          },
+          "unitsLost": {},
+          "unitsReturned": {
+            "spearman": 160,
+            "archer": 808,
+            "swordsman": 360
+          },
+          "enemy": "Unknown"
+        }
+      },
+      {
+        "id": "1769030898581_h8tiv6jf5",
+        "type": "victory",
+        "title": "ניצחון: התקפה על 1234's City",
+        "content": "\n                                    <div style=\"padding: 10px; text-align: center;\">\n                                        <div style=\"font-size: 4rem; margin-bottom: 10px;\">\n                                            🎉\n                                        </div>\n                                        <h2 style=\"color: #10b981; margin-bottom: 15px;\">\n                                            ניצחון!\n                                        </h2>\n                                        <p style=\"color: #cbd5e1; margin-bottom: 20px;\">התקפה משותפת בהובלת Ofek</p>\n                                        \n                                        <div style=\"display: flex; gap: 10px; margin-bottom: 20px;\">\n                                            <div style=\"flex: 1; background: rgba(59,130,246,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h4 style=\"color: #60a5fa; margin: 0 0 5px 0;\">כוח התקפה</h4>\n                                                <p style=\"color: #cbd5e1; font-size: 1.2rem; margin: 0;\">3587455</p>\n                                            </div>\n                                            <div style=\"flex: 1; background: rgba(239,68,68,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h4 style=\"color: #f87171; margin: 0 0 5px 0;\">כוח הגנה</h4>\n                                                <p style=\"color: #cbd5e1; font-size: 1.2rem; margin: 0;\">0</p>\n                                            </div>\n                                        </div>\n\n                                        <h4 style=\"color: #fbbf24; margin: 15px 0 10px 0;\">אבדות</h4>\n                                        <div style=\"display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;\">\n                                            <div style=\"background: rgba(59,130,246,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h5 style=\"color: #60a5fa; margin: 0 0 5px 0;\">שלנו</h5>\n                                                <div style=\"color: #cbd5e1; font-size: 0.85em;\">\n                                                    <div>🔱 0 חניתים</div>\n                                                    <div>🏹 0 קשתים</div>\n                                                    <div>⚔️ 0 לוחמי חרב</div>\n                                                </div>\n                                            </div>\n                                            <div style=\"background: rgba(239,68,68,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h5 style=\"color: #f87171; margin: 0 0 5px 0;\">שלהם</h5>\n                                                <div style=\"color: #cbd5e1; font-size: 0.85em;\">\n                                                    <div>🔱 0 חניתים</div>\n                                                    <div>🏹 0 קשתים</div>\n                                                    <div>⚔️ 0 לוחמי חרב</div>\n                                                </div>\n                                            </div>\n                                        </div>\n\n                                        \n                                        <div style=\"background: rgba(16,185,129,0.1); padding: 15px; border-radius: 8px; margin-top: 15px;\">\n                                            <h4 style=\"color: #10b981; margin: 0 0 10px 0;\">💰 החלק שלך בשלל</h4>\n                                            <div style=\"display: flex; justify-content: center; gap: 15px; font-size: 1.1rem; color: #cbd5e1;\">\n                                                <span>💰 26</span>\n                                                <span>🌲 26</span>\n                                                <span>🌾 23</span>\n                                            </div>\n                                        </div>\n                                        \n                                    </div>\n                                ",
+        "timestamp": 1769030898581,
+        "read": false
+      },
+      {
+        "id": "1769030867077_cvyvzjw2o",
+        "type": "victory",
+        "title": "ניצחון: התקפה על TestBoss's City",
+        "content": "\n                                    <div style=\"padding: 10px; text-align: center;\">\n                                        <div style=\"font-size: 4rem; margin-bottom: 10px;\">\n                                            🎉\n                                        </div>\n                                        <h2 style=\"color: #10b981; margin-bottom: 15px;\">\n                                            ני��חון!\n                                        </h2>\n                                        <p style=\"color: #cbd5e1; margin-bottom: 20px;\">התקפה משותפת בהובלת Ofek</p>\n                                        \n                                        <div style=\"display: flex; gap: 10px; margin-bottom: 20px;\">\n                                            <div style=\"flex: 1; background: rgba(59,130,246,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h4 style=\"color: #60a5fa; margin: 0 0 5px 0;\">כוח התקפה</h4>\n                                                <p style=\"color: #cbd5e1; font-size: 1.2rem; margin: 0;\">3776250</p>\n                                            </div>\n                                            <div style=\"flex: 1; background: rgba(239,68,68,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h4 style=\"color: #f87171; margin: 0 0 5px 0;\">כוח הגנה</h4>\n                                                <p style=\"color: #cbd5e1; font-size: 1.2rem; margin: 0;\">150000</p>\n                                            </div>\n                                        </div>\n\n                                        <h4 style=\"color: #fbbf24; margin: 15px 0 10px 0;\">אבדות</h4>\n                                        <div style=\"display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;\">\n                                            <div style=\"background: rgba(59,130,246,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h5 style=\"color: #60a5fa; margin: 0 0 5px 0;\">שלנו</h5>\n                                                <div style=\"color: #cbd5e1; font-size: 0.85em;\">\n                                                    <div>🔱 4275 חניתים</div>\n                                                    <div>🏹 3087 קשתים</div>\n                                                    <div>⚔️ 4987 לוחמי חרב</div>\n                                                </div>\n                                            </div>\n                                            <div style=\"background: rgba(239,68,68,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h5 style=\"color: #f87171; margin: 0 0 5px 0;\">שלהם</h5>\n                                                <div style=\"color: #cbd5e1; font-size: 0.85em;\">\n                                                    <div>🔱 0 חניתים</div>\n                                                    <div>🏹 9500 קשתים</div>\n                                                    <div>⚔️ 0 לוחמי חרב</div>\n                                                </div>\n                                            </div>\n                                        </div>\n\n                                        \n                                        <div style=\"background: rgba(16,185,129,0.1); padding: 15px; border-radius: 8px; margin-top: 15px;\">\n                                            <h4 style=\"color: #10b981; margin: 0 0 10px 0;\">💰 החלק שלך בשלל</h4>\n                                            <div style=\"display: flex; justify-content: center; gap: 15px; font-size: 1.1rem; color: #cbd5e1;\">\n                                                <span>💰 2469475</span>\n                                                <span>🌲 533</span>\n                                                <span>🌾 0</span>\n                                            </div>\n                                        </div>\n                                        \n                                    </div>\n                                ",
+        "timestamp": 1769030867077,
+        "read": false
+      },
+      {
+        "id": "1769029417038_tdfporfhh",
+        "type": "victory",
+        "title": "ניצחון: התקפה על TestUserNew's City",
+        "content": "\n                                    <div style=\"padding: 10px; text-align: center;\">\n                                        <div style=\"font-size: 4rem; margin-bottom: 10px;\">\n                                            🎉\n                                        </div>\n                                        <h2 style=\"color: #10b981; margin-bottom: 15px;\">\n                                            ניצחון!\n                                        </h2>\n                                        <p style=\"color: #cbd5e1; margin-bottom: 20px;\">התקפה משותפת בהובלת Ofek</p>\n                                        \n                                        <div style=\"display: flex; gap: 10px; margin-bottom: 20px;\">\n                                            <div style=\"flex: 1; background: rgba(59,130,246,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h4 style=\"color: #60a5fa; margin: 0 0 5px 0;\">כוח התקפה</h4>\n                                                <p style=\"color: #cbd5e1; font-size: 1.2rem; margin: 0;\">3776250</p>\n                                            </div>\n                                            <div style=\"flex: 1; background: rgba(239,68,68,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h4 style=\"color: #f87171; margin: 0 0 5px 0;\">כוח הגנה</h4>\n                                                <p style=\"color: #cbd5e1; font-size: 1.2rem; margin: 0;\">0</p>\n                                            </div>\n                                        </div>\n\n                                        <h4 style=\"color: #fbbf24; margin: 15px 0 10px 0;\">אבדות</h4>\n                                        <div style=\"display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;\">\n                                            <div style=\"background: rgba(59,130,246,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h5 style=\"color: #60a5fa; margin: 0 0 5px 0;\">שלנו</h5>\n                                                <div style=\"color: #cbd5e1; font-size: 0.85em;\">\n                                                    <div>🔱 0 חניתים</div>\n                                                    <div>🏹 0 קשתים</div>\n                                                    <div>⚔️ 0 לוחמי חרב</div>\n                                                </div>\n                                            </div>\n                                            <div style=\"background: rgba(239,68,68,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h5 style=\"color: #f87171; margin: 0 0 5px 0;\">ש��הם</h5>\n                                                <div style=\"color: #cbd5e1; font-size: 0.85em;\">\n                                                    <div>🔱 0 חניתים</div>\n                                                    <div>🏹 0 קשתים</div>\n                                                    <div>⚔️ 0 לוחמי חרב</div>\n                                                </div>\n                                            </div>\n                                        </div>\n\n                                        \n                                        <div style=\"background: rgba(16,185,129,0.1); padding: 15px; border-radius: 8px; margin-top: 15px;\">\n                                            <h4 style=\"color: #10b981; margin: 0 0 10px 0;\">💰 החלק שלך בשלל</h4>\n                                            <div style=\"display: flex; justify-content: center; gap: 15px; font-size: 1.1rem; color: #cbd5e1;\">\n                                                <span>💰 9508</span>\n                                                <span>🌲 3282</span>\n                                                <span>🌾 14</span>\n                                            </div>\n                                        </div>\n                                        \n                                    </div>\n                                ",
+        "timestamp": 1769029417038,
+        "read": true
+      },
+      {
+        "id": "1769029363633_o3ot8z68x",
+        "type": "victory",
+        "title": "ניצחון: התקפה על TestLeader's City",
+        "content": "\n                                    <div style=\"padding: 10px; text-align: center;\">\n                                        <div style=\"font-size: 4rem; margin-bottom: 10px;\">\n                                            🎉\n                                        </div>\n                                        <h2 style=\"color: #10b981; margin-bottom: 15px;\">\n                                            ניצחון!\n                                        </h2>\n                                        <p style=\"color: #cbd5e1; margin-bottom: 20px;\">התקפה משותפת בהובלת Ofek</p>\n                                        \n                                        <div style=\"display: flex; gap: 10px; margin-bottom: 20px;\">\n                                            <div style=\"flex: 1; background: rgba(59,130,246,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h4 style=\"color: #60a5fa; margin: 0 0 5px 0;\">כוח התקפה</h4>\n                                                <p style=\"color: #cbd5e1; font-size: 1.2rem; margin: 0;\">3975000</p>\n                                            </div>\n                                            <div style=\"flex: 1; background: rgba(239,68,68,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h4 style=\"color: #f87171; margin: 0 0 5px 0;\">כוח הגנה</h4>\n                                                <p style=\"color: #cbd5e1; font-size: 1.2rem; margin: 0;\">150000</p>\n                                            </div>\n                                        </div>\n\n                                        <h4 style=\"color: #fbbf24; margin: 15px 0 10px 0;\">אבדות</h4>\n                                        <div style=\"display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;\">\n                                            <div style=\"background: rgba(59,130,246,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h5 style=\"color: #60a5fa; margin: 0 0 5px 0;\">שלנו</h5>\n                                                <div style=\"color: #cbd5e1; font-size: 0.85em;\">\n                                                    <div>🔱 4500 חניתים</div>\n                                                    <div>🏹 3250 קשתים</div>\n                                                    <div>⚔️ 5250 לוחמי חרב</div>\n                                                </div>\n                                            </div>\n                                            <div style=\"background: rgba(239,68,68,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h5 style=\"color: #f87171; margin: 0 0 5px 0;\">שלהם</h5>\n                                                <div style=\"color: #cbd5e1; font-size: 0.85em;\">\n                                                    <div>🔱 0 חניתים</div>\n                                                    <div>🏹 9500 קשתים</div>\n                                                    <div>⚔️ 0 לוחמי חרב</div>\n                                                </div>\n                                            </div>\n                                        </div>\n\n                                        \n                                        <div style=\"background: rgba(16,185,129,0.1); padding: 15px; border-radius: 8px; margin-top: 15px;\">\n                                            <h4 style=\"color: #10b981; margin: 0 0 10px 0;\">💰 החלק שלך בשלל</h4>\n                                            <div style=\"display: flex; justify-content: center; gap: 15px; font-size: 1.1rem; color: #cbd5e1;\">\n                                                <span>💰 2460275</span>\n                                                <span>🌲 9724</span>\n                                                <span>🌾 0</span>\n                                            </div>\n                                        </div>\n                                        \n                                    </div>\n                                ",
+        "timestamp": 1769029363633,
+        "read": true
+      },
+      {
+        "id": "mkoid95s1aafm61ecrpi",
+        "timestamp": 1769029296544,
+        "read": true,
+        "type": "attack",
+        "title": "ניצחון בקרב",
+        "data": {
+          "winner": true,
+          "loot": {
+            "gold": 129,
+            "wood": 68,
+            "food": 127
+          },
+          "unitsLost": {},
+          "unitsReturned": {
+            "spearman": 180,
+            "archer": 808,
+            "swordsman": 360
+          },
+          "enemy": "Unknown"
+        }
+      },
+      {
+        "id": "1769029284345_kxauapz97",
+        "type": "victory",
+        "title": "ניצחון: התקפה על TestMember's City",
+        "content": "\n                                    <div style=\"padding: 10px; text-align: center;\">\n                                        <div style=\"font-size: 4rem; margin-bottom: 10px;\">\n                                            🎉\n                                        </div>\n                                        <h2 style=\"color: #10b981; margin-bottom: 15px;\">\n                                            ניצחון!\n                                        </h2>\n                                        <p style=\"color: #cbd5e1; margin-bottom: 20px;\">התקפה משותפת בהובלת Ofek</p>\n                                        \n                                        <div style=\"display: flex; gap: 10px; margin-bottom: 20px;\">\n                                            <div style=\"flex: 1; background: rgba(59,130,246,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h4 style=\"color: #60a5fa; margin: 0 0 5px 0;\">כוח התקפה</h4>\n                                                <p style=\"color: #cbd5e1; font-size: 1.2rem; margin: 0;\">3975000</p>\n                                            </div>\n                                            <div style=\"flex: 1; background: rgba(239,68,68,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h4 style=\"color: #f87171; margin: 0 0 5px 0;\">כוח הגנה</h4>\n                                                <p style=\"color: #cbd5e1; font-size: 1.2rem; margin: 0;\">0</p>\n                                            </div>\n                                        </div>\n\n                                        <h4 style=\"color: #fbbf24; margin: 15px 0 10px 0;\">אבדות</h4>\n                                        <div style=\"display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;\">\n                                            <div style=\"background: rgba(59,130,246,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h5 style=\"color: #60a5fa; margin: 0 0 5px 0;\">שלנו</h5>\n                                                <div style=\"color: #cbd5e1; font-size: 0.85em;\">\n                                                    <div>🔱 0 חניתים</div>\n                                                    <div>🏹 0 קשתים</div>\n                                                    <div>⚔️ 0 לוחמי חרב</div>\n                                                </div>\n                                            </div>\n                                            <div style=\"background: rgba(239,68,68,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h5 style=\"color: #f87171; margin: 0 0 5px 0;\">שלהם</h5>\n                                                <div style=\"color: #cbd5e1; font-size: 0.85em;\">\n                                                    <div>🔱 0 חניתים</div>\n                                                    <div>🏹 0 קשתים</div>\n                                                    <div>⚔️ 0 ל���������������������חמי חרב</div>\n                                                </div>\n                                            </div>\n                                        </div>\n\n                                        \n                                        <div style=\"background: rgba(16,185,129,0.1); padding: 15px; border-radius: 8px; margin-top: 15px;\">\n                                            <h4 style=\"color: #10b981; margin: 0 0 10px 0;\">💰 החלק שלך בשלל</h4>\n                                            <div style=\"display: flex; justify-content: center; gap: 15px; font-size: 1.1rem; color: #cbd5e1;\">\n                                                <span>💰 168</span>\n                                                <span>🌲 136</span>\n                                                <span>🌾 21</span>\n                                            </div>\n                                        </div>\n                                        \n                                    </div>\n                                ",
+        "timestamp": 1769029284345,
+        "read": true
+      },
+      {
+        "id": "mkoi8zqgg00b2zthbr",
+        "timestamp": 1769029097704,
+        "read": true,
+        "type": "attack",
+        "title": "ניצחון בקרב",
+        "data": {
+          "winner": true,
+          "loot": {
+            "gold": 40,
+            "wood": 63,
+            "food": 51
+          },
+          "unitsLost": {
+            "spearman": 19,
+            "archer": 89,
+            "swordsman": 40
+          },
+          "unitsReturned": {
+            "spearman": 180,
+            "archer": 808,
+            "swordsman": 360
+          },
+          "enemy": "Unknown"
+        }
+      },
+      {
+        "id": "mkogd772gcevdvsoc99",
+        "timestamp": 1769025934766,
+        "read": true,
+        "type": "attack",
+        "title": "ניצחון על Researcher's City",
+        "data": {
+          "winner": true,
+          "enemy": "Researcher's City",
+          "enemyLevel": 1,
+          "defenderArmy": {},
+          "defenderPower": 0,
+          "loot": {
+            "gold": 0,
+            "wood": 0
+          },
+          "unitsLost": {
+            "spearman": 0,
+            "archer": 0,
+            "swordsman": 0
+          },
+          "unitsReturned": {
+            "spearman": 101874,
+            "archer": 70200,
+            "swordsman": 109600
+          }
+        }
+      },
+      {
+        "id": "mkmzei7i88m1cc5j54p",
+        "timestamp": 1768936976046,
+        "read": true,
+        "type": "system",
+        "title": "ברוך הבא!",
+        "data": {
+          "loot": {}
+        }
+      }
+    ],
+    "missions": {
+      "daily": [
+        {
+          "id": "d_1769707623469_0",
+          "title": "שדרג מבנים (2)",
+          "type": "build",
+          "target": 2,
+          "current": 0,
+          "reward": {
+            "gold": 4,
+            "wood": 2
+          },
+          "claimed": false
+        },
+        {
+          "id": "d_1769707623469_1",
+          "title": "שדרג מבנים (3)",
+          "type": "build",
+          "target": 3,
+          "current": 0,
+          "reward": {
+            "gold": 6,
+            "wood": 3
+          },
+          "claimed": false
+        },
+        {
+          "id": "d_1769707623469_2",
+          "title": "שדרג מבנים (3)",
+          "type": "build",
+          "target": 3,
+          "current": 0,
+          "reward": {
+            "gold": 6,
+            "wood": 3
+          },
+          "claimed": false
+        }
+      ],
+      "weekly": [
+        {
+          "id": "w_1769707623469_0",
+          "title": "אתגר שבועי: אסוף כמות גדולה (7698)",
+          "type": "gather",
+          "target": 7698,
+          "current": 0,
+          "reward": {
+            "gold": 23094,
+            "wine": 769
+          },
+          "claimed": false
+        },
+        {
+          "id": "w_1769707623469_1",
+          "title": "אתגר שבועי: אסוף כמות גדולה (19725)",
+          "type": "gather",
+          "target": 19725,
+          "current": 0,
+          "reward": {
+            "gold": 59175,
+            "wine": 1972
+          },
+          "claimed": false
+        }
+      ],
+      "lastDailyReset": 1769707623469,
+      "lastWeeklyReset": 1769707623469
+    },
+    "lastLogin": 1769723525837,
+    "clan": {
+      "id": "clan_1769160816036_98uswif30"
+    },
+    "chats": {
+      "אולף_המלומד": [
+        {
+          "id": "mkogdcvaha99c9rd7tk",
+          "from": "Ofek",
+          "to": "אולף_המלומד",
+          "timestamp": 1769025942118,
+          "content": "היי"
+        }
+      ]
+    }
+  }
+}

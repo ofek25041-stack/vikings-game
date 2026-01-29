@@ -1,0 +1,16 @@
+# Render configuration for Vikings Game
+services:
+  - type: web
+    name: vikings-game
+    env: node
+    region: oregon # Free tier available
+    plan: free
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+    # Health check
+    healthCheckPath: /

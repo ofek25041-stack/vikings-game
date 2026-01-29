@@ -1,0 +1,121 @@
+{
+  "username": "גונהילד_העשירה",
+  "password": "ai_player",
+  "state": {
+    "homeCoords": {
+      "x": 366,
+      "y": 426
+    },
+    "resources": {
+      "gold": 55000,
+      "wood": 38000,
+      "food": 32000,
+      "wine": 7000,
+      "marble": 4500,
+      "crystal": 2800,
+      "sulfur": 1300
+    },
+    "buildings": {
+      "townHall": {
+        "level": 9
+      },
+      "barracks": {
+        "level": 7
+      },
+      "warehouse": {
+        "level": 6
+      },
+      "farm": {
+        "level": 8
+      },
+      "lumberMill": {
+        "level": 7
+      }
+    },
+    "army": {
+      "spearman": 280,
+      "archer": 140,
+      "swordsman": 70
+    },
+    "research": {},
+    "stats": {
+      "battles": 13,
+      "wins": 36,
+      "losses": 3
+    },
+    "city": {
+      "population": 1400,
+      "happiness": 79
+    },
+    "mapEntities": {
+      "366,426": {
+        "type": "city",
+        "name": "גונהילד_העשירה",
+        "user": "גונהילד_העשירה",
+        "level": 9,
+        "x": 366,
+        "y": 426,
+        "isMyCity": false,
+        "motto": "עושר הוא כוח אמיתי"
+      },
+      "373,428": {
+        "type": "farm",
+        "resource": "wine",
+        "name": "כרם ענבים",
+        "owner": "גונהילד_העשירה",
+        "level": 3,
+        "x": 373,
+        "y": 428
+      },
+      "360,429": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "owner": "גונהילד_העשירה",
+        "level": 1,
+        "x": 360,
+        "y": 429
+      },
+      "384,437": {
+        "type": "wood",
+        "resource": "wood",
+        "name": "מחנה חוטבים",
+        "owner": "גונהילד_העשירה",
+        "level": 2,
+        "x": 384,
+        "y": 437
+      },
+      "364,441": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "owner": "גונהילד_העשירה",
+        "level": 3,
+        "x": 364,
+        "y": 441
+      }
+    },
+    "lastLogin": 1768936444861,
+    "reports": [
+      {
+        "id": "mkogdqtvll9668ki41k",
+        "type": "clan_invite",
+        "from": "Ofek",
+        "clanId": "clan_1769025793466_7k8i2wm21",
+        "clanName": "God",
+        "clanTag": "GOD",
+        "timestamp": 1769025960211,
+        "read": false,
+        "title": "הזמנה לקלאן [GOD] God",
+        "data": {
+          "from": "Ofek",
+          "clanId": "clan_1769025793466_7k8i2wm21",
+          "clanName": "God",
+          "clanTag": "GOD"
+        }
+      }
+    ],
+    "chats": {},
+    "motto": "עושר הוא כוח אמיתי"
+  }
+}

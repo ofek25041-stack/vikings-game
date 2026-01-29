@@ -1,0 +1,103 @@
+{
+  "username": "לגרתה_המלכה",
+  "password": "ai_player",
+  "state": {
+    "homeCoords": {
+      "x": 793,
+      "y": 697
+    },
+    "resources": {
+      "gold": 53000,
+      "wood": 34000,
+      "food": 30000,
+      "wine": 6500,
+      "marble": 3800,
+      "crystal": 2400,
+      "sulfur": 1100
+    },
+    "buildings": {
+      "townHall": {
+        "level": 10
+      },
+      "barracks": {
+        "level": 8
+      },
+      "warehouse": {
+        "level": 7
+      },
+      "farm": {
+        "level": 9
+      },
+      "lumberMill": {
+        "level": 8
+      }
+    },
+    "army": {
+      "spearman": 300,
+      "archer": 150,
+      "swordsman": 75
+    },
+    "research": {},
+    "stats": {
+      "battles": 51,
+      "wins": 7,
+      "losses": 26
+    },
+    "city": {
+      "population": 1500,
+      "happiness": 81
+    },
+    "mapEntities": {
+      "793,697": {
+        "type": "city",
+        "name": "לגרתה_המלכה",
+        "user": "לגרתה_המלכה",
+        "level": 10,
+        "x": 793,
+        "y": 697,
+        "isMyCity": false,
+        "motto": "חכמה וכוח ביחד"
+      },
+      "799,705": {
+        "type": "field",
+        "resource": "food",
+        "name": "שדה חיטה",
+        "owner": "לגרתה_המלכה",
+        "level": 2,
+        "x": 799,
+        "y": 705
+      },
+      "801,680": {
+        "type": "wood",
+        "resource": "wood",
+        "name": "מחנה חוטבים",
+        "owner": "לגרתה_המלכה",
+        "level": 3,
+        "x": 801,
+        "y": 680
+      },
+      "787,712": {
+        "type": "wood",
+        "resource": "wood",
+        "name": "מחנה חוטבים",
+        "owner": "לגרתה_המלכה",
+        "level": 1,
+        "x": 787,
+        "y": 712
+      },
+      "793,695": {
+        "type": "wood",
+        "resource": "wood",
+        "name": "מחנה חוטבים",
+        "owner": "לגרתה_המלכה",
+        "level": 2,
+        "x": 793,
+        "y": 695
+      }
+    },
+    "lastLogin": 1768936444863,
+    "reports": [],
+    "chats": {},
+    "motto": "חכמה וכוח ביחד"
+  }
+}

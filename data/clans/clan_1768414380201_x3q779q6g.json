@@ -1,0 +1,45 @@
+{
+  "id": "clan_1768414380201_x3q779q6g",
+  "name": "TestClan",
+  "tag": "TST",
+  "description": "",
+  "icon": "🛡️",
+  "leader": "TestLeader",
+  "members": {
+    "TestLeader": {
+      "role": "leader",
+      "joinedAt": 1768414380202,
+      "contribution": {
+        "gold": 0,
+        "wood": 0,
+        "food": 0
+      },
+      "lastSeen": 1768414380202
+    }
+  },
+  "treasury": {
+    "gold": 0,
+    "wood": 0,
+    "food": 0,
+    "wine": 0,
+    "marble": 0,
+    "crystal": 0,
+    "sulfur": 0
+  },
+  "upgrades": {
+    "treasury": 1,
+    "militaryBonus": 0,
+    "economyBonus": 0
+  },
+  "stats": {
+    "totalMembers": 1,
+    "territories": 0,
+    "wins": 0,
+    "losses": 0
+  },
+  "messages": [],
+  "invitations": {},
+  "applications": {},
+  "createdAt": 1768414380202,
+  "lastActivity": 1768414380202
+}
