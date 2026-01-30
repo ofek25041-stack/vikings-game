@@ -1,10 +1,10 @@
-# Vikings Strategy Game
+# World Order - סדר עולמי
 
-A real-time multiplayer strategy game built with Node.js
+A real-time multiplayer strategy game where you build your empire and dominate the world
 
 ## 🎮 Game Features
 
-- Build and upgrade your Viking city
+- Build and upgrade your empire
 - Train armies and conquer territories  
 - Join or create clans with fortress system
 - Real-time PvP battles with march visualization
