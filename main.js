@@ -365,15 +365,17 @@ function centerMapOnFortress() {
     const clan = window.ALL_CLANS[STATE.clan.id];
     console.log('🏰 Clan data:', clan);
     console.log('🏰 Fortress:', clan?.fortress);
-    console.log('🏰 Fortress coords:', clan?.fortress?.coords);
+    console.log('🏰 Fortress x:', clan?.fortress?.x);
+    console.log('🏰 Fortress y:', clan?.fortress?.y);
 
-    if (!clan || !clan.fortress || !clan.fortress.coords) {
+    // Check if fortress exists with coordinates
+    if (!clan || !clan.fortress || clan.fortress.x === undefined || clan.fortress.y === undefined) {
         notify('לקלאן שלך אין מבצר', 'error');
         return;
     }
 
-    // Center on fortress coordinates
-    const fortressCoords = clan.fortress.coords;
+    // Center on fortress coordinates (x and y are direct properties)
+    const fortressCoords = { x: clan.fortress.x, y: clan.fortress.y };
     console.log('🏰 Navigating to coords:', fortressCoords);
     STATE.viewport = { x: fortressCoords.x, y: fortressCoords.y };
 
