@@ -352,6 +352,9 @@ function centerMapOnHome() {
 }
 
 function centerMapOnFortress() {
+    console.log('🏰 centerMapOnFortress called');
+    console.log('🏰 STATE.clan:', STATE.clan);
+
     // Check if player is in a clan
     if (!STATE.clan || !STATE.clan.id) {
         notify('אתה לא שייך לקלאן', 'error');
@@ -360,6 +363,10 @@ function centerMapOnFortress() {
 
     // Get clan data
     const clan = window.ALL_CLANS[STATE.clan.id];
+    console.log('🏰 Clan data:', clan);
+    console.log('🏰 Fortress:', clan?.fortress);
+    console.log('🏰 Fortress coords:', clan?.fortress?.coords);
+
     if (!clan || !clan.fortress || !clan.fortress.coords) {
         notify('לקלאן שלך אין מבצר', 'error');
         return;
@@ -367,6 +374,7 @@ function centerMapOnFortress() {
 
     // Center on fortress coordinates
     const fortressCoords = clan.fortress.coords;
+    console.log('🏰 Navigating to coords:', fortressCoords);
     STATE.viewport = { x: fortressCoords.x, y: fortressCoords.y };
 
     requestAnimationFrame(() => {
