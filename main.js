@@ -669,8 +669,8 @@ function interactEntity(x, y, entity) {
                 `<button class="btn-primary" style="background: linear-gradient(135deg, #ef4444, #b91c1c);" onclick="attackEntity(${realX}, ${realY})">⚔️ פשיטה על המבצר</button>` :
                 `<button class="btn-primary" style="background:#475569; cursor:not-allowed;">🛡️ המבצר שלך</button>`
             }
-                    ${isLeader && hasFortress ?
-                `<button class="btn-primary" style="background: linear-gradient(135deg, #8b5cf6, #6d28d9);" onclick="attackFromFortress(${realX}, ${realY}, STATE.mapEntities['${realX},${realY}'])">🏰 תקוף מהמבצר שלך</button>` :
+                    ${isLeader && hasFortress && canAttack ?
+                `<button class="btn-primary" style="background: linear-gradient(135deg, #8b5cf6, #6d28d9);" onclick="closeModal(); ClanUI.attackFromFortress(${realX}, ${realY}, 'fortress')">🏰 תקוף מהמבצר שלך</button>` :
                 ''
             }
                 </div>
