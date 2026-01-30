@@ -395,14 +395,28 @@ if ('scrollRestoration' in history) {
 
 // Update fortress button visibility based on clan status
 function updateFortressButton() {
+    console.log('🏰 updateFortressButton called');
     const btn = document.getElementById('btn-fortress-nav');
-    if (!btn) return;
+    if (!btn) {
+        console.log('🏰 Button element NOT FOUND!');
+        return;
+    }
 
     // Show button only if player is in clan with fortress
     const hasClanWithFortress = STATE.clan && STATE.clan.id &&
         window.ALL_CLANS[STATE.clan.id]?.fortress?.coords;
 
+    console.log('🏰 Check results:', {
+        hasClan: !!STATE.clan,
+        clanId: STATE.clan?.id,
+        clanData: window.ALL_CLANS[STATE.clan?.id],
+        fortress: window.ALL_CLANS[STATE.clan?.id]?.fortress,
+        coords: window.ALL_CLANS[STATE.clan?.id]?.fortress?.coords,
+        willShow: hasClanWithFortress
+    });
+
     btn.style.display = hasClanWithFortress ? 'inline-block' : 'none';
+    console.log('🏰 Button display set to:', btn.style.display);
 }
 
 // Pseudo-Random Deterministic Noise for Terrain
