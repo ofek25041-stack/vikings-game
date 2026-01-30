@@ -648,12 +648,15 @@ function interactEntity(x, y, entity) {
         }
 
         // Check if player is a clan leader with a fortress
-        const isLeader = STATE.clan && STATE.clan.role === 'leader';
-        const playerClan = isLeader && STATE.clan.id ? window.ALL_CLANS[STATE.clan.id] : null;
+        const playerClan = STATE.clan && STATE.clan.id ? window.ALL_CLANS[STATE.clan.id] : null;
+        const myRole = playerClan?.members?.[CURRENT_USER]?.role;
+        const isLeader = myRole === 'leader';
+
         // Check both garrison (new) and troops (old) for backward compatibility
         const garrison = playerClan?.fortress?.garrison || playerClan?.fortress?.troops || {};
         const garrisonTotal = garrison.total || Object.values(garrison).reduce((sum, val) => sum + (typeof val === 'number' ? val : 0), 0);
         const hasFortress = playerClan && playerClan.fortress && garrisonTotal > 0;
+
 
         const html = `
             <div class="profile-card" style="text-align:center; padding:20px;">
