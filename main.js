@@ -3295,13 +3295,11 @@ function switchView(viewName) {
                     loadAllTerritories().then(() => {
                         renderWorldMap();
                         requestAnimationFrame(centerMapOnHome);
-                        updateFortressButton();
                     }).catch(err => {
                         console.error('Error loading territories:', err);
                         // Render anyway even if territories fail to load
                         renderWorldMap();
                         requestAnimationFrame(centerMapOnHome);
-                        updateFortressButton();
                     });
                 } else {
                     throw new Error("Template 'template-world' not found!");
