@@ -351,9 +351,58 @@ function centerMapOnHome() {
     }
 }
 
+function centerMapOnFortress() {
+    // Check if player is in a clan
+    if (!STATE.clan || !STATE.clan.id) {
+        notify('אתה לא שייך לקלאן', 'error');
+        return;
+    }
+
+    // Get clan data
+    const clan = window.ALL_CLANS[STATE.clan.id];
+    if (!clan || !clan.fortress || !clan.fortress.coords) {
+        notify('לקלאן שלך אין מבצר', 'error');
+        return;
+    }
+
+    // Center on fortress coordinates
+    const fortressCoords = clan.fortress.coords;
+    STATE.viewport = { x: fortressCoords.x, y: fortressCoords.y };
+
+    requestAnimationFrame(() => {
+        const container = document.getElementById('world-map-viewport');
+
+        // Find fortress element on map
+        const fortressEl = document.querySelector(`.fortress-icon[data-x="${fortressCoords.x}"][data-y="${fortressCoords.y}"]`);
+
+        if (fortressEl) {
+            fortressEl.scrollIntoView({ block: 'center', inline: 'center', behavior: 'smooth' });
+        } else if (container) {
+            // Fallback: geometric center
+            container.scrollTo({
+                top: (container.scrollHeight - container.clientHeight) / 2,
+                left: (container.scrollWidth - container.clientWidth) / 2,
+                behavior: 'smooth'
+            });
+        }
+    });
+}
+
 // Disable browser remembering scroll position to prevent "Jumps" on reload
 if ('scrollRestoration' in history) {
     history.scrollRestoration = 'manual';
+}
+
+// Update fortress button visibility based on clan status
+function updateFortressButton() {
+    const btn = document.getElementById('btn-fortress-nav');
+    if (!btn) return;
+
+    // Show button only if player is in clan with fortress
+    const hasClanWithFortress = STATE.clan && STATE.clan.id &&
+        window.ALL_CLANS[STATE.clan.id]?.fortress?.coords;
+
+    btn.style.display = hasClanWithFortress ? 'inline-block' : 'none';
 }
 
 // Pseudo-Random Deterministic Noise for Terrain
@@ -3232,6 +3281,7 @@ function switchView(viewName) {
                     loadAllTerritories().then(() => {
                         renderWorldMap();
                         requestAnimationFrame(centerMapOnHome);
+                        updateFortressButton();
                     }).catch(err => {
                         console.error('Error loading territories:', err);
                         // Render anyway even if territories fail to load
