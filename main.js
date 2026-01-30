@@ -3287,6 +3287,7 @@ function switchView(viewName) {
                         // Render anyway even if territories fail to load
                         renderWorldMap();
                         requestAnimationFrame(centerMapOnHome);
+                        updateFortressButton();
                     });
                 } else {
                     throw new Error("Template 'template-world' not found!");
