@@ -386,7 +386,30 @@ function centerMapOnFortress() {
 
     console.log('🏰 DEBUG: STATE.viewport after setting:', STATE.viewport);
 
+    // Render the map first to ensure fortress element exists
     renderWorldMap();
+
+    // Then use scrollIntoView to center it (like centerMapOnHome)
+    requestAnimationFrame(() => {
+        const fortressEl = document.querySelector('.entity-my-fortress') ||
+            document.querySelector('.fortress-entity');
+
+        if (fortressEl) {
+            console.log('🏰 DEBUG: Found fortress element, scrolling into view');
+            fortressEl.scrollIntoView({ block: 'center', inline: 'center', behavior: 'auto' });
+        } else {
+            console.log('🏰 DEBUG: Fortress element not found, using fallback scroll');
+            const container = document.getElementById('world-map-viewport');
+            if (container) {
+                container.scrollTo({
+                    top: (container.scrollHeight - container.clientHeight) / 2,
+                    left: (container.scrollWidth - container.clientWidth) / 2,
+                    behavior: 'auto'
+                });
+            }
+        }
+    });
+
     notify(`קפצת למבצר: (${fortressX}, ${fortressY})`, 'success');
 }
 
