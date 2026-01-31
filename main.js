@@ -389,26 +389,16 @@ function centerMapOnFortress() {
 
     // Use setTimeout to detach from the click event and ensure DOM is ready
     setTimeout(() => {
-        // Set the input fields to fortress coordinates
-        const xInput = document.getElementById('nav-x');
-        const yInput = document.getElementById('nav-y');
-
-        if (xInput && yInput) {
-            xInput.value = clan.fortress.x;
-            yInput.value = clan.fortress.y;
-
-            // ULTIMATE SHORTCUT: Click the "Go" button programmatically!
-            // This ensures IT IS EXACTLY THE SAME EVENT as manual clicking
-            const goBtn = document.getElementById('btn-go-coords');
-            if (goBtn) {
-                console.log('🏰 Clicking "Go" button programmatically...');
-                goBtn.click();
-            } else {
-                console.log('🏰 "Go" button not found, calling function directly');
-                window.jumpToCoords();
-            }
+        const x = parseInt(clan.fortress.x);
+        const y = parseInt(clan.fortress.y);
+        
+        if (!isNaN(x) && !isNaN(y)) {
+             // Pass coordinates directly to the function
+             // This bypasses any DOM input issues
+             window.jumpToCoords(x, y);
+             console.log(`🏰 Jumping directly to coords: ${x}, ${y}`);
         } else {
-            notify('שגיאה: שדות ניווט לא נמצאו', 'error');
+             notify('לקלאן שלך אין מבצר עם קואורדינטות תקינות', 'error');
         }
     }, 50); // Small delay to clear event stack
 }
