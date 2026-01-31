@@ -352,9 +352,6 @@ function centerMapOnHome() {
 }
 
 function centerMapOnFortress() {
-    console.log('🏰 centerMapOnFortress called');
-    console.log('🏰 STATE.clan:', STATE.clan);
-
     // Check if player is in a clan
     if (!STATE.clan || !STATE.clan.id) {
         notify('אתה לא שייך לקלאן', 'error');
@@ -363,10 +360,6 @@ function centerMapOnFortress() {
 
     // Get clan data
     const clan = window.ALL_CLANS[STATE.clan.id];
-    console.log('🏰 Clan data:', clan);
-    console.log('🏰 Fortress:', clan?.fortress);
-    console.log('🏰 Fortress x:', clan?.fortress?.x);
-    console.log('🏰 Fortress y:', clan?.fortress?.y);
 
     // Check if fortress exists with coordinates
     if (!clan || !clan.fortress || clan.fortress.x === undefined || clan.fortress.y === undefined) {
@@ -374,17 +367,32 @@ function centerMapOnFortress() {
         return;
     }
 
-    // Center on fortress coordinates (x and y are direct properties)
-    const fortressCoords = { x: clan.fortress.x, y: clan.fortress.y };
-    console.log('🏰 Navigating to coords:', fortressCoords);
-    STATE.viewport = { x: fortressCoords.x, y: fortressCoords.y };
+    // Set viewport to fortress coordinates (EXACTLY like centerMapOnHome)
+    STATE.viewport = { x: clan.fortress.x, y: clan.fortress.y };
 
-    // Re-render map with new viewport to ensure fortress is visible
-    renderWorldMap();
+    requestAnimationFrame(() => {
+        const container = document.getElementById('world-map-viewport');
 
-    // Notify user of successful navigation
-    notify(`קפצת למבצר: (${fortressCoords.x}, ${fortressCoords.y})`, 'success');
+        // Try to find fortress element (my fortress or any fortress)
+        const fortressEl = document.querySelector('.entity-my-fortress') ||
+            document.querySelector('.fortress-entity');
+
+        if (fortressEl) {
+            // Use scrollIntoView for perfect centering (SAME as centerMapOnHome)
+            fortressEl.scrollIntoView({ block: 'center', inline: 'center', behavior: 'auto' });
+        } else if (container) {
+            // Fallback: Geometric Center (SAME as centerMapOnHome)
+            container.scrollTo({
+                top: (container.scrollHeight - container.clientHeight) / 2,
+                left: (container.scrollWidth - container.clientWidth) / 2,
+                behavior: 'auto'
+            });
+        }
+    });
+
+    notify(`קפצת למבצר: (${clan.fortress.x}, ${clan.fortress.y})`, 'success');
 }
+
 
 // Disable browser remembering scroll position to prevent "Jumps" on reload
 if ('scrollRestoration' in history) {
