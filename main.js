@@ -361,6 +361,11 @@ function centerMapOnFortress() {
     // Get clan data
     const clan = window.ALL_CLANS[STATE.clan.id];
 
+    console.log('🏰 DEBUG: Full clan object:', clan);
+    console.log('🏰 DEBUG: Fortress object:', clan?.fortress);
+    console.log('🏰 DEBUG: Fortress.x:', clan?.fortress?.x);
+    console.log('🏰 DEBUG: Fortress.y:', clan?.fortress?.y);
+
     // Check if fortress exists with coordinates
     if (!clan || !clan.fortress || clan.fortress.x === undefined || clan.fortress.y === undefined) {
         notify('לקלאן שלך אין מבצר', 'error');
@@ -368,8 +373,11 @@ function centerMapOnFortress() {
     }
 
     // EXACTLY like jumpToCoords - just set viewport and render
+    console.log('🏰 DEBUG: Setting viewport to:', clan.fortress.x, clan.fortress.y);
     STATE.viewport.x = clan.fortress.x;
     STATE.viewport.y = clan.fortress.y;
+
+    console.log('🏰 DEBUG: STATE.viewport after setting:', STATE.viewport);
 
     renderWorldMap();
     notify(`קפצת למבצר: (${clan.fortress.x}, ${clan.fortress.y})`, 'success');
