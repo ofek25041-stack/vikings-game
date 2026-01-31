@@ -370,6 +370,9 @@ function centerMapOnFortress() {
     // Set viewport to fortress coordinates (EXACTLY like centerMapOnHome)
     STATE.viewport = { x: clan.fortress.x, y: clan.fortress.y };
 
+    // CRITICAL: Render the map to ensure fortress appears before scrolling
+    renderWorldMap();
+
     requestAnimationFrame(() => {
         const container = document.getElementById('world-map-viewport');
 
