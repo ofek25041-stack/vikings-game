@@ -391,14 +391,14 @@ function centerMapOnFortress() {
     setTimeout(() => {
         const x = parseInt(clan.fortress.x);
         const y = parseInt(clan.fortress.y);
-
-        // DEBUG ALERTS - TO VERIFY CODE IS UPDATED
-        alert(`DEBUG: Version 5 Loaded.\nCoords: ${x}, ${y}\nClick OK to jump.`);
-
+        
         if (!isNaN(x) && !isNaN(y)) {
-            window.jumpToCoords(x, y);
+             // Pass coordinates directly to the function
+             // This bypasses any DOM input issues
+             window.jumpToCoords(x, y);
+             console.log(`🏰 Jumping directly to coords: ${x}, ${y}`);
         } else {
-            notify('לקלאן שלך אין מבצר עם קואורדינטות תקינות', 'error');
+             notify('לקלאן שלך אין מבצר עם קואורדינטות תקינות', 'error');
         }
     }, 50); // Small delay to clear event stack
 }
