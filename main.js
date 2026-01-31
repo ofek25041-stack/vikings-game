@@ -380,39 +380,34 @@ function centerMapOnFortress() {
     STATE.viewport = { x: fortressCoords.x, y: fortressCoords.y };
 
     // Re-render map with new viewport to ensure fortress is visible
+    // Re-render map with new viewport to ensure fortress is visible
     renderWorldMap();
 
     // Notify user of successful navigation
     notify(`קפצת למבצר: (${fortressCoords.x}, ${fortressCoords.y})`, 'success');
 
-    // Scroll to center the fortress in the viewport
-    // Wait for render to complete, then calculate exact position
+    // Use same approach as centerMapOnHome - find fortress element and scroll it into view
     requestAnimationFrame(() => {
+        // Wait for render to complete
         requestAnimationFrame(() => {
-            const container = document.getElementById('world-map-viewport');
-            const grid = document.getElementById('world-map-grid');
+            // Find the fortress entity element on the map
+            const fortressEl = document.querySelector('.fortress-entity, .entity-fortress');
 
-            if (container && grid) {
-                // Calculate fortress position in rendered grid
-                // Fortress is at center of viewport, which is VIEW_COLS/2, VIEW_ROWS/2 in the grid
-                const centerTileX = Math.floor(VIEW_COLS / 2);
-                const centerTileY = Math.floor(VIEW_ROWS / 2);
-
-                // Calculate pixel position of center tile
-                const fortressPixelX = centerTileX * TILE_SIZE;
-                const fortressPixelY = centerTileY * TILE_SIZE;
-
-                // Center the fortress in the visible viewport
-                const scrollLeft = fortressPixelX - (container.clientWidth / 2) + (TILE_SIZE / 2);
-                const scrollTop = fortressPixelY - (container.clientHeight / 2) + (TILE_SIZE / 2);
-
-                console.log('🏰 Scroll to:', { scrollLeft, scrollTop, fortressPixelX, fortressPixelY });
-
-                container.scrollTo({
-                    top: Math.max(0, scrollTop),
-                    left: Math.max(0, scrollLeft),
-                    behavior: 'smooth'
-                });
+            if (fortressEl) {
+                console.log('🏰 Found fortress element, scrolling into view');
+                // Use scrollIntoView for perfect centering (same as centerMapOnHome)
+                fortressEl.scrollIntoView({ block: 'center', inline: 'center', behavior: 'smooth' });
+            } else {
+                console.log('🏰 Fortress element not found, using fallback');
+                // Fallback: scroll to geometric center
+                const container = document.getElementById('world-map-viewport');
+                if (container) {
+                    container.scrollTo({
+                        top: (container.scrollHeight - container.clientHeight) / 2,
+                        left: (container.scrollWidth - container.clientWidth) / 2,
+                        behavior: 'smooth'
+                    });
+                }
             }
         });
     });
