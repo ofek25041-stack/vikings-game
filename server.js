@@ -2128,4 +2128,5 @@ const server = http.createServer((req, res) => {
 server.listen(PORT, () => {
     console.log(`Vikings Native Server running at http://localhost:${PORT}`);
     console.log(`Data directory: ${DATA_DIR}`);
+    console.log(`DEPLOYMENT TRIGGER: ${new Date().toISOString()} - FORCE UPDATE`);
 });
