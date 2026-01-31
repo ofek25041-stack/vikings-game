@@ -367,32 +367,11 @@ function centerMapOnFortress() {
         return;
     }
 
-    // Set viewport to fortress coordinates (EXACTLY like centerMapOnHome)
-    STATE.viewport = { x: clan.fortress.x, y: clan.fortress.y };
+    // EXACTLY like jumpToCoords - just set viewport and render
+    STATE.viewport.x = clan.fortress.x;
+    STATE.viewport.y = clan.fortress.y;
 
-    // CRITICAL: Render the map to ensure fortress appears before scrolling
     renderWorldMap();
-
-    requestAnimationFrame(() => {
-        const container = document.getElementById('world-map-viewport');
-
-        // Try to find fortress element (my fortress or any fortress)
-        const fortressEl = document.querySelector('.entity-my-fortress') ||
-            document.querySelector('.fortress-entity');
-
-        if (fortressEl) {
-            // Use scrollIntoView for perfect centering (SAME as centerMapOnHome)
-            fortressEl.scrollIntoView({ block: 'center', inline: 'center', behavior: 'auto' });
-        } else if (container) {
-            // Fallback: Geometric Center (SAME as centerMapOnHome)
-            container.scrollTo({
-                top: (container.scrollHeight - container.clientHeight) / 2,
-                left: (container.scrollWidth - container.clientWidth) / 2,
-                behavior: 'auto'
-            });
-        }
-    });
-
     notify(`קפצת למבצר: (${clan.fortress.x}, ${clan.fortress.y})`, 'success');
 }
 
