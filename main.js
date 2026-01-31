@@ -380,36 +380,31 @@ function centerMapOnFortress() {
     STATE.viewport = { x: fortressCoords.x, y: fortressCoords.y };
 
     // Re-render map with new viewport to ensure fortress is visible
-    // Re-render map with new viewport to ensure fortress is visible
     renderWorldMap();
 
     // Notify user of successful navigation
     notify(`קפצת למבצר: (${fortressCoords.x}, ${fortressCoords.y})`, 'success');
 
-    // Use same approach as centerMapOnHome - find fortress element and scroll it into view
+    // Scroll to center after render - use same logic as centerMapOnHome
     requestAnimationFrame(() => {
-        // Wait for render to complete
-        requestAnimationFrame(() => {
-            // Find the fortress entity element on the map
-            const fortressEl = document.querySelector('.fortress-entity, .entity-fortress');
+        const container = document.getElementById('world-map-viewport');
 
-            if (fortressEl) {
-                console.log('🏰 Found fortress element, scrolling into view');
-                // Use scrollIntoView for perfect centering (same as centerMapOnHome)
-                fortressEl.scrollIntoView({ block: 'center', inline: 'center', behavior: 'smooth' });
-            } else {
-                console.log('🏰 Fortress element not found, using fallback');
-                // Fallback: scroll to geometric center
-                const container = document.getElementById('world-map-viewport');
-                if (container) {
-                    container.scrollTo({
-                        top: (container.scrollHeight - container.clientHeight) / 2,
-                        left: (container.scrollWidth - container.clientWidth) / 2,
-                        behavior: 'smooth'
-                    });
-                }
-            }
-        });
+        // Try to find fortress element first (my fortress or any fortress)
+        const fortressEl = document.querySelector('.entity-my-fortress') ||
+            document.querySelector('.fortress-entity');
+
+        if (fortressEl) {
+            console.log('🏰 Found fortress element, centering with scrollIntoView');
+            fortressEl.scrollIntoView({ block: 'center', inline: 'center', behavior: 'auto' });
+        } else if (container) {
+            console.log('🏰 Fortress element not found, scrolling to geometric center');
+            // Fallback: scroll to geometric center (fortress should be there after render)
+            container.scrollTo({
+                top: (container.scrollHeight - container.clientHeight) / 2,
+                left: (container.scrollWidth - container.clientWidth) / 2,
+                behavior: 'auto'
+            });
+        }
     });
 }
 
