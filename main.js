@@ -402,7 +402,7 @@ function centerMapOnFortress() {
         }
     }, 50); // Small delay to clear event stack
 }
-}
+
 
 
 // Disable browser remembering scroll position to prevent "Jumps" on reload
