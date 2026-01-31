@@ -379,8 +379,16 @@ function centerMapOnFortress() {
         xInput.value = clan.fortress.x;
         yInput.value = clan.fortress.y;
 
-        // Call the existing jumpToCoords function - it already works perfectly!
-        window.jumpToCoords();
+        // ULTIMATE SHORTCUT: Click the "Go" button programmatically!
+        // This ensures IT IS EXACTLY THE SAME EVENT as manual clicking
+        const goBtn = document.getElementById('btn-go-coords');
+        if (goBtn) {
+            console.log('🏰 Clicking "Go" button programmatically...');
+            goBtn.click();
+        } else {
+            console.log('🏰 "Go" button not found, calling function directly');
+            window.jumpToCoords();
+        }
     } else {
         notify('שגיאה: שדות ניווט לא נמצאו', 'error');
     }
