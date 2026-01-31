@@ -367,23 +367,19 @@ function centerMapOnFortress() {
         return;
     }
 
-    // Get coordinates (EXACTLY like jumpToCoords gets them from input)
-    const x = parseInt(clan.fortress.x);
-    const y = parseInt(clan.fortress.y);
+    // Set the input fields to fortress coordinates
+    const xInput = document.getElementById('nav-x');
+    const yInput = document.getElementById('nav-y');
 
-    // Check for NaN (EXACTLY like jumpToCoords)
-    if (isNaN(x) || isNaN(y)) {
-        notify("קואורדינטות מבצר לא תקינות", "error");
-        return;
+    if (xInput && yInput) {
+        xInput.value = clan.fortress.x;
+        yInput.value = clan.fortress.y;
+
+        // Call the existing jumpToCoords function - it already works perfectly!
+        window.jumpToCoords();
+    } else {
+        notify('שגיאה: שדות ניווט לא נמצאו', 'error');
     }
-
-    // EXACT COPY of jumpToCoords from here:
-    if (!STATE.viewport) STATE.viewport = { x: 500, y: 500 };
-    STATE.viewport.x = x;
-    STATE.viewport.y = y;
-
-    renderWorldMap();
-    notify(`קפצת אל: ${x}, ${y}`, "success");
 }
 
 
