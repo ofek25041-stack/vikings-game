@@ -305,6 +305,10 @@ window.jumpToCoords = function () {
     const x = parseInt(xInput.value);
     const y = parseInt(yInput.value);
 
+    console.log('🚀 jumpToCoords called');
+    console.log(`🚀 Inputs: X="${xInput.value}" Y="${yInput.value}"`);
+    console.log(`🚀 Parsed: X=${x} Y=${y}`);
+
     if (isNaN(x) || isNaN(y)) {
         notify("נא להזין קואורדינטות", "error");
         return;
