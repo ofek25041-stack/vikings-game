@@ -379,16 +379,17 @@ function centerMapOnFortress() {
     console.log('🏰 Navigating to coords:', fortressCoords);
     STATE.viewport = { x: fortressCoords.x, y: fortressCoords.y };
 
+    // Re-render map with new viewport to ensure fortress is visible
+    renderWorldMap();
+
+    // Notify user of successful navigation
+    notify(`קפצת למבצר: (${fortressCoords.x}, ${fortressCoords.y})`, 'success');
+
+    // Scroll to center the fortress in the viewport
     requestAnimationFrame(() => {
         const container = document.getElementById('world-map-viewport');
-
-        // Find fortress element on map
-        const fortressEl = document.querySelector(`.fortress-icon[data-x="${fortressCoords.x}"][data-y="${fortressCoords.y}"]`);
-
-        if (fortressEl) {
-            fortressEl.scrollIntoView({ block: 'center', inline: 'center', behavior: 'smooth' });
-        } else if (container) {
-            // Fallback: geometric center
+        if (container) {
+            // Scroll to geometric center
             container.scrollTo({
                 top: (container.scrollHeight - container.clientHeight) / 2,
                 left: (container.scrollWidth - container.clientWidth) / 2,
@@ -413,15 +414,19 @@ function updateFortressButton() {
     }
 
     // Show button only if player is in clan with fortress
+    // Check for fortress.x and fortress.y (actual structure from server)
     const hasClanWithFortress = STATE.clan && STATE.clan.id &&
-        window.ALL_CLANS[STATE.clan.id]?.fortress?.coords;
+        window.ALL_CLANS[STATE.clan.id]?.fortress &&
+        window.ALL_CLANS[STATE.clan.id]?.fortress.x !== undefined &&
+        window.ALL_CLANS[STATE.clan.id]?.fortress.y !== undefined;
 
     console.log('🏰 Check results:', {
         hasClan: !!STATE.clan,
         clanId: STATE.clan?.id,
         clanData: window.ALL_CLANS[STATE.clan?.id],
         fortress: window.ALL_CLANS[STATE.clan?.id]?.fortress,
-        coords: window.ALL_CLANS[STATE.clan?.id]?.fortress?.coords,
+        fortressX: window.ALL_CLANS[STATE.clan?.id]?.fortress?.x,
+        fortressY: window.ALL_CLANS[STATE.clan?.id]?.fortress?.y,
         willShow: hasClanWithFortress
     });
 
