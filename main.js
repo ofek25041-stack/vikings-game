@@ -387,22 +387,21 @@ function centerMapOnFortress() {
         return;
     }
 
-    // DEBUG MODE: Just fill the inputs, don't jump!
+    // Use setTimeout to detach from the click event and ensure DOM is ready
     setTimeout(() => {
-        const xInput = document.getElementById('nav-x');
-        const yInput = document.getElementById('nav-y');
-        
-        if (xInput && yInput) {
-            console.log('🏰 DEBUG: Filling inputs with:', clan.fortress.x, clan.fortress.y);
-            
-            xInput.value = clan.fortress.x;
-            yInput.value = clan.fortress.y;
-            
-            notify(`הוזנו קואורדינטות: ${clan.fortress.x}, ${clan.fortress.y} - לחץ על Go ידנית`, 'info');
+        const x = parseInt(clan.fortress.x);
+        const y = parseInt(clan.fortress.y);
+
+        // DEBUG ALERTS - TO VERIFY CODE IS UPDATED
+        alert(`DEBUG: Version 5 Loaded.\nCoords: ${x}, ${y}\nClick OK to jump.`);
+
+        if (!isNaN(x) && !isNaN(y)) {
+            window.jumpToCoords(x, y);
         } else {
-            notify('שגיאה: שדות ניווט לא נמצאו', 'error');
+            notify('לקלאן שלך אין מבצר עם קואורדינטות תקינות', 'error');
         }
-    }, 50);
+    }, 50); // Small delay to clear event stack
+}
 }
 
 
