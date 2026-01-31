@@ -334,6 +334,10 @@ function moveMap(dx, dy) {
 function centerMapOnHome() {
     if (STATE.homeCoords) {
         STATE.viewport = { ...STATE.homeCoords };
+
+        // CRITICAL FIX: Must re-render map because we might be far away!
+        renderWorldMap();
+
         requestAnimationFrame(() => {
             const container = document.getElementById('world-map-viewport');
 
