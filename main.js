@@ -387,20 +387,22 @@ function centerMapOnFortress() {
         return;
     }
 
-    // Use setTimeout to detach from the click event and ensure DOM is ready
+    // DEBUG MODE: Just fill the inputs, don't jump!
     setTimeout(() => {
-        const x = parseInt(clan.fortress.x);
-        const y = parseInt(clan.fortress.y);
+        const xInput = document.getElementById('nav-x');
+        const yInput = document.getElementById('nav-y');
         
-        if (!isNaN(x) && !isNaN(y)) {
-             // Pass coordinates directly to the function
-             // This bypasses any DOM input issues
-             window.jumpToCoords(x, y);
-             console.log(`🏰 Jumping directly to coords: ${x}, ${y}`);
+        if (xInput && yInput) {
+            console.log('🏰 DEBUG: Filling inputs with:', clan.fortress.x, clan.fortress.y);
+            
+            xInput.value = clan.fortress.x;
+            yInput.value = clan.fortress.y;
+            
+            notify(`הוזנו קואורדינטות: ${clan.fortress.x}, ${clan.fortress.y} - לחץ על Go ידנית`, 'info');
         } else {
-             notify('לקלאן שלך אין מבצר עם קואורדינטות תקינות', 'error');
+            notify('שגיאה: שדות ניווט לא נמצאו', 'error');
         }
-    }, 50); // Small delay to clear event stack
+    }, 50);
 }
 
 
