@@ -299,11 +299,23 @@ function renderWorldMap() {
     // setTimeout(initMobileScroll, 100); // Handled by switchView
 }
 
-window.jumpToCoords = function () {
+window.jumpToCoords = function (targetX, targetY) {
     const xInput = document.getElementById('nav-x');
     const yInput = document.getElementById('nav-y');
-    const x = parseInt(xInput.value);
-    const y = parseInt(yInput.value);
+
+    let x, y;
+
+    // If arguments provided, use them. Otherwise read from inputs.
+    if (targetX !== undefined && targetY !== undefined) {
+        x = parseInt(targetX);
+        y = parseInt(targetY);
+        // Also update the UI inputs to match
+        if (xInput) xInput.value = x;
+        if (yInput) yInput.value = y;
+    } else {
+        x = parseInt(xInput.value);
+        y = parseInt(yInput.value);
+    }
 
     console.log('🚀 jumpToCoords called');
     console.log(`🚀 Inputs: X="${xInput.value}" Y="${yInput.value}"`);
