@@ -361,34 +361,29 @@ function centerMapOnFortress() {
     // Get clan data
     const clan = window.ALL_CLANS[STATE.clan.id];
 
-    console.log('🏰 DEBUG: Full clan object:', clan);
-    console.log('🏰 DEBUG: Fortress object:', clan?.fortress);
-    console.log('🏰 DEBUG: Fortress keys:', Object.keys(clan?.fortress || {}));
-    console.log('🏰 DEBUG: Fortress.x:', clan?.fortress?.x);
-    console.log('🏰 DEBUG: Fortress.y:', clan?.fortress?.y);
-
     // Check if fortress exists with coordinates
     if (!clan || !clan.fortress || clan.fortress.x === undefined || clan.fortress.y === undefined) {
         notify('לקלאן שלך אין מבצר', 'error');
         return;
     }
 
-    // Force parse as integers to ensure correct coordinates
-    const fortressX = parseInt(clan.fortress.x);
-    const fortressY = parseInt(clan.fortress.y);
+    // Get coordinates (EXACTLY like jumpToCoords gets them from input)
+    const x = parseInt(clan.fortress.x);
+    const y = parseInt(clan.fortress.y);
 
-    console.log('🏰 DEBUG: Parsed fortressX:', fortressX);
-    console.log('🏰 DEBUG: Parsed fortressY:', fortressY);
-    console.log('🏰 DEBUG: Setting viewport to:', fortressX, fortressY);
+    // Check for NaN (EXACTLY like jumpToCoords)
+    if (isNaN(x) || isNaN(y)) {
+        notify("קואורדינטות מבצר לא תקינות", "error");
+        return;
+    }
 
-    STATE.viewport.x = fortressX;
-    STATE.viewport.y = fortressY;
+    // EXACT COPY of jumpToCoords from here:
+    if (!STATE.viewport) STATE.viewport = { x: 500, y: 500 };
+    STATE.viewport.x = x;
+    STATE.viewport.y = y;
 
-    console.log('🏰 DEBUG: STATE.viewport after setting:', STATE.viewport);
-
-    // renderWorldMap automatically centers the viewport - no scrolling needed
     renderWorldMap();
-    notify(`קפצת למבצר: (${fortressX}, ${fortressY})`, 'success');
+    notify(`קפצת אל: ${x}, ${y}`, "success");
 }
 
 
