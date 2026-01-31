@@ -380,45 +380,10 @@ function centerMapOnFortress() {
     STATE.viewport = { x: fortressCoords.x, y: fortressCoords.y };
 
     // Re-render map with new viewport to ensure fortress is visible
-    // Re-render map with new viewport to ensure fortress is visible
     renderWorldMap();
 
     // Notify user of successful navigation
     notify(`קפצת למבצר: (${fortressCoords.x}, ${fortressCoords.y})`, 'success');
-
-    // Scroll to center after render - calculate exact position
-    requestAnimationFrame(() => {
-        const container = document.getElementById('world-map-viewport');
-
-        if (container) {
-            // The fortress is at the center of the rendered grid (VIEW_COLS/2, VIEW_ROWS/2)
-            // Calculate the pixel position of the center tile
-            const centerTileX = Math.floor(VIEW_COLS / 2);
-            const centerTileY = Math.floor(VIEW_ROWS / 2);
-
-            // Convert tile position to pixels
-            const centerPixelX = centerTileX * TILE_SIZE;
-            const centerPixelY = centerTileY * TILE_SIZE;
-
-            // Calculate scroll to center this position in viewport
-            const scrollLeft = centerPixelX - (container.clientWidth / 2);
-            const scrollTop = centerPixelY - (container.clientHeight / 2);
-
-            console.log('🏰 Scrolling to center:', {
-                centerTileX, centerTileY,
-                centerPixelX, centerPixelY,
-                scrollLeft, scrollTop,
-                containerWidth: container.clientWidth,
-                containerHeight: container.clientHeight
-            });
-
-            container.scrollTo({
-                top: Math.max(0, scrollTop),
-                left: Math.max(0, scrollLeft),
-                behavior: 'auto'
-            });
-        }
-    });
 }
 
 // Disable browser remembering scroll position to prevent "Jumps" on reload
