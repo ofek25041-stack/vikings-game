@@ -2249,6 +2249,10 @@ function renderAcademyContent() {
 
     for (const [key, tech] of Object.entries(RESEARCH_TYPES)) {
         const lvl = (STATE.research && STATE.research[key]) || 0;
+
+        // CHECK IF RESEARCHING THIS TECH
+        const activeTimer = STATE.timers.find(t => t.type === 'research' && t.tech === key);
+
         // Calculate dynamic cost (1.5x per level)
         const woodCost = Math.floor(tech.cost.wood * Math.pow(1.5, lvl));
         const specialCostType = Object.keys(tech.cost).find(k => k !== 'wood');
@@ -2259,8 +2263,25 @@ function renderAcademyContent() {
 
         const time = Math.floor(tech.time * Math.pow(1.2, lvl));
 
+        let actionBtn = '';
+        if (activeTimer) {
+            const remaining = Math.ceil((activeTimer.endTime - Date.now()) / 1000);
+            const percent = Math.min(100, Math.max(0, 100 - (remaining / time * 100)));
+
+            actionBtn = `
+                <div style="width:100%; text-align:center;">
+                    <div style="font-size:0.8rem; color:#fbbf24; margin-bottom:2px;">בתהליך... (${remaining}s)</div>
+                    <div style="width:100%; height:8px; background:rgba(255,255,255,0.1); border-radius:4px; overflow:hidden;">
+                        <div style="width:${percent}%; height:100%; background:#fbbf24; transition:width 1s linear;"></div>
+                    </div>
+                </div>
+             `;
+        } else {
+            actionBtn = `<button class="btn-primary" style="background:#7e22ce" onclick="startResearch('${key}')">חקור</button>`;
+        }
+
         html += `
-            <div class="unit-card">
+            <div class="unit-card" style="${activeTimer ? 'border-color:#fbbf24; background:rgba(251, 191, 36, 0.05);' : ''}">
                 <div class="unit-icon" style="border-color:#a855f7">${tech.icon}</div>
                 <div class="unit-info">
                     <div class="unit-name">${tech.name} (רמה ${lvl})</div>
@@ -2268,7 +2289,7 @@ function renderAcademyContent() {
                     <div class="unit-cost">${costs.join(' ')} | ⏳ ${time}s</div>
                 </div>
                 <div class="unit-action">
-                    <button class="btn-primary" style="background:#7e22ce" onclick="startResearch('${key}')">חקור</button>
+                    ${actionBtn}
                 </div>
             </div>
         `;
@@ -2292,7 +2313,7 @@ window.startResearch = function (tech) {
     const specialCostType = Object.keys(data.cost).find(k => k !== 'wood');
     const specialCostVal = specialCostType ? Math.floor(data.cost[specialCostType] * Math.pow(1.5, lvl)) : 0;
 
-    if (STATE.resources.wood < woodCost || (specialCostType && STATE.resources[specialCostType] < specialCostVal)) {
+    if ((STATE.resources.wood || 0) < woodCost || (specialCostType && (STATE.resources[specialCostType] || 0) < specialCostVal)) {
         notify("אין מספיק משאבים!", "error");
         return;
     }
@@ -2311,6 +2332,7 @@ window.startResearch = function (tech) {
     });
 
     notify(`החל מחקר: ${data.name}`, "success");
+    saveGame(); // PERSIST
     closeModal();
     updateUI();
 };
