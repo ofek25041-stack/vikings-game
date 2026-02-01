@@ -109,8 +109,18 @@ function sendJSON(res, status, data) {
 }
 
 function serveStatic(req, res) {
-    let filePath = path.join(__dirname, req.url === '/' ? 'index.html' : req.url);
-    const extname = path.extname(filePath);
+    // Strip query string for file system lookup
+    const cleanUrl = req.url.split('?')[0];
+    let filePath = path.join(__dirname, cleanUrl === '/' ? 'index.html' : cleanUrl);
+
+    // Security: Prevent directory traversal
+    if (!filePath.startsWith(__dirname)) {
+        res.writeHead(403);
+        res.end('Forbidden');
+        return;
+    }
+
+    const extname = path.extname(filePath).toLowerCase();
     let contentType = 'text/html';
 
     switch (extname) {
@@ -119,6 +129,9 @@ function serveStatic(req, res) {
         case '.json': contentType = 'application/json'; break;
         case '.png': contentType = 'image/png'; break;
         case '.jpg': contentType = 'image/jpg'; break;
+        case '.jpeg': contentType = 'image/jpeg'; break;
+        case '.gif': contentType = 'image/gif'; break;
+        case '.svg': contentType = 'image/svg+xml'; break;
     }
 
     fs.readFile(filePath, (err, content) => {
