@@ -330,7 +330,14 @@ window.jumpToCoords = function (targetX, targetY) {
     STATE.viewport.x = x;
     STATE.viewport.y = y;
 
-    renderWorldMap();
+    // Force switch to world map if not already there
+    if (!document.getElementById('world-map-grid')) {
+        window.IS_JUMPING = true;
+        switchView('world');
+    } else {
+        renderWorldMap();
+    }
+
     notify(`קפצת אל: ${x}, ${y}`, "success");
 };
 
@@ -3452,12 +3459,20 @@ function switchView(viewName) {
                     // Load territories from server first, then render map
                     loadAllTerritories().then(() => {
                         renderWorldMap();
-                        requestAnimationFrame(centerMapOnHome);
+                        if (!window.IS_JUMPING) {
+                            requestAnimationFrame(centerMapOnHome);
+                        } else {
+                            window.IS_JUMPING = false; // Reset
+                        }
                     }).catch(err => {
                         console.error('Error loading territories:', err);
                         // Render anyway even if territories fail to load
                         renderWorldMap();
-                        requestAnimationFrame(centerMapOnHome);
+                        if (!window.IS_JUMPING) {
+                            requestAnimationFrame(centerMapOnHome);
+                        } else {
+                            window.IS_JUMPING = false;
+                        }
                     });
                 } else {
                     throw new Error("Template 'template-world' not found!");
