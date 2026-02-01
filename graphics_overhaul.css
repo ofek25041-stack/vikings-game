@@ -21,6 +21,8 @@ body {
 }
 
 /* Sunlight / Bloom Effect */
+/* Sunlight / Bloom Effect - DISABLED due to visual artifact (dark square) */
+/*
 .city-landscape::before {
     content: '';
     position: absolute;
@@ -33,6 +35,7 @@ body {
     pointer-events: none;
     z-index: 90;
 }
+*/
 
 /* 2. Realistic Water Shader */
 .iso-water-bg {
