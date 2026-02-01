@@ -175,6 +175,10 @@ function renderWorldMap() {
     const hudX = document.getElementById('map-x'); const hudY = document.getElementById('map-y');
     if (hudX) hudX.innerText = centerX; if (hudY) hudY.innerText = centerY;
 
+    // Sync Input Fields
+    const inputX = document.getElementById('nav-x'); const inputY = document.getElementById('nav-y');
+    if (inputX) inputX.value = centerX; if (inputY) inputY.value = centerY;
+
     const startX = centerX - Math.floor(VIEW_COLS / 2);
     const startY = centerY - Math.floor(VIEW_ROWS / 2);
 
