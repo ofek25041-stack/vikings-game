@@ -2195,6 +2195,9 @@ function interactBuilding(type) {
 function renderBarracksContent(level) {
     const townHallLevel = STATE.buildings?.townHall?.level || 1;
 
+    // Check for ANY active training
+    const activeTimer = STATE.timers.find(t => t.type === 'unit');
+
     let html = `
         <div class="barracks-view">
             <div id="barracks-queue" class="training-queue">
@@ -2224,8 +2227,40 @@ function renderBarracksContent(level) {
         const lockedClass = isLocked ? ' locked' : '';
         const lockedOverlay = isLocked ? `<div style="position:absolute; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.7); display:flex; align-items:center; justify-content:center; border-radius:8px; pointer-events:none;"><span style="color:#ef4444; font-weight:bold;">🔒 דורש עירייה רמה ${unit.requiredTownHallLevel}</span></div>` : '';
 
+        // PROGRESS BAR LOGIC
+        let actionUI = '';
+
+        if (activeTimer && activeTimer.unit === key) {
+            // This unit is currently training
+            const remaining = Math.ceil((activeTimer.endTime - Date.now()) / 1000);
+
+            actionUI = `
+                <div style="width:100%; text-align:center;">
+                    <div style="font-size:0.8rem; color:#fbbf24; margin-bottom:2px;">מגייס ${activeTimer.amount}... (${remaining}s)</div>
+                    <div style="width:100%; height:8px; background:rgba(255,255,255,0.1); border-radius:4px; overflow:hidden;">
+                        <div class="progress-bar-stripes" style="width:100%; height:100%; background:#fbbf24;"></div>
+                    </div>
+                </div>
+             `;
+        } else if (activeTimer) {
+            // Another unit is training -> Disable
+            actionUI = `
+                 <div style="text-align:center; color:#94a3b8; font-size:0.85rem; padding:5px;">
+                    ⏳ אימון אחר בתהליך...
+                 </div>
+             `;
+        } else {
+            // Available to train
+            actionUI = `
+                <div class="unit-action">
+                    <input type="number" id="train-amount-${key}" value="1" min="1" max="100" style="width:50px; padding:5px; border-radius:5px; border:1px solid #444; background:#222; color:white;" ${isLocked ? 'disabled' : ''}>
+                    <button class="btn-primary" onclick="startTraining('${key}', document.getElementById('train-amount-${key}').value)" ${isLocked ? 'disabled style="opacity:0.5; cursor:not-allowed;"' : ''}>גייס</button>
+                </div>
+             `;
+        }
+
         html += `
-            <div class="unit-card${lockedClass}" style="position:relative; ${isLocked ? 'opacity:0.6;' : ''}">
+            <div class="unit-card${lockedClass}" style="position:relative; ${isLocked ? 'opacity:0.6;' : ''} ${activeTimer && activeTimer.unit === key ? 'border-color:#fbbf24; background:rgba(251, 191, 36, 0.05);' : ''}">
                 ${lockedOverlay}
                 <div class="unit-icon">${unit.icon}</div>
                 <div class="unit-info">
@@ -2233,15 +2268,11 @@ function renderBarracksContent(level) {
                     <div class="unit-stats">⚔️${unit.attack} 🛡️${unit.defense} 🎒${unit.cargo}</div>
                     <div class="unit-cost">${costs.join(' ')} | ⏳ ${unit.time}s</div>
                 </div>
-                <div class="unit-action">
-                    <input type="number" id="train-amount-${key}" value="1" min="1" max="100" style="width:50px; padding:5px; border-radius:5px; border:1px solid #444; background:#222; color:white;" ${isLocked ? 'disabled' : ''}>
-                    <button class="btn-primary" onclick="startTraining('${key}', document.getElementById('train-amount-${key}').value)" ${isLocked ? 'disabled style="opacity:0.5; cursor:not-allowed;"' : ''}>גייס</button>
-                </div>
+                ${!isLocked ? actionUI : '<div class="unit-action"></div>'}
             </div>
         `;
     }
 
-    html += `</div></div>`; // Close list and container
     html += `</div></div>`; // Close list and container
     return html;
 }
