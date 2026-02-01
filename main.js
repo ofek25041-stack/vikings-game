@@ -2124,7 +2124,8 @@ function interactBuilding(type) {
                     endTime: Date.now() + (constructionTime * 1000)
                 });
 
-                notify("הבנייה החלה!", "success");
+                notify("הבנייה החלה! נתונים נשמרו.", "success");
+                saveGame(); // PERSIST IMMEDIATELY
                 closeModal();
                 updateUI();
             } else {
