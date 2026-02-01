@@ -11,6 +11,8 @@ body {
 }
 
 /* Cinematic Vignette Overlay */
+/* Cinematic Vignette Overlay - DISABLED (Potential cause of dark square) */
+/*
 .city-landscape::after {
     content: '';
     position: absolute;
@@ -19,6 +21,7 @@ body {
     pointer-events: none;
     z-index: 100;
 }
+*/
 
 /* Sunlight / Bloom Effect */
 /* Sunlight / Bloom Effect - DISABLED due to visual artifact (dark square) */
