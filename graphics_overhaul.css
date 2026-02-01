@@ -10,35 +10,12 @@ body {
     /* Immersive view */
 }
 
-/* Cinematic Vignette Overlay */
-/* Cinematic Vignette Overlay - DISABLED (Potential cause of dark square) */
-/*
-.city-landscape::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at center, transparent 30%, rgba(0, 0, 0, 0.6) 100%);
-    pointer-events: none;
-    z-index: 100;
-}
-*/
-
-/* Sunlight / Bloom Effect */
-/* Sunlight / Bloom Effect - DISABLED due to visual artifact (dark square) */
-/*
+/* Explicitly hide legacy pseudo-elements from style.css */
+.city-landscape::after,
 .city-landscape::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    right: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle at 80% 20%, rgba(253, 224, 71, 0.15), transparent 60%);
-    mix-blend-mode: screen;
-    pointer-events: none;
-    z-index: 90;
+    display: none !important;
+    content: none !important;
 }
-*/
 
 /* 2. Realistic Water Shader */
 .iso-water-bg {
