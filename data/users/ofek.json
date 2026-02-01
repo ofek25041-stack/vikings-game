@@ -3,13 +3,13 @@
   "password": "1234",
   "state": {
     "resources": {
-      "gold": 17406126.10000992,
-      "wood": 276860,
-      "food": 156950.41111111682,
-      "wine": 878083,
-      "marble": 89465,
-      "crystal": 178611,
-      "sulfur": 90018,
+      "gold": 17456121.10000992,
+      "wood": 286556,
+      "food": 166328.26111112034,
+      "wine": 886870,
+      "marble": 90374,
+      "crystal": 180429,
+      "sulfur": 90927,
       "citizens": 1650
     },
     "stats": {
@@ -1519,7 +1519,7 @@
         "user": "Ofek",
         "level": 16,
         "isMyCity": true,
-        "lastLogin": 1769723525834
+        "lastLogin": 1769879971465
       },
       "67,17": {
         "type": "city",
@@ -2236,7 +2236,7 @@
         "id": "1769035077900_t13hc20w3",
         "type": "victory",
         "title": "ניצחון: התקפה על TestBoss's City",
-        "content": "\n                                    <div style=\"padding: 10px; text-align: center;\">\n                                        <div style=\"font-size: 4rem; margin-bottom: 10px;\">\n                                            🎉\n                                        </div>\n                                        <h2 style=\"color: #10b981; margin-bottom: 15px;\">\n                                            ניצחון!\n                                        </h2>\n                                        <p style=\"color: #cbd5e1; margin-bottom: 20px;\">התקפה משותפת בהובלת Ofek</p>\n                                        \n                                        <div style=\"display: flex; gap: 10px; margin-bottom: 20px;\">\n                                            <div style=\"flex: 1; background: rgba(59,130,246,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h4 style=\"color: #60a5fa; margin: 0 0 5px 0;\">כוח התקפה</h4>\n                                                <p style=\"color: #cbd5e1; font-size: 1.2rem; margin: 0;\">3587455</p>\n                                            </div>\n                                            <div style=\"flex: 1; background: rgba(239,68,68,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h4 style=\"color: #f87171; margin: 0 0 5px 0;\">כוח הגנה</h4>\n                                                <p style=\"color: #cbd5e1; font-size: 1.2rem; margin: 0;\">7500</p>\n                                            </div>\n                                        </div>\n\n                                        <h4 style=\"color: #fbbf24; margin: 15px 0 10px 0;\">אבדות</h4>\n                                        <div style=\"display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;\">\n                                            <div style=\"background: rgba(59,130,246,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h5 style=\"color: #60a5fa; margin: 0 0 5px 0;\">שלנו</h5>\n                                                <div style=\"color: #cbd5e1; font-size: 0.85em;\">\n                                                    <div>🔱 4061 חניתים</div>\n                                                    <div>🏹 2933 קשתים</div>\n                                                    <div>⚔️ 4738 לוחמי חרב</div>\n                                                </div>\n                                            </div>\n                                            <div style=\"background: rgba(239,68,68,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h5 style=\"color: #f87171; margin: 0 0 5px 0;\">שלהם</h5>\n                                                <div style=\"color: #cbd5e1; font-size: 0.85em;\">\n                                                    <div>🔱 0 חניתים</div>\n                                                    <div>🏹 475 קשתים</div>\n                                                    <div>⚔️ 0 לוחמי חרב</div>\n                                                </div>\n                                            </div>\n                                        </div>\n\n                                        \n                                        <div style=\"background: rgba(16,185,129,0.1); padding: 15px; border-radius: 8px; margin-top: 15px;\">\n                                            <h4 style=\"color: #10b981; margin: 0 0 10px 0;\">💰 החלק שלך בשלל</h4>\n                                            <div style=\"display: flex; justify-content: center; gap: 15px; font-size: 1.1rem; color: #cbd5e1;\">\n                                                <span>💰 2469470</span>\n                                                <span>��� 532</span>\n                                                <span>🌾 0</span>\n                                            </div>\n                                        </div>\n                                        \n                                    </div>\n                                ",
+        "content": "\n                                    <div style=\"padding: 10px; text-align: center;\">\n                                        <div style=\"font-size: 4rem; margin-bottom: 10px;\">\n                                            🎉\n                                        </div>\n                                        <h2 style=\"color: #10b981; margin-bottom: 15px;\">\n                                            ניצחון!\n                                        </h2>\n                                        <p style=\"color: #cbd5e1; margin-bottom: 20px;\">התקפה משותפת בהובלת Ofek</p>\n                                        \n                                        <div style=\"display: flex; gap: 10px; margin-bottom: 20px;\">\n                                            <div style=\"flex: 1; background: rgba(59,130,246,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h4 style=\"color: #60a5fa; margin: 0 0 5px 0;\">כוח התקפה</h4>\n                                                <p style=\"color: #cbd5e1; font-size: 1.2rem; margin: 0;\">3587455</p>\n                                            </div>\n                                            <div style=\"flex: 1; background: rgba(239,68,68,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h4 style=\"color: #f87171; margin: 0 0 5px 0;\">כוח הגנה</h4>\n                                                <p style=\"color: #cbd5e1; font-size: 1.2rem; margin: 0;\">7500</p>\n                                            </div>\n                                        </div>\n\n                                        <h4 style=\"color: #fbbf24; margin: 15px 0 10px 0;\">אבדות</h4>\n                                        <div style=\"display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;\">\n                                            <div style=\"background: rgba(59,130,246,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h5 style=\"color: #60a5fa; margin: 0 0 5px 0;\">שלנו</h5>\n                                                <div style=\"color: #cbd5e1; font-size: 0.85em;\">\n                                                    <div>🔱 4061 חניתים</div>\n                                                    <div>����� 2933 קשתים</div>\n                                                    <div>⚔️ 4738 לוחמי חרב</div>\n                                                </div>\n                                            </div>\n                                            <div style=\"background: rgba(239,68,68,0.1); padding: 10px; border-radius: 8px;\">\n                                                <h5 style=\"color: #f87171; margin: 0 0 5px 0;\">שלהם</h5>\n                                                <div style=\"color: #cbd5e1; font-size: 0.85em;\">\n                                                    <div>🔱 0 חניתים</div>\n                                                    <div>🏹 475 קשתים</div>\n                                                    <div>⚔️ 0 לוחמי חרב</div>\n                                                </div>\n                                            </div>\n                                        </div>\n\n                                        \n                                        <div style=\"background: rgba(16,185,129,0.1); padding: 15px; border-radius: 8px; margin-top: 15px;\">\n                                            <h4 style=\"color: #10b981; margin: 0 0 10px 0;\">💰 החלק שלך בשלל</h4>\n                                            <div style=\"display: flex; justify-content: center; gap: 15px; font-size: 1.1rem; color: #cbd5e1;\">\n                                                <span>💰 2469470</span>\n                                                <span>��� 532</span>\n                                                <span>🌾 0</span>\n                                            </div>\n                                        </div>\n                                        \n                                    </div>\n                                ",
         "timestamp": 1769035077900,
         "read": true
       },
@@ -2524,7 +2524,19 @@
     "missions": {
       "daily": [
         {
-          "id": "d_1769707623469_0",
+          "id": "d_1769879967203_0",
+          "title": "אסוף משאבים (400)",
+          "type": "gather",
+          "target": 400,
+          "current": 0,
+          "reward": {
+            "gold": 800,
+            "wood": 400
+          },
+          "claimed": false
+        },
+        {
+          "id": "d_1769879967203_1",
           "title": "שדרג מבנים (2)",
           "type": "build",
           "target": 2,
@@ -2536,26 +2548,14 @@
           "claimed": false
         },
         {
-          "id": "d_1769707623469_1",
-          "title": "שדרג מבנים (3)",
+          "id": "d_1769879967203_2",
+          "title": "שדרג מבנים (1)",
           "type": "build",
-          "target": 3,
+          "target": 1,
           "current": 0,
           "reward": {
-            "gold": 6,
-            "wood": 3
-          },
-          "claimed": false
-        },
-        {
-          "id": "d_1769707623469_2",
-          "title": "שדרג מבנים (3)",
-          "type": "build",
-          "target": 3,
-          "current": 0,
-          "reward": {
-            "gold": 6,
-            "wood": 3
+            "gold": 2,
+            "wood": 1
           },
           "claimed": false
         }
@@ -2586,10 +2586,10 @@
           "claimed": false
         }
       ],
-      "lastDailyReset": 1769707623469,
+      "lastDailyReset": 1769879967203,
       "lastWeeklyReset": 1769707623469
     },
-    "lastLogin": 1769723525837,
+    "lastLogin": 1769879971467,
     "clan": {
       "id": "clan_1769160816036_98uswif30"
     },
