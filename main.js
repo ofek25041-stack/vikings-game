@@ -3300,11 +3300,14 @@ function switchView(viewName) {
                     setTimeout(() => Tutorial.init(), 500);
                 }
 
-                // CENTER SCROLL FOR MOBILE
-                if (typeof initMobileScroll === 'function') {
-                    // Try immediately and with delays to catch layout updates
-                    setTimeout(initMobileScroll, 50);
-                    setTimeout(initMobileScroll, 300);
+                // CENTER SCROLL (Desktop & Mobile)
+                if (typeof centerCityView === 'function') {
+                    // Immediate attempts to center
+                    setTimeout(centerCityView, 10);
+                    setTimeout(centerCityView, 100);
+                    // Also hook window resize
+                    window.removeEventListener('resize', centerCityView);
+                    window.addEventListener('resize', centerCityView);
                 }
             } else if (viewName === 'island') {
                 // DEPRECATED: Redirect to World
@@ -3770,6 +3773,26 @@ window.openPlayerProfile = async function (username) {
     } catch (err) {
         console.error('❌ Failed to open player profile:', err);
         notify('שגיאה בטעינת פרופיל', 'error');
+    }
+};
+
+// --- VIEW CENTERING LOGIC ---
+window.centerCityView = function () {
+    const viewport = document.querySelector('.iso-viewport');
+    const container = document.querySelector('.city-landscape');
+
+    // Only center if we are in city view and elements exist
+    if (viewport && container && container.offsetParent !== null) {
+
+        // Calculate center position
+        const scrollX = (viewport.scrollWidth - container.clientWidth) / 2;
+        const scrollY = (viewport.scrollHeight - container.clientHeight) / 2;
+
+        // Apply scroll if positive (content larger than container)
+        if (scrollX > 0) container.scrollLeft = scrollX;
+        if (scrollY > 0) container.scrollTop = scrollY;
+
+        console.log("🎯 Centered City View", { x: scrollX, y: scrollY });
     }
 };
 
