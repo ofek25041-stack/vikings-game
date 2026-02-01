@@ -343,7 +343,7 @@ window.jumpToCoords = function (targetX, targetY) {
 
     // Force switch to world map if not already there
     if (!document.getElementById('world-map-grid')) {
-        window.IS_JUMPING = true;
+        // window.IS_JUMPING = true;
         switchView('world');
     } else {
         renderWorldMap();
@@ -3470,7 +3470,7 @@ function switchView(viewName) {
                     // Load territories from server first, then render map
                     loadAllTerritories().then(() => {
                         renderWorldMap();
-                        if (!window.IS_JUMPING) {
+                        if (false) {
                             requestAnimationFrame(centerMapOnHome);
                         } else {
                             window.IS_JUMPING = false; // Reset
@@ -3479,7 +3479,7 @@ function switchView(viewName) {
                         console.error('Error loading territories:', err);
                         // Render anyway even if territories fail to load
                         renderWorldMap();
-                        if (!window.IS_JUMPING) {
+                        if (false) {
                             requestAnimationFrame(centerMapOnHome);
                         } else {
                             window.IS_JUMPING = false;
