@@ -2837,7 +2837,7 @@ function renderCityProfile() {
                 territoryHtml += `
                     <li style="display:flex; justify-content:space-between; align-items:center;">
                         <span>${icon} <strong>${ent.name}</strong> (Lv.${ent.level || 1})</span>
-                        <span style="font-size:0.8rem; color:#94a3b8; cursor:pointer;" onclick="closeModal(); jumpToCoords(${tx}, ${ty});">📍 צפה במפה</span>
+                        <span style="font-size:0.8rem; color:#94a3b8; cursor:pointer;" onclick="closeModal(); setTimeout(() => jumpToCoords(${tx}, ${ty}), 100);">📍 צפה במפה</span>
                     </li>
                 `;
             }
