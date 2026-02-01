@@ -3778,21 +3778,33 @@ window.openPlayerProfile = async function (username) {
 
 // --- VIEW CENTERING LOGIC ---
 window.centerCityView = function () {
-    const viewport = document.querySelector('.iso-viewport');
     const container = document.querySelector('.city-landscape');
 
     // Only center if we are in city view and elements exist
-    if (viewport && container && container.offsetParent !== null) {
+    if (container && container.offsetParent !== null) {
 
-        // Calculate center position
-        const scrollX = (viewport.scrollWidth - container.clientWidth) / 2;
-        const scrollY = (viewport.scrollHeight - container.clientHeight) / 2;
+        // Town Hall Center Coordinates (from image map)
+        // Coords: 400,280,650,480 -> Center: x=525, y=380
+        const targetX = 525;
+        const targetY = 380;
 
-        // Apply scroll if positive (content larger than container)
-        if (scrollX > 0) container.scrollLeft = scrollX;
-        if (scrollY > 0) container.scrollTop = scrollY;
+        const clientW = container.clientWidth;
+        const clientH = container.clientHeight;
 
-        console.log("🎯 Centered City View", { x: scrollX, y: scrollY });
+        if (clientW === 0 || clientH === 0) return; // Not visible yet
+
+        // Calculate scroll to center the target
+        let scrollX = targetX - (clientW / 2);
+        let scrollY = targetY - (clientH / 2);
+
+        // Clamp to valid range
+        scrollX = Math.max(0, scrollX);
+        scrollY = Math.max(0, scrollY);
+
+        container.scrollLeft = scrollX;
+        container.scrollTop = scrollY;
+
+        console.log("🎯 Centered on TownHall", { targetX, targetY, scrollX, scrollY, clientW, clientH });
     }
 };
 
