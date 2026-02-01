@@ -157,7 +157,8 @@ function renderWorldMap() {
     const linesLayer = document.getElementById('march-lines-layer');
     const armiesLayer = document.getElementById('march-armies-layer');
 
-    grid.innerHTML = ''; // Clear tiles
+    // Clear tiles
+    grid.innerHTML = '';
 
     // Restore march layers
     if (linesLayer) grid.appendChild(linesLayer);
@@ -167,6 +168,8 @@ function renderWorldMap() {
     // Center on Player or last viewport
     const centerX = (!STATE.viewport || (STATE.viewport.x === 0 && STATE.viewport.y === 0)) ? (STATE.homeCoords?.x || 500) : STATE.viewport.x;
     const centerY = (!STATE.viewport || (STATE.viewport.x === 0 && STATE.viewport.y === 0)) ? (STATE.homeCoords?.y || 500) : STATE.viewport.y;
+
+    console.log(`🗺️ renderWorldMap: Center=(${centerX}, ${centerY}) | Viewport=(${STATE.viewport?.x}, ${STATE.viewport?.y}) | Home=(${STATE.homeCoords?.x}, ${STATE.homeCoords?.y}) | IS_JUMPING=${window.IS_JUMPING}`);
 
     // Update HUD
     const hudX = document.getElementById('map-x'); const hudY = document.getElementById('map-y');
