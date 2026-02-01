@@ -2072,6 +2072,52 @@ function interactBuilding(type) {
         }
 
         let html = `<p>רמה נוכחית: ${b.level}</p>`;
+
+        // --- IMPROVED STATS DISPLAY ---
+
+        // 1. Production Buildings
+        if (type === 'lumber' || type === 'mine') {
+            const prodBase = 100; // Base per hour
+            const currentProd = Math.floor(prodBase * b.level);
+            const nextProd = Math.floor(prodBase * (b.level + 1));
+            const resType = (type === 'lumber') ? 'עץ' : 'זהב/אבן';
+
+            html += `
+                <div style="background:rgba(255,255,255,0.05); padding:10px; border-radius:8px; margin:10px 0;">
+                    <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                        <span>ייצור לשעה:</span>
+                        <span style="color:#fbbf24; font-weight:bold;">${currentProd.toLocaleString()} ${resType}</span>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; color:#94a3b8; font-size:0.9rem;">
+                        <span>רמה הבאה:</span>
+                        <span style="color:#34d399;">${nextProd.toLocaleString()} ${resType} (+${prodBase})</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        // 2. Warehouse Protection
+        if (type === 'warehouse') {
+            const baseCap = 500;
+            const scale = 500;
+            const currentCap = baseCap + (b.level * scale);
+            const nextCap = baseCap + ((b.level + 1) * scale);
+
+            html += `
+                <div style="background:rgba(255,255,255,0.05); padding:10px; border-radius:8px; margin:10px 0;">
+                    <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                        <span>מוגן משאבים:</span>
+                        <span style="color:#60a5fa; font-weight:bold;">${currentCap.toLocaleString()}</span>
+                    </div>
+                     <div style="display:flex; justify-content:space-between; color:#94a3b8; font-size:0.9rem;">
+                        <span>רמה הבאה:</span>
+                        <span style="color:#34d399;">${nextCap.toLocaleString()} (+${scale})</span>
+                    </div>
+                    <p style="font-size:0.8rem; color:#64748b; margin-top:5px;">* כמות זו מכל משאב מוגנת מפני בזיזה.</p>
+                </div>
+            `;
+        }
+
         if (b.description) html += `<p style="font-size:0.9rem; color:#94a3b8; margin-bottom:1rem">${b.description}</p>`;
 
         let actionName = "התחל בניה";
