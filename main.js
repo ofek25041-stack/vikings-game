@@ -336,8 +336,10 @@ window.jumpToCoords = function (targetX, targetY) {
 
 // NEW: Just switch view and fill inputs, DO NOT JUMP/RENDER
 window.navigateToMapSearch = function (x, y) {
-    if (activeView !== 'map') {
-        switchView('map');
+    // Use window.activeView to avoid ReferenceError
+    // Use 'world' instead of 'map' to match switchView logic
+    if (window.activeView !== 'world') {
+        switchView('world');
     }
 
     // Wait for DOM
@@ -3389,7 +3391,7 @@ window.runDiagnostics = function () {
 
 function switchView(viewName) {
     try {
-
+        window.activeView = viewName; // Track current view
         const main = els.mainView;
         if (!main) {
             console.error("Main view element not found!");
