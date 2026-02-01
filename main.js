@@ -391,14 +391,14 @@ function centerMapOnFortress() {
     setTimeout(() => {
         const x = parseInt(clan.fortress.x);
         const y = parseInt(clan.fortress.y);
-        
+
         if (!isNaN(x) && !isNaN(y)) {
-             // Pass coordinates directly to the function
-             // This bypasses any DOM input issues
-             window.jumpToCoords(x, y);
-             console.log(`🏰 Jumping directly to coords: ${x}, ${y}`);
+            // Pass coordinates directly to the function
+            // This bypasses any DOM input issues
+            window.jumpToCoords(x, y);
+            console.log(`🏰 Jumping directly to coords: ${x}, ${y}`);
         } else {
-             notify('לקלאן שלך אין מבצר עם קואורדינטות תקינות', 'error');
+            notify('לקלאן שלך אין מבצר עם קואורדינטות תקינות', 'error');
         }
     }, 50); // Small delay to clear event stack
 }
@@ -1515,6 +1515,7 @@ async function completeTimer(timer) {
                 // Change Ownership!
                 entity.owner = CURRENT_USER;
                 entity.user = CURRENT_USER; // Legacy compat
+                entity.capturedAt = Date.now();
 
                 // GARRISON LOGIC: Survivors stay!
                 let totalSurvivors = 0;
