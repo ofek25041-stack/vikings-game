@@ -59,6 +59,7 @@ const DEFAULT_STATE = {
 // Current Active State
 let STATE = JSON.parse(JSON.stringify(DEFAULT_STATE));
 let CURRENT_USER = null;
+window.activeView = 'login'; // Initialize global view state
 
 // --- World Map 2.0 Logic ---
 
