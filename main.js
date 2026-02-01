@@ -3302,12 +3302,8 @@ function switchView(viewName) {
 
                 // CENTER SCROLL (Desktop & Mobile)
                 if (typeof centerCityView === 'function') {
-                    // Immediate attempts to center
-                    setTimeout(centerCityView, 10);
+                    // Single attempt after slight delay to allow layout
                     setTimeout(centerCityView, 100);
-                    // Also hook window resize
-                    window.removeEventListener('resize', centerCityView);
-                    window.addEventListener('resize', centerCityView);
                 }
             } else if (viewName === 'island') {
                 // DEPRECATED: Redirect to World
