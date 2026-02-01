@@ -2766,8 +2766,33 @@ function renderCityProfile() {
         </div>`;
     }
 
-    // 3. Calculate Income Rates (Hourly)
-    // Based on gameLoop logic
+    // 3. Controlled Territories List (NEW)
+    let territoryHtml = '<ul class="profile-list">';
+    let territoryCount = 0;
+
+    if (STATE.mapEntities) {
+        Object.entries(STATE.mapEntities).forEach(([key, ent]) => {
+            // Check ownership and exclude own city
+            if (ent.owner === CURRENT_USER && ent.type !== 'city' && ent.type !== 'fortress') {
+                territoryCount++;
+                const icon = getEntityIcon(ent.type);
+                // Extract coords from key
+                const [tx, ty] = key.split(',');
+
+                territoryHtml += `
+                    <li style="display:flex; justify-content:space-between; align-items:center;">
+                        <span>${icon} <strong>${ent.name}</strong> (Lv.${ent.level || 1})</span>
+                        <span style="font-size:0.8rem; color:#94a3b8; cursor:pointer;" onclick="closeModal(); jumpToCoords(${tx}, ${ty});">📍 צפה במפה</span>
+                    </li>
+                `;
+            }
+        });
+    }
+    territoryHtml += '</ul>';
+
+    if (territoryCount === 0) territoryHtml = '<p style="color:#94a3b8">לא נכבשו שטחים עדיין.</p>';
+
+    // 4. Calculate Income Rates (Hourly)
     let incomeHtml = '<div class="profile-grid">';
     const rates = { gold: 0, wood: 0, food: 0, wine: 0, marble: 0, crystal: 0, sulfur: 0 };
 
@@ -2809,7 +2834,7 @@ function renderCityProfile() {
     incomeHtml += '</div>';
     if (incomeHtml === '<div class="profile-grid"></div>') incomeHtml = '<p>אין הכנסה משטחים.</p>';
 
-    // 4. War Stats
+    // 5. War Stats
     const stats = STATE.stats || { battles: 0, wins: 0, losses: 0 };
     const warHtml = `
         <div class="stats-row">
@@ -2826,6 +2851,11 @@ function renderCityProfile() {
             <div class="profile-section">
                 <h3>🏘️ מבנים</h3>
                 ${buildingsHtml}
+            </div>
+
+            <div class="profile-section">
+                <h3>🌍 שטחים בשליטה (${territoryCount})</h3>
+                ${territoryHtml}
             </div>
 
             <div class="profile-section">
