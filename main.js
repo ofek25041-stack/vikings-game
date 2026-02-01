@@ -300,52 +300,55 @@ function renderWorldMap() {
 }
 
 window.jumpToCoords = function (targetX, targetY) {
-    // 1. Force switch to map view first to ensure HUD exists
+    const xInput = document.getElementById('nav-x');
+    const yInput = document.getElementById('nav-y');
+
+    let x, y;
+
+    // If arguments provided, use them. Otherwise read from inputs.
+    if (targetX !== undefined && targetY !== undefined) {
+        x = parseInt(targetX);
+        y = parseInt(targetY);
+        // Also update the UI inputs to match
+        if (xInput) xInput.value = x;
+        if (yInput) yInput.value = y;
+    } else {
+        x = parseInt(xInput.value);
+        y = parseInt(yInput.value);
+    }
+
+    console.log('🚀 jumpToCoords called');
+    console.log(`🚀 Inputs: X="${xInput ? xInput.value : 'N/A'}" Y="${yInput ? yInput.value : 'N/A'}"`);
+    console.log(`🚀 Parsed: X=${x} Y=${y}`);
+
+    if (isNaN(x) || isNaN(y)) {
+        notify("נא להזין קואורדינטות", "error");
+        return;
+    }
+
+    if (!STATE.viewport) STATE.viewport = { x: 500, y: 500 };
+    STATE.viewport.x = x;
+    STATE.viewport.y = y;
+
+    renderWorldMap();
+    notify(`קפצת אל: ${x}, ${y}`, "success");
+};
+
+// NEW: Just switch view and fill inputs, DO NOT JUMP/RENDER
+window.navigateToMapSearch = function (x, y) {
     if (activeView !== 'map') {
         switchView('map');
     }
 
-    // 2. Wait for DOM update if we just switched views
+    // Wait for DOM
     setTimeout(() => {
         const xInput = document.getElementById('nav-x');
         const yInput = document.getElementById('nav-y');
-
-        let x, y;
-
-        // If arguments provided, use them. Otherwise read from inputs.
-        if (targetX !== undefined && targetY !== undefined) {
-            x = parseInt(targetX);
-            y = parseInt(targetY);
-            // Also update the UI inputs to match
-            if (xInput) xInput.value = x;
-            if (yInput) yInput.value = y;
-        } else {
-            // Read from inputs
-            if (xInput && yInput) {
-                x = parseInt(xInput.value);
-                y = parseInt(yInput.value);
-            }
-        }
-
-        console.log('🚀 jumpToCoords called');
-        console.log(`🚀 Inputs: X="${xInput ? xInput.value : 'N/A'}" Y="${yInput ? yInput.value : 'N/A'}"`);
-        console.log(`🚀 Parsed: X=${x} Y=${y}`);
-
-        if (isNaN(x) || isNaN(y)) {
-            notify("נא להזין קואורדינטות", "error");
-            return;
-        }
-
-        if (!STATE.viewport) STATE.viewport = { x: 500, y: 500 };
-        STATE.viewport.x = x;
-        STATE.viewport.y = y;
-
-        renderWorldMap();
-        notify(`קפצת אל: ${x}, ${y}`, "success");
-    }, 50); // Small delay to allow View Switch DOM to settle
+        if (xInput) xInput.value = x;
+        if (yInput) yInput.value = y;
+        notify("אנא לחץ על 'חפש' כדי להגיע ליעד", "info");
+    }, 100);
 };
-
-
 
 
 function moveMap(dx, dy) {
@@ -2830,7 +2833,7 @@ function renderCityProfile() {
                 territoryHtml += `
                     <li style="display:flex; justify-content:space-between; align-items:center;">
                         <span>${icon} <strong>${ent.name}</strong> (Lv.${ent.level || 1})</span>
-                        <span style="font-size:0.8rem; color:#94a3b8; cursor:pointer;" onclick="closeModal(); jumpToCoords(${tx}, ${ty});">📍 צפה במפה</span>
+                        <span style="font-size:0.8rem; color:#94a3b8; cursor:pointer;" onclick="closeModal(); navigateToMapSearch(${tx}, ${ty});">📍 צפה במפה</span>
                     </li>
                 `;
             }
