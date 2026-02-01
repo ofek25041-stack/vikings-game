@@ -302,9 +302,25 @@ const server = http.createServer((req, res) => {
                 }
 
                 if (action === 'add_resources' && data.resources) {
-                    for (const res in data.resources) {
-                        clan.fortress.resources[res] = (clan.fortress.resources[res] || 0) + data.resources[res];
+                    const filePath = getUserFilePath(data.username);
+                    if (!fs.existsSync(filePath)) {
+                        return sendJSON(res, 404, { success: false, message: 'User not found' });
                     }
+                    const user = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+
+                    for (const resType in data.resources) {
+                        const amount = data.resources[resType];
+                        // Validate user has enough
+                        if (!user.state.resources || (user.state.resources[resType] || 0) < amount) {
+                            return sendJSON(res, 400, { success: false, message: `Not enough ${resType}` });
+                        }
+                        // Deduct from user
+                        user.state.resources[resType] -= amount;
+                        // Add to fortress
+                        clan.fortress.resources[resType] = (clan.fortress.resources[resType] || 0) + amount;
+                    }
+                    // Save user state
+                    fs.writeFileSync(filePath, JSON.stringify(user, null, 2));
                 }
 
                 fs.writeFileSync(clanPath, JSON.stringify(clan, null, 2));
@@ -945,6 +961,50 @@ const server = http.createServer((req, res) => {
                                     ...entity,
                                     owner: userData.username
                                 };
+                            }
+                        }
+                    }
+                } catch (err) {
+                    console.error(`Error reading territories from ${file}:`, err.message);
+                }
+            }
+
+            sendJSON(res, 200, { success: true, territories: allTerritories });
+        } catch (err) {
+            console.error('Error fetching territories:', err);
+            sendJSON(res, 500, { success: false, message: err.message });
+        }
+
+    } else if (req.url === '/api/territories' && req.method === 'GET') {
+        // Get all conquered territories from all players
+        try {
+            const allTerritories = {};
+            const files = fs.readdirSync(DATA_DIR);
+
+            for (const file of files) {
+                if (!file.endsWith('.json')) continue;
+                try {
+                    const content = fs.readFileSync(path.join(DATA_DIR, file), 'utf8');
+                    const userData = JSON.parse(content);
+
+                    if (userData.state && userData.state.mapEntities) {
+                        // Extract only owned territories
+                        for (const [key, entity] of Object.entries(userData.state.mapEntities)) {
+                            // Verify ownership claim
+                            if (entity.owner === userData.username) {
+                                // Conflict Resolution: If territory already exists, check timestamps
+                                if (allTerritories[key]) {
+                                    const existing = allTerritories[key];
+                                    const newTime = entity.capturedAt || 0;
+                                    const existingTime = existing.capturedAt || 0;
+
+                                    // If new claim is newer, overwrite. Otherwise stick with existing.
+                                    if (newTime > existingTime) {
+                                        allTerritories[key] = { ...entity };
+                                    }
+                                } else {
+                                    allTerritories[key] = { ...entity };
+                                }
                             }
                         }
                     }
