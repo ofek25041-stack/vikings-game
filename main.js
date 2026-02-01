@@ -244,7 +244,7 @@ function renderWorldMap() {
                         if (isMyClan) div.classList.add('entity-my-fortress');
 
                         div.innerHTML = `
-                            <div class="fortress-icon">🏰</div>
+                            <div class="fortress-icon">🏯</div>
                             <div class="entity-label">
                                 <div class="name">[${entity.clanTag}] Fortress</div>
                             </div>
@@ -524,6 +524,7 @@ function calculateTravelTime(x, y) {
 function getEntityIcon(type) {
     switch (type) {
         case 'city': return '🏰';
+        case 'fortress': return '🏯';
         case 'mine': return '⛏️';
         case 'wood': return '🌲';
         case 'farm': return '🍇';
