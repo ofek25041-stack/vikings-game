@@ -1214,6 +1214,12 @@ window.startTraining = function (type, amount) {
     const unitData = UNIT_TYPES[type];
     if (!unitData) return;
 
+    // 1. Check for Active Training Restriction
+    if (STATE.timers.find(t => t.type === 'unit')) {
+        notify("המחנה עסוק באימון כוחות אחרים!", "error");
+        return;
+    }
+
     // Check Town Hall level requirement
     const townHallLevel = STATE.buildings?.townHall?.level || 1;
     if ((unitData.requiredTownHallLevel || 1) > townHallLevel) {
@@ -1247,9 +1253,6 @@ window.startTraining = function (type, amount) {
 
         updateUI();
 
-        // Close modal if open? Maybe keep open for mass recruit
-        // closeModal(); 
-
         // Add timer
         const totalTime = amount * (unitData.time * 1000);
 
@@ -1258,10 +1261,13 @@ window.startTraining = function (type, amount) {
             unit: type,
             amount: amount,
             endTime: Date.now() + totalTime,
+            startTime: Date.now(), // Added for progress calculation
             desc: `מגייס ${amount} ${unitData.name}`
         });
 
         notify(`החל גיוס של ${amount} ${unitData.name}!`, "success");
+        saveGame(); // PERSIST IMMEDIATELY
+
         // Re-render to show updated resources
         if (currentModalAction === 'barracks') interactBuilding('barracks'); // Refresh view
     } else {
