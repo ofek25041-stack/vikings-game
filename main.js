@@ -157,8 +157,7 @@ function renderWorldMap() {
     const linesLayer = document.getElementById('march-lines-layer');
     const armiesLayer = document.getElementById('march-armies-layer');
 
-    // Clear tiles
-    grid.innerHTML = '';
+    grid.innerHTML = ''; // Clear tiles
 
     // Restore march layers
     if (linesLayer) grid.appendChild(linesLayer);
@@ -169,19 +168,9 @@ function renderWorldMap() {
     const centerX = (!STATE.viewport || (STATE.viewport.x === 0 && STATE.viewport.y === 0)) ? (STATE.homeCoords?.x || 500) : STATE.viewport.x;
     const centerY = (!STATE.viewport || (STATE.viewport.x === 0 && STATE.viewport.y === 0)) ? (STATE.homeCoords?.y || 500) : STATE.viewport.y;
 
-    console.log(`🗺️ renderWorldMap: Center=(${centerX}, ${centerY}) | Viewport=(${STATE.viewport?.x}, ${STATE.viewport?.y}) | Home=(${STATE.homeCoords?.x}, ${STATE.homeCoords?.y}) | IS_JUMPING=${window.IS_JUMPING}`);
-
-    // DEBUG NOTIFICATION
-    notify(`DEBUG: Map Center (${centerX}, ${centerY})`, "info");
-
     // Update HUD
     const hudX = document.getElementById('map-x'); const hudY = document.getElementById('map-y');
     if (hudX) hudX.innerText = centerX; if (hudY) hudY.innerText = centerY;
-
-    // Sync Input Fields
-    const inputX = document.getElementById('nav-x'); const inputY = document.getElementById('nav-y');
-    if (inputX) inputX.value = centerX; if (inputY) inputY.value = centerY;
-
 
     const startX = centerX - Math.floor(VIEW_COLS / 2);
     const startY = centerY - Math.floor(VIEW_ROWS / 2);
@@ -311,48 +300,49 @@ function renderWorldMap() {
 }
 
 window.jumpToCoords = function (targetX, targetY) {
-    const xInput = document.getElementById('nav-x');
-    const yInput = document.getElementById('nav-y');
+    // 1. Force switch to map view first to ensure HUD exists
+    if (activeView !== 'map') {
+        switchView('map');
+    }
 
-    let x, y;
+    // 2. Wait for DOM update if we just switched views
+    setTimeout(() => {
+        const xInput = document.getElementById('nav-x');
+        const yInput = document.getElementById('nav-y');
 
-    // If arguments provided, use them.
-    if (targetX !== undefined && targetY !== undefined) {
-        x = parseInt(targetX);
-        y = parseInt(targetY);
-        // Also update the UI inputs to match IF they exist
-        if (xInput) xInput.value = x;
-        if (yInput) yInput.value = y;
-    } else {
-        // Safely handle missing inputs
-        if (!xInput || !yInput) {
-            console.warn("jumpToCoords called without args and inputs not found.");
+        let x, y;
+
+        // If arguments provided, use them. Otherwise read from inputs.
+        if (targetX !== undefined && targetY !== undefined) {
+            x = parseInt(targetX);
+            y = parseInt(targetY);
+            // Also update the UI inputs to match
+            if (xInput) xInput.value = x;
+            if (yInput) yInput.value = y;
+        } else {
+            // Read from inputs
+            if (xInput && yInput) {
+                x = parseInt(xInput.value);
+                y = parseInt(yInput.value);
+            }
+        }
+
+        console.log('🚀 jumpToCoords called');
+        console.log(`🚀 Inputs: X="${xInput ? xInput.value : 'N/A'}" Y="${yInput ? yInput.value : 'N/A'}"`);
+        console.log(`🚀 Parsed: X=${x} Y=${y}`);
+
+        if (isNaN(x) || isNaN(y)) {
+            notify("נא להזין קואורדינטות", "error");
             return;
         }
-        x = parseInt(xInput.value);
-        y = parseInt(yInput.value);
-    }
 
-    console.log(`🚀 jumpToCoords: ${x}, ${y}`);
+        if (!STATE.viewport) STATE.viewport = { x: 500, y: 500 };
+        STATE.viewport.x = x;
+        STATE.viewport.y = y;
 
-    if (isNaN(x) || isNaN(y)) {
-        notify("נא להזין קואורדינטות", "error");
-        return;
-    }
-
-    if (!STATE.viewport) STATE.viewport = { x: 500, y: 500 };
-    STATE.viewport.x = x;
-    STATE.viewport.y = y;
-
-    // Force switch to world map if not already there
-    if (!document.getElementById('world-map-grid')) {
-        // window.IS_JUMPING = true;
-        switchView('world');
-    } else {
         renderWorldMap();
-    }
-
-    notify(`קפצת אל: ${x}, ${y}`, "success");
+        notify(`קפצת אל: ${x}, ${y}`, "success");
+    }, 50); // Small delay to allow View Switch DOM to settle
 };
 
 
@@ -2840,7 +2830,7 @@ function renderCityProfile() {
                 territoryHtml += `
                     <li style="display:flex; justify-content:space-between; align-items:center;">
                         <span>${icon} <strong>${ent.name}</strong> (Lv.${ent.level || 1})</span>
-                        <span style="font-size:0.8rem; color:#94a3b8; cursor:pointer;" onclick="closeModal(); setTimeout(() => jumpToCoords(${tx}, ${ty}), 100);">📍 צפה במפה</span>
+                        <span style="font-size:0.8rem; color:#94a3b8; cursor:pointer;" onclick="closeModal(); jumpToCoords(${tx}, ${ty});">📍 צפה במפה</span>
                     </li>
                 `;
             }
@@ -3473,20 +3463,12 @@ function switchView(viewName) {
                     // Load territories from server first, then render map
                     loadAllTerritories().then(() => {
                         renderWorldMap();
-                        if (false) {
-                            requestAnimationFrame(centerMapOnHome);
-                        } else {
-                            window.IS_JUMPING = false; // Reset
-                        }
+                        requestAnimationFrame(centerMapOnHome);
                     }).catch(err => {
                         console.error('Error loading territories:', err);
                         // Render anyway even if territories fail to load
                         renderWorldMap();
-                        if (false) {
-                            requestAnimationFrame(centerMapOnHome);
-                        } else {
-                            window.IS_JUMPING = false;
-                        }
+                        requestAnimationFrame(centerMapOnHome);
                     });
                 } else {
                     throw new Error("Template 'template-world' not found!");
