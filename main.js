@@ -305,21 +305,24 @@ window.jumpToCoords = function (targetX, targetY) {
 
     let x, y;
 
-    // If arguments provided, use them. Otherwise read from inputs.
+    // If arguments provided, use them.
     if (targetX !== undefined && targetY !== undefined) {
         x = parseInt(targetX);
         y = parseInt(targetY);
-        // Also update the UI inputs to match
+        // Also update the UI inputs to match IF they exist
         if (xInput) xInput.value = x;
         if (yInput) yInput.value = y;
     } else {
+        // Safely handle missing inputs
+        if (!xInput || !yInput) {
+            console.warn("jumpToCoords called without args and inputs not found.");
+            return;
+        }
         x = parseInt(xInput.value);
         y = parseInt(yInput.value);
     }
 
-    console.log('🚀 jumpToCoords called');
-    console.log(`🚀 Inputs: X="${xInput.value}" Y="${yInput.value}"`);
-    console.log(`🚀 Parsed: X=${x} Y=${y}`);
+    console.log(`🚀 jumpToCoords: ${x}, ${y}`);
 
     if (isNaN(x) || isNaN(y)) {
         notify("נא להזין קואורדינטות", "error");
