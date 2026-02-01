@@ -941,39 +941,6 @@ const server = http.createServer((req, res) => {
             }
         });
 
-    } else if (req.url === '/api/territories' && req.method === 'GET') {
-        // Get all conquered territories from all players
-        try {
-            const allTerritories = {};
-            const files = fs.readdirSync(DATA_DIR);
-
-            for (const file of files) {
-                if (!file.endsWith('.json')) continue;
-                try {
-                    const content = fs.readFileSync(path.join(DATA_DIR, file), 'utf8');
-                    const userData = JSON.parse(content);
-
-                    if (userData.state && userData.state.mapEntities) {
-                        // Extract only owned territories
-                        for (const [key, entity] of Object.entries(userData.state.mapEntities)) {
-                            if (entity.owner === userData.username) {
-                                allTerritories[key] = {
-                                    ...entity,
-                                    owner: userData.username
-                                };
-                            }
-                        }
-                    }
-                } catch (err) {
-                    console.error(`Error reading territories from ${file}:`, err.message);
-                }
-            }
-
-            sendJSON(res, 200, { success: true, territories: allTerritories });
-        } catch (err) {
-            console.error('Error fetching territories:', err);
-            sendJSON(res, 500, { success: false, message: err.message });
-        }
 
     } else if (req.url === '/api/territories' && req.method === 'GET') {
         // Get all conquered territories from all players
