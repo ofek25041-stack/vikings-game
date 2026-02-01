@@ -3781,8 +3781,10 @@ window.centerCityView = function () {
 
         // Town Hall Center Coordinates (from image map)
         // Coords: 400,280,650,480 -> Center: x=525, y=380
-        const targetX = 525;
-        const targetY = 380;
+        // Total Center: x = 240 + 525 = 765 -> Shift Right: 900
+        // Total Center: y = 180 + 380 = 560
+        const targetX = 900;
+        const targetY = 560;
 
         const clientW = container.clientWidth;
         const clientH = container.clientHeight;
