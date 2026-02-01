@@ -3778,31 +3778,54 @@ window.centerCityView = function () {
 
     // Only center if we are in city view and elements exist
     if (container && container.offsetParent !== null) {
+        const viewport = document.querySelector('.iso-viewport');
+        if (!viewport) return;
 
-        // Town Hall Center Coordinates (from image map)
-        // Coords: 400,280,650,480 -> Center: x=525, y=380
-        // Total Center: x = 240 + 525 = 765 -> Shift Right: 900
-        // Total Center: y = 180 + 380 = 560
-        const targetX = 900;
-        const targetY = 560;
-
+        // 1. Get Dimensions
         const clientW = container.clientWidth;
         const clientH = container.clientHeight;
 
-        if (clientW === 0 || clientH === 0) return; // Not visible yet
+        // Visual dimensions (after scale(0.7))
+        const viewRect = viewport.getBoundingClientRect();
+        // Fallback if rect is 0 (hidden)
+        const visualW = viewRect.width || (viewport.offsetWidth * 0.7);
+        const visualH = viewRect.height || (viewport.offsetHeight * 0.7);
 
-        // Calculate scroll to center the target
-        let scrollX = targetX - (clientW / 2);
-        let scrollY = targetY - (clientH / 2);
+        // Reset margins first
+        viewport.style.marginLeft = '';
+        viewport.style.marginTop = '';
 
-        // Clamp to valid range
-        scrollX = Math.max(0, scrollX);
-        scrollY = Math.max(0, scrollY);
+        // 2. Logic: If Viewport fits entirely, center via Margin. If not, Scroll.
+        // Visual Target (Island Center) = 588px (X), 546px (Y) based on 0.7 scale
+        const visualTargetX = 588;
+        const visualTargetY = 546;
 
-        container.scrollLeft = scrollX;
-        container.scrollTop = scrollY;
+        // --- HORIZONTAL ---
+        if (visualW < clientW) {
+            // Fits horizontally -> Center via Margin
+            // Formula: MarginLeft = ScreenCenter - VisualTargetX
+            const margX = (clientW / 2) - visualTargetX;
+            viewport.style.marginLeft = Math.floor(margX) + 'px';
+            container.scrollLeft = 0;
+        } else {
+            // Mobile: Scroll to Target
+            // Formula: ScrollLeft = VisualTargetX - ScreenCenter
+            container.scrollLeft = Math.max(0, visualTargetX - (clientW / 2));
+        }
 
-        console.log("🎯 Centered on TownHall", { targetX, targetY, scrollX, scrollY, clientW, clientH });
+        // --- VERTICAL ---
+        if (visualH < clientH) {
+            const margY = (clientH / 2) - visualTargetY;
+            viewport.style.marginTop = Math.floor(margY) + 'px';
+            container.scrollTop = 0;
+        } else {
+            container.scrollTop = Math.max(0, visualTargetY - (clientH / 2));
+        }
+
+        console.log("🎯 Centered City Hybrid", {
+            mode: (visualW < clientW) ? 'Margin' : 'Scroll',
+            clientW, visualW, visualTargetX
+        });
     }
 };
 
