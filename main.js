@@ -171,6 +171,9 @@ function renderWorldMap() {
 
     console.log(`🗺️ renderWorldMap: Center=(${centerX}, ${centerY}) | Viewport=(${STATE.viewport?.x}, ${STATE.viewport?.y}) | Home=(${STATE.homeCoords?.x}, ${STATE.homeCoords?.y}) | IS_JUMPING=${window.IS_JUMPING}`);
 
+    // DEBUG NOTIFICATION
+    notify(`DEBUG: Map Center (${centerX}, ${centerY})`, "info");
+
     // Update HUD
     const hudX = document.getElementById('map-x'); const hudY = document.getElementById('map-y');
     if (hudX) hudX.innerText = centerX; if (hudY) hudY.innerText = centerY;
