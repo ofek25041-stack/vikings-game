@@ -144,6 +144,13 @@ async function loadAllTerritories() {
 
             // Merge server territories with local mapEntities
             for (const [key, territory] of Object.entries(data.territories)) {
+                // FIX: If the entity name suggests it's a fortress, FORCE the type to be fortress
+                // This fixes the issue where server might return it as a city or 'undefined's City'
+                if (territory.name && (territory.name.includes('Fortress') || territory.name.includes('מבצר'))) {
+                    console.log(`🏰 Auto-correcting entity at ${key} to type 'fortress'`);
+                    territory.type = 'fortress';
+                }
+
                 // CRITICAL: Always load fortresses (they belong to clans, not individual users)
                 // Only skip the user's own city (which is already managed locally)
                 if (territory.type === 'fortress' || territory.owner !== CURRENT_USER) {
