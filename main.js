@@ -129,7 +129,7 @@ function ensureCityExistsAndRender() {
 // Load territories from all players
 async function loadAllTerritories() {
     try {
-        const response = await fetch('/api/territories');
+        const response = await fetch('/api/territories?t=' + Date.now());
         const data = await response.json();
 
         if (data.success && data.territories) {
