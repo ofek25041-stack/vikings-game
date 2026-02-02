@@ -601,14 +601,87 @@ const ClanSystem = {
         if (settings.description !== undefined) {
             clan.description = settings.description;
         }
-        if (settings.recruitmentOpen !== undefined) {
-            clan.recruitmentOpen = settings.recruitmentOpen;
+
+        // Settings now only supports 'recruitmentType' passed in settings object
+        if (settings.recruitmentType) {
+            if (!clan.recruitment) clan.recruitment = { requests: [] };
+            clan.recruitment.type = settings.recruitmentType;
         }
+
+        // Server Call
+        fetch('/api/clan/settings', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                clanId: clan.id,
+                username: CURRENT_USER,
+                recruitmentType: settings.recruitmentType || (clan.recruitment ? clan.recruitment.type : 'closed')
+            })
+        }).then(r => r.json()).then(res => {
+            if (!res.success) {
+                notify(res.error || 'Failed to sync settings', 'error');
+            }
+        });
 
         this.saveClan(clan);
         this.sendMessage(clan.id, 'הגדרות הקלאן עודכנו', 'system');
 
         return { success: true };
+    },
+
+    // Apply to clan
+    async applyToClan(clanId) {
+        if (STATE.clan && STATE.clan.id) return { success: false, error: 'You are already in a clan' };
+
+        try {
+            const response = await fetch('/api/clan/apply', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ clanId: clanId, username: CURRENT_USER })
+            });
+            return await response.json();
+        } catch (e) {
+            return { success: false, error: 'Network error' };
+        }
+    },
+
+    // Handle Request (Accept/Reject)
+    async handleRequest(targetUser, action) {
+        const clan = this.getPlayerClan();
+        if (!clan) return { success: false, error: 'No clan' };
+
+        try {
+            const response = await fetch('/api/clan/handle_request', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    clanId: clan.id,
+                    actionBy: CURRENT_USER,
+                    targetUser: targetUser,
+                    action: action
+                })
+            });
+            const result = await response.json();
+
+            if (result.success) {
+                // Optimistic Update
+                if (!clan.recruitment) clan.recruitment = { requests: [] };
+                clan.recruitment.requests = clan.recruitment.requests.filter(r => r.username !== targetUser);
+
+                if (action === 'accept') {
+                    clan.members[targetUser] = { role: 'member', joinedAt: Date.now() };
+                    this.sendMessage(clan.id, `ברוך הבא ${targetUser}!`, 'system');
+                }
+
+                this.saveClan(clan);
+                saveGame();
+                return { success: true };
+            } else {
+                return { success: false, error: result.error };
+            }
+        } catch (e) {
+            return { success: false, error: 'Network error' };
+        }
     },
 
     // Find suitable location for fortress (2x2)
@@ -1359,7 +1432,8 @@ const ClanUI = {
                <button class="clan-tab ${this.currentTab === 'members' ? 'active' : ''}" onclick="ClanUI.switchTab('members')">Members</button>
                <button class="clan-tab ${this.currentTab === 'chat' ? 'active' : ''}" onclick="ClanUI.switchTab('chat')">Chat</button>
                <button class="clan-tab ${this.currentTab === 'treasury' ? 'active' : ''}" onclick="ClanUI.switchTab('treasury')">Treasury</button>
-               <button class="clan-tab ${this.currentTab === 'fortress' ? 'active' : ''}" onclick="ClanUI.switchTab('fortress')">Fortress</button>`;
+               <button class="clan-tab ${this.currentTab === 'fortress' ? 'active' : ''}" onclick="ClanUI.switchTab('fortress')">Fortress</button>
+               ${canInvite ? `<button class="clan-tab ${this.currentTab === 'requests' ? 'active' : ''}" onclick="ClanUI.switchTab('requests')">Requests ${(clan.recruitment?.requests?.length || 0) > 0 ? `<span style="background:#ef4444; color:white; padding:2px 6px; border-radius:10px; font-size:0.7em;">${clan.recruitment.requests.length}</span>` : ''}</button>` : ''}`;
 
         container.innerHTML = `
             <!-- Clan Header -->
@@ -1442,10 +1516,54 @@ const ClanUI = {
                 <div style="margin-top: 20px;">
                     <strong style="color: #fbbf24;">Leader:</strong> ${clan.leader}
                 </div>
+
+                ${(() => {
+                if (STATE.clan) return ''; // Already in a clan
+
+                const rType = clan.recruitment ? clan.recruitment.type : 'closed';
+                const requests = clan.recruitment ? clan.recruitment.requests : [];
+                const hasApplied = requests.some(r => r.username === CURRENT_USER);
+
+                if (hasApplied) {
+                    return `<div style="margin-top:20px; color:#fbbf24; border:1px solid #fbbf24; padding:10px; border-radius:8px;">⏳ Application Pending</div>`;
+                }
+
+                if (rType === 'open') {
+                    return `<button class="btn-primary" style="margin-top:20px; background:#22c55e;" onclick="ClanUI.joinClan('${clanId}')">Join Clan</button>`;
+                } else if (rType === 'request') {
+                    return `<button class="btn-primary" style="margin-top:20px; background:#3b82f6;" onclick="ClanUI.applyToClanUI('${clanId}')">Apply to Clan</button>`;
+                } else {
+                    return `<div style="margin-top:20px; color:#94a3b8; border:1px solid #475569; padding:10px; border-radius:8px;">🔒 Invite Only</div>`;
+                }
+            })()}
             </div>
         `;
 
         openModal(clan.name, html, 'Close', closeModal);
+    },
+
+    async joinClan(clanId) {
+        // Wrapper for existing join
+        const result = await ClanSystem.joinClan(clanId);
+        if (result.success) closeModal();
+    },
+
+    async applyToClanUI(clanId) {
+        const clan = ClanSystem.getClan(clanId);
+        if (!confirm(`Apply to join ${clan.name}?`)) return;
+
+        const result = await ClanSystem.applyToClan(clanId);
+        if (result.success) {
+            notify('Application sent successfully!', 'success');
+            // Optimistically update UI logic? 
+            // Better to reload clan or manually add to local `recruitment.requests` if accessible
+            // But recruitment.requests might not be in the public clan object if filtered.
+            // Assuming we trust the UI state for now.
+            closeModal();
+            ClanUI.showClanInfo(clanId); // Re-open to show pending status? Or just close.
+        } else {
+            notify(result.error || 'Failed to apply', 'error');
+        }
     },
 
     // Switch tab
@@ -1480,6 +1598,9 @@ const ClanUI = {
                 break;
             case 'settings':
                 this.renderSettings(content, clan);
+                break;
+            case 'requests':
+                this.renderRequests(content, clan);
                 break;
         }
     },
@@ -1754,7 +1875,7 @@ const ClanUI = {
             return;
         }
 
-        const recruitmentStatus = clan.recruitmentOpen !== false; // Default true
+        const recruitmentType = clan.recruitment ? clan.recruitment.type : 'closed';
 
         content.innerHTML = `
             <div style="padding: 20px;">
@@ -1770,14 +1891,11 @@ const ClanUI = {
 
                 <div class="form-group" style="margin-bottom: 20px;">
                     <label class="form-label">סטטוס גיוס:</label>
-                    <div style="margin-top: 10px;">
-                        <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
-                            <input type="checkbox" id="recruitment-toggle" 
-                                   ${recruitmentStatus ? 'checked' : ''} 
-                                   style="width: 20px; height: 20px;">
-                            <span style="color: #cbd5e1;">הקלאן פתוח לגיוס</span>
-                        </label>
-                    </div>
+                    <select id="recruitment-type" class="form-input">
+                        <option value="closed" ${recruitmentType === 'closed' ? 'selected' : ''}>🔒 סגור (הזמנה בלבד)</option>
+                        <option value="request" ${recruitmentType === 'request' ? 'selected' : ''}>📄 בקשת הצטרפות (דורש אישור)</option>
+                        <option value="open" ${recruitmentType === 'open' ? 'selected' : ''}>✅ פתוח (הצטרפות מיידית)</option>
+                    </select>
                 </div>
 
                 <button class="btn-primary" onclick="ClanUI.saveSettings()">שמור הגדרות</button>
@@ -1791,11 +1909,58 @@ const ClanUI = {
         `;
     },
 
+    // Render Requests Tab
+    renderRequests(content, clan) {
+        const requests = clan.recruitment ? clan.recruitment.requests : [];
+
+        if (requests.length === 0) {
+            content.innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-state-icon">📭</div>
+                    <div class="empty-state-text">אין בקשות הצטרפות חדשות</div>
+                </div>
+            `;
+            return;
+        }
+
+        const requestsHtml = requests.map(req => `
+            <div class="member-card" style="justify-content:space-between;">
+                <div class="member-details">
+                    <div class="member-name">${req.username}</div>
+                    <div class="member-stats">${new Date(req.timestamp).toLocaleDateString()}</div>
+                </div>
+                <div class="member-actions">
+                    <button class="member-action-btn" style="background:#22c55e;" onclick="ClanUI.handleRequestUI('${req.username}', 'accept')">אשר</button>
+                    <button class="member-action-btn" style="background:#ef4444;" onclick="ClanUI.handleRequestUI('${req.username}', 'reject')">דחה</button>
+                </div>
+            </div>
+        `).join('');
+
+        content.innerHTML = `
+            <div style="padding:20px;">
+                <h3 style="color:#fbbf24; margin-bottom:15px;">בקשות הצטרפות (${requests.length})</h3>
+                <div class="members-list">
+                    ${requestsHtml}
+                </div>
+            </div>
+        `;
+    },
+
+    async handleRequestUI(username, action) {
+        const result = await ClanSystem.handleRequest(username, action);
+        if (result.success) {
+            notify(action === 'accept' ? 'בקשה אושרה!' : 'בקשה נדחתה.', 'success');
+            ClanUI.render(); // Refresh all
+        } else {
+            notify(result.error || 'Operation failed', 'error');
+        }
+    },
+
     saveSettings() {
         const description = document.getElementById('clan-desc-edit')?.value || '';
-        const recruitmentOpen = document.getElementById('recruitment-toggle')?.checked || false;
+        const recruitmentType = document.getElementById('recruitment-type')?.value;
 
-        const result = ClanSystem.updateSettings({ description, recruitmentOpen });
+        const result = ClanSystem.updateSettings({ description, recruitmentType });
 
         if (result.success) {
             notify('ההגדרות נשמרו בהצלחה!', 'success');

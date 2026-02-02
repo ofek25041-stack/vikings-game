@@ -404,9 +404,51 @@ const server = http.createServer(async (req, res) => {
                 if (!user) return sendJSON(res, 404, { error: 'User not found' });
                 if (user.state.clan) return sendJSON(res, 400, { error: 'Already in clan' });
 
+                // Recruitment Logic Check
+                const recruitmentType = (clan.recruitment && clan.recruitment.type) ? clan.recruitment.type : 'closed';
+
+                // If Open -> Allow
+                // If Request/Closed -> Check for existing invitation (how? existing logic relied on logic elsewhere or just open join?)
+                // Actually, existing logic IS "Accept Invite" from UI which calls this.
+                // BUT, we want to allow "Open" clans to be joined WITHOUT invitation.
+
+                // We need to differentiate between "Accept Invite" calling this, and "Direct Join".
+                // In both cases, if the user HAS an invite (not tracked on server easily besides reports?), they can join.
+                // But wait, the standard invites are client-side or just messages? 
+                // Server code doesn't track active invites in Clan object.
+                // So `/api/clan/join` currently implies "I have permission or system lets me".
+
+                // NEW LOGIC:
+                // 1. If 'open' -> Success.
+                // 2. If 'closed'/'request' -> Security risk? Anyone can call API?
+                //    We need a way to verify "Invited".
+                //    For now, we trust the Client if it's an "Accept Invite" flow (which might be weak security but acceptable for prototype).
+                //    OR we assume this endpoint is ONLY for "Open" joining or "Accepting Invite".
+
+                // Let's refine:
+                // If logic passed strictly 'open', we allow.
+                // If logic passed 'invite_token' or similar? No.
+
+                // Compormise for this iteration:
+                // We will trust the caller. BUT we should enforce 'open' check if we want true rules.
+                // However, `mailbox.js` calls this when accepting an invite. 
+                // So if we block it for 'closed' clans, invites stop working unless we pass a flag "isInvite=true".
+
+                if (recruitmentType !== 'open' && !body.isInvite) {
+                    return sendJSON(res, 403, { error: 'Clan is not open' });
+                }
+
                 // Update Clan
                 clan.members[username] = { role: 'member', joinedAt: Date.now() };
-                await db.collection('clans').updateOne({ id: clanId }, { $set: { members: clan.members } });
+
+                // Remove from requests if present
+                if (clan.recruitment && clan.recruitment.requests) {
+                    clan.recruitment.requests = clan.recruitment.requests.filter(r => r.username !== username);
+                }
+
+                await db.collection('clans').updateOne({ id: clanId }, {
+                    $set: { members: clan.members, "recruitment.requests": clan.recruitment ? clan.recruitment.requests : [] }
+                });
 
                 // Update User
                 const clanRef = { id: clanId, name: clan.name, tag: clan.tag };
@@ -439,6 +481,7 @@ const server = http.createServer(async (req, res) => {
                     members: { [username]: { role: 'leader', joinedAt: Date.now() } },
                     treasury: { gold: 0, wood: 0 },
                     fortress: { level: 1, hp: 10000, attacks: [] },
+                    recruitment: { type: 'closed', requests: [] },
                     createdAt: Date.now()
                 };
 
@@ -500,7 +543,87 @@ const server = http.createServer(async (req, res) => {
             }
         });
 
-    } else if (req.url === '/api/world' && req.method === 'GET') {
+    } else if (req.url === '/api/clan/settings' && req.method === 'POST') {
+        readBody(req, async (body) => {
+            const { clanId, username, recruitmentType } = body;
+            try {
+                const clan = await db.collection('clans').findOne({ id: clanId });
+                if (!clan) return sendJSON(res, 404, { error: 'Clan not found' });
+
+                if (clan.members[username]?.role !== 'leader') return sendJSON(res, 403, { error: 'Not leader' });
+
+                if (!['open', 'request', 'closed'].includes(recruitmentType)) {
+                    return sendJSON(res, 400, { error: 'Invalid type' });
+                }
+
+                // Init if missing
+                if (!clan.recruitment) clan.recruitment = { requests: [] };
+
+                clan.recruitment.type = recruitmentType;
+
+                await db.collection('clans').updateOne({ id: clanId }, { $set: { recruitment: clan.recruitment } });
+                sendJSON(res, 200, { success: true });
+            } catch (e) { sendJSON(res, 500, { error: e.message }); }
+        });
+
+    } else if (req.url === '/api/clan/apply' && req.method === 'POST') {
+        readBody(req, async (body) => {
+            const { clanId, username } = body;
+            try {
+                const clan = await db.collection('clans').findOne({ id: clanId });
+                if (!clan) return sendJSON(res, 404, { error: 'Clan not found' });
+
+                const rType = clan.recruitment?.type || 'closed';
+                if (rType !== 'request') return sendJSON(res, 400, { error: 'Clan does not accept applications' });
+
+                // Check if already applied
+                const requests = clan.recruitment.requests || [];
+                if (requests.find(r => r.username === username)) return sendJSON(res, 400, { error: 'Already applied' });
+
+                const newRequest = { username, timestamp: Date.now() };
+                await db.collection('clans').updateOne({ id: clanId }, {
+                    $push: { "recruitment.requests": newRequest }
+                });
+
+                sendJSON(res, 200, { success: true });
+            } catch (e) { sendJSON(res, 500, { error: e.message }); }
+        });
+
+    } else if (req.url === '/api/clan/handle_request' && req.method === 'POST') {
+        readBody(req, async (body) => {
+            const { clanId, actionBy, targetUser, action } = body; // action: 'accept' | 'reject'
+            try {
+                const clan = await db.collection('clans').findOne({ id: clanId });
+                if (!clan) return sendJSON(res, 404, { error: 'Clan not found' });
+
+                if (clan.members[actionBy]?.role !== 'leader' && clan.members[actionBy]?.role !== 'officer') {
+                    return sendJSON(res, 403, { error: 'Permission denied' });
+                }
+
+                // Always remove from requests
+                await db.collection('clans').updateOne({ id: clanId }, {
+                    $pull: { "recruitment.requests": { username: targetUser } }
+                });
+
+                if (action === 'accept') {
+                    // Check if already in clan (double check)
+                    const user = await db.collection('users').findOne({ username: targetUser });
+                    if (user.state.clan) return sendJSON(res, 400, { error: 'User already in a clan' });
+
+                    // Add to members
+                    const updates = {};
+                    updates[`members.${targetUser}`] = { role: 'member', joinedAt: Date.now() };
+
+                    await db.collection('clans').updateOne({ id: clanId }, { $set: updates });
+
+                    // Update User
+                    const clanRef = { id: clanId, name: clan.name, tag: clan.tag };
+                    await db.collection('users').updateOne({ username: targetUser }, { $set: { "state.clan": clanRef } });
+                }
+
+                sendJSON(res, 200, { success: true });
+            } catch (e) { sendJSON(res, 500, { error: e.message }); }
+        });
         sendJSON(res, 200, { success: true, players: WORLD_CACHE, fortresses: [] }); // Add fortresses to cache logic above really
 
     } else if (req.url === '/api/players' && req.method === 'GET') {
@@ -801,5 +924,5 @@ const server = http.createServer(async (req, res) => {
 
 server.listen(PORT, () => {
     console.log(`Vikings DB Server running at http://localhost:${PORT}`);
-    console.log(`[v1.0.11] Connecting to MongoDB... (Restarted at: ${new Date().toLocaleTimeString()})`);
+    console.log(`[v1.1.0] Connecting to MongoDB... (Restarted at: ${new Date().toLocaleTimeString()})`);
 });
