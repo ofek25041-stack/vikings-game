@@ -6,7 +6,7 @@ const MAP_CONFIG = {
     WORLD_SIZE: 1000,           // 1000x1000 tiles
     TILE_SIZE: 30,              // 30px per tile
     BUFFER: 5,                  // Render a few extra tiles around edges
-    SCROLL_DEBOUNCE: 50         // ms delay for rendering while scrolling
+    SCROLL_DEBOUNCE: 10         // Faster debounce for smoother feel
 };
 
 let scrollTimer = null;
@@ -27,32 +27,48 @@ function initScrollableMap() {
     grid.style.width = `${totalPixels}px`;
     grid.style.height = `${totalPixels}px`;
     grid.style.position = 'relative';
-    grid.style.overflow = 'hidden'; // Content outside is invalid logic-wise anyway
-
-    // 2. Ensure background pattern covers it all
+    grid.style.overflow = 'hidden';
     grid.classList.add('map-grid');
 
-    // 3. Center logic
-    let homeX = 500;
-    let homeY = 500;
-
-    // Try to get from STATE if available
-    if (STATE.homeCoords && STATE.homeCoords.x > 0) {
-        homeX = STATE.homeCoords.x;
-        homeY = STATE.homeCoords.y;
+    // 2. Ensure Layers Exist
+    if (!document.getElementById('map-tiles-layer')) {
+        const tilesLayer = document.createElement('div');
+        tilesLayer.id = 'map-tiles-layer';
+        tilesLayer.style.position = 'absolute';
+        tilesLayer.style.top = '0';
+        tilesLayer.style.left = '0';
+        tilesLayer.style.width = '100%';
+        tilesLayer.style.height = '100%';
+        tilesLayer.style.zIndex = '1';
+        grid.prepend(tilesLayer); // Tiles at bottom
     }
 
-    // Calculate scroll position to center coordinates
-    const vpW = viewport.clientWidth || window.innerWidth;
-    const vpH = viewport.clientHeight || window.innerHeight;
+    // 3. Center logic (Only if not already centered/scrolled)
+    // If scroll is near 0,0 it implies it's fresh. 
+    // If init is called while user is browsing, DO NOT RE-CENTER.
+    if (viewport.scrollLeft < 100 && viewport.scrollTop < 100) {
+        let homeX = 500;
+        let homeY = 500;
 
-    viewport.scrollLeft = (homeX * MAP_CONFIG.TILE_SIZE) - (vpW / 2);
-    viewport.scrollTop = (homeY * MAP_CONFIG.TILE_SIZE) - (vpH / 2);
+        if (STATE.homeCoords && STATE.homeCoords.x > 0) {
+            homeX = STATE.homeCoords.x;
+            homeY = STATE.homeCoords.y;
+        }
 
-    console.log(`📍 Centered on (${homeX}, ${homeY}). Scroll: ${viewport.scrollLeft}, ${viewport.scrollTop}`);
+        const vpW = viewport.clientWidth || window.innerWidth;
+        const vpH = viewport.clientHeight || window.innerHeight;
+
+        viewport.scrollLeft = (homeX * MAP_CONFIG.TILE_SIZE) - (vpW / 2);
+        viewport.scrollTop = (homeY * MAP_CONFIG.TILE_SIZE) - (vpH / 2);
+
+        console.log(`📍 Centered on (${homeX}, ${homeY}).`);
+    }
 
     // 4. Attach Scroll Listener
     viewport.onscroll = handleScroll;
+
+    // Mark as done
+    viewport.setAttribute('data-init-done', 'true');
 
     // 5. Initial Render
     renderVisibleArea();
@@ -65,8 +81,10 @@ function handleScroll() {
 
 function renderVisibleArea() {
     const viewport = document.getElementById('world-map-viewport');
-    const grid = document.getElementById('world-map-grid');
-    if (!viewport || !grid) return;
+    // Using layer instead of grid to avoid killing other layers
+    const tilesLayer = document.getElementById('map-tiles-layer');
+
+    if (!viewport || !tilesLayer) return;
 
     // 1. Calculate Visible Coordinates
     const scrollLeft = viewport.scrollLeft;
@@ -101,18 +119,12 @@ function renderVisibleArea() {
     if (hudX) hudX.innerText = centerX;
     if (hudY) hudY.innerText = centerY;
 
-    // 2. Clear Grid (Preserve Marches)
-    const linesLayer = document.getElementById('march-lines-layer');
-    const armiesLayer = document.getElementById('march-armies-layer');
-    if (linesLayer) linesLayer.remove();
-    if (armiesLayer) armiesLayer.remove();
+    // 2. Render Tiles (Efficiently)
+    // We create a new fragment and SWAP the entire tile layer content.
+    // This is faster than 1000 appendChild calls on live DOM, but still replaces everything.
+    // For specific tile updates (mobs moving) we might need smarter logic, 
+    // but for scrolling this solves the "flicker of other layers".
 
-    grid.innerHTML = '';
-
-    if (linesLayer) grid.appendChild(linesLayer);
-    if (armiesLayer) grid.appendChild(armiesLayer);
-
-    // 3. Render Tiles
     const fragment = document.createDocumentFragment();
     let entityCount = 0;
 
@@ -124,7 +136,7 @@ function renderVisibleArea() {
             const val = noise - Math.floor(noise);
 
             let type = 'water';
-            let bgColor = 'transparent'; // Only water is transparent
+            let bgColor = 'transparent';
 
             if (val < 0.15) { type = 'grass'; bgColor = '#4ade80'; }
             else if (val < 0.22) { type = 'forest'; bgColor = '#166534'; }
@@ -144,7 +156,7 @@ function renderVisibleArea() {
             const tile = document.createElement('div');
             tile.className = `map-tile tile-${type}`;
 
-            // INLINE STYLES TO FORCE VISIBILITY
+            // INLINE STYLES - Absolute positioning relative to grid
             tile.style.position = 'absolute';
             tile.style.left = `${x * MAP_CONFIG.TILE_SIZE}px`;
             tile.style.top = `${y * MAP_CONFIG.TILE_SIZE}px`;
@@ -152,7 +164,7 @@ function renderVisibleArea() {
             tile.style.height = `${MAP_CONFIG.TILE_SIZE}px`;
             tile.style.zIndex = '10';
 
-            // Force background if not water
+            // Background
             if (type !== 'water') {
                 tile.style.backgroundColor = bgColor;
                 tile.style.opacity = '0.7';
@@ -164,7 +176,7 @@ function renderVisibleArea() {
                 const el = createEntityDOM(entity, x, y);
                 tile.appendChild(el);
             } else {
-                // Empty tile click -> Teleport option
+                // Empty tile = Teleport Click
                 tile.onclick = () => handleTileClick(x, y);
                 tile.style.cursor = 'pointer';
             }
@@ -173,30 +185,16 @@ function renderVisibleArea() {
         }
     }
 
-    grid.appendChild(fragment);
+    // SWAP CONTENT
+    tilesLayer.innerHTML = '';
+    tilesLayer.appendChild(fragment);
 
     // AGGRESSIVE DEBUG OUTPUT
     const debugOutput = document.getElementById('debug-content');
     if (debugOutput) {
-        const vp = document.getElementById('world-map-viewport');
-        const gr = document.getElementById('world-map-grid');
-        const tile = gr.querySelector('.map-tile');
-
-        // Check computed styles
-        const vpStyle = window.getComputedStyle(vp);
-        const grStyle = window.getComputedStyle(gr);
-
         debugOutput.innerHTML = `
-        <strong>Viewport:</strong> ${vp.clientWidth}x${vp.clientHeight} (Scroll: ${vp.scrollLeft}, ${vp.scrollTop})<br>
-        <strong>Grid:</strong> ${gr.clientWidth}x${gr.clientHeight} (Children: ${gr.children.length})<br>
-        <strong>Center Tile:</strong> ${STATE.viewport.x}, ${STATE.viewport.y}<br>
-        <strong>Entities Rendered:</strong> ${entityCount}<br>
-        <hr>
-        <strong>CSS Check:</strong><br>
-        VP Display: ${vpStyle.display}, Z-Index: ${vpStyle.zIndex}<br>
-        Grid Display: ${grStyle.display}, Position: ${grStyle.position}<br>
-        First Tile Visible? ${tile ? 'YES' : 'NO'}<br>
-        First Tile Pos: ${tile ? tile.style.left + ',' + tile.style.top : 'N/A'}
+        <strong>Center:</strong> ${STATE.viewport.x}, ${STATE.viewport.y}<br>
+        <strong>Entities:</strong> ${entityCount}<br>
         `;
     }
 }
@@ -239,22 +237,19 @@ function getDefaultIcon(type) {
 window.initScrollableMap = initScrollableMap;
 window.renderVisibleArea = renderVisibleArea;
 
-// Auto-init logic
+// Auto-init logic - REDUCED AGGRESSION
 function tryAutoInit() {
-    // Only init if we are on the map view
     const worldView = document.getElementById('world-view');
     if (worldView && worldView.style.display !== 'none') {
         const viewport = document.getElementById('world-map-viewport');
         if (viewport && !viewport.getAttribute('data-init-done')) {
-            console.log("🔄 Auto-triggering map init...");
             initScrollableMap();
-            viewport.setAttribute('data-init-done', 'true');
         }
     }
 }
 
-// Check every 500ms if we should init (safeguard)
-setInterval(tryAutoInit, 500);
+// Check every 1000ms instead of 500
+setInterval(tryAutoInit, 1000);
 
 // Hook into switchView globally
 const _origSwitch = window.switchView;
