@@ -2889,7 +2889,7 @@ function getTypeIcon(type) {
         case 'crystal': return '💎';
         case 'sulfur': return '🌋';
         case 'fortress': return '🏰';
-        case 'city': return '🏰'; // City icon
+        case 'city': return '🏠'; // Correct City icon
         default: return '❓';
     }
 }
