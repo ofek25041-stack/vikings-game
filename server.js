@@ -625,6 +625,67 @@ const server = http.createServer(async (req, res) => {
             } catch (e) { sendJSON(res, 500, { error: e.message }); }
         });
 
+    } else if (req.url === '/api/player/teleport' && req.method === 'POST') {
+        readBody(req, async (body) => {
+            const { username, targetX, targetY } = body;
+            const COST = 50000;
+            const RESOURCES = ['gold', 'wood', 'food', 'wine', 'iron'];
+            const COOLDOWN_DAYS = 7;
+            const COOLDOWN_MS = COOLDOWN_DAYS * 24 * 60 * 60 * 1000;
+
+            try {
+                const user = await db.collection('users').findOne({ username });
+                if (!user) return sendJSON(res, 404, { error: 'User not found' });
+
+                // 1. Check Cooldown
+                const lastTeleport = user.lastTeleport || 0;
+                const now = Date.now();
+                if (now - lastTeleport < COOLDOWN_MS) {
+                    const daysLeft = Math.ceil((COOLDOWN_MS - (now - lastTeleport)) / (24 * 60 * 60 * 1000));
+                    return sendJSON(res, 400, { error: `Teleport is on cooldown. Try again in ${daysLeft} days.` });
+                }
+
+                // 2. Check Resources
+                const userRes = user.state.resources || {};
+                for (const r of RESOURCES) {
+                    if ((userRes[r] || 0) < COST) {
+                        return sendJSON(res, 400, { error: `Insufficient ${r}. Need ${COST}.` });
+                    }
+                }
+
+                // 3. Check Target Location (Collision)
+                // Need to check against ALL users and Fortresses in WORLD_CACHE (or DB for strictness)
+                // DB is better.
+                const collisionUser = await db.collection('users').findOne({ "state.homeCoords.x": targetX, "state.homeCoords.y": targetY });
+                if (collisionUser) return sendJSON(res, 400, { error: 'Location occupied by a city.' });
+
+                // Check fortresses (iterate clans)
+                const collisionClan = await db.collection('clans').findOne({ "fortress.x": targetX, "fortress.y": targetY });
+                if (collisionClan) return sendJSON(res, 400, { error: 'Location occupied by a fortress.' });
+
+                // 4. Execute
+                const updates = {};
+                updates['state.homeCoords.x'] = targetX;
+                updates['state.homeCoords.y'] = targetY;
+                updates['lastTeleport'] = now;
+
+                // Deduct resources
+                for (const r of RESOURCES) {
+                    updates[`state.resources.${r}`] = (userRes[r] || 0) - COST;
+                }
+
+                await db.collection('users').updateOne({ username }, { $set: updates });
+
+                // Update Cache
+                updateWorldCache();
+
+                sendJSON(res, 200, { success: true });
+
+            } catch (e) {
+                sendJSON(res, 500, { error: e.message });
+            }
+        });
+
     } else if (req.url === '/api/clan/chat' && req.method === 'POST') {
         readBody(req, async (body) => {
             const { clanId, sender, text } = body;

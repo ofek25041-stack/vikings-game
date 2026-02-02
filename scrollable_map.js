@@ -163,6 +163,10 @@ function renderVisibleArea() {
                 entityCount++;
                 const el = createEntityDOM(entity, x, y);
                 tile.appendChild(el);
+            } else {
+                // Empty tile click -> Teleport option
+                tile.onclick = () => handleTileClick(x, y);
+                tile.style.cursor = 'pointer';
             }
 
             fragment.appendChild(tile);
@@ -277,4 +281,86 @@ window.jumpToMapCoords = function (x, y) {
 
     // Render immediately
     setTimeout(renderVisibleArea, 0);
+};
+
+// ==========================================
+// TELEPORTATION LOGIC
+// ==========================================
+
+window.handleTileClick = function (x, y) {
+    // Double check if empty (though logic above handles it)
+    const key = `${x},${y}`;
+    if (STATE.mapEntities && STATE.mapEntities[key]) return;
+
+    // Server check logic: ['gold', 'wood', 'food', 'wine', 'iron']
+    // User check:
+    const COST = 50000;
+    const resources = ['gold', 'wood', 'food', 'wine', 'iron'];
+    const missing = resources.filter(r => (STATE.resources[r] || 0) < COST);
+
+    let costHtml = `
+        <div style="background:rgba(255,255,255,0.1); padding:10px; border-radius:8px; margin:15px 0; text-align:right;">
+            <div style="margin-bottom:5px; font-weight:bold; color:#fbbf24;">עלות המעבר:</div>
+            ${resources.map(r => `<div style="${(STATE.resources[r] || 0) < COST ? 'color:#ef4444' : 'color:#a7f3d0'}">${getIcon(r) || ''} 50,000 ${r}</div>`).join('')}
+        </div>
+        <div style="color:#fca5a5; font-size:0.9em; margin-bottom:15px;">
+            ⚠️ שים לב: ניתן להעביר עיר רק פעם ב-7 ימים.<br>
+            העיר תועבר למיקום (${x}, ${y}).
+        </div>
+    `;
+
+    if (missing.length > 0) {
+        costHtml += `<div style="color:#ef4444; font-weight:bold;">חסרים משאבים!</div>`;
+    }
+
+    openModal('העברת עיר', `
+        <div style="text-align:center;">
+            <div style="font-size:3rem; margin-bottom:10px;">🚚</div>
+            <p>האם ברצונך להעביר את העיר שלך למיקום הזה?</p>
+            ${costHtml}
+            <button class="btn-primary" onclick="teleportCity(${x}, ${y})" ${missing.length > 0 ? 'disabled style="opacity:0.5; cursor:not-allowed;"' : ''}>אשר העברה</button>
+        </div>
+    `, 'ביטול', closeModal);
+};
+
+window.teleportCity = async function (x, y) {
+    closeModal();
+    notify('מנסה להעביר את העיר...', 'info');
+
+    try {
+        const response = await fetch('/api/player/teleport', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                username: CURRENT_USER,
+                targetX: x,
+                targetY: y
+            })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            notify('העיר הועברה בהצלחה! 🌍', 'success_major');
+
+            // Update local state immediately for UX
+            STATE.homeCoords = { x, y };
+            // Reload map center
+            if (window.initScrollableMap) window.initScrollableMap();
+
+            // Also deduct resources visually (optional, but good)
+            const COST = 50000;
+            ['gold', 'wood', 'food', 'wine', 'iron'].forEach(r => {
+                if (STATE.resources[r]) STATE.resources[r] -= COST;
+            });
+            updateUI();
+            saveGame();
+
+        } else {
+            notify(result.error || 'ההעברה נכשלה', 'error');
+        }
+    } catch (e) {
+        console.error(e);
+        notify('שגיאת תקשורת', 'error');
+    }
 };
