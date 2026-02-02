@@ -2721,7 +2721,11 @@ function resolveBattle(attackingArmy, target, defenderData = null) {
 /**
  * Helpers
  */
-
+window.setGatherAmount = function (type, max, percent) {
+    const val = Math.floor(max * percent);
+    const inp = document.getElementById(`gather-inp-${type}`);
+    if (inp) inp.value = val;
+};
 
 window.setAttackAmount = function (type, max, percent) {
     const val = Math.floor(max * percent);

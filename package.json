@@ -1,6 +1,6 @@
 {
   "name": "world-order-game",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "World Order - Global Strategy Game",
   "main": "server.js",
   "scripts": {

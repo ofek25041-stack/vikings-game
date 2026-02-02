@@ -658,7 +658,7 @@ window.Mailbox = {
                         <p>להצטרף לקלאן <strong>[${report.data.clanTag}] ${report.data.clanName}</strong></p>
                         <div style="margin-top:20px; display:flex; gap:10px; justify-content:center;">
                             <button class="btn-primary" style="background: linear-gradient(135deg, #22c55e, #16a34a);" 
-                                    onclick="ClanUI.acceptInvite('${report.data.clanId}'); Mailbox.closeDetail();">
+                                    onclick="ClanSystem.joinClan('${report.data.clanId}'); Mailbox.closeDetail();">
                                 ✅ קבל הזמנה
                             </button>
                             <button class="btn-secondary" onclick="Mailbox.closeDetail()">

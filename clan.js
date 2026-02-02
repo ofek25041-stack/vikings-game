@@ -311,54 +311,66 @@ const ClanSystem = {
         return { success: true };
     },
 
-    // Accept invitation
-    acceptInvitation(clanId) {
+    // Accept invitation (Server Side)
+    async joinClan(clanId) {
         if (STATE.clan && STATE.clan.id) {
-            return { success: false, error: 'You are already in a clan' };
+            notify('אתה כבר בקלאן!', 'error');
+            return { success: false };
         }
 
-        const clan = this.getClan(clanId);
-        if (!clan) return { success: false, error: 'Clan not found' };
+        try {
+            const response = await fetch('/api/clan/join', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    username: CURRENT_USER,
+                    clanId: clanId
+                })
+            });
 
-        // Check for invitation (Case Insensitive)
-        let inviteKey = CURRENT_USER;
-        if (!clan.invitations[inviteKey]) {
-            inviteKey = Object.keys(clan.invitations).find(u => u.toLowerCase() === CURRENT_USER.toLowerCase());
+            const data = await response.json();
+
+            if (data.success) {
+                // Update Local State from Server Response
+                // Server should return the updated clan object
+                if (data.clan) {
+                    window.ALL_CLANS[clanId] = data.clan;
+                }
+
+                // Update Player State
+                STATE.clan = {
+                    id: clanId,
+                    name: data.clan ? data.clan.name : '',
+                    tag: data.clan ? data.clan.tag : '',
+                    role: 'member',
+                    joinedAt: Date.now()
+                };
+
+                // Force Save to prevent overwrite on next tick
+                await saveGame();
+
+                // Notify
+                notify('הצטרפת לקלאן בהצלחה! 🏰', 'success');
+                this.sendMessage(clanId, `${CURRENT_USER} הצטרף לקלאן!`, 'system');
+
+                // Refresh View
+                if (typeof switchView === 'function') switchView('clan');
+                return { success: true };
+
+            } else {
+                notify(data.error || 'שגיאה בהצטרפות לקלאן', 'error');
+                return { success: false };
+            }
+        } catch (err) {
+            console.error('Join clan error:', err);
+            notify('שגיאת תקשורת', 'error');
+            return { success: false };
         }
+    },
 
-        if (!inviteKey) {
-            return { success: false, error: 'No invitation found' };
-        }
-
-        // Add as member
-        clan.members[CURRENT_USER] = {
-            role: this.ROLES.MEMBER,
-            joinedAt: Date.now(),
-            contribution: {
-                gold: 0,
-                wood: 0,
-                food: 0
-            },
-            lastSeen: Date.now()
-        };
-
-        // Remove invitation
-        delete clan.invitations[inviteKey];
-
-        clan.stats.totalMembers = Object.keys(clan.members).length;
-        this.saveClan(clan);
-
-        // Update player state
-        STATE.clan = {
-            id: clanId,
-            role: this.ROLES.MEMBER,
-            joinedAt: Date.now()
-        };
-        saveGame();
-
-        this.sendMessage(clanId, `${CURRENT_USER} joined the clan!`, 'system');
-
-        return { success: true };
+    // DEPRECATED: Old local accept
+    acceptInvitationLocal(clanId) {
+        // ... kept for fallback if needed, but logic moved to joinClan
     },
 
     // Leave clan
