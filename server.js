@@ -506,12 +506,21 @@ const server = http.createServer(async (req, res) => {
             try {
                 // Deduct from seller
                 const sellerUser = await db.collection('users').findOne({ username: seller });
-                // Check resources... (simplified here, omit check for brevity/speed, normally check)
+
+                // VALIDATION: Check resources
+                for (const [r, amt] of Object.entries(offering)) {
+                    if ((sellerUser.state.resources[r] || 0) < amt) {
+                        return sendJSON(res, 400, { success: false, message: `Not enough ${r}` });
+                    }
+                }
 
                 const dec = {};
                 for (const [r, amt] of Object.entries(offering)) dec[`state.resources.${r}`] = -amt;
 
                 await db.collection('users').updateOne({ username: seller }, { $inc: dec });
+
+                // Fetch updated state to return to client
+                const updatedSeller = await db.collection('users').findOne({ username: seller });
 
                 // Create Trade
                 const trade = {
@@ -522,7 +531,9 @@ const server = http.createServer(async (req, res) => {
                     expiresAt: Date.now() + 86400000
                 };
                 await db.collection('trades').insertOne(trade);
-                sendJSON(res, 200, { success: true, trade });
+
+                console.log(`[MARKET] Trade created: ${trade.id} by ${seller}`);
+                sendJSON(res, 200, { success: true, trade, updatedResources: updatedSeller.state.resources });
 
             } catch (e) { sendJSON(res, 500, { error: e.message }); }
         });
@@ -540,6 +551,15 @@ const server = http.createServer(async (req, res) => {
                 const trade = await db.collection('trades').findOne({ id: tradeId, status: 'active' });
                 if (!trade) return sendJSON(res, 404, { error: 'Trade not valid' });
 
+                const buyerUser = await db.collection('users').findOne({ username: buyer });
+
+                // VALIDATION: Check Buyer Resources
+                for (const [r, amt] of Object.entries(trade.requesting)) {
+                    if ((buyerUser.state.resources[r] || 0) < amt) {
+                        return sendJSON(res, 400, { success: false, message: `Not enough ${r}` });
+                    }
+                }
+
                 // Execute
                 // Buyer pays Requesting, gets Offering
                 const buyerInc = {};
@@ -556,7 +576,10 @@ const server = http.createServer(async (req, res) => {
 
                 await db.collection('trades').updateOne({ id: tradeId }, { $set: { status: 'completed', acceptedBy: buyer } });
 
-                sendJSON(res, 200, { success: true, trade: { ...trade, status: 'completed' } });
+                // Fetch Updated Buyer State
+                const updatedBuyer = await db.collection('users').findOne({ username: buyer });
+
+                sendJSON(res, 200, { success: true, trade: { ...trade, status: 'completed' }, updatedResources: updatedBuyer.state.resources });
 
             } catch (e) { sendJSON(res, 500, { error: e.message }); }
         });
