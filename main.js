@@ -1,5 +1,6 @@
- * Game State & Logic(v1.1.0)
-    */
+/**
+ * Game State & Logic (v1.1.1)
+ */
 console.log("%c Vikings Client v1.1.1 LOADED ", "background: #22c55e; color: #fff; font-size: 1.2em; padding: 4px; border-radius: 4px;");
 window.VERSION_CHECK = 'v1.1.1';
 
