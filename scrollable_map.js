@@ -76,11 +76,63 @@ function initScrollableMap() {
     // 4. Attach Scroll Listener
     viewport.onscroll = handleScroll;
 
+    // 5. Global Interaction Listener (Delegation) to fix click issues
+    // We attach to the GRID, so it moves with the scroll.
+    let dragStartX = 0;
+    let dragStartY = 0;
+    let isDragging = false;
+
+    grid.onmousedown = (e) => {
+        dragStartX = e.clientX;
+        dragStartY = e.clientY;
+        isDragging = false;
+    };
+
+    grid.onmousemove = (e) => {
+        // Simple drag threshold
+        if (Math.abs(e.clientX - dragStartX) > 5 || Math.abs(e.clientY - dragStartY) > 5) {
+            isDragging = true;
+        }
+    };
+
+    grid.onmouseup = (e) => {
+        if (isDragging) return; // It was a drag, ignore
+
+        // It was a click! Calculate Tile Coordinates.
+        const rect = grid.getBoundingClientRect();
+        const clickX = e.clientX - rect.left; // x position within the element.
+        const clickY = e.clientY - rect.top;  // y position within the element.
+
+        const tileX = Math.floor(clickX / MAP_CONFIG.TILE_SIZE);
+        const tileY = Math.floor(clickY / MAP_CONFIG.TILE_SIZE);
+
+        console.log(`🖱️ Global Click: ${tileX}, ${tileY}`);
+
+        // Handle the Logic
+        handleGlobalClick(tileX, tileY);
+    };
+
     // Mark as done
     viewport.setAttribute('data-init-done', 'true');
 
-    // 5. Initial Render
+    // 6. Initial Render
     renderVisibleArea();
+}
+
+function handleGlobalClick(x, y) {
+    // Check bounds
+    if (x < 0 || y < 0 || x >= MAP_CONFIG.WORLD_SIZE || y >= MAP_CONFIG.WORLD_SIZE) return;
+
+    const key = `${x},${y}`;
+    const entity = STATE.mapEntities ? STATE.mapEntities[key] : null;
+
+    if (entity) {
+        // Interact with Entity
+        if (typeof interactEntity === 'function') interactEntity(x, y, entity);
+    } else {
+        // Empty Tile -> Teleport
+        handleTileClick(x, y);
+    }
 }
 
 function handleScroll() {
@@ -146,6 +198,7 @@ function renderVisibleArea() {
 
             let type = 'water';
             let bgColor = 'transparent';
+            let hasEntity = false;
 
             if (val < 0.15) { type = 'grass'; bgColor = '#4ade80'; }
             else if (val < 0.22) { type = 'forest'; bgColor = '#166534'; }
@@ -161,7 +214,7 @@ function renderVisibleArea() {
                 if (entity && entity.type === 'city' && entity.user === 'NPC') entity = null;
             }
 
-            // Create Tile DOM
+            // Create Tile DOM for visual only
             const tile = document.createElement('div');
             tile.className = `map-tile tile-${type}`;
 
@@ -183,16 +236,29 @@ function renderVisibleArea() {
             if (entity) {
                 entityCount++;
                 const el = createEntityDOM(entity, x, y);
+                // Remove individual click handler from entity DOM
+                el.onclick = null;
+                el.style.pointerEvents = 'none'; // Let the click pass through to the GRID listener
                 tile.appendChild(el);
             } else {
-                // Empty tile = Teleport Click
-                tile.onclick = (e) => {
-                    console.log('CLICKED TILE:', x, y); // Debug log
-                    handleTileClick(x, y);
-                };
-                tile.style.cursor = 'pointer';
-                tile.style.pointerEvents = 'auto'; // Explicitly allow
+                // Empty tile - Visual cue on hover (via CSS)
+                // NO individual listeners!
             }
+
+            // Pointer events none for tiles so click penetrates to grid?
+            // NO! If tiles have pointer-events:none, e.target is grid.
+            // If tiles have auto, e.target is tile.
+            // We want e.target to bubble up to grid. grid.onmouseup handles it.
+            // But we need coordinate calculation.
+            // If we click on tile, e.clientX is global. rect is global.
+            // Math works regardless of potential target!
+
+            // Just to be safe and clean:
+            // tile.style.pointerEvents = 'none'; // Make visual tiles essentially ghosts
+            // BUT we want hover effects?
+            // CSS :hover requires pointer-events: auto.
+            // Let's keep auto. The MouseUp event will bubble from Tile -> Grid.
+            tile.style.pointerEvents = 'auto';
 
             fragment.appendChild(tile);
         }
