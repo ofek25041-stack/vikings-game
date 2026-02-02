@@ -299,14 +299,14 @@ window.Market = {
 
             if (data.success) {
                 notify('ההצעה פורסמה בהצלחה! ✅', 'success');
-                // Reload resources from server
-                fetch('/api/user/' + encodeURIComponent(CURRENT_USER))
-                    .then(r => r.json())
-                    .then(userData => {
-                        STATE.resources = userData.state.resources;
-                        saveGame();
-                        this.switchTab('mytrades');
-                    });
+
+                // Update Local State from Server Response
+                if (data.updatedResources) {
+                    STATE.resources = data.updatedResources;
+                    if (typeof renderResources === 'function') renderResources();
+                }
+
+                this.switchTab('mytrades');
             } else {
                 notify(data.message || 'שגיאה ביצירת הצעה', 'error');
             }
@@ -333,14 +333,13 @@ window.Market = {
 
             if (data.success) {
                 notify('המסחר בוצע בהצלחה! 🎉', 'success');
-                // Reload resources from server
-                fetch('/api/user/' + encodeURIComponent(CURRENT_USER))
-                    .then(r => r.json())
-                    .then(userData => {
-                        STATE.resources = userData.state.resources;
-                        saveGame();
-                        this.switchTab('browse');
-                    });
+
+                if (data.updatedResources) {
+                    STATE.resources = data.updatedResources;
+                    if (typeof renderResources === 'function') renderResources();
+                }
+
+                this.switchTab('browse');
             } else {
                 notify(data.message || 'שגיאה בביצוע המסחר', 'error');
             }
@@ -367,14 +366,13 @@ window.Market = {
 
             if (data.success) {
                 notify('ההצעה בוטלה והמשאבים הוחזרו', 'success');
-                // Reload resources from server
-                fetch('/api/user/' + encodeURIComponent(CURRENT_USER))
-                    .then(r => r.json())
-                    .then(userData => {
-                        STATE.resources = userData.state.resources;
-                        saveGame();
-                        this.switchTab('mytrades');
-                    });
+
+                if (data.updatedResources) {
+                    STATE.resources = data.updatedResources;
+                    if (typeof renderResources === 'function') renderResources();
+                }
+
+                this.switchTab('mytrades');
             } else {
                 notify(data.message || 'שגיאה בביטול ההצעה', 'error');
             }

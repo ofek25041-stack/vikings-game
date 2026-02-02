@@ -3100,27 +3100,32 @@ const API = {
 
     async save(username, state) {
         if (IS_ONLINE) {
-            // Try Server
             try {
                 const res = await fetch(`${API_URL}/save`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ username, state })
                 });
+                const data = await res.json();
 
-                if (res.ok) {
-                    const data = await res.json();
-                    if (data.merged) {
-                        // Sync back server-merged state (which includes incoming stats/messages)
-                        if (data.merged.reports) STATE.reports = data.merged.reports;
-                        if (data.merged.chats) {
-                            STATE.chats = data.merged.chats;
-                            // Update badge if mailbox is open?
-                            if (window.Mailbox && Mailbox.updateChatBadge) Mailbox.updateChatBadge();
-                        }
+                // Handle merged reports
+                if (data.success && data.merged) {
+                    if (data.merged.reports) STATE.reports = data.merged.reports;
+                    if (data.merged.chats) {
+                        STATE.chats = data.merged.chats;
+                        // Update badge if mailbox is open?
+                        if (window.Mailbox && Mailbox.updateChatBadge) Mailbox.updateChatBadge();
                     }
                 }
-                return true;
+
+                // Handle forced resource sync (Anti-Overwrite Protection)
+                if (data.success && data.forceUpdateResources) {
+                    console.warn("⚠️ Server forced resource update (Trade Sync)", data.forceUpdateResources);
+                    STATE.resources = data.forceUpdateResources;
+                    if (typeof renderResources === 'function') renderResources();
+                }
+
+                return data;
             } catch (err) {
                 console.warn("Lost connection during save. Switching to Offline.", err);
                 IS_ONLINE = false;
@@ -3732,6 +3737,64 @@ window.openGameGuide = function () {
 };
 
 // --- INITIALIZATION ---
+
+// --- GAME LOAD LOGIC ---
+window.loadGame = async function () {
+    console.log("📥 Loading game...");
+
+    // 1. Try to load from Server first (Source of Truth)
+    if (IS_ONLINE) {
+        try {
+            console.log("Fetching state from server...");
+            const res = await fetch(`/api/user/${encodeURIComponent(CURRENT_USER)}`);
+            if (res.ok) {
+                const data = await res.json();
+                if (data && data.state) {
+                    STATE = data.state;
+                    console.log("✅ Game loaded from Server.");
+
+                    initializeGameState();
+
+                    // Update LocalStorage as backup
+                    const users = JSON.parse(localStorage.getItem('vikings_users') || '{}');
+                    users[CURRENT_USER] = {
+                        password: '***', // don't store plain pass
+                        state: STATE,
+                        lastLogin: Date.now()
+                    };
+                    localStorage.setItem('vikings_users', JSON.stringify(users));
+                    return; // Done
+                }
+            }
+        } catch (err) {
+            console.warn("⚠️ Failed to load from server (will try local):", err);
+        }
+    }
+
+    // 2. Fallback to LocalStorage
+    console.warn("⚠️ Loading from LocalStorage (Offline/Fallback)...");
+    const users = JSON.parse(localStorage.getItem('vikings_users') || '{}');
+    if (users[CURRENT_USER]) {
+        STATE = users[CURRENT_USER].state;
+        console.log("✅ Game loaded from LocalStorage.");
+    } else {
+        console.log("⚠️ No save found for this user.");
+    }
+
+    initializeGameState();
+
+    // 3. Sync Up (Push to Server if Online and we loaded locally)
+    // RISK: If server had newer data but fetch failed, we urge caution.
+    // But usually fetch fails if offline.
+    if (IS_ONLINE) {
+        // If we loaded locally but are online, maybe we should NOT auto-save immediately to avoid overwrite?
+        // But if fetch failed, we might be offline effectively.
+        // We will do a save after a delay to ensure connection.
+        console.log("Syncing local state to server...");
+        saveGame();
+    }
+};
+
 window.addEventListener('DOMContentLoaded', async () => {
     console.log("Game Initializing...");
 
@@ -3753,7 +3816,7 @@ window.addEventListener('DOMContentLoaded', async () => {
 
         // Ensure loadGame exists before calling (it might be missing in some versions)
         if (typeof loadGame === 'function') {
-            loadGame();
+            await loadGame();
         } else {
             // Fallback if loadGame is missing: Load from localStorage manualy
             console.warn("loadGame function missing, loading manually from keys");
@@ -3769,16 +3832,10 @@ window.addEventListener('DOMContentLoaded', async () => {
         setInterval(saveGame, 5000);
 
         // Initial View
-        renderResources(); // Assuming this function exists or will be safe
+        if (typeof renderResources === 'function') renderResources();
         switchView('city');
 
         notify(`Welcome back, ${CURRENT_USER}!`, 'success');
-
-        // Initial Save to sync with server if we just came online
-        if (IS_ONLINE) {
-            console.log("Syncing initial state to server...");
-            saveGame();
-        }
 
     } else {
         switchView('login');

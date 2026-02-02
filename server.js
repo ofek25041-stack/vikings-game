@@ -228,7 +228,7 @@ const server = http.createServer(async (req, res) => {
                     return sendJSON(res, 404, { success: false, message: 'User not found' });
                 }
 
-                // Merge Reports logic (copied)
+                // Merge Reports
                 const existingReports = user.state.reports || [];
                 const incomingReports = state.reports || [];
                 const reportMap = new Map();
@@ -239,13 +239,33 @@ const server = http.createServer(async (req, res) => {
                 // Preserve Server chats
                 const serverChats = user.state.chats || {};
 
-                // Construct updated state
-                const newState = { ...state, reports: mergedReports, chats: serverChats, lastLogin: Date.now() };
+                // --- RESOURCE SYNC PROTECTION ---
+                // If a trade happened recently (resourcesDirty flag), Server Authority wins for resources.
+                let finalResources = state.resources;
+                let usedServerResources = false;
 
-                // Update DB
+                if (user.resourcesDirty) {
+                    console.log(`[SYNC] Preserving server resources for ${username} (Dirty Flag)`);
+                    finalResources = user.state.resources;
+                    usedServerResources = true;
+                }
+
+                // Construct updated state
+                const newState = {
+                    ...state,
+                    resources: finalResources,
+                    reports: mergedReports,
+                    chats: serverChats,
+                    lastLogin: Date.now()
+                };
+
+                // Update DB (and clear dirty flag)
                 await db.collection('users').updateOne(
                     { username: username },
-                    { $set: { state: newState } }
+                    {
+                        $set: { state: newState },
+                        $unset: { resourcesDirty: "" }
+                    }
                 );
 
                 updateWorldCache();
@@ -255,7 +275,9 @@ const server = http.createServer(async (req, res) => {
                     merged: {
                         reports: mergedReports,
                         chats: serverChats
-                    }
+                    },
+                    // Return resources if we forced them, so client can sync
+                    forceUpdateResources: usedServerResources ? finalResources : null
                 });
 
             } catch (err) {
@@ -509,15 +531,21 @@ const server = http.createServer(async (req, res) => {
 
                 // VALIDATION: Check resources
                 for (const [r, amt] of Object.entries(offering)) {
-                    if ((sellerUser.state.resources[r] || 0) < amt) {
+                    const validAmt = parseInt(amt) || 0; // Hardening
+                    if ((sellerUser.state.resources[r] || 0) < validAmt) {
                         return sendJSON(res, 400, { success: false, message: `Not enough ${r}` });
                     }
                 }
 
                 const dec = {};
-                for (const [r, amt] of Object.entries(offering)) dec[`state.resources.${r}`] = -amt;
+                for (const [r, amt] of Object.entries(offering)) {
+                    dec[`state.resources.${r}`] = -Math.abs(parseInt(amt) || 0);
+                }
 
-                await db.collection('users').updateOne({ username: seller }, { $inc: dec });
+                await db.collection('users').updateOne({ username: seller }, {
+                    $inc: dec,
+                    $set: { resourcesDirty: true }
+                });
 
                 // Fetch updated state to return to client
                 const updatedSeller = await db.collection('users').findOne({ username: seller });
@@ -525,7 +553,9 @@ const server = http.createServer(async (req, res) => {
                 // Create Trade
                 const trade = {
                     id: 'trade_' + Date.now(),
-                    seller, offering, requesting,
+                    seller,
+                    offering, // We keep original object, but we validated it
+                    requesting,
                     status: 'active',
                     createdAt: Date.now(),
                     expiresAt: Date.now() + 86400000
@@ -555,7 +585,8 @@ const server = http.createServer(async (req, res) => {
 
                 // VALIDATION: Check Buyer Resources
                 for (const [r, amt] of Object.entries(trade.requesting)) {
-                    if ((buyerUser.state.resources[r] || 0) < amt) {
+                    const validAmt = parseInt(amt) || 0;
+                    if ((buyerUser.state.resources[r] || 0) < validAmt) {
                         return sendJSON(res, 400, { success: false, message: `Not enough ${r}` });
                     }
                 }
@@ -563,16 +594,22 @@ const server = http.createServer(async (req, res) => {
                 // Execute
                 // Buyer pays Requesting, gets Offering
                 const buyerInc = {};
-                for (const [r, amt] of Object.entries(trade.requesting)) buyerInc[`state.resources.${r}`] = -amt;
-                for (const [r, amt] of Object.entries(trade.offering)) buyerInc[`state.resources.${r}`] = amt;
+                for (const [r, amt] of Object.entries(trade.requesting)) buyerInc[`state.resources.${r}`] = -Math.abs(parseInt(amt) || 0);
+                for (const [r, amt] of Object.entries(trade.offering)) buyerInc[`state.resources.${r}`] = Math.abs(parseInt(amt) || 0);
 
-                await db.collection('users').updateOne({ username: buyer }, { $inc: buyerInc });
+                await db.collection('users').updateOne({ username: buyer }, {
+                    $inc: buyerInc,
+                    $set: { resourcesDirty: true }
+                });
 
                 // Seller gets Requesting
                 const sellerInc = {};
-                for (const [r, amt] of Object.entries(trade.requesting)) sellerInc[`state.resources.${r}`] = amt;
+                for (const [r, amt] of Object.entries(trade.requesting)) sellerInc[`state.resources.${r}`] = Math.abs(parseInt(amt) || 0);
 
-                await db.collection('users').updateOne({ username: trade.seller }, { $inc: sellerInc });
+                await db.collection('users').updateOne({ username: trade.seller }, {
+                    $inc: sellerInc,
+                    $set: { resourcesDirty: true }
+                });
 
                 await db.collection('trades').updateOne({ id: tradeId }, { $set: { status: 'completed', acceptedBy: buyer } });
 
@@ -650,10 +687,16 @@ const server = http.createServer(async (req, res) => {
                 const inc = {};
                 for (const [r, amt] of Object.entries(trade.offering)) inc[`state.resources.${r}`] = amt;
 
-                await db.collection('users').updateOne({ username }, { $inc: inc });
+                await db.collection('users').updateOne({ username }, {
+                    $inc: inc,
+                    $set: { resourcesDirty: true }
+                });
                 await db.collection('trades').updateOne({ id: tradeId }, { $set: { status: 'cancelled', cancelledAt: Date.now() } });
 
-                sendJSON(res, 200, { success: true, trade: { ...trade, status: 'cancelled' } });
+                // Fetch Updated State
+                const updatedUser = await db.collection('users').findOne({ username: username });
+
+                sendJSON(res, 200, { success: true, trade: { ...trade, status: 'cancelled' }, updatedResources: updatedUser.state.resources });
             } catch (e) { sendJSON(res, 500, { error: e.message }); }
         });
     } else if (req.url === '/api/fortress/create' && req.method === 'POST') {
@@ -710,10 +753,6 @@ const server = http.createServer(async (req, res) => {
                     }
                     await db.collection('clans').updateOne({ id: clanId }, { $set: updates });
                 }
-                // Withdraw and Resource logic... implemented simply as full replace for now for safety or detailed increment?
-                // MongoDB specific increments are better.
-                // For brevity, let's process logic in memory and push full update or optimized sets.
-                // Re-fetch logic or optimistically trust locally computed?
                 // Let's do memory-edit-save pattern for complex nested updates as it's safer for logic preservation for now.
 
                 // Reload clan fully to be safe on state
@@ -762,5 +801,5 @@ const server = http.createServer(async (req, res) => {
 
 server.listen(PORT, () => {
     console.log(`Vikings DB Server running at http://localhost:${PORT}`);
-    console.log(`Connecting to MongoDB Atlas... (Restart Trigger: ${new Date().toISOString()})`);
+    console.log(`[v1.0.7] Connecting to MongoDB... (Restart Triggered: ${Date.now()})`);
 });
