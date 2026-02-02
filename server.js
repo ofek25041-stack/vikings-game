@@ -1022,12 +1022,68 @@ const server = http.createServer(async (req, res) => {
                 }
 
                 sendJSON(res, 200, { success: true, fortress: clan.fortress });
-
             } catch (err) {
                 console.error('Error updating fortress:', err);
                 sendJSON(res, 500, { success: false, message: err.message });
             }
         });
+
+    } else if (req.url === '/api/territories' && req.method === 'GET') {
+        try {
+            // Return players cities and fortresses as "territories" for the map
+            // This aligns with what main.js::loadAllTerritories expects
+
+            // 1. Get Cities (Players)
+            const users = await db.collection('users').find({}).toArray();
+            const territories = {};
+
+            users.forEach(u => {
+                if (u.state && u.state.homeCoords) {
+                    const key = `${u.state.homeCoords.x},${u.state.homeCoords.y}`;
+                    let clanTag = null;
+                    // We need to fetch clan tag efficiently. 
+                    // Ideally we have a cache or we do a lookup. 
+                    // For now, let's rely on cached WORLD_CACHE logic or just sending raw.
+                    // Client main.js handles clan matching somewhat.
+
+                    territories[key] = {
+                        type: 'city',
+                        name: `${u.username}'s City`, // Better name
+                        user: u.username,
+                        owner: u.username,
+                        level: u.state.buildings?.townHall?.level || 1,
+                        x: u.state.homeCoords.x,
+                        y: u.state.homeCoords.y,
+                        clanTag: u.state.clan?.tag // If stored on user
+                    };
+                }
+            });
+
+            // 2. Get Fortresses
+            const clans = await db.collection('clans').find({ deleted: { $ne: true } }).toArray();
+            clans.forEach(c => {
+                if (c.fortress && c.fortress.x !== undefined) {
+                    const key = `${c.fortress.x},${c.fortress.y}`;
+                    territories[key] = {
+                        type: 'fortress',
+                        clanId: c.id,
+                        clanTag: c.tag,
+                        name: `[${c.tag}] Fortress`, // Explicit Name!
+                        x: c.fortress.x,
+                        y: c.fortress.y,
+                        level: c.fortress.level || 1,
+                        owner: c.members ? Object.keys(c.members).find(m => c.members[m].role === 'leader') : 'Clan' // Pseudo owner
+                    };
+                }
+            });
+
+            sendJSON(res, 200, { success: true, territories });
+
+        } catch (e) {
+            console.error("Error fetching territories:", e);
+            sendJSON(res, 500, { error: e.message });
+        }
+
     } else {
         serveStatic(req, res);
     }

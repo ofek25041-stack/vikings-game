@@ -83,11 +83,16 @@ function ensureCityExistsAndRender() {
     let city = STATE.mapEntities[key];
 
     // 2. Ensure Entity Exists
+    // CRITICAL: Do NOT overwrite a Fortress if we happen to reside there (or if logic overlaps)
+    if (city && city.type === 'fortress') {
+        return;
+    }
+
     if (!city || city.type !== 'city' || !city.isMyCity) {
         console.warn("City entity missing or corrupted! Re-creating.");
         STATE.mapEntities[key] = {
             type: 'city',
-            name: `${CURRENT_USER}'s City`, // Default name
+            name: `${CURRENT_USER || 'My'}'s City`, // Default name with fallback
             user: CURRENT_USER,
             level: STATE.buildings?.townHall?.level || 1,
             isMyCity: true,
