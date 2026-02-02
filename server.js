@@ -937,16 +937,34 @@ const server = http.createServer(async (req, res) => {
         // Create fortress for clan
         readBody(req, async (body) => {
             try {
+                // CRITICAL: Check if database is connected
+                if (!db) {
+                    console.error('[FORTRESS CREATE] ❌ Database not connected!');
+                    return sendJSON(res, 503, {
+                        success: false,
+                        message: 'Database not connected. Please try again later.'
+                    });
+                }
+
                 const { clanId, x, y } = body;
+                console.log(`[FORTRESS CREATE] Request for clan ${clanId} at (${x}, ${y})`);
+
                 const clan = await db.collection('clans').findOne({ id: clanId });
 
-                if (!clan) return sendJSON(res, 404, { success: false, message: 'Clan not found' });
-                if (clan.fortress) return sendJSON(res, 400, { success: false, message: 'Fortress already exists' });
+                if (!clan) {
+                    console.error(`[FORTRESS CREATE] ❌ Clan not found: ${clanId}`);
+                    return sendJSON(res, 404, { success: false, message: 'Clan not found' });
+                }
+
+                if (clan.fortress) {
+                    console.warn(`[FORTRESS CREATE] ⚠️ Clan ${clanId} already has fortress`);
+                    return sendJSON(res, 400, { success: false, message: 'Fortress already exists' });
+                }
 
                 // Create fortress object
                 const fortress = {
-                    x: x,
-                    y: y,
+                    x: parseInt(x),
+                    y: parseInt(y),
                     level: 1,
                     hp: 5000,
                     maxHp: 5000,
@@ -956,11 +974,13 @@ const server = http.createServer(async (req, res) => {
                 };
 
                 await db.collection('clans').updateOne({ id: clanId }, { $set: { fortress: fortress } });
+                console.log(`[FORTRESS CREATE] ✅ Fortress created for clan ${clanId} at (${x}, ${y})`);
+
                 updateWorldCache();
 
                 sendJSON(res, 200, { success: true, fortress: fortress });
             } catch (err) {
-                console.error('Error creating fortress:', err);
+                console.error('[FORTRESS CREATE] 💥 Error:', err);
                 sendJSON(res, 500, { success: false, message: err.message });
             }
         });
