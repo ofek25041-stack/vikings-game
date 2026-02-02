@@ -457,28 +457,56 @@ const ClanSystem = {
     },
 
     // Send chat message
-    sendMessage(clanId, text, sender = CURRENT_USER) {
-        const clan = this.getClan(clanId);
-        if (!clan) return { success: false, error: 'Clan not found' };
+    async sendMessage(clanId, text, sender = CURRENT_USER) {
+        if (!text) return { success: false };
 
-        const message = {
-            id: Date.now() + '_' + Math.random().toString(36).substr(2, 9),
-            sender: sender,
-            text: text,
-            timestamp: Date.now()
-        };
+        try {
+            const response = await fetch('/api/clan/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ clanId, sender, text })
+            });
+            const result = await response.json();
 
-        clan.messages.push(message);
-
-        // Keep only last 100 messages
-        if (clan.messages.length > this.CONFIG.MAX_CHAT_MESSAGES) {
-            clan.messages = clan.messages.slice(-this.CONFIG.MAX_CHAT_MESSAGES);
+            if (result.success) {
+                // Optimistic UI update or wait for poll? 
+                // Let's manually push to local state for instant feedback
+                const clan = this.getClan(clanId);
+                if (clan) {
+                    if (!clan.messages) clan.messages = [];
+                    clan.messages.push(result.message);
+                    if (clan.messages.length > 50) clan.messages.shift();
+                }
+                return { success: true };
+            } else {
+                return { success: false, error: result.error };
+            }
+        } catch (e) {
+            console.error(e);
+            return { success: false, error: 'Network error' };
         }
+    },
 
-        clan.lastActivity = Date.now();
-        this.saveClan(clan);
+    // Refresh single clan data
+    async refreshClanData(clanId) {
+        try {
+            const response = await fetch(`/api/clan/data?id=${clanId}`);
+            const result = await response.json();
+            if (result.success && result.clan) {
+                // Update local storage
+                window.ALL_CLANS = window.ALL_CLANS || {};
+                window.ALL_CLANS[clanId] = result.clan;
 
-        return { success: true };
+                // If it's my clan, update reference
+                if (STATE.clan && STATE.clan.id === clanId) {
+                    // Update role if changed? For now, just data.
+                }
+                return result.clan;
+            }
+        } catch (e) {
+            console.error("Failed to refresh clan", e);
+        }
+        return null;
     },
 
     // Donate resources to treasury
@@ -1568,10 +1596,72 @@ const ClanUI = {
 
     // Switch tab
     switchTab(tab) {
+        // Clear existing poll if any
+        if (this.chatPollingInterval) {
+            clearInterval(this.chatPollingInterval);
+            this.chatPollingInterval = null;
+        }
+
         this.currentTab = tab;
         const clan = ClanSystem.getPlayerClan();
         if (clan) {
             this.renderTab(clan);
+
+            // Start polling if chat
+            if (tab === 'chat') {
+                this.startChatPolling(clan.id);
+            }
+        }
+    },
+
+    startChatPolling(clanId) {
+        // Poll every 3 seconds
+        this.chatPollingInterval = setInterval(async () => {
+            // Only if tab is still chat and modal/view is open? 
+            // We assume if switchTab was called, we are good.
+            // But if user closed modal? we need a cleanup.
+            // Ideally `closeModal` or `switchView` should clean this up.
+            // For now, we'll check if the element exists.
+            if (!document.getElementById('chat-messages')) {
+                clearInterval(this.chatPollingInterval);
+                return;
+            }
+
+            const updatedClan = await ClanSystem.refreshClanData(clanId);
+            if (updatedClan) {
+                // Re-render only messages part to avoid input blur
+                this.updateChatMessages(updatedClan);
+            }
+        }, 3000);
+    },
+
+    updateChatMessages(clan) {
+        const container = document.getElementById('chat-messages');
+        if (!container) return;
+
+        // Check if scrolled to bottom
+        const isScrolledToBottom = container.scrollHeight - container.clientHeight <= container.scrollTop + 50;
+
+        const messages = clan.messages.slice(-50).map(msg => {
+            const isSystem = msg.sender === 'system';
+            return `
+                <div class="chat-message ${isSystem ? 'system' : ''}">
+                    ${!isSystem ? `<div class="chat-sender">${msg.sender}</div>` : ''}
+                    <div class="chat-text">${msg.text}</div>
+                    <div class="chat-timestamp">${new Date(msg.timestamp).toLocaleTimeString()}</div>
+                </div>
+            `;
+        }).join('');
+
+        // Diffing would be better but InnerHTML is okay for 50 items
+        if (container.innerHTML !== messages // Simple check won't work perfectly due to timestamps etc, but replacing is cheap
+        ) {
+            container.innerHTML = messages || '<div class="empty-state-text">No messages yet. Start the conversation!</div>';
+
+            // Auto-scroll if was at bottom or new message
+            if (isScrolledToBottom) {
+                container.scrollTop = container.scrollHeight;
+            }
         }
     },
 
@@ -1721,7 +1811,7 @@ const ClanUI = {
     },
 
     // Send chat message
-    sendChatMessage() {
+    async sendChatMessage() {
         const input = document.getElementById('chat-input');
         const text = input.value.trim();
 
@@ -1730,13 +1820,14 @@ const ClanUI = {
         const clan = ClanSystem.getPlayerClan();
         if (!clan) return;
 
-        const result = ClanSystem.sendMessage(clan.id, text);
+        const result = await ClanSystem.sendMessage(clan.id, text);
 
         if (result.success) {
             input.value = '';
-            this.renderChat(document.getElementById('clan-tab-content'), ClanSystem.getPlayerClan());
+            // Render update invoked by optimistic update in sendMessage
+            this.updateChatMessages(ClanSystem.getClan(clan.id));
         } else {
-            notify(result.error, 'error');
+            notify(result.error || 'Failed to send', 'error');
         }
     },
 

@@ -625,6 +625,54 @@ const server = http.createServer(async (req, res) => {
             } catch (e) { sendJSON(res, 500, { error: e.message }); }
         });
 
+    } else if (req.url === '/api/clan/chat' && req.method === 'POST') {
+        readBody(req, async (body) => {
+            const { clanId, sender, text } = body;
+            try {
+                // Validate membership is optional for speed, but good practice
+                // For now, assume client checks. Or quick DB check:
+                const clan = await db.collection('clans').findOne({ id: clanId });
+                if (!clan) return sendJSON(res, 404, { error: 'Clan not found' });
+
+                // Allow "system" messages
+                if (sender !== 'system' && !clan.members[sender]) {
+                    return sendJSON(res, 403, { error: 'Not a member' });
+                }
+
+                const message = {
+                    id: Date.now() + '_' + Math.random().toString(36).substr(2, 9),
+                    sender, text, timestamp: Date.now()
+                };
+
+                // Atomically push and slice to keep last 50
+                // MongoDB 4.4+ supports $slice in update? Yes, $push with $slice.
+                await db.collection('clans').updateOne({ id: clanId }, {
+                    $push: {
+                        messages: {
+                            $each: [message],
+                            $slice: -50
+                        }
+                    },
+                    $set: { lastActivity: Date.now() }
+                });
+
+                sendJSON(res, 200, { success: true, message });
+            } catch (e) { sendJSON(res, 500, { error: e.message }); }
+        });
+
+    } else if (req.url.startsWith('/api/clan/data') && req.method === 'GET') {
+        const urlParams = new URLSearchParams(req.url.split('?')[1]);
+        const clanId = urlParams.get('id');
+
+        if (!clanId) return sendJSON(res, 400, { error: 'Missing clanId' });
+
+        try {
+            const clan = await db.collection('clans').findOne({ id: clanId });
+            if (!clan) return sendJSON(res, 404, { error: 'Clan not found' });
+
+            sendJSON(res, 200, { success: true, clan });
+        } catch (e) { sendJSON(res, 500, { error: e.message }); }
+
     } else if (req.url === '/api/world' && req.method === 'GET') {
         sendJSON(res, 200, { success: true, players: WORLD_CACHE, fortresses: [] });
 
