@@ -82,12 +82,16 @@ function ensureCityExistsAndRender() {
                 delete STATE.mapEntities[k];
             }
             // Check for fortress overwrite signature (City at known fortress location)
-            // We rely on ALL_CLANS if available, or just heuristic
+            // CRITICAL: Don't delete actual fortresses!
             if (ent && ent.type === 'city' && ent.isMyCity && k !== `${STATE.homeCoords.x},${STATE.homeCoords.y}`) {
                 // If it claims to be MY city but isn't at MY home coords... it's a ghost.
                 // Unless I have multiple cities? (Not in this game version).
                 console.warn(`🧹 Cleaning up ghost city at ${k} (Home is ${STATE.homeCoords.x},${STATE.homeCoords.y})`);
                 delete STATE.mapEntities[k];
+            }
+            // NEW: Never delete fortresses during cleanup!
+            if (ent && ent.type === 'fortress') {
+                console.log(`🏰 Preserving fortress at ${k} during cleanup`);
             }
         }
     }
