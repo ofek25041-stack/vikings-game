@@ -1923,11 +1923,20 @@ function interactSpot(spotId) {
                 hasUnits = true;
                 const unit = UNIT_TYPES[key];
                 html += `
-                    <div class="mission-unit-row" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
-                        <div>${unit.icon} ${unit.name} <small>(פנוים: ${count})</small></div>
-                        <input type="number" id="gather-amount-${key}" data-type="${key}" value="0" min="0" max="${count}" 
-                               style="width: 60px; padding: 4px; background: #333; color: white; border: 1px solid #555; border-radius: 4px;"
-                               onchange="updateMissionStats()">
+                    <div class="mission-unit-row" style="flex-wrap: wrap; gap: 5px;">
+                        <div class="u-icon">${unit.icon}</div>
+                        <div class="u-name" style="flex:1;">
+                            ${unit.name} 
+                            <span class="u-avail">(זמין: ${count})</span>
+                        </div>
+                        <input type="number" id="gather-inp-${key}" data-type="${key}" value="0" min="0" max="${count}" class="u-input" style="width: 80px;" onchange="updateMissionStats()">
+                        
+                        <div class="perc-btns" style="width: 100%; display: flex; gap: 5px; justify-content: flex-end; margin-top: 5px;">
+                            <button class="p-btn" onclick="setGatherAmount('${key}', ${count}, 0.1); updateMissionStats()">10%</button>
+                            <button class="p-btn" onclick="setGatherAmount('${key}', ${count}, 0.25); updateMissionStats()">25%</button>
+                            <button class="p-btn" onclick="setGatherAmount('${key}', ${count}, 0.5); updateMissionStats()">50%</button>
+                            <button class="p-btn" onclick="setGatherAmount('${key}', ${count}, 1.0); updateMissionStats()">Max</button>
+                        </div>
                     </div>
                 `;
             }
