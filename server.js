@@ -1060,9 +1060,17 @@ const server = http.createServer(async (req, res) => {
             });
 
             // 2. Get Fortresses
-            const clans = await db.collection('clans').find({ deleted: { $ne: true } }).toArray();
+            // DEBUG: Removing filter to see all clans
+            const clans = await db.collection('clans').find({}).toArray();
+            console.log(`[API] Territories: Found ${clans.length} clans`);
+
             clans.forEach(c => {
-                if (c.fortress && c.fortress.x !== undefined) {
+                // Log fortress status for debugging
+                if (c.fortress) {
+                    console.log(`[API] Clan ${c.tag} has fortress at ${c.fortress.x},${c.fortress.y}`);
+                }
+
+                if (c.fortress && c.fortress.x !== undefined && c.fortress.y !== undefined) {
                     const key = `${c.fortress.x},${c.fortress.y}`;
                     territories[key] = {
                         type: 'fortress',
@@ -1076,6 +1084,9 @@ const server = http.createServer(async (req, res) => {
                     };
                 }
             });
+
+            const fortressCount = Object.values(territories).filter(t => t.type === 'fortress').length;
+            console.log(`[API] Returning ${Object.keys(territories).length} territories (${fortressCount} fortresses)`);
 
             sendJSON(res, 200, { success: true, territories });
 
