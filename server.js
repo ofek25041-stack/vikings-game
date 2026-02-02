@@ -624,7 +624,9 @@ const server = http.createServer(async (req, res) => {
                 sendJSON(res, 200, { success: true });
             } catch (e) { sendJSON(res, 500, { error: e.message }); }
         });
-        sendJSON(res, 200, { success: true, players: WORLD_CACHE, fortresses: [] }); // Add fortresses to cache logic above really
+
+    } else if (req.url === '/api/world' && req.method === 'GET') {
+        sendJSON(res, 200, { success: true, players: WORLD_CACHE, fortresses: [] });
 
     } else if (req.url === '/api/players' && req.method === 'GET') {
         try {
@@ -924,5 +926,5 @@ const server = http.createServer(async (req, res) => {
 
 server.listen(PORT, () => {
     console.log(`Vikings DB Server running at http://localhost:${PORT}`);
-    console.log(`[v1.1.0] Connecting to MongoDB... (Restarted at: ${new Date().toLocaleTimeString()})`);
+    console.log(`[v1.1.1] Connecting to MongoDB... (Restarted at: ${new Date().toLocaleTimeString()})`);
 });
