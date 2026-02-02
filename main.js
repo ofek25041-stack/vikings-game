@@ -190,7 +190,8 @@ async function loadAllTerritories() {
                 }
             });
         }
-    }
+    });
+}
     } catch (err) {
     console.error('Failed to load territories:', err);
 }
