@@ -1,8 +1,8 @@
 /**
- * Game State & Logic (v1.0.10)
+ * Game State & Logic (v1.0.11)
  */
-console.log("%c Vikings Client v1.0.10 LOADED ", "background: #22c55e; color: #fff; font-size: 1.2em; padding: 4px; border-radius: 4px;");
-window.VERSION_CHECK = 'v1.0.10';
+console.log("%c Vikings Client v1.0.11 LOADED ", "background: #22c55e; color: #fff; font-size: 1.2em; padding: 4px; border-radius: 4px;");
+window.VERSION_CHECK = 'v1.0.11';
 
 // --- CONFIG ---
 window.onerror = function (msg, url, line, col, error) {
@@ -898,18 +898,25 @@ function renderConquestUI(entity, x, y) {
         if (uCount > 0 && UNIT_TYPES[uKey]) {
             hasUnits = true;
             unitInputsHtml += `
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px; background:rgba(255,255,255,0.05); padding:5px; border-radius:4px;">
-                    <div style="display:flex; align-items:center; gap:5px;">
-                        <span>${UNIT_TYPES[uKey].icon}</span>
-                        <span>${UNIT_TYPES[uKey].name}</span>
-                        <span style="font-size:0.8rem; color:#94a3b8;">(יש: ${uCount})</span>
-                        <span style="font-size:0.8rem; color:#ef4444;">⚔️ ${UNIT_TYPES[uKey].attack}</span>
+                <div style="display:flex; flex-direction: column; margin-bottom:5px; background:rgba(255,255,255,0.05); padding:5px; border-radius:4px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <div style="display:flex; align-items:center; gap:5px;">
+                            <span>${UNIT_TYPES[uKey].icon}</span>
+                            <span>${UNIT_TYPES[uKey].name}</span>
+                            <span style="font-size:0.8rem; color:#94a3b8;">(יש: ${uCount})</span>
+                             <span style="font-size:0.8rem; color:#ef4444;">⚔️ ${UNIT_TYPES[uKey].attack}</span>
+                        </div>
+                        <div style="display:flex; gap:5px; align-items:center;">
+                             <input type="number" id="conquest-inp-${uKey}" class="conquest-unit-input" data-type="${uKey}" value="0" min="0" max="${uCount}" 
+                                   style="width:60px; text-align:center; padding:5px; border-radius:4px; border:none; background:rgba(0,0,0,0.5); color:white;"
+                                   oninput="val = Math.min(this.value, ${uCount}); this.value = val;">
+                        </div>
                     </div>
-                    <div style="display:flex; gap:5px; align-items:center;">
-                        <button class="btn-small-action" onclick="setGatherInputMax(this, ${uCount})">max</button>
-                        <input type="number" class="conquest-unit-input" data-type="${uKey}" value="0" min="0" max="${uCount}" 
-                               style="width:50px; text-align:center; padding:5px; border-radius:4px; border:none; background:rgba(0,0,0,0.5); color:white;"
-                               oninput="validateGatherInput(this, ${uCount})">
+                     <div class="perc-btns" style="width: 100%; display: flex; gap: 5px; justify-content: flex-end; margin-top: 5px;">
+                        <button class="p-btn" onclick="setConquestAmount('${uKey}', ${uCount}, 0.1)">10%</button>
+                        <button class="p-btn" onclick="setConquestAmount('${uKey}', ${uCount}, 0.25)">25%</button>
+                        <button class="p-btn" onclick="setConquestAmount('${uKey}', ${uCount}, 0.5)">50%</button>
+                        <button class="p-btn" onclick="setConquestAmount('${uKey}', ${uCount}, 1.0)">Max</button>
                     </div>
                 </div>
             `;
@@ -2741,6 +2748,12 @@ window.setGatherAmount = function (type, max, percent) {
 window.setAttackAmount = function (type, max, percent) {
     const val = Math.floor(max * percent);
     const inp = document.getElementById(`attack-inp-${type}`);
+    if (inp) inp.value = val;
+};
+
+window.setConquestAmount = function (type, max, percent) {
+    const val = Math.floor(max * percent);
+    const inp = document.getElementById(`conquest-inp-${type}`);
     if (inp) inp.value = val;
 };
 
