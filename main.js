@@ -673,6 +673,56 @@ function interactEntity(x, y, entity) {
 
 
 
+    // --- Fortress Interaction ---
+    if (entity.type === 'fortress') {
+        const isMyClan = STATE.clan && entity.clanTag === STATE.clan.tag;
+
+        let html = `
+            <div class="profile-header">
+                <div class="profile-avatar fortress-avatar">🏰</div>
+                <div class="profile-info">
+                    <h3>מבצר קלאן [${entity.clanTag}]</h3>
+                    <div style="color: #fbbf24; font-size: 0.9em;">רמה ${entity.level || 1}</div>
+                    <div style="color: #94a3b8; font-size: 0.8em;">מיקום: (${entity.x}, ${entity.y})</div>
+                </div>
+            </div>
+            
+            <div class="fortress-stats" style="margin: 15px 0; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px;">
+                <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                    <span>❤️ חיים:</span>
+                    <span>${entity.hp || 5000} / ${entity.maxHp || 5000}</span>
+                </div>
+                <div style="width: 100%; height: 8px; background: #333; border-radius: 4px; overflow: hidden;">
+                    <div style="width: ${(entity.hp || 5000) / (entity.maxHp || 5000) * 100}%; height: 100%; background: #ef4444;"></div>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                ${isMyClan ? `
+                    <button class="btn-primary" onclick="closeModal(); switchView('clan');">
+                        🏰 כניסה למבצר
+                    </button>
+                    <button class="btn-secondary" onclick="closeModal(); ClanUI.openFortressDeposit();">
+                        📦 הפקד משאבים
+                    </button>
+                    <button class="btn-secondary" onclick="closeModal(); ClanUI.openFortressGarrison();">
+                        ⚔️ נהל חיל מצב
+                    </button>
+                ` : `
+                    <button class="btn-attack" onclick="closeModal(); openAttackModal(${entity.x}, ${entity.y}, '${entity.name}', 'fortress')">
+                        ⚔️ תקוף מבצר
+                    </button> 
+                    <button class="btn-secondary" onclick="closeModal(); ClanUI.viewClanProfile('${entity.clanId || ''}');">
+                        📜 פרופיל קלאן
+                    </button>
+                `}
+            </div>
+        `;
+
+        openModal(isMyClan ? "המבצר שלנו" : "מבצר אויב", html);
+        return; // Stop processing
+    }
+
     if (entity.type === 'city') {
         const score = calculateScore(entity);
         const lastSeen = entity.isMyCity ? 'מחובר כעת' : formatLastLogin(entity.lastLogin);
