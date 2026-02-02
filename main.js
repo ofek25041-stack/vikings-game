@@ -165,9 +165,35 @@ async function loadAllTerritories() {
                 }
             }
         }
-    } catch (err) {
-        console.error('Failed to load territories:', err);
+
+        // FORCE OVERRIDE: Check all clans for fortresses and force them into the map
+        // This fixes the "undefined's City" bug where a ghost user overrides the fortress
+        if (window.ALL_CLANS) {
+            Object.values(window.ALL_CLANS).forEach(clan => {
+                if (clan.fortress && clan.fortress.x !== undefined) {
+                    const fKey = `${clan.fortress.x},${clan.fortress.y}`;
+                    console.log(`🏰 Forcing fortress render at ${fKey} for clan ${clan.tag}`);
+
+                    // Construct proper fortress entity
+                    STATE.mapEntities[fKey] = {
+                        type: 'fortress',
+                        x: clan.fortress.x,
+                        y: clan.fortress.y,
+                        clanId: clan.id,
+                        clanTag: clan.tag,
+                        name: `[${clan.tag}] Fortress`,
+                        level: clan.fortress.level || 1,
+                        hp: clan.fortress.hp || 5000,
+                        maxHp: clan.fortress.maxHp || 5000,
+                        owner: 'Clan'
+                    };
+                }
+            });
+        }
     }
+    } catch (err) {
+    console.error('Failed to load territories:', err);
+}
 }
 
 function renderWorldMap() {
