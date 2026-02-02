@@ -190,11 +190,9 @@ async function loadAllTerritories() {
                 }
             });
         }
-    });
-}
     } catch (err) {
-    console.error('Failed to load territories:', err);
-}
+        console.error('Failed to load territories:', err);
+    }
 }
 
 function renderWorldMap() {
