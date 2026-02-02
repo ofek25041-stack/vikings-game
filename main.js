@@ -2270,6 +2270,10 @@ function renderBarracksContent(level) {
             // Available to train
             actionUI = `
                 <div class="unit-action">
+                    <div style="display:flex; gap:5px; margin-bottom:5px; border:1px solid rgba(255,255,255,0.1); padding:2px; border-radius:4px;">
+                         <button class="btn-small-action" onclick="setTrainingAmount('${key}', 0.5)">50%</button>
+                         <button class="btn-small-action" onclick="setTrainingAmount('${key}', 1.0)">Max</button>
+                    </div>
                     <input type="number" id="train-amount-${key}" value="1" min="1" max="100" style="width:50px; padding:5px; border-radius:5px; border:1px solid #444; background:#222; color:white;" ${isLocked ? 'disabled' : ''}>
                     <button class="btn-primary" onclick="startTraining('${key}', document.getElementById('train-amount-${key}').value)" ${isLocked ? 'disabled style="opacity:0.5; cursor:not-allowed;"' : ''}>גייס</button>
                 </div>
@@ -2293,6 +2297,34 @@ function renderBarracksContent(level) {
     html += `</div></div>`; // Close list and container
     return html;
 }
+
+window.calculateMaxAffordable = function (unitKey) {
+    const unit = UNIT_TYPES[unitKey];
+    if (!unit) return 0;
+
+    let max = Infinity;
+
+    // Check all resources
+    if (unit.cost.gold) max = Math.min(max, Math.floor((STATE.resources.gold || 0) / unit.cost.gold));
+    if (unit.cost.wood) max = Math.min(max, Math.floor((STATE.resources.wood || 0) / unit.cost.wood));
+    if (unit.cost.food) max = Math.min(max, Math.floor((STATE.resources.food || 0) / unit.cost.food));
+    if (unit.cost.wine) max = Math.min(max, Math.floor((STATE.resources.wine || 0) / unit.cost.wine));
+    if (unit.cost.marble) max = Math.min(max, Math.floor((STATE.resources.marble || 0) / unit.cost.marble));
+    if (unit.cost.crystal) max = Math.min(max, Math.floor((STATE.resources.crystal || 0) / unit.cost.crystal));
+    if (unit.cost.sulfur) max = Math.min(max, Math.floor((STATE.resources.sulfur || 0) / unit.cost.sulfur));
+
+    return max === Infinity ? 0 : max;
+};
+
+window.setTrainingAmount = function (unitKey, percentage) {
+    const max = calculateMaxAffordable(unitKey);
+    const amount = Math.floor(max * percentage);
+    const input = document.getElementById(`train-amount-${unitKey}`);
+    if (input) {
+        input.value = Math.max(1, amount); // Set at least 1 if possible, or 0? Usually 1 is better UX unless 0 affordable.
+        if (amount === 0) input.value = 0;
+    }
+};
 
 function renderAcademyContent() {
     let html = `
@@ -3101,6 +3133,34 @@ const API = {
             localStorage.setItem('vikings_users', JSON.stringify(users));
         }
         return true;
+    },
+
+    async checkConnection() {
+        try {
+            console.log("Checking server connection...");
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 2000);
+
+            // Fetch world state as a lightweight ping (or add a specific status endpoint later)
+            const res = await fetch(`${API_URL}/world`, {
+                method: 'HEAD',
+                signal: controller.signal
+            });
+            clearTimeout(timeoutId);
+
+            if (res.ok) {
+                IS_ONLINE = true;
+                console.log("🟢 Server is ONLINE");
+            } else {
+                IS_ONLINE = false;
+                console.log("🟠 Server is OFFLINE (Status " + res.status + ")");
+            }
+        } catch (e) {
+            IS_ONLINE = false;
+            console.log("🟠 Server is OFFLINE (Unreachable)");
+        }
+        updateConnectionStatusUI();
+        return IS_ONLINE;
     }
 };
 
@@ -3670,8 +3730,11 @@ window.openGameGuide = function () {
 };
 
 // --- INITIALIZATION ---
-window.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('DOMContentLoaded', async () => {
     console.log("Game Initializing...");
+
+    // Check Connection First
+    await API.checkConnection();
 
     // Init Clan System
     if (window.ClanSystem) {
@@ -3685,17 +3748,36 @@ window.addEventListener('DOMContentLoaded', () => {
     const savedUser = localStorage.getItem('vikings_user');
     if (savedUser) {
         CURRENT_USER = savedUser;
-        loadGame();
+
+        // Ensure loadGame exists before calling (it might be missing in some versions)
+        if (typeof loadGame === 'function') {
+            loadGame();
+        } else {
+            // Fallback if loadGame is missing: Load from localStorage manualy
+            console.warn("loadGame function missing, loading manually from keys");
+            const users = JSON.parse(localStorage.getItem('vikings_users') || '{}');
+            if (users[CURRENT_USER]) {
+                STATE = users[CURRENT_USER].state;
+                initializeGameState();
+            }
+        }
 
         // Start Loops
         setInterval(gameLoop, 1000);
         setInterval(saveGame, 5000);
 
         // Initial View
-        renderResources();
+        renderResources(); // Assuming this function exists or will be safe
         switchView('city');
 
         notify(`Welcome back, ${CURRENT_USER}!`, 'success');
+
+        // Initial Save to sync with server if we just came online
+        if (IS_ONLINE) {
+            console.log("Syncing initial state to server...");
+            saveGame();
+        }
+
     } else {
         switchView('login');
     }
