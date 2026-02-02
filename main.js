@@ -2485,14 +2485,38 @@ window.attackEntity = function (x, y) {
             hasUnits = true;
             const unit = UNIT_TYPES[type];
             html += `
-                <div class="mission-unit-row">
+                <div class="mission-unit-row" style="flex-wrap: wrap; gap: 5px;">
                     <div class="u-icon">${unit.icon}</div>
-                    <div class="u-name">${unit.name} <span class="u-avail">(זמין: ${count})</span></div>
-                    <input type="number" data-type="${type}" value="${count}" min="0" max="${count}" class="u-input">
+                    <div class="u-name" style="flex:1;">${unit.name} <span class="u-avail">(זמין: ${count})</span></div>
+                    <input type="number" id="attack-inp-${type}" data-type="${type}" value="${count}" min="0" max="${count}" class="u-input" style="width: 80px;">
+                    
+                    <div class="perc-btns" style="width: 100%; display: flex; gap: 5px; justify-content: flex-end; margin-top: 5px;">
+                        <button class="p-btn" onclick="setAttackAmount('${type}', ${count}, 0.1)">10%</button>
+                        <button class="p-btn" onclick="setAttackAmount('${type}', ${count}, 0.25)">25%</button>
+                        <button class="p-btn" onclick="setAttackAmount('${type}', ${count}, 0.5)">50%</button>
+                        <button class="p-btn" onclick="setAttackAmount('${type}', ${count}, 1.0)">Max</button>
+                    </div>
                 </div>
             `;
         }
     }
+
+    // Embed styles for the buttons
+    html += `
+        <style>
+            .p-btn {
+                background: #334155;
+                border: 1px solid #475569;
+                color: #e2e8f0;
+                border-radius: 4px;
+                padding: 2px 8px;
+                font-size: 0.75rem;
+                cursor: pointer;
+                transition: all 0.2s;
+            }
+            .p-btn:hover { background: #475569; }
+        </style>
+    `;
 
     if (!hasUnits) {
         notify("אין לך צבא זמין להתקפה!", "error");
@@ -2697,6 +2721,14 @@ function resolveBattle(attackingArmy, target, defenderData = null) {
 /**
  * Helpers
  */
+
+
+window.setAttackAmount = function (type, max, percent) {
+    const val = Math.floor(max * percent);
+    const inp = document.getElementById(`attack-inp-${type}`);
+    if (inp) inp.value = val;
+};
+
 function getTypeIcon(type) {
     switch (type) {
         case 'gold': return '💰';
