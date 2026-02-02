@@ -706,7 +706,31 @@ function interactEntity(x, y, entity) {
 
 
     // --- Fortress Interaction ---
-    if (entity.type === 'fortress') {
+    // Check by type OR by coordinates (in case type is wrong/overwritten)
+    let isFortress = entity.type === 'fortress';
+    let fortressClan = null;
+
+    // Robust check using ALL_CLANS to find if this is a fortress location
+    if (!isFortress && window.ALL_CLANS) {
+        Object.values(window.ALL_CLANS).forEach(c => {
+            if (c.fortress && c.fortress.x === realX && c.fortress.y === realY) {
+                isFortress = true;
+                fortressClan = c;
+                console.log(`🏰 Detected fortress by coordinates at ${realX},${realY} for clan ${c.tag}`);
+            }
+        });
+    }
+
+    if (isFortress) {
+        // Ensure entity has correct data if we found it via coordinates
+        if (fortressClan) {
+            entity.clanTag = fortressClan.tag;
+            entity.hp = fortressClan.fortress.hp;
+            entity.maxHp = fortressClan.fortress.maxHp;
+            entity.level = fortressClan.fortress.level;
+            entity.clanId = fortressClan.id;
+        }
+
         const isMyClan = STATE.clan && entity.clanTag === STATE.clan.tag;
 
         let html = `
