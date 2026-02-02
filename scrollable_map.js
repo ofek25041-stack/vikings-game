@@ -40,8 +40,17 @@ function initScrollableMap() {
         tilesLayer.style.width = '100%';
         tilesLayer.style.height = '100%';
         tilesLayer.style.zIndex = '1';
-        grid.prepend(tilesLayer); // Tiles at bottom
+        // HTML click-through behavior is default, but let's be explicit on children
+        grid.prepend(tilesLayer);
     }
+
+    // FORCE pointer-events: none on overlays to be 100% sure
+    const lines = document.getElementById('march-lines-layer');
+    const armies = document.getElementById('march-armies-layer');
+    if (lines) lines.style.pointerEvents = 'none';
+    if (armies) armies.style.pointerEvents = 'none';
+
+    // 3. Center logic (Only if not already centered/scrolled)
 
     // 3. Center logic (Only if not already centered/scrolled)
     // If scroll is near 0,0 it implies it's fresh. 
@@ -177,8 +186,12 @@ function renderVisibleArea() {
                 tile.appendChild(el);
             } else {
                 // Empty tile = Teleport Click
-                tile.onclick = () => handleTileClick(x, y);
+                tile.onclick = (e) => {
+                    console.log('CLICKED TILE:', x, y); // Debug log
+                    handleTileClick(x, y);
+                };
                 tile.style.cursor = 'pointer';
+                tile.style.pointerEvents = 'auto'; // Explicitly allow
             }
 
             fragment.appendChild(tile);
