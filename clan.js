@@ -505,7 +505,7 @@ const ClanSystem = {
     },
 
     // Distribute treasury (leader/officer only)
-    distributeTreasury(username, resources) {
+    async distributeTreasury(username, resources) {
         const clan = this.getPlayerClan();
         if (!clan) return { success: false, error: 'אתה לא בקלאן' };
 
@@ -518,7 +518,7 @@ const ClanSystem = {
             return { success: false, error: 'השחקן לא נמצא בקלאן' };
         }
 
-        // Validate resources
+        // Optimistic Check
         for (const res in resources) {
             const amount = resources[res];
             if (amount > 0) {
@@ -528,25 +528,51 @@ const ClanSystem = {
             }
         }
 
-        // Transfer resources
-        for (const res in resources) {
-            const amount = resources[res];
-            if (amount > 0) {
-                clan.treasury[res] -= amount;
+        try {
+            const response = await fetch('/api/clan/distribute', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    actionBy: CURRENT_USER,
+                    target: username,
+                    resources: resources
+                })
+            });
 
-                // If distributing to self, add to STATE
-                if (username === CURRENT_USER) {
-                    STATE.resources[res] = (STATE.resources[res] || 0) + amount;
+            const result = await response.json();
+
+            if (result.success) {
+                // Update local clan treasury from server response
+                if (result.treasury) {
+                    clan.treasury = result.treasury;
+                } else {
+                    // Fallback manual update
+                    for (const res in resources) {
+                        const amount = resources[res];
+                        if (amount > 0) clan.treasury[res] -= amount;
+                    }
                 }
+
+                // If updated self, we should really resync user state, but manual add is okay for now
+                if (username === CURRENT_USER) {
+                    for (const res in resources) {
+                        const amount = resources[res];
+                        if (amount > 0) STATE.resources[res] = (STATE.resources[res] || 0) + amount;
+                    }
+                    saveGame();
+                }
+
+                this.saveClan(clan); // Save other changes if any, mostly treasury sync
+                this.sendMessage(clan.id, `${CURRENT_USER} העביר משאבים ל-${username}`, 'system');
+                return { success: true };
+
+            } else {
+                return { success: false, error: result.message };
             }
+        } catch (e) {
+            console.error(e);
+            return { success: false, error: 'שגיאת תקשורת עם השרת' };
         }
-
-        this.saveClan(clan);
-        if (username === CURRENT_USER) saveGame();
-
-        this.sendMessage(clan.id, `${CURRENT_USER} העביר משאבים ל-${username}`, 'system');
-
-        return { success: true };
     },
 
     // Update clan settings (leader only)

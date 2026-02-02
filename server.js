@@ -1184,6 +1184,70 @@ const server = http.createServer((req, res) => {
                 sendJSON(res, 500, { success: false, message: 'Create Error' });
             }
         });
+    } else if (req.url === '/api/clan/distribute' && req.method === 'POST') {
+        // Distribute resources from treasury to member
+        readBody(req, (body) => {
+            try {
+                const { actionBy, target, resources } = body;
+                if (!actionBy || !target || !resources) return sendJSON(res, 400, { success: false, message: 'Missing fields' });
+
+                // 1. Verify Action Taker (Leader/Officer)
+                const actionUserPath = getUserFilePath(actionBy);
+                if (!fs.existsSync(actionUserPath)) return sendJSON(res, 404, { success: false, message: 'Action user not found' });
+                const actionUserData = JSON.parse(fs.readFileSync(actionUserPath, 'utf8'));
+
+                if (!actionUserData.state.clan) return sendJSON(res, 403, { success: false, message: 'You are not in a clan' });
+                const clanId = actionUserData.state.clan.id;
+
+                const clanPath = path.join(CLAN_DIR, `${clanId}.json`);
+                if (!fs.existsSync(clanPath)) return sendJSON(res, 404, { success: false, message: 'Clan not found' });
+                const clan = JSON.parse(fs.readFileSync(clanPath, 'utf8'));
+
+                const actorRole = clan.members[actionBy]?.role;
+                if (actorRole !== 'leader' && actorRole !== 'officer') {
+                    return sendJSON(res, 403, { success: false, message: 'Permission denied' });
+                }
+
+                // 2. Verify Target Member
+                if (!clan.members[target]) {
+                    return sendJSON(res, 400, { success: false, message: 'Target is not in the clan' });
+                }
+                const targetPath = getUserFilePath(target);
+                if (!fs.existsSync(targetPath)) return sendJSON(res, 404, { success: false, message: 'Target user not found' });
+                const targetData = JSON.parse(fs.readFileSync(targetPath, 'utf8'));
+
+                // 3. Verify Treasury Balance and Deduct
+                for (const [resType, amount] of Object.entries(resources)) {
+                    if (amount > 0) {
+                        if (!clan.treasury[resType] || clan.treasury[resType] < amount) {
+                            return sendJSON(res, 400, { success: false, message: `Insufficient ${resType} in treasury` });
+                        }
+                    }
+                }
+
+                // Execute Transfer
+                for (const [resType, amount] of Object.entries(resources)) {
+                    if (amount > 0) {
+                        clan.treasury[resType] -= amount;
+                        targetData.state.resources[resType] = (targetData.state.resources[resType] || 0) + amount;
+                    }
+                }
+
+                // 4. Save Changes
+                fs.writeFileSync(clanPath, JSON.stringify(clan, null, 2));
+                fs.writeFileSync(targetPath, JSON.stringify(targetData, null, 2));
+
+                // Update Cache
+                CLAN_CACHE[clanId] = clan;
+
+                sendJSON(res, 200, { success: true, treasury: clan.treasury });
+
+            } catch (e) {
+                console.error('Distribute error:', e);
+                sendJSON(res, 500, { success: false, message: 'Server error during distribution' });
+            }
+        });
+
     } else if (req.url === '/api/message/send' && req.method === 'POST') {
         readBody(req, (body) => {
             const { to, subject, content, from } = body;
