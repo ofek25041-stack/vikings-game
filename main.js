@@ -137,8 +137,9 @@ async function loadAllTerritories() {
 
             // Merge server territories with local mapEntities
             for (const [key, territory] of Object.entries(data.territories)) {
-                // Only update if not my own territory (mine is already in STATE)
-                if (territory.owner !== CURRENT_USER) {
+                // CRITICAL: Always load fortresses (they belong to clans, not individual users)
+                // Only skip the user's own city (which is already managed locally)
+                if (territory.type === 'fortress' || territory.owner !== CURRENT_USER) {
                     STATE.mapEntities[key] = territory;
                 }
             }
