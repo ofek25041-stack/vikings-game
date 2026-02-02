@@ -147,7 +147,14 @@ async function loadAllTerritories() {
                 // CRITICAL: Always load fortresses (they belong to clans, not individual users)
                 // Only skip the user's own city (which is already managed locally)
                 if (territory.type === 'fortress' || territory.owner !== CURRENT_USER) {
-                    STATE.mapEntities[key] = territory;
+                    // Force overwrite if it's a fortress, even if it conflicts with a city
+                    if (territory.type === 'fortress') {
+                        console.log(`🏰 Loading fortress at ${key} (Overwriting existing ${STATE.mapEntities[key]?.type})`);
+                        STATE.mapEntities[key] = territory;
+                    } else if (STATE.mapEntities[key]?.type !== 'fortress') {
+                        // Only add city if it's NOT replacing a known fortress
+                        STATE.mapEntities[key] = territory;
+                    }
                 }
             }
         }
