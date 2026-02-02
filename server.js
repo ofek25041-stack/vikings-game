@@ -1085,13 +1085,14 @@ const server = http.createServer(async (req, res) => {
             console.log(`[API] Territories: Found ${clans.length} clans`);
 
             clans.forEach(c => {
-                // Log fortress status for debugging
-                if (c.fortress) {
-                    console.log(`[API] Clan ${c.tag} has fortress at ${c.fortress.x},${c.fortress.y}`);
-                }
+                // DEBUG: Detailed log for every clan
+                const hasFortress = c.fortress && c.fortress.x !== undefined;
+                console.log(`[API DEBUG] Clan ${c.tag}: Fortress? ${hasFortress ? 'YES' : 'NO'}`, c.fortress);
 
                 if (c.fortress && c.fortress.x !== undefined && c.fortress.y !== undefined) {
                     const key = `${c.fortress.x},${c.fortress.y}`;
+                    console.log(`[API DEBUG] Adding fortress at ${key} (Overwriting? ${territories[key] ? 'YES, was ' + territories[key].type : 'NO'})`);
+
                     territories[key] = {
                         type: 'fortress',
                         clanId: c.id,
@@ -1106,7 +1107,9 @@ const server = http.createServer(async (req, res) => {
             });
 
             const fortressCount = Object.values(territories).filter(t => t.type === 'fortress').length;
-            console.log(`[API] Returning ${Object.keys(territories).length} territories (${fortressCount} fortresses)`);
+            const cityCount = Object.values(territories).filter(t => t.type === 'city').length;
+
+            console.log(`[API] Returning ${Object.keys(territories).length} territories (${cityCount} cities, ${fortressCount} fortresses)`);
 
             sendJSON(res, 200, { success: true, territories });
 
