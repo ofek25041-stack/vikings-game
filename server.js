@@ -561,6 +561,177 @@ const server = http.createServer(async (req, res) => {
             } catch (e) { sendJSON(res, 500, { error: e.message }); }
         });
 
+    } else if (req.url === '/api/message/send' && req.method === 'POST') {
+        readBody(req, async (body) => {
+            const { to, subject, content, from } = body;
+            if (!to || !content || !from) return sendJSON(res, 400, { success: false, message: 'Missing fields' });
+
+            try {
+                // Find Users (Case insensitive for target)
+                const targetUser = await db.collection('users').findOne({ username: { $regex: new RegExp(`^${to}$`, 'i') } });
+                const senderUser = await db.collection('users').findOne({ username: from });
+
+                if (!targetUser) return sendJSON(res, 404, { success: false, message: 'משתמש לא נמצא' });
+                if (!senderUser) return sendJSON(res, 404, { success: false, message: 'שגיאה בזיהוי השולח' });
+
+                // Create Message
+                const msg = {
+                    id: Date.now().toString(36) + Math.random().toString(36).substr(2),
+                    from: senderUser.username,
+                    to: targetUser.username,
+                    timestamp: Date.now(),
+                    content: content,
+                    read: false
+                };
+
+                // Add to Sender History
+                await db.collection('users').updateOne(
+                    { username: from },
+                    { $push: { [`state.chats.${targetUser.username}`]: { $each: [msg], $slice: -50 } } }
+                );
+
+                // Add to Recipient History
+                await db.collection('users').updateOne(
+                    { username: targetUser.username },
+                    { $push: { [`state.chats.${senderUser.username}`]: { $each: [msg], $slice: -50 } } }
+                );
+
+                sendJSON(res, 200, { success: true, message: msg });
+
+            } catch (e) {
+                console.error("Message Error:", e);
+                sendJSON(res, 500, { success: false, message: 'שגיאה בשליחת הודעה' });
+            }
+        });
+
+    } else if (req.url.startsWith('/api/market/history/') && req.method === 'GET') {
+        try {
+            const username = decodeURIComponent(req.url.split('/api/market/history/')[1]);
+            const history = await db.collection('trades').find({
+                $or: [{ seller: username }, { acceptedBy: username }]
+            }).sort({ createdAt: -1 }).limit(50).toArray();
+
+            sendJSON(res, 200, { success: true, history });
+        } catch (e) { sendJSON(res, 500, { error: e.message }); }
+
+    } else if (req.url === '/api/market/cancel' && req.method === 'POST') {
+        readBody(req, async (body) => {
+            const { tradeId, username } = body;
+            try {
+                const trade = await db.collection('trades').findOne({ id: tradeId });
+                if (!trade) return sendJSON(res, 404, { error: 'Trade not found' });
+                if (trade.seller !== username) return sendJSON(res, 403, { error: 'Not your trade' });
+                if (trade.status !== 'active') return sendJSON(res, 400, { error: 'Not active' });
+
+                // Refund
+                const inc = {};
+                for (const [r, amt] of Object.entries(trade.offering)) inc[`state.resources.${r}`] = amt;
+
+                await db.collection('users').updateOne({ username }, { $inc: inc });
+                await db.collection('trades').updateOne({ id: tradeId }, { $set: { status: 'cancelled', cancelledAt: Date.now() } });
+
+                sendJSON(res, 200, { success: true, trade: { ...trade, status: 'cancelled' } });
+            } catch (e) { sendJSON(res, 500, { error: e.message }); }
+        });
+    } else if (req.url === '/api/fortress/create' && req.method === 'POST') {
+        // Create fortress for clan
+        readBody(req, async (body) => {
+            try {
+                const { clanId, x, y } = body;
+                const clan = await db.collection('clans').findOne({ id: clanId });
+
+                if (!clan) return sendJSON(res, 404, { success: false, message: 'Clan not found' });
+                if (clan.fortress) return sendJSON(res, 400, { success: false, message: 'Fortress already exists' });
+
+                // Create fortress object
+                const fortress = {
+                    x: x,
+                    y: y,
+                    level: 1,
+                    hp: 5000,
+                    maxHp: 5000,
+                    garrison: {},
+                    deposits: {},
+                    createdAt: Date.now()
+                };
+
+                await db.collection('clans').updateOne({ id: clanId }, { $set: { fortress: fortress } });
+                updateWorldCache();
+
+                sendJSON(res, 200, { success: true, fortress: fortress });
+            } catch (err) {
+                console.error('Error creating fortress:', err);
+                sendJSON(res, 500, { success: false, message: err.message });
+            }
+        });
+    } else if (req.url === '/api/fortress/update' && req.method === 'POST') {
+        // Update fortress (deploy/withdraw troops/resources)
+        readBody(req, async (body) => {
+            try {
+                const { clanId, action, data } = body;
+                const clan = await db.collection('clans').findOne({ id: clanId });
+
+                if (!clan) return sendJSON(res, 404, { success: false, message: 'Clan not found' });
+                if (!clan.fortress) return sendJSON(res, 400, { success: false, message: 'No fortress' });
+
+                const updates = {};
+
+                // Initialize checks if missing
+                if (!clan.fortress.deposits) clan.fortress.deposits = {};
+                if (!clan.fortress.garrison) clan.fortress.garrison = {};
+
+                if (action === 'deploy_troops' && data.troops && data.username) {
+                    for (const [type, count] of Object.entries(data.troops)) {
+                        updates[`fortress.garrison.${type}`] = (clan.fortress.garrison[type] || 0) + count;
+                        updates[`fortress.deposits.${data.username}.${type}`] = (clan.fortress.deposits?.[data.username]?.[type] || 0) + count;
+                    }
+                    await db.collection('clans').updateOne({ id: clanId }, { $set: updates });
+                }
+                // Withdraw and Resource logic... implemented simply as full replace for now for safety or detailed increment?
+                // MongoDB specific increments are better.
+                // For brevity, let's process logic in memory and push full update or optimized sets.
+                // Re-fetch logic or optimistically trust locally computed?
+                // Let's do memory-edit-save pattern for complex nested updates as it's safer for logic preservation for now.
+
+                // Reload clan fully to be safe on state
+                // Actually we already have it.
+                // Let's just implement the logic:
+                if (action === 'withdraw_troops') {
+                    const pDeps = clan.fortress.deposits[data.username] || {};
+                    for (const [t, c] of Object.entries(data.troops)) {
+                        if ((pDeps[t] || 0) < c) return sendJSON(res, 400, { error: 'Not enough deposited' });
+                        clan.fortress.garrison[t] = Math.max(0, (clan.fortress.garrison[t] || 0) - c);
+                        clan.fortress.deposits[data.username][t] -= c;
+                    }
+                    await db.collection('clans').updateOne({ id: clanId }, { $set: { fortress: clan.fortress } });
+                }
+
+                if (action === 'add_resources') {
+                    // This involves deducting from USER and adding to CLAN FORTRESS? 
+                    // No, usually treasury. But Fortress might have its own storage? 
+                    // The code said "fortress.resources".
+                    if (!clan.fortress.resources) clan.fortress.resources = {};
+                    const userInc = {};
+
+                    // Verify user funds
+                    const user = await db.collection('users').findOne({ username: data.username });
+                    for (const [r, amt] of Object.entries(data.resources)) {
+                        if ((user.state.resources[r] || 0) < amt) return sendJSON(res, 400, { error: 'Not enough resources' });
+                        userInc[`state.resources.${r}`] = -amt;
+                        clan.fortress.resources[r] = (clan.fortress.resources[r] || 0) + amt;
+                    }
+
+                    await db.collection('users').updateOne({ username: data.username }, { $inc: userInc });
+                    await db.collection('clans').updateOne({ id: clanId }, { $set: { fortress: clan.fortress } });
+                }
+
+                sendJSON(res, 200, { success: true, fortress: clan.fortress });
+
+            } catch (err) {
+                console.error('Error updating fortress:', err);
+                sendJSON(res, 500, { success: false, message: err.message });
+            }
+        });
     } else {
         serveStatic(req, res);
     }
