@@ -2888,7 +2888,9 @@ function getTypeIcon(type) {
         case 'marble': return '🏛️';
         case 'crystal': return '💎';
         case 'sulfur': return '🌋';
-        default: return '';
+        case 'fortress': return '🏰';
+        case 'city': return '🏰'; // City icon
+        default: return '❓';
     }
 }
 
