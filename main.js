@@ -2270,7 +2270,9 @@ function renderBarracksContent(level) {
             // Available to train
             actionUI = `
                 <div class="unit-action">
-                    <div style="display:flex; gap:5px; margin-bottom:5px; border:1px solid rgba(255,255,255,0.1); padding:2px; border-radius:4px;">
+                    <div style="display:flex; gap:3px; margin-bottom:5px; border:1px solid rgba(255,255,255,0.1); padding:2px; border-radius:4px; flex-wrap:wrap;">
+                         <button class="btn-small-action" onclick="setTrainingAmount('${key}', 0.1)">10%</button>
+                         <button class="btn-small-action" onclick="setTrainingAmount('${key}', 0.2)">20%</button>
                          <button class="btn-small-action" onclick="setTrainingAmount('${key}', 0.5)">50%</button>
                          <button class="btn-small-action" onclick="setTrainingAmount('${key}', 1.0)">Max</button>
                     </div>
