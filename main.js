@@ -77,10 +77,13 @@ function ensureCityExistsAndRender() {
     if (STATE.mapEntities) {
         for (const [k, ent] of Object.entries(STATE.mapEntities)) {
             // Check for the specific bug signature
+            // DEBUG: Disabled cleanup to allow fortress to show even if bugged as city
+            /*
             if (ent && ent.name === "undefined's City") {
                 console.warn(`🧹 Cleaning up corrupted entity at ${k}:`, ent);
                 delete STATE.mapEntities[k];
             }
+            */
             // Check for fortress overwrite signature (City at known fortress location)
             // CRITICAL: Don't delete actual fortresses!
             if (ent && ent.type === 'city' && ent.isMyCity && k !== `${STATE.homeCoords.x},${STATE.homeCoords.y}`) {
