@@ -286,7 +286,8 @@ function createEntityDOM(entity, x, y) {
 
     if (window.ALL_CLANS) {
         Object.values(window.ALL_CLANS).forEach(c => {
-            if (c.fortress && c.fortress.x === x && c.fortress.y === y) {
+            // Use loose equality (==) to handle string/number coordinate mismatch
+            if (c.fortress && c.fortress.x == x && c.fortress.y == y) {
                 isFortress = true;
                 fortressClan = c;
             }
@@ -295,10 +296,12 @@ function createEntityDOM(entity, x, y) {
 
     // Apply Override
     if (isFortress && fortressClan) {
+        // Safe merge in case entity is null/undefined
+        const base = entity || {};
         entity = {
-            ...entity,
+            ...base,
             type: 'fortress',
-            name: 'Mighty Fortress', // Generic but epic name
+            name: `מבצר [${fortressClan.tag}]`, // Clear Hebrew name
             clanTag: fortressClan.tag,
             owner: 'Clan',
             isMyClan: STATE.clan && (STATE.clan.tag === fortressClan.tag || STATE.clan.id === fortressClan.id)
