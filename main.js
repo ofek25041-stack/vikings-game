@@ -3436,6 +3436,13 @@ async function syncWorldPlayers() {
         // Add player cities with clan tags
         data.players.forEach(p => {
             const key = `${p.x},${p.y}`;
+
+            // CRITICAL: Don't overwrite fortresses!
+            if (STATE.mapEntities[key]?.type === 'fortress') {
+                console.log(`⚠️ Skipping city at ${key} - fortress exists there`);
+                return;
+            }
+
             STATE.mapEntities[key] = {
                 type: 'city',
                 name: `${p.username}'s City`,
