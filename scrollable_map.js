@@ -284,16 +284,13 @@ function createEntityDOM(entity, x, y) {
     let isFortress = entity.type === 'fortress';
     let fortressClan = null;
 
-    // CRITICAL: Use entity.x/entity.y (actual map coords), not x/y (viewport coords)!
-    const entityX = entity.x;
-    const entityY = entity.y;
+    // CRITICAL: Use entity.x/y if available, otherwise fall back to viewport x/y
+    const entityX = entity.x ?? x;
+    const entityY = entity.y ?? y;
 
     if (window.ALL_CLANS && entityX != null && entityY != null) {
-        console.log(`[MAP] Checking entity at ${entityX},${entityY} against ALL_CLANS`);
+        console.log(`[MAP] Checking entity at ${entityX},${entityY} (from ${entity.x != null ? 'entity' : 'viewport'}) against ALL_CLANS`);
         Object.values(window.ALL_CLANS).forEach(c => {
-            if (c.fortress) {
-                console.log(`[MAP] Clan ${c.tag}: fortress at ${c.fortress.x},${c.fortress.y}`);
-            }
             // Use loose equality (==) to handle string/number coordinate mismatch
             if (c.fortress && c.fortress.x == entityX && c.fortress.y == entityY) {
                 console.log(`[MAP] ✅ MATCH! Found fortress for ${c.tag} at ${entityX},${entityY}`);
