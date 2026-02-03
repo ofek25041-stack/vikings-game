@@ -368,8 +368,10 @@ function renderWorldMap() {
                             </div>
                         `;
 
+                        // CRITICAL: Set onclick AFTER innerHTML to preserve it
                         div.onclick = (e) => {
                             e.stopPropagation();
+                            e.preventDefault();
                             if (isMyClan) {
                                 // Open fortress UI
                                 switchView('clan');
