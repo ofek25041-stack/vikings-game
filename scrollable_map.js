@@ -279,6 +279,11 @@ function renderVisibleArea() {
 }
 
 function createEntityDOM(entity, x, y) {
+    // DEBUG: Log ALL entities being rendered
+    if (entity.type === 'fortress' || (entity.x === 36 && entity.y === 22)) {
+        console.log(`[CREATE_DOM] Creating DOM for entity at ${x},${y}:`, entity);
+    }
+
     // FORCE FORTRESS CHECK: Check global clan registry for fortress at this location
     // This overrides any "undefined city" or incorrect server data
     let isFortress = entity.type === 'fortress';
