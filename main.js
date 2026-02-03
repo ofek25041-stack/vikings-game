@@ -812,9 +812,9 @@ function interactEntity(x, y, entity) {
                 ` : `
                     <button class="btn-attack" onclick="closeModal(); openAttackModal(${entity.x}, ${entity.y}, '${entity.name}', 'fortress')">
                         ⚔️ תקוף מבצר
-                    </button> 
-                    <button class="btn-primary" onclick="closeModal(); ClanUI.viewClanProfile('${entity.clanId || ''}');">
-                        📜 פרופיל קלאן
+                    </button>
+                    <button class="btn-primary" onclick="closeModal(); openFortressAttackModal(${entity.x}, ${entity.y}, '${entity.name}')">
+                        🏰 תקוף מהמבצר
                     </button>
                 `}
             </div>
