@@ -342,6 +342,10 @@ function renderWorldMap() {
                 if (entity.type === 'fortress') {
                     // Only render visual on top-left tile
                     if (entity.isCenter) {
+                        // CRITICAL: Make tile larger to accommodate 60x60 fortress
+                        tile.style.width = '60px';
+                        tile.style.height = '60px';
+
                         div.classList.add('fortress-entity');
                         div.style.width = '60px';  // 2 tiles wide
                         div.style.height = '60px'; // 2 tiles tall
