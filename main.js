@@ -384,8 +384,13 @@ function renderWorldMap() {
                         tile.addEventListener('click', (e) => {
                             e.stopPropagation();
                             e.preventDefault();
-                            // Trigger fortress click
-                            div.click();
+                            // Execute fortress click logic directly
+                            if (isMyClan) {
+                                switchView('clan');
+                                setTimeout(() => ClanUI.switchTab('fortress'), 100);
+                            } else {
+                                interactEntity(globalX, globalY, entity);
+                            }
                         }, true); // CAPTURE PHASE!
                     } else {
                         // Other 3 tiles are just markers (invisible but block clicks)
