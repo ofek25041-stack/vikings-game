@@ -114,7 +114,8 @@ function ensureCityExistsAndRender() {
         return;
     }
 
-    if (!city || city.type !== 'city' || !city.isMyCity) {
+    // Also don't re-create if it's already a fortress (different check)
+    if (!city || (city.type !== 'city' && city.type !== 'fortress') || (city.type === 'city' && !city.isMyCity)) {
         console.warn("City entity missing or corrupted! Re-creating.");
         STATE.mapEntities[key] = {
             type: 'city',
