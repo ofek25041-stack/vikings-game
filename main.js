@@ -677,31 +677,13 @@ function interactEntity(x, y, entity) {
     let realX = x;
     let realY = y;
 
-
-
-    // For cities, use homeCoords if available
+    // For cities, use homeCoords if available  
     if (entity.type === 'city' && entity.homeCoords) {
         realX = entity.homeCoords.x;
         realY = entity.homeCoords.y;
-
-    } else if (entity.type === 'fortress' && entity.fortressX !== undefined) {
-        realX = entity.fortressX;
-        realY = entity.fortressY;
-
-    } else {
-        // Try to find real coordinates from mapEntities
-        for (const [coordKey, ent] of Object.entries(STATE.mapEntities)) {
-            if (ent === entity || (ent.name === entity.name && ent.type === entity.type)) {
-                const [foundX, foundY] = coordKey.split(',').map(Number);
-                if (!isNaN(foundX) && !isNaN(foundY) && foundX >= 0 && foundX < 60 && foundY >= 0 && foundY < 60) {
-                    realX = foundX;
-                    realY = foundY;
-
-                    break;
-                }
-            }
-        }
     }
+    // For fortresses and other entities, x and y are already correct coordinates
+    // No special handling needed - entity.x and entity.y are the fortress location
 
 
 
