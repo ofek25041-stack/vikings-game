@@ -2662,7 +2662,27 @@ function renderTrainingQueue() {
 
 window.attackEntity = function (x, y) {
     const key = `${x},${y}`;
-    const targetEntity = STATE.mapEntities[key];
+    let targetEntity = STATE.mapEntities[key];
+
+    // Fallback: Check if this is a fortress by checking ALL_CLANS
+    if (!targetEntity && window.ALL_CLANS) {
+        Object.values(window.ALL_CLANS).forEach(clan => {
+            if (clan.fortress && clan.fortress.x == x && clan.fortress.y == y) {
+                targetEntity = {
+                    type: 'fortress',
+                    name: `[${clan.tag}] Fortress`,
+                    clanTag: clan.tag,
+                    clanId: clan.id,
+                    x: x,
+                    y: y,
+                    level: clan.fortress.level || 1
+                };
+                // Save to mapEntities for future lookups
+                STATE.mapEntities[key] = targetEntity;
+            }
+        });
+    }
+
     if (!targetEntity) {
         notify("המטרה נעלמה!", "error");
         return;
