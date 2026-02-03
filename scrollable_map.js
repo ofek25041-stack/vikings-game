@@ -328,57 +328,14 @@ function renderVisibleArea() {
 }
 
 function createEntityDOM(entity, x, y) {
-    // DEBUG: Log ALL entities being rendered
-    if (entity.type === 'fortress' || (entity.x === 36 && entity.y === 22)) {
-        console.log(`[CREATE_DOM] Creating DOM for entity at ${x},${y}:`, entity);
-    }
-
-    // FORCE FORTRESS CHECK: Check global clan registry for fortress at this location
-    // This overrides any "undefined city" or incorrect server data
-    let isFortress = entity.type === 'fortress';
-    let fortressClan = null;
-
-    // CRITICAL: Use entity.x/y if available, otherwise fall back to viewport x/y
-    const entityX = entity.x ?? x;
-    const entityY = entity.y ?? y;
-
-    if (window.ALL_CLANS && entityX != null && entityY != null) {
-        console.log(`[MAP] Checking entity at ${entityX},${entityY} (from ${entity.x != null ? 'entity' : 'viewport'}) against ALL_CLANS`);
-        Object.values(window.ALL_CLANS).forEach(c => {
-            // Use loose equality (==) to handle string/number coordinate mismatch
-            if (c.fortress && c.fortress.x == entityX && c.fortress.y == entityY) {
-                console.log(`[MAP] ✅ MATCH! Found fortress for ${c.tag} at ${entityX},${entityY}`);
-                isFortress = true;
-                fortressClan = c;
-            }
-        });
-        if (!fortressClan) {
-            console.log(`[MAP] ❌ No fortress found at ${entityX},${entityY}`);
-        }
-    }
-
-    // Apply Override
-    if (isFortress && fortressClan) {
-        // Safe merge in case entity is null/undefined
-        const base = entity || {};
-        entity = {
-            ...base,
-            type: 'fortress',
-            name: `מבצר [${fortressClan.tag}]`, // Clear Hebrew name
-            clanTag: fortressClan.tag,
-            owner: 'Clan',
-            isMyClan: STATE.clan && (STATE.clan.tag === fortressClan.tag || STATE.clan.id === fortressClan.id)
-        };
-    }
-
     const div = document.createElement('div');
     div.classList.add('map-entity', `entity-${entity.type}`);
 
-    // FORTRESS SPECIAL HANDLING (2x2 large fortress like original)
+    // FORTRESS RENDERING (60x60px, 2x2 tiles)
     if (entity.type === 'fortress') {
         div.classList.add('fortress-entity');
-        div.style.width = '60px';  // 2 tiles wide
-        div.style.height = '60px'; // 2 tiles tall
+        div.style.width = '60px';
+        div.style.height = '60px';
         div.style.zIndex = '20';
 
         const isMyClan = STATE.clan && (STATE.clan.id === entity.clanId || STATE.clan.tag === entity.clanTag);
@@ -387,7 +344,7 @@ function createEntityDOM(entity, x, y) {
         div.innerHTML = `
             <div class="fortress-icon">🏯</div>
             <div class="entity-label">
-                <div class="name">${entity.name || `[${entity.clanTag}] Fortress`}</div>
+                <div class="name">${entity.name || `מבצר [${entity.clanTag}]`}</div>
             </div>
         `;
 
@@ -399,17 +356,14 @@ function createEntityDOM(entity, x, y) {
         return div;
     }
 
-    // REGULAR ENTITY RENDERING (cities, resources, etc.)
+    // REGULAR ENTITY RENDERING
     if (entity.isMyCity) div.classList.add('entity-my-city');
-    else if (entity.isMyClan) div.classList.add('entity-my-fortress');
     else if (entity.owner === CURRENT_USER) div.classList.add('entity-owned');
 
-    // Icon
     let icon = '❓';
     if (typeof getTypeIcon === 'function') icon = getTypeIcon(entity.type || entity.resource);
     else icon = getDefaultIcon(entity.type);
 
-    // Determine display name
     let displayName = entity.name || entity.type;
 
     div.innerHTML = `
