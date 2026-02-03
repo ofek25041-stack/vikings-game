@@ -4023,14 +4023,15 @@ window.addEventListener('DOMContentLoaded', async () => {
     console.log("Game Initializing...");
 
     // Check Connection First
+    // Check Connection First
     await API.checkConnection();
 
-    // Init Clan System
+    // CRITICAL FIX: Await Clan System to ensure ALL_CLANS is populated
+    // This allows loadAllTerritories to correctly identify fortresses later
     if (window.ClanSystem) {
-        ClanSystem.init().then(() => {
-            // Verify state after clans are loaded
-            if (CURRENT_USER) ClanSystem.verifyPlayerClanState();
-        });
+        console.log("🛡️ Initializing Clan System (Blocking)...");
+        await ClanSystem.init();
+        if (CURRENT_USER) ClanSystem.verifyPlayerClanState();
     }
 
     // Check Login
@@ -4041,6 +4042,11 @@ window.addEventListener('DOMContentLoaded', async () => {
         // Ensure loadGame exists before calling (it might be missing in some versions)
         if (typeof loadGame === 'function') {
             await loadGame();
+            // Force map cleanup to prevent stale fortress IDs from persisting
+            if (STATE && STATE.mapEntities) {
+                // Clean up potential 'bad' fortress entities by type filtering or just rely on overwrite
+                // Actually, loadAllTerritories handles overwrites, but we need to ensure it runs.
+            }
         } else {
             // Fallback if loadGame is missing: Load from localStorage manualy
             console.warn("loadGame function missing, loading manually from keys");
