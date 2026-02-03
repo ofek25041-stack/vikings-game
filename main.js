@@ -790,9 +790,7 @@ function interactEntity(x, y, entity) {
                 <div class="profile-info">
                     <h3>מבצר קלאן [${entity.clanTag}]</h3>
                     <div style="color: #fbbf24; font-size: 0.9em;">רמה ${entity.level || 1}</div>
-                    <div style="color: #94a3b8; font-size: 0.8em;">מיקום: (${entity.x}, ${entity.y})</div>
                     ${isMyClan ? '<div style="color: #4ade80; font-size: 0.8em; margin-top:5px;">המבצר שלך</div>' : ''}
-                    <div style="color: #475569; font-size: 0.7em; margin-top:2px;">${debugInfo}</div>
                 </div>
             </div>
             
@@ -805,17 +803,17 @@ function interactEntity(x, y, entity) {
                     <button class="btn-primary" onclick="closeModal(); switchView('clan');">
                         🏰 כניסה למבצר
                     </button>
-                    <button class="btn-secondary" onclick="closeModal(); ClanUI.openFortressDeposit();">
+                    <button class="btn-primary" onclick="closeModal(); ClanUI.openFortressDeposit();">
                         📦 הפקד משאבים
                     </button>
-                    <button class="btn-secondary" onclick="closeModal(); ClanUI.openFortressGarrison();">
+                    <button class="btn-primary" onclick="closeModal(); ClanUI.openFortressGarrison();">
                         ⚔️ נהל חיל מצב
                     </button>
                 ` : `
                     <button class="btn-attack" onclick="closeModal(); openAttackModal(${entity.x}, ${entity.y}, '${entity.name}', 'fortress')">
                         ⚔️ תקוף מבצר
                     </button> 
-                    <button class="btn-secondary" onclick="closeModal(); ClanUI.viewClanProfile('${entity.clanId || ''}');">
+                    <button class="btn-primary" onclick="closeModal(); ClanUI.viewClanProfile('${entity.clanId || ''}');">
                         📜 פרופיל קלאן
                     </button>
                 `}
