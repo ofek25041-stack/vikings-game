@@ -350,13 +350,18 @@ function renderWorldMap() {
                         div.style.width = '60px';  // 2 tiles wide
                         div.style.height = '60px'; // 2 tiles tall
                         div.style.zIndex = '20';   // FIXED: was 10
+                        div.style.display = 'flex';
+                        div.style.flexDirection = 'column';
+                        div.style.alignItems = 'center';
+                        div.style.justifyContent = 'center';
+                        div.style.position = 'relative';
 
                         const isMyClan = STATE.clan && STATE.clan.id === entity.clanId;
                         if (isMyClan) div.classList.add('entity-my-fortress');
 
                         div.innerHTML = `
-                            <div class="fortress-icon">🏯</div>
-                            <div class="entity-label">
+                            <div class="fortress-icon" style="font-size: 3rem; line-height: 1;">🏯</div>
+                            <div class="entity-label" style="text-align: center; font-size: 0.7rem;">
                                 <div class="name">[${entity.clanTag}] Fortress</div>
                             </div>
                         `;
