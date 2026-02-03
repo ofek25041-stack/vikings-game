@@ -731,11 +731,22 @@ function interactEntity(x, y, entity) {
             entity.clanId = fortressClan.id;
         }
 
-        const hasClan = STATE.clan && STATE.clan.tag;
-        const isMyClan = hasClan && (
-            (entity.clanTag && entity.clanTag === STATE.clan.tag) ||
-            (entity.clanId && entity.clanId === STATE.clan.id)
-        );
+        // Fix: Robust ownership check. STATE.clan might lack 'tag', so we resolve it.
+        let isMyClan = false;
+        if (STATE.clan && STATE.clan.id) {
+            const myClanId = STATE.clan.id;
+            // Direct ID check (best)
+            if (entity.clanId === myClanId) {
+                isMyClan = true;
+            }
+            // Tag check (fallback if entity lacks ID but has Tag)
+            else if (entity.clanTag) {
+                const myClan = window.ALL_CLANS && window.ALL_CLANS[myClanId];
+                if (myClan && myClan.tag === entity.clanTag) {
+                    isMyClan = true;
+                }
+            }
+        }
 
         let html = `
             <div class="profile-header">
