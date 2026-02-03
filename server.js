@@ -735,7 +735,11 @@ const server = http.createServer(async (req, res) => {
         } catch (e) { sendJSON(res, 500, { error: e.message }); }
 
     } else if (req.url === '/api/world' && req.method === 'GET') {
-        sendJSON(res, 200, { success: true, players: WORLD_CACHE, fortresses: [] });
+        // CRITICAL: Separate players (cities) from fortresses
+        const players = WORLD_CACHE.filter(e => e.type === 'city' || !e.type);
+        const fortresses = WORLD_CACHE.filter(e => e.type === 'fortress');
+
+        sendJSON(res, 200, { success: true, players, fortresses });
 
     } else if (req.url === '/api/players' && req.method === 'GET') {
         try {
