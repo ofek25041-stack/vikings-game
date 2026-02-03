@@ -325,7 +325,7 @@ function createEntityDOM(entity, x, y) {
         <div class="entity-icon">${icon}</div>
         <div class="entity-label">
             ${entity.clanTag ? `<span style='color:#fbbf24'>[${entity.clanTag}]</span> ` : ''}
-            ${entity.name || entity.type}
+            ${isFortress ? 'מבצר' : (entity.name || entity.type)}
             ${(entity.owner && entity.owner !== CURRENT_USER) ? `<div style='font-size:0.6rem;color:#4ade80'>${entity.owner}</div>` : ''}
         </div>
     `;
