@@ -1125,6 +1125,29 @@ const server = http.createServer(async (req, res) => {
             sendJSON(res, 500, { error: e.message });
         }
 
+    } else if (req.url === '/api/debug/fortresses' && req.method === 'GET') {
+        // DEBUG ENDPOINT - Shows raw fortress data from DB
+        try {
+            const clans = await db.collection('clans').find({}).toArray();
+
+            const debugInfo = {
+                totalClans: clans.length,
+                clans: clans.map(c => ({
+                    tag: c.tag,
+                    id: c.id,
+                    hasFortress: !!c.fortress,
+                    fortress: c.fortress || null,
+                    fortressXType: c.fortress?.x ? typeof c.fortress.x : 'undefined',
+                    fortressYType: c.fortress?.y ? typeof c.fortress.y : 'undefined'
+                }))
+            };
+
+            sendJSON(res, 200, debugInfo);
+        } catch (e) {
+            sendJSON(res, 500, { error: e.message });
+        }
+
+
     } else {
         serveStatic(req, res);
     }
