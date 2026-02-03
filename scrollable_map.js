@@ -244,7 +244,8 @@ function renderVisibleArea() {
                     tile.style.width = '60px';
                     tile.style.height = '60px';
                     tile.style.zIndex = '20';
-                    tile.style.pointerEvents = 'auto';
+                    // CRITICAL: Tile must be non-clickable so grid handler doesn't fire
+                    tile.style.pointerEvents = 'none';
                 } else {
                     // Regular entities: remove click handler
                     el.onclick = null;
