@@ -2316,6 +2316,81 @@ const ClanUI = {
     },
 
     // Show deploy troops modal
+    // --- Fortress UI Helpers ---
+    openFortressGarrison() {
+        this.showDeployTroops();
+    },
+
+    openFortressDeposit() {
+        const clan = ClanSystem.getPlayerClan();
+        if (!clan) return notify('You are not in a clan', 'error');
+
+        const html = `
+            <div style="text-align:center; padding:10px;">
+                <p style="color:#cbd5e1; margin-bottom:15px;">Donate resources to the Clan Treasury to fund upgrades and fortress maintenance.</p>
+                
+                <div class="resource-inputs" style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-bottom:20px;">
+                    ${['gold', 'wood', 'food', 'wine', 'marble', 'crystal', 'sulfur'].map(res => `
+                        <div class="res-input-group" style="background:rgba(255,255,255,0.05); padding:8px; border-radius:6px;">
+                            <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                                <span style="color:#fbbf24;">${res.charAt(0).toUpperCase() + res.slice(1)}</span>
+                                <span style="font-size:0.8em; color:#94a3b8;">Avail: ${Math.floor(STATE.resources[res] || 0)}</span>
+                            </div>
+                            <input type="number" id="deposit-${res}" class="form-input" placeholder="0" min="0" 
+                                   style="width:100%; background:rgba(0,0,0,0.3); border:1px solid #475569; color:white; padding:4px;">
+                        </div>
+                    `).join('')}
+                </div>
+
+                <button class="btn-primary" onclick="ClanUI.submitDeposit()" style="width:100%; padding:10px;">📦 Deposit Resources</button>
+            </div>
+        `;
+
+        openModal('Deposit to Treasury', html);
+    },
+
+    async submitDeposit() {
+        const resources = ['gold', 'wood', 'food', 'wine', 'marble', 'crystal', 'sulfur'];
+        const depositAmounts = {};
+        let total = 0;
+
+        // Validation
+        for (const res of resources) {
+            const input = document.getElementById(`deposit-${res}`);
+            if (input) {
+                const val = parseInt(input.value) || 0;
+                if (val > 0) {
+                    if (val > (STATE.resources[res] || 0)) {
+                        return notify(`Not enough ${res}!`, 'error');
+                    }
+                    depositAmounts[res] = val;
+                    total += val;
+                }
+            }
+        }
+
+        if (total === 0) return notify('Please enter an amount to deposit', 'warning');
+
+        // Execute Deposit
+        const clan = ClanSystem.getPlayerClan();
+        if (!clan) return;
+
+        // Update Client State
+        for (const [res, amount] of Object.entries(depositAmounts)) {
+            STATE.resources[res] -= amount;
+            if (!clan.treasury[res]) clan.treasury[res] = 0;
+            clan.treasury[res] += amount;
+        }
+
+        // Save
+        updateResourcesUI();
+        await ClanSystem.saveClan(clan); // Sync to server
+        saveGame(); // Save player resources
+
+        notify(`Deposited ${total} resources to clan!`, 'success');
+        closeModal();
+    },
+
     showDeployTroops() {
         const clan = ClanSystem.getPlayerClan();
         if (!clan || !clan.fortress) return;
