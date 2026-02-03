@@ -1145,6 +1145,7 @@ const server = http.createServer(async (req, res) => {
                 clans: clans.map(c => ({
                     tag: c.tag,
                     id: c.id,
+                    deleted: c.deleted || false,
                     hasFortress: !!c.fortress,
                     fortress: c.fortress || null,
                     fortressXType: c.fortress?.x ? typeof c.fortress.x : 'undefined',
