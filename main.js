@@ -725,13 +725,13 @@ function interactEntity(x, y, entity) {
         // Ensure entity has correct data if we found it via coordinates
         if (fortressClan) {
             entity.clanTag = fortressClan.tag;
-            entity.hp = fortressClan.fortress.hp;
-            entity.maxHp = fortressClan.fortress.maxHp;
+            // entity.hp = fortressClan.fortress.hp; // HP removed from UI as requested
+            // entity.maxHp = fortressClan.fortress.maxHp;
             entity.level = fortressClan.fortress.level;
             entity.clanId = fortressClan.id;
         }
 
-        const isMyClan = STATE.clan && entity.clanTag === STATE.clan.tag;
+        const isMyClan = STATE.clan && (entity.clanTag === STATE.clan.tag || entity.clanId === STATE.clan.id);
 
         let html = `
             <div class="profile-header">
@@ -740,17 +740,12 @@ function interactEntity(x, y, entity) {
                     <h3>מבצר קלאן [${entity.clanTag}]</h3>
                     <div style="color: #fbbf24; font-size: 0.9em;">רמה ${entity.level || 1}</div>
                     <div style="color: #94a3b8; font-size: 0.8em;">מיקום: (${entity.x}, ${entity.y})</div>
+                    ${isMyClan ? '<div style="color: #4ade80; font-size: 0.8em; margin-top:5px;">המבצר שלך</div>' : ''}
                 </div>
             </div>
             
-            <div class="fortress-stats" style="margin: 15px 0; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px;">
-                <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
-                    <span>❤️ חיים:</span>
-                    <span>${entity.hp || 5000} / ${entity.maxHp || 5000}</span>
-                </div>
-                <div style="width: 100%; height: 8px; background: #333; border-radius: 4px; overflow: hidden;">
-                    <div style="width: ${(entity.hp || 5000) / (entity.maxHp || 5000) * 100}%; height: 100%; background: #ef4444;"></div>
-                </div>
+            <div class="fortress-desc" style="margin: 15px 0; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px; text-align:center; color:#cbd5e1; font-size:0.9rem;">
+                ההגנה על המבצר מבוצעת על ידי הלוחמים הפרוסים בו.
             </div>
 
             <div class="action-buttons">
