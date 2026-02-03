@@ -711,10 +711,12 @@ function interactEntity(x, y, entity) {
     let fortressClan = null;
 
     // Robust check using ALL_CLANS to find if this is a fortress location
-    if (!isFortress && window.ALL_CLANS) {
+    // ALWAYS run this check to ensure we get the fresh Clan Data associated with these coords
+    if (window.ALL_CLANS) {
         Object.values(window.ALL_CLANS).forEach(c => {
-            if (c.fortress && c.fortress.x === realX && c.fortress.y === realY) {
-                isFortress = true;
+            // Use loose equality (==) for string/number safety
+            if (c.fortress && c.fortress.x == realX && c.fortress.y == realY) {
+                isFortress = true; // Confirmed it's a fortress
                 fortressClan = c;
                 console.log(`🏰 Detected fortress by coordinates at ${realX},${realY} for clan ${c.tag}`);
             }
