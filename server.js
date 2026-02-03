@@ -1118,7 +1118,17 @@ const server = http.createServer(async (req, res) => {
 
             console.log(`[API] Returning ${Object.keys(territories).length} territories (${cityCount} cities, ${fortressCount} fortresses)`);
 
-            sendJSON(res, 200, { success: true, territories });
+            sendJSON(res, 200, {
+                success: true,
+                territories,
+                _debug: {
+                    serverCodeVersion: 'v1.2.5-FORTRESS-FIX',
+                    totalClans: clans.length,
+                    fortressesFound: fortressCount,
+                    citiesFound: cityCount,
+                    timestamp: new Date().toISOString()
+                }
+            });
 
         } catch (e) {
             console.error("Error fetching territories:", e);
