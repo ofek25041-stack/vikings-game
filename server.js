@@ -1085,23 +1085,30 @@ const server = http.createServer(async (req, res) => {
             console.log(`[API] Territories: Found ${clans.length} clans`);
 
             clans.forEach(c => {
-                // DEBUG: Detailed log for every clan
-                const hasFortress = c.fortress && c.fortress.x !== undefined;
-                console.log(`[API DEBUG] Clan ${c.tag}: Fortress? ${hasFortress ? 'YES' : 'NO'}`, c.fortress);
+                // Ensure fortress object exists
+                if (c.fortress && (c.fortress.x != null)) {
+                    const fX = Number(c.fortress.x);
+                    const fY = Number(c.fortress.y);
+                    const key = `${fX},${fY}`;
 
-                if (c.fortress && c.fortress.x !== undefined && c.fortress.y !== undefined) {
-                    const key = `${c.fortress.x},${c.fortress.y}`;
-                    console.log(`[API DEBUG] Adding fortress at ${key} (Overwriting? ${territories[key] ? 'YES, was ' + territories[key].type : 'NO'})`);
+                    // Helper: Check if overwriting a player city
+                    const existing = territories[key];
+                    const isOverwriting = existing ? `(Overwriting ${existing.type})` : '(New)';
+
+                    console.log(`[API DEBUG] Clan ${c.tag} fortress at ${key} ${isOverwriting}`);
 
                     territories[key] = {
                         type: 'fortress',
                         clanId: c.id,
                         clanTag: c.tag,
-                        name: `[${c.tag}] Fortress`, // Explicit Name!
-                        x: c.fortress.x,
-                        y: c.fortress.y,
+                        name: `מבצר [${c.tag}]`, // Hebrew Name for Client
+                        x: fX,
+                        y: fY,
                         level: c.fortress.level || 1,
-                        owner: c.members ? Object.keys(c.members).find(m => c.members[m].role === 'leader') : 'Clan' // Pseudo owner
+                        hp: c.fortress.hp || 5000,
+                        maxHp: c.fortress.maxHp || 5000,
+                        lastActive: Date.now(),
+                        owner: 'Clan' // Special owner type
                     };
                 }
             });
