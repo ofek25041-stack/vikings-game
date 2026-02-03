@@ -169,8 +169,15 @@ async function loadAllTerritories() {
         // FORCE OVERRIDE: Check all clans for fortresses and force them into the map
         // This fixes the "undefined's City" bug where a ghost user overrides the fortress
         if (window.ALL_CLANS) {
+            console.log(`[TERRITORIES] Checking ${Object.keys(window.ALL_CLANS).length} clans for fortresses...`);
             Object.values(window.ALL_CLANS).forEach(clan => {
-                if (clan.fortress && clan.fortress.x !== undefined) {
+                console.log(`[TERRITORIES] Clan ${clan.tag}:`, {
+                    hasFortress: !!clan.fortress,
+                    fortressX: clan.fortress?.x,
+                    fortressXUndefined: clan.fortress?.x === undefined
+                });
+
+                if (clan.fortress && clan.fortress.x !== undefined && clan.fortress.y !== undefined) {
                     const fKey = `${clan.fortress.x},${clan.fortress.y}`;
                     console.log(`🏰 Forcing fortress render at ${fKey} for clan ${clan.tag}`);
 
@@ -181,14 +188,18 @@ async function loadAllTerritories() {
                         y: clan.fortress.y,
                         clanId: clan.id,
                         clanTag: clan.tag,
-                        name: `[${clan.tag}] Fortress`,
+                        name: `מבצר [${clan.tag}]`,
                         level: clan.fortress.level || 1,
                         hp: clan.fortress.hp || 5000,
                         maxHp: clan.fortress.maxHp || 5000,
                         owner: 'Clan'
                     };
+                } else {
+                    console.log(`[TERRITORIES] ❌ Skipping ${clan.tag} - no valid fortress coordinates`);
                 }
             });
+        } else {
+            console.log(`[TERRITORIES] ❌ ALL_CLANS not available!`);
         }
     } catch (err) {
         console.error('Failed to load territories:', err);
