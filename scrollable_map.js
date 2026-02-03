@@ -268,6 +268,55 @@ function renderVisibleArea() {
     tilesLayer.innerHTML = '';
     tilesLayer.appendChild(fragment);
 
+    // FORTRESS FORCE RENDER: Always render ALL fortresses from ALL_CLANS
+    // This ensures fortresses are displayed even if there are viewport or entity state issues
+    if (window.ALL_CLANS) {
+        console.log('[FORTRESS_RENDER] Force-rendering fortresses from ALL_CLANS...');
+        Object.values(window.ALL_CLANS).forEach(clan => {
+            if (clan.fortress && clan.fortress.x != null && clan.fortress.y != null) {
+                const fx = Number(clan.fortress.x);
+                const fy = Number(clan.fortress.y);
+
+                // Check if fortress is in current viewport
+                if (fx >= startX && fx <= endX && fy >= startY && fy <= endY) {
+                    const fortressEntity = {
+                        type: 'fortress',
+                        x: fx,
+                        y: fy,
+                        clanId: clan.id,
+                        clanTag: clan.tag,
+                        name: `מבצר [${clan.tag}]`,
+                        level: clan.fortress.level || 1,
+                        hp: clan.fortress.hp || 5000,
+                        maxHp: clan.fortress.maxHp || 5000,
+                        owner: 'Clan'
+                    };
+
+                    console.log(`[FORTRESS_RENDER] Rendering fortress for ${clan.tag} at ${fx},${fy}`);
+
+                    // Create tile for fortress
+                    const tile = document.createElement('div');
+                    tile.className = 'map-tile';
+                    tile.style.position = 'absolute';
+                    tile.style.left = `${fx * MAP_CONFIG.TILE_SIZE}px`;
+                    tile.style.top = `${fy * MAP_CONFIG.TILE_SIZE}px`;
+                    tile.style.width = `${MAP_CONFIG.TILE_SIZE}px`;
+                    tile.style.height = `${MAP_CONFIG.TILE_SIZE}px`;
+                    tile.style.zIndex = '20'; // Higher z-index to appear above other tiles
+
+                    // Create fortress DOM
+                    const fortressDOM = createEntityDOM(fortressEntity, fx, fy);
+                    fortressDOM.onclick = null;
+                    fortressDOM.style.pointerEvents = 'none';
+                    tile.appendChild(fortressDOM);
+
+                    tile.style.pointerEvents = 'auto';
+                    tilesLayer.appendChild(tile);
+                }
+            }
+        });
+    }
+
     // AGGRESSIVE DEBUG OUTPUT
     const debugOutput = document.getElementById('debug-content');
     if (debugOutput) {
