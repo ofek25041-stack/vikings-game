@@ -202,7 +202,28 @@ async function loadAllTerritories() {
             console.log(`[TERRITORIES] ❌ ALL_CLANS not available!`);
         }
     } catch (err) {
-        console.error('Failed to load territories:', err);
+        console.error('Failed to load territories from server:', err);
+    } finally {
+        // FORTRESS FIX: Always create fortresses from ALL_CLANS (even if server failed)
+        if (window.ALL_CLANS) {
+            console.log(`[FINAL] Creating fortresses from ${Object.keys(window.ALL_CLANS).length} clans...`);
+            Object.values(window.ALL_CLANS).forEach(clan => {
+                if (clan.fortress && clan.fortress.x != null && clan.fortress.y != null) {
+                    const fKey = `${clan.fortress.x},${clan.fortress.y}`;
+                    console.log(`🏰 [FINAL] Creating fortress at ${fKey} for ${clan.tag}`);
+                    STATE.mapEntities[fKey] = {
+                        type: 'fortress',
+                        x: clan.fortress.x,
+                        y: clan.fortress.y,
+                        clanId: clan.id,
+                        clanTag: clan.tag,
+                        name: `מבצר [${clan.tag}]`,
+                        level: clan.fortress.level || 1,
+                        owner: 'Clan'
+                    };
+                }
+            });
+        }
     }
 }
 
