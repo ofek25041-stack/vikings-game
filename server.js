@@ -1052,6 +1052,36 @@ const server = http.createServer(async (req, res) => {
             }
         });
 
+    } else if (req.url === '/api/attack' && req.method === 'POST') {
+        // Attack endpoint - battles are calculated client-side
+        // This endpoint just acknowledges the attack request
+        readBody(req, async (body) => {
+            try {
+                const { attacker, targetX, targetY, troops } = body;
+
+                // Basic validation
+                if (!attacker || targetX == null || targetY == null || !troops) {
+                    return sendJSON(res, 400, {
+                        success: false,
+                        message: 'Missing required fields'
+                    });
+                }
+
+                // Return success - battle calculations happen client-side
+                sendJSON(res, 200, {
+                    success: true,
+                    message: 'Attack acknowledged',
+                    battleResult: {
+                        // Client will calculate the actual battle
+                        // This is just to confirm the attack was received
+                    }
+                });
+            } catch (err) {
+                console.error('Error processing attack:', err);
+                sendJSON(res, 500, { success: false, message: err.message });
+            }
+        });
+
     } else if (req.url === '/api/territories' && req.method === 'GET') {
         try {
             console.log('[API] /api/territories called');
