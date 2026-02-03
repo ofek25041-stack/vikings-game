@@ -731,7 +731,11 @@ function interactEntity(x, y, entity) {
             entity.clanId = fortressClan.id;
         }
 
-        const isMyClan = STATE.clan && (entity.clanTag === STATE.clan.tag || entity.clanId === STATE.clan.id);
+        const hasClan = STATE.clan && STATE.clan.tag;
+        const isMyClan = hasClan && (
+            (entity.clanTag && entity.clanTag === STATE.clan.tag) ||
+            (entity.clanId && entity.clanId === STATE.clan.id)
+        );
 
         let html = `
             <div class="profile-header">
