@@ -380,12 +380,13 @@ function renderWorldMap() {
                             }
                         };
 
-                        // CRITICAL: Make tile non-clickable so grid handler doesn't fire
-                        tile.onclick = (e) => {
+                        // CRITICAL: Use capture phase to intercept clicks before grid handler
+                        tile.addEventListener('click', (e) => {
                             e.stopPropagation();
+                            e.preventDefault();
                             // Trigger fortress click
                             div.click();
-                        };
+                        }, true); // CAPTURE PHASE!
                     } else {
                         // Other 3 tiles are just markers (invisible but block clicks)
                         div.style.opacity = '0';
