@@ -230,8 +230,6 @@ async function loadAllTerritories() {
 
 function renderWorldMap() {
     // Hook for True Scrollable Map
-    // Hook for True Scrollable Map
-    /* 
     if (typeof window.initScrollableMap === 'function') {
         const grid = document.getElementById('world-map-grid');
 
@@ -250,7 +248,7 @@ function renderWorldMap() {
         }
         return; // Stop legacy render
     }
-    */
+
 
     const grid = document.getElementById('world-map-grid');
     if (!grid) return;
