@@ -810,8 +810,8 @@ function interactEntity(x, y, entity) {
                         ⚔️ נהל חיל מצב
                     </button>
                 ` : `
-                    <button class="btn-attack" onclick="closeModal(); openAttackModal(${entity.x}, ${entity.y}, '${entity.name}', 'fortress')">
-                        ⚔️ תקוף מבצר
+                    <button class="btn-primary" onclick="closeModal(); attackEntity(${entity.x}, ${entity.y})">
+                        ⚔️ תקוף מהעיר
                     </button>
                     <button class="btn-primary" onclick="closeModal(); openFortressAttackModal(${entity.x}, ${entity.y}, '${entity.name}')">
                         🏰 תקוף מהמבצר
