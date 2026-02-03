@@ -279,15 +279,43 @@ function renderVisibleArea() {
 }
 
 function createEntityDOM(entity, x, y) {
+    // FORCE FORTRESS CHECK: Check global clan registry for fortress at this location
+    // This overrides any "undefined city" or incorrect server data
+    let isFortress = entity.type === 'fortress';
+    let fortressClan = null;
+
+    if (window.ALL_CLANS) {
+        Object.values(window.ALL_CLANS).forEach(c => {
+            if (c.fortress && c.fortress.x === x && c.fortress.y === y) {
+                isFortress = true;
+                fortressClan = c;
+            }
+        });
+    }
+
+    // Apply Override
+    if (isFortress && fortressClan) {
+        entity = {
+            ...entity,
+            type: 'fortress',
+            name: 'Mighty Fortress', // Generic but epic name
+            clanTag: fortressClan.tag,
+            owner: 'Clan',
+            isMyClan: STATE.clan && (STATE.clan.tag === fortressClan.tag || STATE.clan.id === fortressClan.id)
+        };
+    }
+
     const div = document.createElement('div');
     div.classList.add('map-entity', `entity-${entity.type}`);
 
     if (entity.isMyCity) div.classList.add('entity-my-city');
+    else if (entity.isMyClan) div.classList.add('entity-my-fortress'); // Specific class for my fortress
     else if (entity.owner === CURRENT_USER) div.classList.add('entity-owned');
 
     // Icon
     let icon = '❓';
-    if (typeof getTypeIcon === 'function') icon = getTypeIcon(entity.type || entity.resource);
+    if (entity.type === 'fortress') icon = '🏰';
+    else if (typeof getTypeIcon === 'function') icon = getTypeIcon(entity.type || entity.resource);
     else icon = getDefaultIcon(entity.type);
 
     div.innerHTML = `
