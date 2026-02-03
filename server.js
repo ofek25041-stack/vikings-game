@@ -308,6 +308,65 @@ const server = http.createServer(async (req, res) => {
             sendJSON(res, 500, { error: e.message });
         }
 
+    } else if (req.url === '/api/clans/rankings' && req.method === 'GET') {
+        try {
+            const clans = await db.collection('clans').find({ deleted: { $ne: true } }).toArray();
+
+            // Calculate rankings
+            const rankings = clans.map(clan => {
+                const memberCount = clan.stats?.totalMembers || Object.keys(clan.members || {}).length;
+                const territories = clan.stats?.territories || 0;
+                const victories = clan.stats?.wins || 0;
+                const hasFortress = clan.fortress ? true : false;
+
+                // Calculate average level from members
+                let totalLevel = 0;
+                let memberLevelCount = 0;
+                // We don't have member levels stored in clan, so estimate based on member count
+                const avgLevel = Math.floor(5 + memberCount * 0.5); // Placeholder calculation
+
+                // Calculate total wealth in treasury
+                const treasury = clan.treasury || {};
+                const wealth = (treasury.gold || 0) + (treasury.wood || 0) + (treasury.food || 0);
+
+                // Score calculation (same as client)
+                const score =
+                    (memberCount * 100) +
+                    (territories * 500) +
+                    (victories * 200) +
+                    (hasFortress ? 2000 : 0) +
+                    (avgLevel * 150) +
+                    Math.floor(wealth / 1000);
+
+                return {
+                    id: clan.id,
+                    name: clan.name,
+                    tag: clan.tag,
+                    icon: clan.icon || '🛡️',
+                    members: memberCount,
+                    territories,
+                    victories,
+                    hasFortress,
+                    avgLevel,
+                    wealth,
+                    score
+                };
+            });
+
+            // Sort by score descending
+            rankings.sort((a, b) => b.score - a.score);
+
+            // Add rank numbers
+            rankings.forEach((clan, index) => {
+                clan.rank = index + 1;
+            });
+
+            sendJSON(res, 200, { success: true, rankings });
+        } catch (err) {
+            console.error('Error loading clan rankings:', err);
+            sendJSON(res, 500, { success: false, error: err.message });
+        }
+
     } else if (req.url === '/api/clans/save' && req.method === 'POST') {
         readBody(req, async (body) => {
             const { clan } = body;

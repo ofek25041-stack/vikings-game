@@ -205,7 +205,18 @@ const ClanSystem = {
         if (STATE.clan && STATE.clan.id && window.ALL_CLANS[STATE.clan.id]) {
             return { success: false, error: 'You are already in a clan. Leave it first.' };
         }
-        // If STATE.clan exists but clan doesn't, we proceed (and overwrite)
+
+        // CRITICAL FIX: If player has STATE.clan but it doesn't exist in ALL_CLANS,
+        // remove them from the old clan's member list to prevent ghost memberships
+        if (STATE.clan && STATE.clan.id) {
+            const oldClan = window.ALL_CLANS[STATE.clan.id];
+            if (oldClan && oldClan.members && oldClan.members[CURRENT_USER]) {
+                delete oldClan.members[CURRENT_USER];
+                oldClan.stats.totalMembers = Object.keys(oldClan.members).length;
+                this.saveClan(oldClan);
+                console.log(`Removed ${CURRENT_USER} from old clan ${oldClan.tag} before creating new clan`);
+            }
+        }
 
         // Check resources
         const cost = this.CONFIG.CREATE_COST;
