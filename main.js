@@ -230,6 +230,7 @@ async function loadAllTerritories() {
 
 function renderWorldMap() {
     // Hook for True Scrollable Map
+    /* TEMPORARILY DISABLED - scrollable_map.js needs fixes
     if (typeof window.initScrollableMap === 'function') {
         const grid = document.getElementById('world-map-grid');
 
@@ -248,6 +249,7 @@ function renderWorldMap() {
         }
         return; // Stop legacy render
     }
+    */
 
 
     const grid = document.getElementById('world-map-grid');
@@ -343,7 +345,7 @@ function renderWorldMap() {
                         div.classList.add('fortress-entity');
                         div.style.width = '60px';  // 2 tiles wide
                         div.style.height = '60px'; // 2 tiles tall
-                        div.style.zIndex = '10';
+                        div.style.zIndex = '20';   // FIXED: was 10
 
                         const isMyClan = STATE.clan && STATE.clan.id === entity.clanId;
                         if (isMyClan) div.classList.add('entity-my-fortress');
@@ -365,6 +367,13 @@ function renderWorldMap() {
                                 // Allow interaction (Profile/Attack)
                                 interactEntity(globalX, globalY, entity);
                             }
+                        };
+
+                        // CRITICAL: Make tile non-clickable so grid handler doesn't fire
+                        tile.onclick = (e) => {
+                            e.stopPropagation();
+                            // Trigger fortress click
+                            div.click();
                         };
                     } else {
                         // Other 3 tiles are just markers (invisible but block clicks)
