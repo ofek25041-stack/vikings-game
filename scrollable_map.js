@@ -321,12 +321,19 @@ function createEntityDOM(entity, x, y) {
     else if (typeof getTypeIcon === 'function') icon = getTypeIcon(entity.type || entity.resource);
     else icon = getDefaultIcon(entity.type);
 
+    // Determine display name
+    let displayName;
+    if (isFortress && fortressClan) {
+        displayName = `מבצר [${fortressClan.tag}]`;
+    } else {
+        displayName = entity.name || entity.type;
+    }
+
     div.innerHTML = `
         <div class="entity-icon">${icon}</div>
         <div class="entity-label">
-            ${entity.clanTag ? `<span style='color:#fbbf24'>[${entity.clanTag}]</span> ` : ''}
-            ${isFortress ? 'מבצר' : (entity.name || entity.type)}
-            ${(entity.owner && entity.owner !== CURRENT_USER) ? `<div style='font-size:0.6rem;color:#4ade80'>${entity.owner}</div>` : ''}
+            ${displayName}
+            ${(entity.owner && entity.owner !== CURRENT_USER && !isFortress) ? `<div style='font-size:0.6rem;color:#4ade80'>${entity.owner}</div>` : ''}
         </div>
     `;
 
