@@ -372,27 +372,16 @@ function renderWorldMap() {
                         div.onclick = (e) => {
                             e.stopPropagation();
                             e.preventDefault();
-                            if (isMyClan) {
-                                // Open fortress UI
-                                switchView('clan');
-                                setTimeout(() => ClanUI.switchTab('fortress'), 100);
-                            } else {
-                                // Allow interaction (Profile/Attack)
-                                interactEntity(globalX, globalY, entity);
-                            }
+                            // Always use interactEntity - it handles both own and enemy fortresses
+                            interactEntity(globalX, globalY, entity);
                         };
 
                         // CRITICAL: Use capture phase to intercept clicks before grid handler
                         tile.addEventListener('click', (e) => {
                             e.stopPropagation();
                             e.preventDefault();
-                            // Execute fortress click logic directly
-                            if (isMyClan) {
-                                switchView('clan');
-                                setTimeout(() => ClanUI.switchTab('fortress'), 100);
-                            } else {
-                                interactEntity(globalX, globalY, entity);
-                            }
+                            // Always use interactEntity - it handles both own and enemy fortresses
+                            interactEntity(globalX, globalY, entity);
                         }, true); // CAPTURE PHASE!
                     } else {
                         // Other 3 tiles are just markers (invisible but block clicks)
