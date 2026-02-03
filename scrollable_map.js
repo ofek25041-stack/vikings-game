@@ -285,13 +285,21 @@ function createEntityDOM(entity, x, y) {
     let fortressClan = null;
 
     if (window.ALL_CLANS) {
+        console.log(`[MAP] Checking coords ${x},${y} against ALL_CLANS`);
         Object.values(window.ALL_CLANS).forEach(c => {
+            if (c.fortress) {
+                console.log(`[MAP] Clan ${c.tag}: fortress at ${c.fortress.x},${c.fortress.y} (types: ${typeof c.fortress.x}, ${typeof c.fortress.y})`);
+            }
             // Use loose equality (==) to handle string/number coordinate mismatch
             if (c.fortress && c.fortress.x == x && c.fortress.y == y) {
+                console.log(`[MAP] ✅ MATCH! Found fortress for ${c.tag} at ${x},${y}`);
                 isFortress = true;
                 fortressClan = c;
             }
         });
+        if (!fortressClan) {
+            console.log(`[MAP] ❌ No fortress found at ${x},${y}`);
+        }
     }
 
     // Apply Override
