@@ -108,24 +108,24 @@ function ensureCityExistsAndRender() {
     const key = `${STATE.homeCoords.x},${STATE.homeCoords.y}`;
     let city = STATE.mapEntities[key];
 
-    // 2. Ensure Entity Exists
-    // CRITICAL: Do NOT overwrite a Fortress if we happen to reside there (or if logic overlaps)
-    if (city && city.type === 'fortress') {
+    // 2. Ensure Entity Ex ists
+    // CRITICAL: Do NOT touch fortress locations AT ALL!
+    const existing = STATE.mapEntities[key];
+    if (existing && existing.type === 'fortress') {
+        // This is a fortress - do NOT touch it!
         return;
     }
 
-    // Also don't re-create if it's already a fortress (different check)
-    if (!city || (city.type !== 'city' && city.type !== 'fortress') || (city.type === 'city' && !city.isMyCity)) {
-        console.warn("City entity missing or corrupted! Re-creating.");
+    // Only create/update if it's not a fortress location
+    if (!existing || existing.type !== 'city' || !existing.isMyCity) {
         STATE.mapEntities[key] = {
             type: 'city',
-            name: `${CURRENT_USER || 'My'}'s City`, // Default name with fallback
+            name: `${CURRENT_USER || 'My'}'s City`,
             user: CURRENT_USER,
             level: STATE.buildings?.townHall?.level || 1,
             isMyCity: true,
             lastLogin: Date.now()
         };
-        // Save immediately to fix storage
         saveGame();
 
     }
