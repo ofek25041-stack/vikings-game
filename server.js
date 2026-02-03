@@ -1084,9 +1084,20 @@ const server = http.createServer(async (req, res) => {
             const clans = await db.collection('clans').find({}).toArray();
             console.log(`[API] Territories: Found ${clans.length} clans`);
 
+            console.log(`[TERRITORIES] Processing ${clans.length} clans for fortresses...`);
+
+            let fortressesAdded = 0;
             clans.forEach(c => {
-                // Ensure fortress object exists
-                if (c.fortress && (c.fortress.x != null)) {
+                console.log(`[TERRITORIES] Checking clan ${c.tag}:`, {
+                    hasFortress: !!c.fortress,
+                    x: c.fortress?.x,
+                    y: c.fortress?.y,
+                    xType: typeof c.fortress?.x,
+                    yType: typeof c.fortress?.y
+                });
+
+                // Ensure fortress object exists AND both coordinates are valid
+                if (c.fortress && c.fortress.x != null && c.fortress.y != null) {
                     const fX = Number(c.fortress.x);
                     const fY = Number(c.fortress.y);
                     const key = `${fX},${fY}`;
@@ -1095,23 +1106,28 @@ const server = http.createServer(async (req, res) => {
                     const existing = territories[key];
                     const isOverwriting = existing ? `(Overwriting ${existing.type})` : '(New)';
 
-                    console.log(`[API DEBUG] Clan ${c.tag} fortress at ${key} ${isOverwriting}`);
+                    console.log(`[TERRITORIES] ✅ Adding fortress for ${c.tag} at ${key} ${isOverwriting}`);
 
                     territories[key] = {
                         type: 'fortress',
                         clanId: c.id,
                         clanTag: c.tag,
-                        name: `מבצר [${c.tag}]`, // Hebrew Name for Client
+                        name: `מבצר [${c.tag}]`,
                         x: fX,
                         y: fY,
                         level: c.fortress.level || 1,
                         hp: c.fortress.hp || 5000,
                         maxHp: c.fortress.maxHp || 5000,
                         lastActive: Date.now(),
-                        owner: 'Clan' // Special owner type
+                        owner: 'Clan'
                     };
+                    fortressesAdded++;
+                } else {
+                    console.log(`[TERRITORIES] ❌ Clan ${c.tag} SKIPPED - missing coordinates`);
                 }
             });
+
+            console.log(`[TERRITORIES] Fortress loop complete. Added ${fortressesAdded} fortresses`);
 
             const fortressCount = Object.values(territories).filter(t => t.type === 'fortress').length;
             const cityCount = Object.values(territories).filter(t => t.type === 'city').length;
