@@ -374,29 +374,49 @@ function createEntityDOM(entity, x, y) {
     const div = document.createElement('div');
     div.classList.add('map-entity', `entity-${entity.type}`);
 
+    // FORTRESS SPECIAL HANDLING (2x2 large fortress like original)
+    if (entity.type === 'fortress') {
+        div.classList.add('fortress-entity');
+        div.style.width = '60px';  // 2 tiles wide
+        div.style.height = '60px'; // 2 tiles tall
+        div.style.zIndex = '20';
+
+        const isMyClan = STATE.clan && (STATE.clan.id === entity.clanId || STATE.clan.tag === entity.clanTag);
+        if (isMyClan) div.classList.add('entity-my-fortress');
+
+        div.innerHTML = `
+            <div class="fortress-icon">🏯</div>
+            <div class="entity-label">
+                <div class="name">${entity.name || `[${entity.clanTag}] Fortress`}</div>
+            </div>
+        `;
+
+        div.onclick = (e) => {
+            e.stopPropagation();
+            if (typeof interactEntity === 'function') interactEntity(x, y, entity);
+        };
+
+        return div;
+    }
+
+    // REGULAR ENTITY RENDERING (cities, resources, etc.)
     if (entity.isMyCity) div.classList.add('entity-my-city');
-    else if (entity.isMyClan) div.classList.add('entity-my-fortress'); // Specific class for my fortress
+    else if (entity.isMyClan) div.classList.add('entity-my-fortress');
     else if (entity.owner === CURRENT_USER) div.classList.add('entity-owned');
 
     // Icon
     let icon = '❓';
-    if (entity.type === 'fortress') icon = '🏰';
-    else if (typeof getTypeIcon === 'function') icon = getTypeIcon(entity.type || entity.resource);
+    if (typeof getTypeIcon === 'function') icon = getTypeIcon(entity.type || entity.resource);
     else icon = getDefaultIcon(entity.type);
 
     // Determine display name
-    let displayName;
-    if (isFortress && fortressClan) {
-        displayName = `מבצר [${fortressClan.tag}]`;
-    } else {
-        displayName = entity.name || entity.type;
-    }
+    let displayName = entity.name || entity.type;
 
     div.innerHTML = `
         <div class="entity-icon">${icon}</div>
         <div class="entity-label">
             ${displayName}
-            ${(entity.owner && entity.owner !== CURRENT_USER && !isFortress) ? `<div style='font-size:0.6rem;color:#4ade80'>${entity.owner}</div>` : ''}
+            ${(entity.owner && entity.owner !== CURRENT_USER) ? `<div style='font-size:0.6rem;color:#4ade80'>${entity.owner}</div>` : ''}
         </div>
     `;
 
