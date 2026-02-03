@@ -733,6 +733,8 @@ function interactEntity(x, y, entity) {
 
         // Fix: Robust ownership check. STATE.clan might lack 'tag', so we resolve it.
         let isMyClan = false;
+        let debugInfo = "";
+
         if (STATE.clan && STATE.clan.id) {
             const myClanId = STATE.clan.id;
             // Direct ID check (best)
@@ -746,6 +748,8 @@ function interactEntity(x, y, entity) {
                     isMyClan = true;
                 }
             }
+
+            debugInfo = `Debug: MyID[${myClanId.slice(-4)}] vs FortID[${entity.clanId ? entity.clanId.slice(-4) : '?'}]`;
         }
 
         let html = `
@@ -756,6 +760,7 @@ function interactEntity(x, y, entity) {
                     <div style="color: #fbbf24; font-size: 0.9em;">רמה ${entity.level || 1}</div>
                     <div style="color: #94a3b8; font-size: 0.8em;">מיקום: (${entity.x}, ${entity.y})</div>
                     ${isMyClan ? '<div style="color: #4ade80; font-size: 0.8em; margin-top:5px;">המבצר שלך</div>' : ''}
+                    <div style="color: #475569; font-size: 0.7em; margin-top:2px;">${debugInfo}</div>
                 </div>
             </div>
             
