@@ -345,6 +345,8 @@ function renderWorldMap() {
                         // CRITICAL: Make tile larger to accommodate 60x60 fortress
                         tile.style.width = '60px';
                         tile.style.height = '60px';
+                        tile.style.overflow = 'visible'; // Don't clip fortress
+                        tile.style.zIndex = '20'; // Same as fortress
 
                         div.classList.add('fortress-entity');
                         div.style.width = '60px';  // 2 tiles wide
