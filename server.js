@@ -1050,84 +1050,72 @@ const server = http.createServer(async (req, res) => {
 
     } else if (req.url === '/api/territories' && req.method === 'GET') {
         try {
-            // Return players cities and fortresses as "territories" for the map
-            // This aligns with what main.js::loadAllTerritories expects
+            console.log('[API] /api/territories called');
 
-            // 1. Get Cities (Players)
+            // Return players cities and fortresses as "territories" for the map
             const users = await db.collection('users').find({}).toArray();
             const territories = {};
 
+            // 1. Get Cities (Players)
             users.forEach(u => {
-                if (u.state && u.state.homeCoords) {
-                    const key = `${u.state.homeCoords.x},${u.state.homeCoords.y}`;
-                    let clanTag = null;
-                    // We need to fetch clan tag efficiently. 
-                    // Ideally we have a cache or we do a lookup. 
-                    // For now, let's rely on cached WORLD_CACHE logic or just sending raw.
-                    // Client main.js handles clan matching somewhat.
-
-                    territories[key] = {
-                        type: 'city',
-                        name: `${u.username}'s City`, // Better name
-                        user: u.username,
-                        owner: u.username,
-                        level: u.state.buildings?.townHall?.level || 1,
-                        x: u.state.homeCoords.x,
-                        y: u.state.homeCoords.y,
-                        clanTag: u.state.clan?.tag // If stored on user
-                    };
+                try {
+                    if (u.state && u.state.homeCoords) {
+                        const key = `${u.state.homeCoords.x},${u.state.homeCoords.y}`;
+                        territories[key] = {
+                            type: 'city',
+                            name: `${u.username}'s City`,
+                            user: u.username,
+                            owner: u.username,
+                            level: u.state.buildings?.townHall?.level || 1,
+                            x: u.state.homeCoords.x,
+                            y: u.state.homeCoords.y,
+                            clanTag: u.state.clan?.tag
+                        };
+                    }
+                } catch (userErr) {
+                    console.error(`[API] Error processing user ${u.username}:`, userErr);
                 }
             });
 
-            // 2. Get Fortresses
-            // DEBUG: Removing filter to see all clans
-            const clans = await db.collection('clans').find({}).toArray();
-            console.log(`[API] Territories: Found ${clans.length} clans`);
+            // 2. Get Fortresses - wrapped in separate try/catch
+            try {
+                const clans = await db.collection('clans').find({}).toArray();
+                console.log(`[API] Found ${clans.length} clans for fortress processing`);
 
-            console.log(`[TERRITORIES] Processing ${clans.length} clans for fortresses...`);
+                let fortressesAdded = 0;
+                clans.forEach(c => {
+                    try {
+                        if (c.fortress && c.fortress.x != null && c.fortress.y != null) {
+                            const fX = Number(c.fortress.x);
+                            const fY = Number(c.fortress.y);
+                            const key = `${fX},${fY}`;
 
-            let fortressesAdded = 0;
-            clans.forEach(c => {
-                console.log(`[TERRITORIES] Checking clan ${c.tag}:`, {
-                    hasFortress: !!c.fortress,
-                    x: c.fortress?.x,
-                    y: c.fortress?.y,
-                    xType: typeof c.fortress?.x,
-                    yType: typeof c.fortress?.y
+                            console.log(`[API] Adding fortress for ${c.tag} at ${key}`);
+
+                            territories[key] = {
+                                type: 'fortress',
+                                clanId: c.id,
+                                clanTag: c.tag,
+                                name: `מבצר [${c.tag}]`,
+                                x: fX,
+                                y: fY,
+                                level: c.fortress.level || 1,
+                                hp: c.fortress.hp || 5000,
+                                maxHp: c.fortress.maxHp || 5000,
+                                lastActive: Date.now(),
+                                owner: 'Clan'
+                            };
+                            fortressesAdded++;
+                        }
+                    } catch (clanErr) {
+                        console.error(`[API] Error processing clan ${c?.tag}:`, clanErr);
+                    }
                 });
 
-                // Ensure fortress object exists AND both coordinates are valid
-                if (c.fortress && c.fortress.x != null && c.fortress.y != null) {
-                    const fX = Number(c.fortress.x);
-                    const fY = Number(c.fortress.y);
-                    const key = `${fX},${fY}`;
-
-                    // Helper: Check if overwriting a player city
-                    const existing = territories[key];
-                    const isOverwriting = existing ? `(Overwriting ${existing.type})` : '(New)';
-
-                    console.log(`[TERRITORIES] ✅ Adding fortress for ${c.tag} at ${key} ${isOverwriting}`);
-
-                    territories[key] = {
-                        type: 'fortress',
-                        clanId: c.id,
-                        clanTag: c.tag,
-                        name: `מבצר [${c.tag}]`,
-                        x: fX,
-                        y: fY,
-                        level: c.fortress.level || 1,
-                        hp: c.fortress.hp || 5000,
-                        maxHp: c.fortress.maxHp || 5000,
-                        lastActive: Date.now(),
-                        owner: 'Clan'
-                    };
-                    fortressesAdded++;
-                } else {
-                    console.log(`[TERRITORIES] ❌ Clan ${c.tag} SKIPPED - missing coordinates`);
-                }
-            });
-
-            console.log(`[TERRITORIES] Fortress loop complete. Added ${fortressesAdded} fortresses`);
+                console.log(`[API] Successfully added ${fortressesAdded} fortresses`);
+            } catch (fortressErr) {
+                console.error('[API] Error processing fortresses (will continue with cities only):', fortressErr);
+            }
 
             const fortressCount = Object.values(territories).filter(t => t.type === 'fortress').length;
             const cityCount = Object.values(territories).filter(t => t.type === 'city').length;
@@ -1138,8 +1126,8 @@ const server = http.createServer(async (req, res) => {
                 success: true,
                 territories,
                 _debug: {
-                    serverCodeVersion: 'v1.2.5-FORTRESS-FIX',
-                    totalClans: clans.length,
+                    serverCodeVersion: 'v1.3.1-STABLE',
+                    totalClans: territories.length,
                     fortressesFound: fortressCount,
                     citiesFound: cityCount,
                     timestamp: new Date().toISOString()
@@ -1147,8 +1135,14 @@ const server = http.createServer(async (req, res) => {
             });
 
         } catch (e) {
-            console.error("Error fetching territories:", e);
-            sendJSON(res, 500, { error: e.message });
+            console.error("[API] CRITICAL ERROR in /api/territories:", e);
+            // Return minimal response to prevent total failure
+            sendJSON(res, 200, {
+                success: false,
+                territories: {},
+                error: e.message,
+                _debug: { serverCodeVersion: 'v1.3.1-ERROR' }
+            });
         }
 
     } else if (req.url === '/api/debug/fortresses' && req.method === 'GET') {
