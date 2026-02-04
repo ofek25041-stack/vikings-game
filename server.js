@@ -602,6 +602,40 @@ const server = http.createServer(async (req, res) => {
             }
         });
 
+    } else if (req.url === '/api/clan/delete' && req.method === 'POST') {
+        readBody(req, async (body) => {
+            const { clanId, username } = body;
+            try {
+                const clan = await db.collection('clans').findOne({ id: clanId });
+                if (!clan) return sendJSON(res, 404, { error: 'Clan not found' });
+                if (clan.deleted) return sendJSON(res, 400, { error: 'Clan already deleted' });
+
+                if (clan.leader !== username) {
+                    return sendJSON(res, 403, { error: 'Only the leader can delete the clan' });
+                }
+
+                // 1. Mark clan as deleted
+                await db.collection('clans').updateOne({ id: clanId }, { $set: { deleted: true, deletedAt: Date.now() } });
+
+                // 2. Remove all members from clan
+                // We need to find all users who are in this clan and clear their clan state
+                await db.collection('users').updateMany(
+                    { "state.clan.id": clanId },
+                    { $set: { "state.clan": null, resourcesDirty: true } }
+                );
+
+                console.log(`[CLAN] Clan ${clan.name} (${clanId}) DELETED by ${username}. Fortress removed. Members freed.`);
+
+                // 3. Update Cache (removes fortress from map)
+                updateWorldCache();
+
+                sendJSON(res, 200, { success: true });
+            } catch (e) {
+                console.error('[CLAN] Delete Error:', e);
+                sendJSON(res, 500, { error: e.message });
+            }
+        });
+
     } else if (req.url === '/api/clan/settings' && req.method === 'POST') {
         readBody(req, async (body) => {
             const { clanId, username, recruitmentType } = body;

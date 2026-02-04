@@ -668,6 +668,39 @@ const ClanSystem = {
         return { success: true };
     },
 
+    // Delete clan (leader only)
+    async deleteClan(clanId) {
+        if (!STATE.clan || STATE.clan.id !== clanId) return { success: false, error: 'Not your clan' };
+
+        try {
+            const response = await fetch('/api/clan/delete', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    clanId: clanId,
+                    username: CURRENT_USER
+                })
+            });
+            const result = await response.json();
+
+            if (result.success) {
+                // Clear local state
+                STATE.clan = null;
+                // Optimistically remove from ALL_CLANS
+                if (window.ALL_CLANS[clanId]) {
+                    window.ALL_CLANS[clanId].deleted = true;
+                    delete window.ALL_CLANS[clanId];
+                }
+                saveGame();
+                return { success: true };
+            } else {
+                return { success: false, error: result.error };
+            }
+        } catch (e) {
+            return { success: false, error: 'Network error' };
+        }
+    },
+
     // Apply to clan
     async applyToClan(clanId) {
         if (STATE.clan && STATE.clan.id) return { success: false, error: 'You are already in a clan' };
@@ -2007,8 +2040,21 @@ const ClanUI = {
                 <h3 style="color: #fbbf24; margin-bottom: 20px;">חלוקת משאבים מהאוצר</h3>
                 <p style="color: #94a3b8; margin-bottom: 15px;">העבר משאבים מאוצר הקלאן לחברים</p>
                 <button class="btn-primary" onclick="ClanUI.showDistributeTreasury()">חלק משאבים</button>
+
+            <hr style="margin: 30px 0; border-color: rgba(239, 68, 68, 0.3);">
+
+            <h3 style="color: #ef4444; margin-bottom: 20px;">⚠️ Danger Zone</h3>
+            <div style="background: rgba(239, 68, 68, 0.1); padding: 15px; border-radius: 8px; border: 1px solid rgba(239, 68, 68, 0.3);">
+                <p style="color: #fca5a5; margin-bottom: 15px;">
+                    מחיקת הקלאן היא פעולה בלתי הפיכה. <br>
+                    - הקלאן יימחק לצמיתות.<br>
+                    - המבצר יושמד.<br>
+                    - כל החברים יסולקו מהקלאן.
+                </p>
+                <button class="btn-primary" style="background: #ef4444; color: white; width: 100%;" onclick="ClanUI.deleteClan()">DELETE CLAN</button>
             </div>
-        `;
+        </div>
+    `;
     },
 
     // Render Requests Tab
