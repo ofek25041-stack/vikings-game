@@ -945,7 +945,7 @@ const server = http.createServer(async (req, res) => {
                 await updateWorldCache();
 
                 sendJSON(res, 200, { success: true });
-
+            } catch (e) {
                 sendJSON(res, 500, { error: e.message });
             }
         });
