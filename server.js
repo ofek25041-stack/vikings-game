@@ -1292,6 +1292,73 @@ const server = http.createServer(async (req, res) => {
             }
         });
 
+    } else if (req.url === '/api/territory/upgrade' && req.method === 'POST') {
+        readBody(req, async (body) => {
+            const { username, x, y } = body;
+            try {
+                const user = await db.collection('users').findOne({ username });
+                if (!user) return sendJSON(res, 404, { error: 'User not found' });
+
+                const key = `${x},${y}`;
+                const entity = user.state.mapEntities ? user.state.mapEntities[key] : null;
+
+                if (!entity) return sendJSON(res, 404, { error: 'Territory not found or not owned' });
+                if (entity.owner !== username) return sendJSON(res, 403, { error: 'Not your territory' });
+
+                const currentLevel = entity.level || 1;
+                if (currentLevel >= 10) return sendJSON(res, 400, { error: 'Max level reached' });
+
+                // Calculate Cost (Same logic as client)
+                const nextLevel = currentLevel + 1;
+                const multiplier = Math.pow(2, nextLevel - 1);
+
+                // Base costs
+                const baseCosts = {
+                    gold: 10000, wood: 8000, food: 5000, wine: 3000,
+                    marble: 2000, crystal: 1500, sulfur: 1000
+                };
+
+                const cost = {};
+                const userRes = user.state.resources || {};
+                const updates = {};
+                let hasSafeResources = true;
+
+                // Check and Deduct Resources
+                for (const [resName, baseAmt] of Object.entries(baseCosts)) {
+                    const required = baseAmt * multiplier;
+                    if ((userRes[resName] || 0) < required) {
+                        hasSafeResources = false;
+                        break; // Fail fast
+                    }
+                    cost[resName] = required;
+                    updates[`state.resources.${resName}`] = (userRes[resName] || 0) - required;
+                }
+
+                if (!hasSafeResources) return sendJSON(res, 400, { error: 'Insufficient resources' });
+
+                // Apply Updates
+                updates[`state.mapEntities.${key}.level`] = nextLevel;
+                updates[`resourcesDirty`] = true;
+
+                await db.collection('users').updateOne({ username }, { $set: updates });
+
+                // Fetch updated user to return fresh state
+                const updatedUser = await db.collection('users').findOne({ username });
+
+                updateWorldCache();
+
+                sendJSON(res, 200, {
+                    success: true,
+                    newLevel: nextLevel,
+                    resources: updatedUser.state.resources
+                });
+
+            } catch (e) {
+                console.error('[Territory Upgrade] Error:', e);
+                sendJSON(res, 500, { error: e.message });
+            }
+        });
+
     } else if (req.url === '/api/territories' && req.method === 'GET') {
         try {
             console.log('[API] /api/territories called');
