@@ -69,7 +69,7 @@ window.activeView = 'login'; // Initialize global view state
 const VIEW_COLS = 100; // 100x100 tiles - good balance
 const VIEW_ROWS = 100; // 100x100 tiles - good
 // Main Game Logic
-console.log("🚀 Main JS Loaded v2.8 - Fix Blank Map");
+console.log("🚀 Main JS Loaded v2.9 - Robust Map Init");
 
 const TILE_SIZE = 30; // Must match CSSPixels
 
@@ -3806,7 +3806,12 @@ function switchView(viewName) {
 
                     // FIX: Ensure Scrollable Map is initialized (creates grid & layers)
                     if (window.initScrollableMap) {
-                        window.initScrollableMap();
+                        try {
+                            window.initScrollableMap();
+                        } catch (e) {
+                            console.error("Init Map Failed:", e);
+                            notify("שגיאת אתחול מפה: " + e.message, "error");
+                        }
                     }
 
                     // Load territories from server first, then render map
