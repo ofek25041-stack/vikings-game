@@ -1145,10 +1145,7 @@ const ClanSystem = {
         return { success: true };
     },
 
-    // Helper to delete clan
-    async deleteClan(clanId) {
-        // TODO: Implement server delete endpoint
-    },
+
     // Get invitations for current user
     getInvitations() {
         const myInvites = [];
