@@ -300,6 +300,20 @@ const server = http.createServer(async (req, res) => {
                 sendJSON(res, 500, { success: false, message: 'Save failed' });
             }
         });
+    } else if (req.url === '/api/world' && req.method === 'GET') {
+        // Return cached world data
+        sendJSON(res, 200, {
+            success: true,
+            players: WORLD_CACHE.filter(e => !e.type || e.type === 'city'),
+            fortresses: WORLD_CACHE.filter(e => e.type === 'fortress')
+        });
+    } else if (req.url.startsWith('/api/territories') && req.method === 'GET') {
+        // Return static territories or empty array for now
+        // TODO: Implement real territory persistence
+        sendJSON(res, 200, {
+            success: true,
+            territories: []
+        });
 
     } else if (req.url.startsWith('/api/load?') && req.method === 'GET') {
         const params = new URL(req.url, `http://${req.headers.host}`).searchParams;
