@@ -3704,27 +3704,36 @@ function initializeGameState() {
 
 
 window.runDiagnostics = function () {
-    const v = STATE.viewport;
-    const h = STATE.homeCoords;
-    const key = `${h.x},${h.y}`;
-    const entity = STATE.mapEntities[key];
-    const domEl = document.querySelector('.entity-my-city');
+    const v = STATE.viewport || { x: 0, y: 0 };
+    const h = STATE.homeCoords || { x: 0, y: 0 };
+
+    // Map Element Checks
+    const viewportEl = document.getElementById('world-map-viewport');
+    const gridEl = document.getElementById('world-map-grid');
+    const tilesLayer = document.getElementById('map-tiles-layer');
+
+    // Size Checks
+    const vpRect = viewportEl ? viewportEl.getBoundingClientRect() : { width: 0, height: 0 };
+    const gridStyle = gridEl ? window.getComputedStyle(gridEl) : null;
 
     const report = `
-    === DIAGNOSTICS ===
+    === DIAGNOSTICS (v2.12) ===
     Viewport: ${v.x}, ${v.y}
     Home: ${h.x}, ${h.y}
-    Distance: ${Math.sqrt(Math.pow(v.x - h.x, 2) + Math.pow(v.y - h.y, 2))}
     
-    Entity Data: ${entity ? 'EXISTS' : 'MISSING'}
-    Entity Type: ${entity ? entity.type : 'N/A'}
+    DOM ELEMENTS:
+    - Viewport: ${viewportEl ? '✅' : '❌'} (${vpRect.width}px x ${vpRect.height}px)
+    - Grid: ${gridEl ? '✅' : '❌'} (W: ${gridStyle ? gridStyle.width : 'N/A'}, H: ${gridStyle ? gridStyle.height : 'N/A'})
+    - Tiles Layer: ${tilesLayer ? '✅' : '❌'}
+    - Tiles Count: ${tilesLayer ? tilesLayer.children.length : 0}
     
-    DOM Element: ${domEl ? 'VISIBLE' : 'NOT FOUND'}
-    Grid Children: ${document.getElementById('world-map-grid')?.children.length || 0}
+    SCROLL:
+    - Left: ${viewportEl ? viewportEl.scrollLeft : 0}
+    - Top: ${viewportEl ? viewportEl.scrollTop : 0}
     `;
 
+    console.log(report);
     alert(report);
-
 };
 
 

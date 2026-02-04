@@ -168,9 +168,13 @@ main {
     height: 3000px;
 
     /* OPTIMIZED: Tiled background - repeats seamlessly */
-    background-image: url('world_terrain_artistic.png') !important;
-    background-repeat: repeat !important;
-    background-size: 1024px 1024px !important;
+    /* OPTIMIZED: Tiled background - repeats seamlessly */
+    /* background-image: url('world_terrain_artistic.png') !important; DEPRECATED FOR DEBUG */
+    background-color: #1e40af !important;
+    /* Fallback Blue */
+    background-image: radial-gradient(#2563eb 1px, transparent 1px);
+    background-size: 30px 30px;
+    /* Grid Lines */
     /* Larger tile size for better detail */
     background-color: #1e40af;
 
