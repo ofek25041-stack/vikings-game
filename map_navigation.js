@@ -186,8 +186,8 @@ function addAIPlayersQuickJump() {
 
 // Initialize when map is shown
 function initMapNavigation() {
-    addMapNavigationControls();
-    addAIPlayersQuickJump();
+    // addMapNavigationControls(); // DISABLED per user request
+    // addAIPlayersQuickJump();    // DISABLED per user request
 }
 
 // Auto-init when switching to world view
