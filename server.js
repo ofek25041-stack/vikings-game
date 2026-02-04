@@ -942,7 +942,7 @@ const server = http.createServer(async (req, res) => {
                 await db.collection('users').updateOne({ username }, { $set: updates });
 
                 // Update Cache
-                updateWorldCache();
+                await updateWorldCache();
 
                 sendJSON(res, 200, { success: true });
 

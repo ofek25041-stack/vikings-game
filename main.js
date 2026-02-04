@@ -3510,15 +3510,16 @@ async function syncWorldPlayers() {
                 return;
             }
 
+            const isMe = p.username === CURRENT_USER;
             STATE.mapEntities[key] = {
                 type: 'city',
-                name: `${p.username}'s City`,
+                name: isMe ? (STATE.city ? STATE.city.name : 'My City') : `${p.username}'s City`,
                 user: p.username,
                 level: p.level || 1,
                 score: p.score || 0,
                 lastLogin: p.lastLogin,
                 clanTag: p.clanTag || null,
-                isMyCity: false
+                isMyCity: isMe
             };
         });
 
