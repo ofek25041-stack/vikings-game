@@ -861,7 +861,7 @@ function interactEntity(x, y, entity) {
                 <div style="background: linear-gradient(135deg, #1e293b, #0f172a); padding:15px; border-radius:12px; border:1px solid rgba(255,255,255,0.1); text-align:center;">
                     <div style="font-size:3rem; margin-bottom:5px;">${getEntityIcon(entity.type)}</div>
                     <h2 style="color:#fbbf24; margin:0;">${entity.user || 'Unknown'}</h2>
-                    <p style="color:#94a3b8; font-size:0.9rem;">${entity.name}</p>
+                    <p style="color:#94a3b8; font-size:0.9rem;">${entity.name || 'City'}</p>
                     <p style="color:#64748b; font-size:0.85rem; margin: 5px 0 0 0;">📍 (${realX}, ${realY})</p>
                     
                     <div style="margin-top:10px; display:inline-block; background:rgba(255,255,255,0.1); padding:4px 12px; border-radius:20px; font-weight:bold; font-size:0.9rem;">

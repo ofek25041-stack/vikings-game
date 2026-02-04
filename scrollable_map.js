@@ -489,40 +489,88 @@ window.teleportCity = async function (x, y) {
     closeModal();
     notify('מנסה להעביר את העיר...', 'info');
 
+    // OPTIMISTIC UPDATE: Update local state immediately for UX and Safety
+    const oldX = STATE.homeCoords.x;
+    const oldY = STATE.homeCoords.y;
+    STATE.homeCoords = { x, y };
+
+    // Update Map Entities Optimistically
+    if (STATE.mapEntities) {
+        // Remove old
+        delete STATE.mapEntities[`${oldX},${oldY}`];
+        // Add new (Visual only until next sync)
+        STATE.mapEntities[`${x},${y}`] = {
+            type: 'city',
+            user: CURRENT_USER,
+            isMyCity: true,
+            name: (STATE.city && STATE.city.name) ? STATE.city.name : 'My City',
+            level: (STATE.buildings && STATE.buildings.townHall) ? STATE.buildings.townHall.level : 1,
+            owner: CURRENT_USER
+        };
+    }
+
+    // Reload map center immediately
+    if (window.initScrollableMap) window.initScrollableMap();
+
     try {
         const response = await fetch('/api/player/teleport', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                username: CURRENT_USER,
-                targetX: x,
-                targetY: y
-            })
+            body: JSON.stringify({ username: CURRENT_USER, targetX: x, targetY: y })
         });
-
         const result = await response.json();
 
         if (result.success) {
-            notify('העיר הועברה בהצלחה! 🌍', 'success_major');
-
-            // Update local state immediately for UX
-            STATE.homeCoords = { x, y };
-            // Reload map center
-            if (window.initScrollableMap) window.initScrollableMap();
-
-            // Also deduct resources visually (optional, but good)
+            closeModal();
+            // Deduct resources locally to match server
             const COST = 50000;
             ['gold', 'wood', 'food', 'wine', 'marble'].forEach(r => {
                 if (STATE.resources[r]) STATE.resources[r] -= COST;
             });
             updateUI();
-            saveGame();
+            notify('העיר הועברה בהצלחה! 🌍', 'success_major');
+
+            // Force save to persist the new coordinates immediately (overwriting any stale auto-save)
+            if (window.saveGame) window.saveGame();
 
         } else {
-            notify(result.error || 'ההעברה נכשלה', 'error');
+            // REVERT OPTIMISTIC UPDATE
+            console.error("Teleport failed, reverting state.");
+            STATE.homeCoords = { x: oldX, y: oldY };
+            // Revert map entities
+            if (STATE.mapEntities) {
+                delete STATE.mapEntities[`${x},${y}`];
+                STATE.mapEntities[`${oldX},${oldY}`] = {
+                    type: 'city',
+                    user: CURRENT_USER,
+                    isMyCity: true,
+                    name: STATE.city ? STATE.city.name : 'My City',
+                    level: (STATE.buildings && STATE.buildings.townHall) ? STATE.buildings.townHall.level : 1,
+                    owner: CURRENT_USER
+                };
+            }
+            if (window.initScrollableMap) window.initScrollableMap();
+
+            notify(result.error || 'שגיאה בהעברת העיר', 'error');
         }
-    } catch (e) {
-        console.error(e);
+    } catch (err) {
+        // REVERT OPTIMISTIC UPDATE
+        console.error("Teleport error, reverting state:", err);
+        STATE.homeCoords = { x: oldX, y: oldY };
+        // Revert map entities
+        if (STATE.mapEntities) {
+            delete STATE.mapEntities[`${x},${y}`];
+            STATE.mapEntities[`${oldX},${oldY}`] = {
+                type: 'city',
+                user: CURRENT_USER,
+                isMyCity: true,
+                name: STATE.city ? STATE.city.name : 'My City',
+                level: (STATE.buildings && STATE.buildings.townHall) ? STATE.buildings.townHall.level : 1,
+                owner: CURRENT_USER
+            };
+        }
+        if (window.initScrollableMap) window.initScrollableMap();
+
         notify('שגיאת תקשורת', 'error');
     }
 };
