@@ -2057,6 +2057,26 @@ const ClanUI = {
     `;
     },
 
+    // Delete Clan UI Handler
+    async deleteClan() {
+        if (!confirm('האם אתה בטוח שברצונך למחוק את הקלאן? פעולה זו אינה הפיכה!')) return;
+        if (!confirm('אזהרה אחרונה: כל הנתונים ימחקו והמבצר יושמד. האם להמשיך?')) return;
+
+        const clan = ClanSystem.getPlayerClan();
+        if (!clan) return;
+
+        const result = await ClanSystem.deleteClan(clan.id);
+        if (result.success) {
+            notify('הקלאן נמחק בהצלחה', 'success');
+            // Reset UI
+            this.currentTab = 'overview';
+            STATE.clan = null;
+            if (typeof switchView === 'function') switchView('city');
+        } else {
+            notify(result.error || 'שגיאה במחיקת הקלאן', 'error');
+        }
+    },
+
     // Render Requests Tab
     renderRequests(content, clan) {
         const requests = clan.recruitment ? clan.recruitment.requests : [];
