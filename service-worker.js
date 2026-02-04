@@ -1,4 +1,4 @@
-const CACHE_NAME = 'vikings-v4';
+const CACHE_NAME = 'vikings-v5';
 const ASSETS_TO_CACHE = [
     './',
     './index.html',
@@ -41,36 +41,32 @@ self.addEventListener('fetch', (event) => {
         return;
     }
 
+    // STALE-WHILE-REVALIDATE STRATEGY (Instant Load + Background Update)
+    // This fixes "Lie-fi" (connected but slow) by serving cache immediately
     event.respondWith(
-        fetch(event.request)
-            .then((response) => {
-                // Check if we received a valid response
-                if (!response || response.status !== 200 || response.type !== 'basic') {
-                    return response;
-                }
-
-                // Clone the response
-                const responseToCache = response.clone();
-
-                caches.open(CACHE_NAME)
-                    .then((cache) => {
-                        cache.put(event.request, responseToCache);
+        caches.open(CACHE_NAME).then((cache) => {
+            return cache.match(event.request).then((cachedResponse) => {
+                const fetchPromise = fetch(event.request)
+                    .then((networkResponse) => {
+                        // Check if valid
+                        if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
+                            cache.put(event.request, networkResponse.clone());
+                        }
+                        return networkResponse;
+                    })
+                    .catch(() => {
+                        // Network failed? No problem, we (hopefully) returned cache already.
+                        // If both fail, we might return fallback (handled below or by browser)
+                        console.log('[SW] Background fetch failed for', event.request.url);
                     });
 
-                return response;
-            })
-            .catch(() => {
-                // If offline, try cache
-                return caches.match(event.request).then((cachedResponse) => {
-                    if (cachedResponse) {
-                        return cachedResponse;
-                    }
-                    // Fallback for navigation (SPA support)
-                    if (event.request.mode === 'navigate') {
-                        return caches.match('./index.html');
-                    }
-                    return new Response('Offline - Connect to Internet', { status: 503, statusText: 'Offline' });
-                });
-            })
+                // Return cached response right away if we have it, else wait for network
+                return cachedResponse || fetchPromise;
+            });
+        }).catch(() => {
+            // Fallback if cache open fails (rare) or both fail
+            return new Response('Offline - Connect to Internet', { status: 503 });
+        })
     );
 });
+
