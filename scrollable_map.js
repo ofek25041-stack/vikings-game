@@ -140,6 +140,26 @@ function handleScroll() {
     scrollTimer = setTimeout(renderVisibleArea, MAP_CONFIG.SCROLL_DEBOUNCE);
 }
 
+// Expose for Main.js
+window.renderScrollableMap = renderVisibleArea;
+
+// Unified Jump Logic
+window.jumpToScrollableCoords = function (x, y) {
+    const viewport = document.getElementById('world-map-viewport');
+    if (!viewport) return;
+
+    // Centering calculation:
+    // Target pixel - Half Viewport
+    const vpW = viewport.clientWidth;
+    const vpH = viewport.clientHeight;
+
+    viewport.scrollLeft = (x * MAP_CONFIG.TILE_SIZE) - (vpW / 2);
+    viewport.scrollTop = (y * MAP_CONFIG.TILE_SIZE) - (vpH / 2);
+
+    // Force immediate render
+    renderVisibleArea();
+}
+
 function renderVisibleArea() {
     const viewport = document.getElementById('world-map-viewport');
     // Using layer instead of grid to avoid killing other layers

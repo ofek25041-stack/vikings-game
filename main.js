@@ -297,155 +297,15 @@ function renderWorldMap() {
 
 
     // Center on Player or last viewport
-    const centerX = (!STATE.viewport || (STATE.viewport.x === 0 && STATE.viewport.y === 0)) ? (STATE.homeCoords?.x || 500) : STATE.viewport.x;
-    const centerY = (!STATE.viewport || (STATE.viewport.x === 0 && STATE.viewport.y === 0)) ? (STATE.homeCoords?.y || 500) : STATE.viewport.y;
-
-    // Update HUD
-    const hudX = document.getElementById('map-x'); const hudY = document.getElementById('map-y');
-    if (hudX) hudX.innerText = centerX; if (hudY) hudY.innerText = centerY;
-
-    const startX = centerX - Math.floor(VIEW_COLS / 2);
-    const startY = centerY - Math.floor(VIEW_ROWS / 2);
-
-    const fragment = document.createDocumentFragment();
-
-    for (let y = 0; y < VIEW_ROWS; y++) {
-        for (let x = 0; x < VIEW_COLS; x++) {
-            // TERRAIN GENERATION (Simplified Hash)
-            const globalX = startX + x;
-            const globalY = startY + y;
-            const hash = Math.sin(globalX * 12.9898 + globalY * 78.233) * 43758.5453 - Math.floor(Math.sin(globalX * 12.9898 + globalY * 78.233) * 43758.5453);
-
-            let terrain = 'water';
-            if (hash < 0.15) terrain = 'grass';
-            else if (hash < 0.22) terrain = 'forest';
-            else if (hash < 0.27) terrain = 'mountain';
-            else if (hash < 0.3) terrain = 'desert';
-
-            // ENTITIES
-            const key = `${globalX},${globalY}`;
-            let entity = STATE.mapEntities[key];
-            if (!entity) entity = generateVirtualEntity(globalX, globalY, terrain); // FIXED: Pass terrain!
-
-            // Skip monsters and NPC cities
-            if (entity && (entity.type === 'monster' || (entity.type === 'city' && entity.user === 'NPC'))) {
-                entity = null;
-            }
-
-            // SPARSE LOGIC: Skip empty water
-            if (terrain === 'water' && !entity) {
-                continue;
-            }
-
-            const tile = document.createElement('div');
-            tile.className = `map-tile tile-${terrain}`;
-            tile.style.left = `${x * TILE_SIZE}px`;
-            tile.style.top = `${y * TILE_SIZE}px`;
-
-            // Round City Style
-            if (entity && entity.type === 'city') {
-                tile.classList.add('tile-city-container');
-            }
-
-            if (entity) {
-                const div = document.createElement('div');
-                div.classList.add('map-entity', `entity-${entity.type}`);
-                if (entity.isMyCity) div.classList.add('entity-my-city');
-                if (entity.owner === CURRENT_USER && entity.type !== 'city') div.classList.add('entity-owned');
-
-                // Check if same clan - SIMPLIFIED
-                if (STATE.clan && STATE.clan.id && entity.clanTag) {
-                    // Get my clan tag from ALL_CLANS
-                    const myClan = window.ALL_CLANS?.[STATE.clan.id];
-                    if (myClan && myClan.tag === entity.clanTag && entity.user !== CURRENT_USER) {
-                        div.classList.add('entity-clan-member');
-
-                    }
-                }
-
-                // Special rendering for fortress (2x2)
-                if (entity.type === 'fortress') {
-                    // Only render visual on top-left tile
-                    if (entity.isCenter) {
-                        // CRITICAL: Make tile larger to accommodate 60x60 fortress
-                        tile.style.width = '60px';
-                        tile.style.height = '60px';
-                        tile.style.overflow = 'visible'; // Don't clip fortress
-                        tile.style.zIndex = '20'; // Same as fortress
-
-                        div.classList.add('fortress-entity');
-                        div.style.width = '60px';  // 2 tiles wide
-                        div.style.height = '60px'; // 2 tiles tall
-                        div.style.zIndex = '20';   // FIXED: was 10
-                        div.style.display = 'flex';
-                        div.style.flexDirection = 'column';
-                        div.style.alignItems = 'center';
-                        div.style.justifyContent = 'center';
-                        div.style.position = 'relative';
-
-                        const isMyClan = STATE.clan && STATE.clan.id === entity.clanId;
-                        if (isMyClan) div.classList.add('entity-my-fortress');
-
-                        div.innerHTML = `
-                            <div class="fortress-icon" style="font-size: 3rem; line-height: 1;">🏯</div>
-                            <div class="entity-label" style="text-align: center; font-size: 0.7rem;">
-                                <div class="name">[${entity.clanTag}] Fortress</div>
-                            </div>
-                        `;
-
-                        // CRITICAL: Set onclick AFTER innerHTML to preserve it
-                        div.onclick = (e) => {
-                            e.stopPropagation();
-                            e.preventDefault();
-                            // Always use interactEntity - it handles both own and enemy fortresses
-                            interactEntity(globalX, globalY, entity);
-                        };
-
-                        // CRITICAL: Use capture phase to intercept clicks before grid handler
-                        tile.addEventListener('click', (e) => {
-                            e.stopPropagation();
-                            e.preventDefault();
-                            // Always use interactEntity - it handles both own and enemy fortresses
-                            interactEntity(globalX, globalY, entity);
-                        }, true); // CAPTURE PHASE!
-                    } else {
-                        // Other 3 tiles are just markers (invisible but block clicks)
-                        div.style.opacity = '0';
-                        div.style.pointerEvents = 'none';
-                    }
-                } else {
-                    // Normal entity rendering (city, resource, etc.)
-                    const tagHtml = entity.clanTag ? `<span style="color:#fbbf24; font-weight:bold;">[${entity.clanTag}]</span> ` : '';
-                    const ownerHtml = (entity.owner && entity.owner !== CURRENT_USER && entity.type !== 'city') ? `<div style="font-size:0.65rem; color:#10b981;">🏴 ${entity.owner}</div>` : '';
-
-                    div.innerHTML = `
-                        <div class="entity-icon">${getEntityIcon(entity.type)}</div>
-                        <div class="entity-label">
-                            <div class="name">${tagHtml}${entity.name || entity.type}</div>
-                            <span class="lvl">Lv.${entity.level || 1}</span>
-                            ${ownerHtml}
-                            ${entity.isMyCity ? '<span style="color:cyan; font-size:0.6rem;">(ME-LOCAL)</span>' : ''} 
-                            ${(!entity.isMyCity && entity.user === CURRENT_USER) ? '<span style="color:red; font-size:0.6rem;">(ME-REMOTE-GHOST)</span>' : ''}
-                        </div>
-                    `;
-
-                    div.onclick = (e) => {
-                        e.stopPropagation();
-                        interactEntity(globalX, globalY, entity);
-                    };
-                }
-
-                tile.appendChild(div);
-            }
-
-            fragment.appendChild(tile);
-        }
+    // LEGACY BRIDGE: Redirect to Scrollable Map
+    if (window.renderScrollableMap) {
+        window.renderScrollableMap();
+        return;
     }
 
-    grid.appendChild(fragment);
-
-    // Center map initially if first load
-    // setTimeout(initMobileScroll, 100); // Handled by switchView
+    // Fallback? No, we enforce scrollable map.
+    console.warn("ViewWorldMap called but Scrollable Map not ready.");
+    if (window.initScrollableMap) window.initScrollableMap();
 }
 
 window.jumpToCoords = function (targetX, targetY) {
@@ -479,7 +339,13 @@ window.jumpToCoords = function (targetX, targetY) {
     STATE.viewport.x = x;
     STATE.viewport.y = y;
 
-    renderWorldMap();
+    // Use Scrollable Map Jump
+    if (window.jumpToScrollableCoords) {
+        window.jumpToScrollableCoords(x, y);
+    } else {
+        renderWorldMap(); // Fallback
+    }
+
     notify(`קפצת אל: ${x}, ${y}`, "success");
 };
 
@@ -510,29 +376,15 @@ function moveMap(dx, dy) {
 
 function centerMapOnHome() {
     if (STATE.homeCoords) {
+        // Use unified jump logic which handles scrolling correctly
+        if (window.jumpToScrollableCoords) {
+            window.jumpToScrollableCoords(STATE.homeCoords.x, STATE.homeCoords.y);
+            return;
+        }
+
+        // Fallback (Should not happen if scrollable_map.js is loaded)
         STATE.viewport = { ...STATE.homeCoords };
-
-        // CRITICAL FIX: Must re-render map because we might be far away!
         renderWorldMap();
-
-        requestAnimationFrame(() => {
-            const container = document.getElementById('world-map-viewport');
-
-            // OPTIMIZATION: Use scrollIntoView for perfect native centering
-            const myCityEl = document.querySelector('.entity-my-city');
-
-            if (myCityEl) {
-                myCityEl.scrollIntoView({ block: 'center', inline: 'center', behavior: 'auto' });
-
-            } else if (container) {
-                // Fallback: Geometric Center
-                container.scrollTo({
-                    top: (container.scrollHeight - container.clientHeight) / 2,
-                    left: (container.scrollWidth - container.clientWidth) / 2,
-                    behavior: 'auto'
-                });
-            }
-        });
     }
 }
 
