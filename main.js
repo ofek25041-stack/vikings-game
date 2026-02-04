@@ -250,6 +250,22 @@ async function loadAllTerritories() {
     }
 }
 
+// Utility: Get Icon for Entity
+window.getTypeIcon = function (type) {
+    const map = {
+        city: '🏛️',
+        wood: '🌲',
+        food: '🌾',
+        mine: '⛏️',
+        marble: '🏛',
+        crystal: '💎',
+        sulfur: '🌋',
+        fortress: '🏰',
+        gold: '💰'
+    };
+    return map[type] || '❓';
+};
+
 function renderWorldMap() {
     // Hook for True Scrollable Map
     if (typeof window.initScrollableMap === 'function') {

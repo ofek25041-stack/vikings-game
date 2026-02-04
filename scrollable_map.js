@@ -385,6 +385,9 @@ function renderVisibleArea() {
         <strong>Entities:</strong> ${entityCount}<br>
         `;
     }
+
+    // VISIBLE DEBUG FOR USER
+    notify(`Entities Visibles: ${entityCount}`, 'info');
 }
 
 function createEntityDOM(entity, x, y) {
