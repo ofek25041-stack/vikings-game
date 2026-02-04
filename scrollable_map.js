@@ -28,6 +28,9 @@ function initScrollableMap() {
     grid.style.height = `${totalPixels}px`;
     grid.style.position = 'relative';
     grid.style.overflow = 'hidden';
+    grid.style.transform = 'none'; // SAFETY RESET
+    grid.style.marginTop = '0px';  // SAFETY RESET
+    grid.style.top = '0px';        // SAFETY RESET
     grid.classList.add('map-grid');
 
     // 2. Ensure Layers Exist
@@ -49,8 +52,6 @@ function initScrollableMap() {
     const armies = document.getElementById('march-armies-layer');
     if (lines) lines.style.pointerEvents = 'none';
     if (armies) armies.style.pointerEvents = 'none';
-
-    // 3. Center logic (Only if not already centered/scrolled)
 
     // 3. Center logic (Only if not already centered/scrolled)
     // If scroll is near 0,0 it implies it's fresh. 
@@ -107,6 +108,9 @@ function initScrollableMap() {
         const tileY = Math.floor(clickY / MAP_CONFIG.TILE_SIZE);
 
         console.log(`🖱️ Global Click: ${tileX}, ${tileY}`);
+
+        // DEBUG: VISIBLE TO USER
+        notify(`Debug: Tile(${tileX},${tileY}) RectT(${Math.round(rect.top)})`, 'info');
 
         // Handle the Logic
         handleGlobalClick(tileX, tileY);
@@ -475,9 +479,11 @@ window.jumpToMapCoords = function (x, y) {
 // ==========================================
 
 window.handleTileClick = function (x, y) {
-    // Double check if empty (though logic above handles it)
-    const key = `${x},${y}`;
-    if (STATE.mapEntities && STATE.mapEntities[key]) return;
+    // Check bounds
+    if (x < 0 || y < 0 || x >= MAP_CONFIG.WORLD_SIZE || y >= MAP_CONFIG.WORLD_SIZE) return;
+
+    // DEBUG: Alert so user can see what's happening
+    // alert(`DEBUG CLICK: Tile(${x},${y})`);
 
     // Server check logic: ['gold', 'wood', 'food', 'wine', 'iron']
     // User check:
