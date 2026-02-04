@@ -37,20 +37,20 @@ function initScrollableMap() {
     if (!document.getElementById('map-tiles-layer')) {
         const tilesLayer = document.createElement('div');
         tilesLayer.id = 'map-tiles-layer';
+        tilesLayer.id = 'map-tiles-layer';
         tilesLayer.style.position = 'absolute';
         tilesLayer.style.top = '0';
         tilesLayer.style.left = '0';
-        tilesLayer.style.left = '0';
         tilesLayer.style.width = '100%';
         tilesLayer.style.height = '100%';
-        tilesLayer.style.zIndex = '9999'; // NUCLEAR OPTION
+        tilesLayer.style.zIndex = '1';
         // HTML click-through behavior is default, but let's be explicit on children
         grid.prepend(tilesLayer);
     }
 
-    // 2b. CLEAR BACKGROUND IMAGE from grid to prevent obstruction
-    grid.style.backgroundImage = 'none';
-    grid.style.backgroundColor = '#0f172a'; // Dark solid background
+    // 2b. ENSURE BACKGROUND IMAGE IS RESTORED (If desired) or allow CSS to handle it
+    grid.style.backgroundImage = ''; // Clear inline override
+    grid.style.backgroundColor = ''; // Clear inline override
 
     // FORCE pointer-events: none on overlays to be 100% sure
     const lines = document.getElementById('march-lines-layer');
@@ -202,14 +202,6 @@ function renderVisibleArea() {
     // 1. Calculate Visible Coordinates
     const scrollLeft = viewport.scrollLeft;
     const scrollTop = viewport.scrollTop;
-
-    // DEBUG: Border on Grid and Layer
-    const grid = document.getElementById('world-map-grid');
-    if (grid) grid.style.border = '5px solid red';
-    if (tilesLayer) {
-        tilesLayer.style.border = '5px solid yellow';
-        tilesLayer.style.backgroundColor = 'rgba(255, 0, 0, 0.2)'; // DEBUG RED HINT
-    }
     const width = viewport.clientWidth;
     const height = viewport.clientHeight;
 
@@ -284,20 +276,13 @@ function renderVisibleArea() {
             tile.style.top = `${y * MAP_CONFIG.TILE_SIZE}px`;
             tile.style.width = `${MAP_CONFIG.TILE_SIZE}px`;
             tile.style.height = `${MAP_CONFIG.TILE_SIZE}px`;
-            tile.style.zIndex = '10';
 
             // Background
             if (type !== 'water') {
                 tile.style.backgroundColor = bgColor;
-                tile.style.opacity = '0.9'; // Increased opacity
-                tile.style.border = '1px solid white'; // FORCE BORDER
-            } else {
-                tile.style.border = '1px solid rgba(0,0,255,0.3)'; // Border for water too for debug
+                tile.style.opacity = '0.7'; // Standard opacity
+                // tile.style.border = '1px solid rgba(255,255,255,0.1)'; // Optional subtle border
             }
-
-            // DEBUG: FORCE VISIBILITY
-            tile.style.boxSizing = 'border-box';
-            tile.style.display = 'block';
 
             if (entity) {
                 entityCount++;
@@ -307,11 +292,10 @@ function renderVisibleArea() {
                 if (entity.type === 'fortress') {
                     // Fortress needs to be clickable and larger
                     el.style.pointerEvents = 'auto';
-                    tile.style.width = '60px';
+                    tile.style.width = '60px'; // 2x2 visual
                     tile.style.height = '60px';
-                    tile.style.zIndex = '20';
-                    // CRITICAL: Tile must be non-clickable so grid handler doesn't fire
-                    tile.style.pointerEvents = 'none';
+                    tile.style.zIndex = '10';
+                    tile.style.pointerEvents = 'none'; // Tile itself passes clicks
                 } else {
                     // Regular entities: remove click handler
                     el.onclick = null;
@@ -406,12 +390,7 @@ function renderVisibleArea() {
     }
 
     // VISIBLE DEBUG FOR USER
-    let extraDebug = "";
-    if (tilesLayer.children.length > 0) {
-        const firstTile = tilesLayer.children[0];
-        extraDebug = ` | Tile[0]: ${firstTile.style.left},${firstTile.style.top}`;
-    }
-    notify(`Entities: ${entityCount}${extraDebug}`, 'info');
+    // notify(`Entities Visibles: ${entityCount}`, 'info');
 }
 
 function createEntityDOM(entity, x, y) {
