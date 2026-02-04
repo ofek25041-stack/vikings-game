@@ -385,31 +385,50 @@ const ClanSystem = {
     },
 
     // Leave clan
-    leaveClan() {
+    async leaveClan() {
         const clan = this.getPlayerClan();
         if (!clan) return { success: false, error: 'You are not in a clan' };
 
         const myRole = clan.members[CURRENT_USER]?.role;
         if (myRole === this.ROLES.LEADER) {
-            return { success: false, error: 'Leaders cannot leave. Transfer leadership or disband the clan first.' };
+            // Check if only member
+            if (Object.keys(clan.members).length > 1) {
+                return { success: false, error: 'Leaders cannot leave. Transfer leadership or delete clan first.' };
+            }
+            // If only member, server API might complain or we should use delete.
+            // But let's try leaving, server will handle or we handle here.
+            // Server says: "Leader must use Delete Clan"
+            return { success: false, error: 'As the last member and leader, please use "Delete Clan" in Settings.' };
         }
 
-        // Remove from clan
-        delete clan.members[CURRENT_USER];
-        clan.stats.totalMembers = Object.keys(clan.members).length;
-        this.saveClan(clan);
+        try {
+            const response = await fetch('/api/clan/leave', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    clanId: clan.id,
+                    username: CURRENT_USER
+                })
+            });
+            const result = await response.json();
 
-        this.sendMessage(clan.id, `${CURRENT_USER} left the clan.`, 'system');
-
-        // Update player state
-        STATE.clan = null;
-        saveGame();
-
-        return { success: true };
+            if (result.success) {
+                STATE.clan = null;
+                saveGame(); // Save null state locally
+                this.refreshClanData(clan.id); // Update cached data for others? No, I'm out.
+                // But we should remove it from my local list if I track it?
+                // Actually, just clearing STATE.clan is enough for the client.
+                return { success: true };
+            } else {
+                return { success: false, error: result.error };
+            }
+        } catch (e) {
+            return { success: false, error: 'Network error' };
+        }
     },
 
     // Kick member (leader/officer only)
-    kickMember(username) {
+    async kickMember(username) {
         const clan = this.getPlayerClan();
         if (!clan) return { success: false, error: 'You are not in a clan' };
 
@@ -418,27 +437,31 @@ const ClanSystem = {
             return { success: false, error: 'Only leaders and officers can kick members' };
         }
 
-        if (!clan.members[username]) {
-            return { success: false, error: 'Member not found' };
+        try {
+            const response = await fetch('/api/clan/kick', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    clanId: clan.id,
+                    actionBy: CURRENT_USER,
+                    targetUser: username
+                })
+            });
+            const result = await response.json();
+
+            if (result.success) {
+                // Remove locally to update view instantly
+                if (clan.members[username]) delete clan.members[username];
+                // No need to saveClan, server did it.
+                // Just return success
+                this.sendMessage(clan.id, `${username} was kicked from the clan.`, 'system');
+                return { success: true };
+            } else {
+                return { success: false, error: result.error };
+            }
+        } catch (e) {
+            return { success: false, error: 'Network error' };
         }
-
-        const targetRole = clan.members[username].role;
-        if (targetRole === this.ROLES.LEADER) {
-            return { success: false, error: 'Cannot kick the leader' };
-        }
-
-        if (myRole === this.ROLES.OFFICER && targetRole === this.ROLES.OFFICER) {
-            return { success: false, error: 'Officers cannot kick other officers' };
-        }
-
-        // Remove member
-        delete clan.members[username];
-        clan.stats.totalMembers = Object.keys(clan.members).length;
-        this.saveClan(clan);
-
-        this.sendMessage(clan.id, `${username} was kicked from the clan.`, 'system');
-
-        return { success: true };
     },
 
     // Promote/demote member
@@ -1945,13 +1968,15 @@ const ClanUI = {
     },
 
     // Kick member
-    kickMember(username) {
+    async kickMember(username) {
+        // Double check permissions (optimistic)
         if (!confirm(`Are you sure you want to kick ${username}?`)) return;
 
-        const result = ClanSystem.kickMember(username);
+        const result = await ClanSystem.kickMember(username);
 
         if (result.success) {
             notify(`${username} has been kicked`, 'success');
+            // Re-render members list if we are still on members tab
             this.renderMembers(document.getElementById('clan-tab-content'), ClanSystem.getPlayerClan());
         } else {
             notify(result.error, 'error');
@@ -1971,14 +1996,17 @@ const ClanUI = {
     },
 
     // Confirm leave
-    confirmLeave() {
+    async confirmLeave() {
         if (!confirm('Are you sure you want to leave the clan?')) return;
 
-        const result = ClanSystem.leaveClan();
+        const result = await ClanSystem.leaveClan();
 
         if (result.success) {
             notify('You have left the clan', 'success');
-            switchView('clan'); // Refresh
+            // UI Switch handles logic
+            if (typeof switchView === 'function') switchView('city');
+            STATE.clan = null;
+            this.currentTab = 'overview';
         } else {
             notify(result.error, 'error');
         }

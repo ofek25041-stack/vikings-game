@@ -718,6 +718,78 @@ const server = http.createServer(async (req, res) => {
             } catch (e) { sendJSON(res, 500, { error: e.message }); }
         });
 
+    } else if (req.url === '/api/clan/leave' && req.method === 'POST') {
+        readBody(req, async (body) => {
+            const { username, clanId } = body;
+            try {
+                const clan = await db.collection('clans').findOne({ id: clanId });
+                if (!clan) return sendJSON(res, 404, { error: 'Clan not found' });
+
+                // Check if user is actually in clan
+                if (!clan.members[username]) return sendJSON(res, 400, { error: 'Not a member' });
+
+                // Prevent leader from leaving without transfer or delete
+                if (clan.members[username].role === 'leader') {
+                    // Check if they are the only member
+                    const memberCount = Object.keys(clan.members).length;
+                    if (memberCount > 1) {
+                        return sendJSON(res, 400, { error: 'Leader cannot leave. Transfer leadership or delete clan.' });
+                    } else {
+                        // Only member? Then delete clan. (Logic handled by /api/clan/delete usually, but we can do it here or error)
+                        // Better to error and tell them to use delete
+                        return sendJSON(res, 400, { error: 'Leader must use Delete Clan to leave as last member.' });
+                    }
+                }
+
+                // 1. Remove from Clan
+                const updates = {};
+                updates[`members.${username}`] = ""; // Unset
+                await db.collection('clans').updateOne({ id: clanId }, { $unset: updates });
+
+                // 2. Remove from User
+                await db.collection('users').updateOne({ username: username }, { $set: { "state.clan": null } });
+
+                // 3. Update Cache
+                updateWorldCache();
+
+                sendJSON(res, 200, { success: true });
+            } catch (e) { sendJSON(res, 500, { error: e.message }); }
+        });
+
+    } else if (req.url === '/api/clan/kick' && req.method === 'POST') {
+        readBody(req, async (body) => {
+            const { clanId, actionBy, targetUser } = body;
+            try {
+                const clan = await db.collection('clans').findOne({ id: clanId });
+                if (!clan) return sendJSON(res, 404, { error: 'Clan not found' });
+
+                // Check permissions
+                const actorRole = clan.members[actionBy]?.role;
+                if (actorRole !== 'leader' && actorRole !== 'officer') return sendJSON(res, 403, { error: 'Permission denied' });
+
+                // Cannot kick leader
+                if (clan.members[targetUser]?.role === 'leader') return sendJSON(res, 403, { error: 'Cannot kick leader' });
+
+                // Officer cannot kick officer? (Optional rule, usually yes)
+                if (actorRole === 'officer' && clan.members[targetUser]?.role === 'officer') {
+                    return sendJSON(res, 403, { error: 'Officers cannot kick other officers' });
+                }
+
+                // 1. Remove from Clan
+                const updates = {};
+                updates[`members.${targetUser}`] = "";
+                await db.collection('clans').updateOne({ id: clanId }, { $unset: updates });
+
+                // 2. Remove from User
+                await db.collection('users').updateOne({ username: targetUser }, { $set: { "state.clan": null } });
+
+                // 3. Update Cache
+                updateWorldCache();
+
+                sendJSON(res, 200, { success: true });
+            } catch (e) { sendJSON(res, 500, { error: e.message }); }
+        });
+
     } else if (req.url === '/api/player/teleport' && req.method === 'POST') {
         readBody(req, async (body) => {
             const { username, targetX, targetY } = body;
