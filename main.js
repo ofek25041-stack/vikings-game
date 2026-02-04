@@ -3500,9 +3500,19 @@ async function syncWorldPlayers() {
             }
         }
 
+        // Deduplicate users (Server might have issues, or just safety)
+        const processedUsers = new Set();
+
         // Add player cities with clan tags
         data.players.forEach(p => {
-            const isMe = p.username === CURRENT_USER;
+            // Normalized username for check
+            const pNameLower = p.username.toLowerCase();
+            const cNameLower = CURRENT_USER.toLowerCase();
+
+            if (processedUsers.has(pNameLower)) return; // Skip duplicates
+            processedUsers.add(pNameLower);
+
+            const isMe = pNameLower === cNameLower;
 
             // Fix Teleport Ghosting: Prefer Client Coords for Self
             // If server is lagging, we trust our local move to avoid jumping back
@@ -3524,7 +3534,7 @@ async function syncWorldPlayers() {
             STATE.mapEntities[key] = {
                 type: 'city',
                 name: isMe ? (STATE.city ? STATE.city.name : 'My City') : `${p.username}'s City`,
-                user: p.username,
+                user: p.username, // Keep original casing for display
                 level: p.level || 1,
                 score: p.score || 0,
                 lastLogin: p.lastLogin,
