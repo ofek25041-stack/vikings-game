@@ -119,6 +119,31 @@ function initScrollableMap() {
     renderVisibleArea();
 }
 
+window.jumpToMapCoords = function (x, y) {
+    const viewport = document.getElementById('world-map-viewport');
+    if (!viewport) return;
+
+    // Default to center if invalid
+    if (x == null || y == null) {
+        x = 500; y = 500;
+    }
+
+    const vpW = viewport.clientWidth || window.innerWidth;
+    const vpH = viewport.clientHeight || window.innerHeight;
+
+    // Calculate pixel position
+    const pixelX = (x * MAP_CONFIG.TILE_SIZE) - (vpW / 2);
+    const pixelY = (y * MAP_CONFIG.TILE_SIZE) - (vpH / 2);
+
+    viewport.scrollLeft = pixelX;
+    viewport.scrollTop = pixelY;
+
+    console.log(`📍 Force Jump to (${x}, ${y}) -> px: ${pixelX}, ${pixelY}`);
+
+    // Force immediate render
+    if (window.renderVisibleArea) window.renderVisibleArea();
+};
+
 function handleGlobalClick(x, y) {
     // Check bounds
     if (x < 0 || y < 0 || x >= MAP_CONFIG.WORLD_SIZE || y >= MAP_CONFIG.WORLD_SIZE) return;
