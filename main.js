@@ -69,7 +69,7 @@ window.activeView = 'login'; // Initialize global view state
 const VIEW_COLS = 100; // 100x100 tiles - good balance
 const VIEW_ROWS = 100; // 100x100 tiles - good
 // Main Game Logic
-console.log("🚀 Main JS Loaded v2.9 - Robust Map Init");
+console.log("🚀 Main JS Loaded v2.10 - Fix tpl Error");
 
 const TILE_SIZE = 30; // Must match CSSPixels
 
@@ -3801,6 +3801,7 @@ function switchView(viewName) {
                 switchView('world');
                 return;
             } else if (viewName === 'world') {
+                const tpl = document.getElementById('template-world');
                 if (tpl) {
                     main.appendChild(tpl.content.cloneNode(true));
 
