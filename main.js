@@ -69,7 +69,7 @@ window.activeView = 'login'; // Initialize global view state
 const VIEW_COLS = 100; // 100x100 tiles - good balance
 const VIEW_ROWS = 100; // 100x100 tiles - good
 // Main Game Logic
-console.log("🚀 Main JS Loaded v2.13 - RTL Fix");
+console.log("🚀 Main JS Loaded v2.14 - UI Polish");
 
 const TILE_SIZE = 30; // Must match CSSPixels
 

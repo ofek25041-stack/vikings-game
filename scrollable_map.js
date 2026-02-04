@@ -254,25 +254,18 @@ function renderVisibleArea() {
             }
 
             if (entity) {
-                entityCount++;
-                const el = createEntityDOM(entity, x, y);
-
-                // FORTRESS SPECIAL: Keep click handler and make tile bigger
+                // SKIP FORTRESS: Handled by "Force Render" loop (lines 300+)
                 if (entity.type === 'fortress') {
-                    // Fortress needs to be clickable and larger
-                    el.style.pointerEvents = 'auto';
-                    tile.style.width = '60px';
-                    tile.style.height = '60px';
-                    tile.style.zIndex = '20';
-                    // CRITICAL: Tile must be non-clickable so grid handler doesn't fire
-                    tile.style.pointerEvents = 'none';
+                    // Do nothing here.
                 } else {
-                    // Regular entities: remove click handler
+                    entityCount++;
+                    const el = createEntityDOM(entity, x, y);
+
+                    // Regular entities: remove click handler to let grid handle it via calculation
                     el.onclick = null;
                     el.style.pointerEvents = 'none';
+                    tile.appendChild(el);
                 }
-
-                tile.appendChild(el);
             } else {
                 // Empty tile - Visual cue on hover (via CSS)
                 // NO individual listeners!
