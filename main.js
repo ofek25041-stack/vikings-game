@@ -3502,6 +3502,7 @@ async function syncWorldPlayers() {
 
         // Deduplicate users (Server might have issues, or just safety)
         const processedUsers = new Set();
+        console.log(`[DEBUG] Syncing ${data.players.length} players. Me: ${CURRENT_USER}`);
 
         // Add player cities with clan tags
         data.players.forEach(p => {
@@ -3509,10 +3510,14 @@ async function syncWorldPlayers() {
             const pNameLower = p.username.toLowerCase();
             const cNameLower = CURRENT_USER.toLowerCase();
 
-            if (processedUsers.has(pNameLower)) return; // Skip duplicates
+            if (processedUsers.has(pNameLower)) {
+                console.warn("Duplicate user ignored:", pNameLower);
+                return;
+            }
             processedUsers.add(pNameLower);
 
             const isMe = pNameLower === cNameLower;
+            if (isMe) console.log(`[DEBUG] Found ME at server coords ${p.x},${p.y}. Local: ${STATE.homeCoords ? STATE.homeCoords.x + ',' + STATE.homeCoords.y : 'None'}`);
 
             // Fix Teleport Ghosting: Prefer Client Coords for Self
             // If server is lagging, we trust our local move to avoid jumping back
