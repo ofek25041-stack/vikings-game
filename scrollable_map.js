@@ -40,12 +40,17 @@ function initScrollableMap() {
         tilesLayer.style.position = 'absolute';
         tilesLayer.style.top = '0';
         tilesLayer.style.left = '0';
+        tilesLayer.style.left = '0';
         tilesLayer.style.width = '100%';
         tilesLayer.style.height = '100%';
-        tilesLayer.style.zIndex = '1';
+        tilesLayer.style.zIndex = '9999'; // NUCLEAR OPTION
         // HTML click-through behavior is default, but let's be explicit on children
         grid.prepend(tilesLayer);
     }
+
+    // 2b. CLEAR BACKGROUND IMAGE from grid to prevent obstruction
+    grid.style.backgroundImage = 'none';
+    grid.style.backgroundColor = '#0f172a'; // Dark solid background
 
     // FORCE pointer-events: none on overlays to be 100% sure
     const lines = document.getElementById('march-lines-layer');
@@ -201,7 +206,10 @@ function renderVisibleArea() {
     // DEBUG: Border on Grid and Layer
     const grid = document.getElementById('world-map-grid');
     if (grid) grid.style.border = '5px solid red';
-    if (tilesLayer) tilesLayer.style.border = '5px solid yellow';
+    if (tilesLayer) {
+        tilesLayer.style.border = '5px solid yellow';
+        tilesLayer.style.backgroundColor = 'rgba(255, 0, 0, 0.2)'; // DEBUG RED HINT
+    }
     const width = viewport.clientWidth;
     const height = viewport.clientHeight;
 
