@@ -1,4 +1,4 @@
-const CACHE_NAME = 'vikings-v2';
+const CACHE_NAME = 'vikings-v4';
 const ASSETS_TO_CACHE = [
     './',
     './index.html',
@@ -61,7 +61,16 @@ self.addEventListener('fetch', (event) => {
             })
             .catch(() => {
                 // If offline, try cache
-                return caches.match(event.request);
+                return caches.match(event.request).then((cachedResponse) => {
+                    if (cachedResponse) {
+                        return cachedResponse;
+                    }
+                    // Fallback for navigation (SPA support)
+                    if (event.request.mode === 'navigate') {
+                        return caches.match('./index.html');
+                    }
+                    return new Response('Offline - Connect to Internet', { status: 503, statusText: 'Offline' });
+                });
             })
     );
 });
