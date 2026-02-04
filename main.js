@@ -92,9 +92,31 @@ function ensureCityExistsAndRender() {
                 console.warn(`🧹 Cleaning up ghost city at ${k} (Home is ${STATE.homeCoords.x},${STATE.homeCoords.y})`);
                 delete STATE.mapEntities[k];
             }
-            // NEW: Never delete fortresses during cleanup!
+            // NEW: Verify fortress validity against ALL_CLANS
             if (ent && ent.type === 'fortress') {
-                console.log(`🏰 Preserving fortress at ${k} during cleanup`);
+                let isValid = false;
+                if (window.ALL_CLANS) {
+                    // Check if any clan claims this fortress location
+                    // We match by ID if available, or location
+                    if (ent.clanId && window.ALL_CLANS[ent.clanId] && window.ALL_CLANS[ent.clanId].fortress) {
+                        isValid = true;
+                    } else {
+                        // Fallback check by coordinates
+                        for (const c of Object.values(window.ALL_CLANS)) {
+                            if (c.fortress && c.fortress.x === ent.x && c.fortress.y === ent.y) {
+                                isValid = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                if (isValid) {
+                    // console.log(`🏰 Preserving valid fortress at ${k}`);
+                } else {
+                    console.log(`🧹 Cleaning up GHOST fortress at ${k} (Clan deleted or moved)`);
+                    delete STATE.mapEntities[k];
+                }
             }
         }
     }
