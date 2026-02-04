@@ -28,15 +28,11 @@ function initScrollableMap() {
     grid.style.height = `${totalPixels}px`;
     grid.style.position = 'relative';
     grid.style.overflow = 'hidden';
-    grid.style.transform = 'none'; // SAFETY RESET
-    grid.style.marginTop = '0px';  // SAFETY RESET
-    grid.style.top = '0px';        // SAFETY RESET
     grid.classList.add('map-grid');
 
     // 2. Ensure Layers Exist
     if (!document.getElementById('map-tiles-layer')) {
         const tilesLayer = document.createElement('div');
-        tilesLayer.id = 'map-tiles-layer';
         tilesLayer.id = 'map-tiles-layer';
         tilesLayer.style.position = 'absolute';
         tilesLayer.style.top = '0';
@@ -48,15 +44,13 @@ function initScrollableMap() {
         grid.prepend(tilesLayer);
     }
 
-    // 2b. ENSURE BACKGROUND IMAGE IS RESTORED (If desired) or allow CSS to handle it
-    grid.style.backgroundImage = ''; // Clear inline override
-    grid.style.backgroundColor = ''; // Clear inline override
-
     // FORCE pointer-events: none on overlays to be 100% sure
     const lines = document.getElementById('march-lines-layer');
     const armies = document.getElementById('march-armies-layer');
     if (lines) lines.style.pointerEvents = 'none';
     if (armies) armies.style.pointerEvents = 'none';
+
+    // 3. Center logic (Only if not already centered/scrolled)
 
     // 3. Center logic (Only if not already centered/scrolled)
     // If scroll is near 0,0 it implies it's fresh. 
@@ -106,37 +100,16 @@ function initScrollableMap() {
 
         // It was a click! Calculate Tile Coordinates.
         const rect = grid.getBoundingClientRect();
+        const clickX = e.clientX - rect.left; // x position within the element.
+        const clickY = e.clientY - rect.top;  // y position within the element.
 
-        // METHOD 1: Classic (might fail if rect is weird)
-        const classicX = e.clientX - rect.left;
-        const classicY = e.clientY - rect.top;
-        const tileX_Classic = Math.floor(classicX / MAP_CONFIG.TILE_SIZE);
-        const tileY_Classic = Math.floor(classicY / MAP_CONFIG.TILE_SIZE);
+        const tileX = Math.floor(clickX / MAP_CONFIG.TILE_SIZE);
+        const tileY = Math.floor(clickY / MAP_CONFIG.TILE_SIZE);
 
-        // METHOD 2: Robust Scroll Offset (Assumes Grid is at 0,0 of Scrollable Area)
-        // ScrollLeft is the "camera position". ClientX is the "offset on screen".
-        // Note: ClientX is from WINDOW left. We need offset from VIEWPORT left.
-        const vpRect = viewport.getBoundingClientRect();
-        const offsetX = e.clientX - vpRect.left;
-        const offsetY = e.clientY - vpRect.top;
-
-        const absoluteX = viewport.scrollLeft + offsetX;
-        const absoluteY = viewport.scrollTop + offsetY;
-
-        const tileX_Robust = Math.floor(absoluteX / MAP_CONFIG.TILE_SIZE);
-        const tileY_Robust = Math.floor(absoluteY / MAP_CONFIG.TILE_SIZE);
-
-        console.log(`🖱️ Click Analysis: Classic(${tileX_Classic},${tileY_Classic}) Robust(${tileX_Robust},${tileY_Robust})`);
-
-        // PREFER ROBUST METHOD
-        const finalTileX = tileX_Robust;
-        const finalTileY = tileY_Robust;
-
-        // DEBUG: VISIBLE TO USER
-        notify(`Debug: T(${finalTileX},${finalTileY}) [C:${tileX_Classic} vs R:${tileX_Robust}]`, 'info');
+        console.log(`🖱️ Global Click: ${tileX}, ${tileY}`);
 
         // Handle the Logic
-        handleGlobalClick(finalTileX, finalTileY);
+        handleGlobalClick(tileX, tileY);
     };
 
     // Mark as done
@@ -145,31 +118,6 @@ function initScrollableMap() {
     // 6. Initial Render
     renderVisibleArea();
 }
-
-window.jumpToMapCoords = function (x, y) {
-    const viewport = document.getElementById('world-map-viewport');
-    if (!viewport) return;
-
-    // Default to center if invalid
-    if (x == null || y == null) {
-        x = 500; y = 500;
-    }
-
-    const vpW = viewport.clientWidth || window.innerWidth;
-    const vpH = viewport.clientHeight || window.innerHeight;
-
-    // Calculate pixel position
-    const pixelX = (x * MAP_CONFIG.TILE_SIZE) - (vpW / 2);
-    const pixelY = (y * MAP_CONFIG.TILE_SIZE) - (vpH / 2);
-
-    viewport.scrollLeft = pixelX;
-    viewport.scrollTop = pixelY;
-
-    console.log(`📍 Force Jump to (${x}, ${y}) -> px: ${pixelX}, ${pixelY}`);
-
-    // Force immediate render
-    if (window.renderVisibleArea) window.renderVisibleArea();
-};
 
 function handleGlobalClick(x, y) {
     // Check bounds
@@ -276,12 +224,13 @@ function renderVisibleArea() {
             tile.style.top = `${y * MAP_CONFIG.TILE_SIZE}px`;
             tile.style.width = `${MAP_CONFIG.TILE_SIZE}px`;
             tile.style.height = `${MAP_CONFIG.TILE_SIZE}px`;
+            tile.style.zIndex = '10';
 
             // Background
             if (type !== 'water') {
                 tile.style.backgroundColor = bgColor;
-                tile.style.opacity = '0.7'; // Standard opacity
-                // tile.style.border = '1px solid rgba(255,255,255,0.1)'; // Optional subtle border
+                tile.style.opacity = '0.7';
+                tile.style.border = '1px solid rgba(255,255,255,0.2)';
             }
 
             if (entity) {
@@ -292,10 +241,11 @@ function renderVisibleArea() {
                 if (entity.type === 'fortress') {
                     // Fortress needs to be clickable and larger
                     el.style.pointerEvents = 'auto';
-                    tile.style.width = '60px'; // 2x2 visual
+                    tile.style.width = '60px';
                     tile.style.height = '60px';
-                    tile.style.zIndex = '10';
-                    tile.style.pointerEvents = 'none'; // Tile itself passes clicks
+                    tile.style.zIndex = '20';
+                    // CRITICAL: Tile must be non-clickable so grid handler doesn't fire
+                    tile.style.pointerEvents = 'none';
                 } else {
                     // Regular entities: remove click handler
                     el.onclick = null;
@@ -388,9 +338,6 @@ function renderVisibleArea() {
         <strong>Entities:</strong> ${entityCount}<br>
         `;
     }
-
-    // VISIBLE DEBUG FOR USER
-    // notify(`Entities Visibles: ${entityCount}`, 'info');
 }
 
 function createEntityDOM(entity, x, y) {
@@ -503,11 +450,9 @@ window.jumpToMapCoords = function (x, y) {
 // ==========================================
 
 window.handleTileClick = function (x, y) {
-    // Check bounds
-    if (x < 0 || y < 0 || x >= MAP_CONFIG.WORLD_SIZE || y >= MAP_CONFIG.WORLD_SIZE) return;
-
-    // DEBUG: Alert so user can see what's happening
-    // alert(`DEBUG CLICK: Tile(${x},${y})`);
+    // Double check if empty (though logic above handles it)
+    const key = `${x},${y}`;
+    if (STATE.mapEntities && STATE.mapEntities[key]) return;
 
     // Server check logic: ['gold', 'wood', 'food', 'wine', 'iron']
     // User check:

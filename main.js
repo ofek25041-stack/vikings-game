@@ -17,19 +17,6 @@ window.onerror = function (msg, url, line, col, error) {
     return false;
 };
 
-// --- CSS Failsafe ---
-// Check if scrollable_map.css is loaded, if not - force load it
-(function ensureMapStyles() {
-    const isLoaded = Array.from(document.styleSheets).some(s => s.href && s.href.includes('scrollable_map.css'));
-    if (!isLoaded) {
-        console.warn("⚠️ scrollable_map.css not detected! Injecting fallback...");
-        const link = document.createElement('link');
-        link.rel = 'stylesheet';
-        link.href = 'scrollable_map.css?v=' + Date.now();
-        document.head.appendChild(link);
-    }
-})();
-
 // Default Init State Template
 // Default Init State Template
 const DEFAULT_STATE = {
@@ -79,9 +66,8 @@ window.activeView = 'login'; // Initialize global view state
 // --- World Map 2.0 Logic ---
 
 // Configuration for Viewport - Optimized for multiplayer
-// Configuration for Viewport - Optimized for multiplayer
-const VIEW_COLS = 30; // Reduced from 100 for Mobile Safety (Fallback)
-const VIEW_ROWS = 30; // Reduced from 100 for Mobile Safety (Fallback)
+const VIEW_COLS = 100; // 100x100 tiles - good balance
+const VIEW_ROWS = 100; // 100x100 tiles - good balance
 const TILE_SIZE = 30; // 30x30 Pixels
 
 function ensureCityExistsAndRender() {
@@ -225,6 +211,7 @@ async function loadAllTerritories() {
             Object.values(window.ALL_CLANS).forEach(clan => {
                 if (clan.fortress && clan.fortress.x != null && clan.fortress.y != null) {
                     const fKey = `${clan.fortress.x},${clan.fortress.y}`;
+                    console.log(`🏰 [FINAL] Creating fortress at ${fKey} for ${clan.tag}`);
                     STATE.mapEntities[fKey] = {
                         type: 'fortress',
                         x: clan.fortress.x,
@@ -233,41 +220,17 @@ async function loadAllTerritories() {
                         clanTag: clan.tag,
                         name: `מבצר [${clan.tag}]`,
                         level: clan.fortress.level || 1,
-                        hp: clan.fortress.hp || 5000,
-                        maxHp: clan.fortress.maxHp || 5000,
                         owner: 'Clan'
                     };
                 }
             });
         }
-
-        // FIX: Re-render map to show new entities
-        if (typeof window.renderVisibleArea === 'function') {
-            window.renderVisibleArea();
-        } else {
-            renderWorldMap();
-        }
     }
 }
 
-// Utility: Get Icon for Entity
-window.getTypeIcon = function (type) {
-    const map = {
-        city: '🏛️',
-        wood: '🌲',
-        food: '🌾',
-        mine: '⛏️',
-        marble: '🏛',
-        crystal: '💎',
-        sulfur: '🌋',
-        fortress: '🏰',
-        gold: '💰'
-    };
-    return map[type] || '❓';
-};
-
 function renderWorldMap() {
     // Hook for True Scrollable Map
+    /* TEMPORARILY DISABLED - scrollable_map.js needs fixes
     if (typeof window.initScrollableMap === 'function') {
         const grid = document.getElementById('world-map-grid');
 
@@ -279,12 +242,14 @@ function renderWorldMap() {
             viewport.setAttribute('data-init-done', 'true');
         } else {
             // Already initialized, just force re-render to be safe
+            // console.log("🗺️ Re-render from main.js");
             if (typeof window.renderVisibleArea === 'function') {
                 window.renderVisibleArea();
             }
         }
         return; // Stop legacy render
     }
+    */
 
 
     const grid = document.getElementById('world-map-grid');
@@ -474,43 +439,75 @@ window.jumpToCoords = function (targetX, targetY) {
         y = parseInt(yInput.value);
     }
 
+    console.log('🚀 jumpToCoords called');
+    console.log(`🚀 Inputs: X="${xInput ? xInput.value : 'N/A'}" Y="${yInput ? yInput.value : 'N/A'}"`);
+    console.log(`🚀 Parsed: X=${x} Y=${y}`);
+
     if (isNaN(x) || isNaN(y)) {
         notify("נא להזין קואורדינטות", "error");
         return;
     }
 
-    if (x >= 0 && x < 1000 && y >= 0 && y < 1000) {
+    if (!STATE.viewport) STATE.viewport = { x: 500, y: 500 };
+    STATE.viewport.x = x;
+    STATE.viewport.y = y;
 
-        // NEW MAP SYSTEM HOOK
-        if (window.jumpToMapCoords) {
-            window.jumpToMapCoords(x, y);
-            STATE.viewport = { x, y }; // Sync legacy state just in case
-            saveGame();
-            return;
-        }
-
-        // Legacy Fallback
-        STATE.viewport = { x: x, y: y };
-        renderWorldMap();
-        saveGame();
-    } else {
-        notify("Coordinates out of bounds (0-999)", "error");
-    }
+    renderWorldMap();
+    notify(`קפצת אל: ${x}, ${y}`, "success");
 };
 
-window.centerMapOnHome = function () {
+// NEW: Just switch view and fill inputs, DO NOT JUMP/RENDER
+window.navigateToMapSearch = function (x, y) {
+    // Use window.activeView to avoid ReferenceError
+    // Use 'world' instead of 'map' to match switchView logic
+    if (window.activeView !== 'world') {
+        switchView('world');
+    }
+
+    // Wait for DOM
+    setTimeout(() => {
+        const xInput = document.getElementById('nav-x');
+        const yInput = document.getElementById('nav-y');
+        if (xInput) xInput.value = x;
+        if (yInput) yInput.value = y;
+        notify("אנא לחץ על 'חפש' כדי להגיע ליעד", "info");
+    }, 100);
+};
+
+
+function moveMap(dx, dy) {
+    STATE.viewport.x += dx;
+    STATE.viewport.y += dy;
+    renderWorldMap();
+}
+
+function centerMapOnHome() {
     if (STATE.homeCoords) {
-        if (window.jumpToMapCoords) {
-            window.jumpToMapCoords(STATE.homeCoords.x, STATE.homeCoords.y);
-        } else {
-            // Legacy fallbacks
-            STATE.viewport = { ...STATE.homeCoords };
-            renderWorldMap();
-        }
-    }
-};
+        STATE.viewport = { ...STATE.homeCoords };
 
-// Orphaned code removed
+        // CRITICAL FIX: Must re-render map because we might be far away!
+        renderWorldMap();
+
+        requestAnimationFrame(() => {
+            const container = document.getElementById('world-map-viewport');
+
+            // OPTIMIZATION: Use scrollIntoView for perfect native centering
+            const myCityEl = document.querySelector('.entity-my-city');
+
+            if (myCityEl) {
+                myCityEl.scrollIntoView({ block: 'center', inline: 'center', behavior: 'auto' });
+
+            } else if (container) {
+                // Fallback: Geometric Center
+                container.scrollTo({
+                    top: (container.scrollHeight - container.clientHeight) / 2,
+                    left: (container.scrollWidth - container.clientWidth) / 2,
+                    behavior: 'auto'
+                });
+            }
+        });
+    }
+}
 
 function centerMapOnFortress() {
     // Check if player is in a clan
@@ -2051,8 +2048,6 @@ window.donateToIsland = function (type, amount) {
         notify("אין מספיק עץ!", "error");
     }
 };
-
-// Duplicates removed
 
 // --- MOBILE SCROLL CENTERING ---
 function initMobileScroll() {
@@ -3624,15 +3619,6 @@ window.handleLogin = async function () {
             }
 
             switchView('world');
-
-            // FIX: Force Scrollable Map to jump to home
-            setTimeout(() => {
-                if (window.jumpToMapCoords && STATE.homeCoords) {
-                    console.log("📍 Force-jumping to home:", STATE.homeCoords);
-                    window.jumpToMapCoords(STATE.homeCoords.x, STATE.homeCoords.y);
-                }
-            }, 500); // Give time for DOM to render
-
             updateUI();
 
             // Mobile: Prevent accidental back button exit (Safer)

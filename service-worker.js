@@ -1,12 +1,10 @@
-const CACHE_NAME = 'vikings-v6';
+const CACHE_NAME = 'vikings-v5';
 const ASSETS_TO_CACHE = [
     './',
     './index.html',
     './style.css',
     './main.js',
     './clan.js',
-    './scrollable_map.js',
-    './scrollable_map.css',
     './territory_upgrade.js',
     './manifest.json'
 ];
