@@ -566,6 +566,10 @@ const ClanSystem = {
             clan.treasury[res] = (clan.treasury[res] || 0) + amount;
 
             // Track contribution
+            if (!clan.members[CURRENT_USER].contribution) {
+                clan.members[CURRENT_USER].contribution = { gold: 0, wood: 0, food: 0, wine: 0, marble: 0, crystal: 0, sulfur: 0 };
+            }
+            // Double check specific res exists (schema migration)
             if (!clan.members[CURRENT_USER].contribution[res]) {
                 clan.members[CURRENT_USER].contribution[res] = 0;
             }
@@ -2478,24 +2482,20 @@ const ClanUI = {
 
         if (total === 0) return notify('Please enter an amount to deposit', 'warning');
 
-        // Execute Deposit
-        const clan = ClanSystem.getPlayerClan();
-        if (!clan) return;
+        // Execute Deposit via Centralized Logic
+        const result = ClanSystem.donate(depositAmounts);
 
-        // Update Client State
-        for (const [res, amount] of Object.entries(depositAmounts)) {
-            STATE.resources[res] -= amount;
-            if (!clan.treasury[res]) clan.treasury[res] = 0;
-            clan.treasury[res] += amount;
+        if (result.success) {
+            notify(`Deposited ${total} resources to clan!`, 'success');
+            updateResourcesUI();
+            closeModal();
+            // Refresh View if needed
+            if (document.getElementById('clan-fortress-tab')) {
+                this.renderFortress(document.getElementById('clan-tab-content'), ClanSystem.getPlayerClan());
+            }
+        } else {
+            notify(result.error || 'Deposit failed', 'error');
         }
-
-        // Save
-        updateResourcesUI();
-        await ClanSystem.saveClan(clan); // Sync to server
-        saveGame(); // Save player resources
-
-        notify(`Deposited ${total} resources to clan!`, 'success');
-        closeModal();
     },
 
     showDeployTroops() {
