@@ -3502,22 +3502,31 @@ async function syncWorldPlayers() {
 
         // Deduplicate users (Server might have issues, or just safety)
         const processedUsers = new Set();
-        console.log(`[DEBUG] Syncing ${data.players.length} players. Me: ${CURRENT_USER}`);
+
+        // DEBUG SYNC
+        console.groupCollapsed(`Sync World (${data.players.length} players)`);
+
+        // PRIORITIZE ME: Sort players so current user is processed first
+        // This ensures if duplicates exist, 'Me' (with client coords overrides) wins.
+        const cNameLower = (CURRENT_USER || '').trim().toLowerCase();
+        data.players.sort((a, b) => {
+            const aIsMe = a.username.trim().toLowerCase() === cNameLower;
+            const bIsMe = b.username.trim().toLowerCase() === cNameLower;
+            return aIsMe ? -1 : (bIsMe ? 1 : 0);
+        });
 
         // Add player cities with clan tags
         data.players.forEach(p => {
             // Normalized username for check
-            const pNameLower = p.username.toLowerCase();
-            const cNameLower = CURRENT_USER.toLowerCase();
+            const pNameLower = p.username.trim().toLowerCase();
 
             if (processedUsers.has(pNameLower)) {
-                console.warn("Duplicate user ignored:", pNameLower);
-                return;
+                console.warn("Duplicate user ignored:", p.username);
+                return; // Skip duplicates
             }
             processedUsers.add(pNameLower);
 
             const isMe = pNameLower === cNameLower;
-            if (isMe) console.log(`[DEBUG] Found ME at server coords ${p.x},${p.y}. Local: ${STATE.homeCoords ? STATE.homeCoords.x + ',' + STATE.homeCoords.y : 'None'}`);
 
             // Fix Teleport Ghosting: Prefer Client Coords for Self
             // If server is lagging, we trust our local move to avoid jumping back
@@ -3526,6 +3535,7 @@ async function syncWorldPlayers() {
             if (isMe && STATE.homeCoords) {
                 finalX = STATE.homeCoords.x;
                 finalY = STATE.homeCoords.y;
+                console.log(`-> Overriding coords for SELF to ${finalX},${finalY}`);
             }
 
             const key = `${finalX},${finalY}`;
@@ -3547,6 +3557,25 @@ async function syncWorldPlayers() {
                 isMyCity: isMe
             };
         });
+
+        // SAFETY NET: Ensure 'Me' exists at homeCoords even if server list somehow missed me
+        if (CURRENT_USER && STATE.homeCoords) {
+            const myKey = `${STATE.homeCoords.x},${STATE.homeCoords.y}`;
+            if (!STATE.mapEntities[myKey] || STATE.mapEntities[myKey].type !== 'city') {
+                console.warn("⚠️ Self-entity missing after sync. Force-adding at", myKey);
+                STATE.mapEntities[myKey] = {
+                    type: 'city',
+                    name: (STATE.city && STATE.city.name) ? STATE.city.name : 'My City',
+                    user: CURRENT_USER,
+                    level: (STATE.buildings && STATE.buildings.townHall) ? STATE.buildings.townHall.level : 1,
+                    score: 0,
+                    lastLogin: Date.now(),
+                    clanTag: STATE.clan ? STATE.clan.tag : null,
+                    isMyCity: true
+                };
+            }
+        }
+        console.groupEnd();
 
         // Add clan fortresses (2x2 entities)
         if (data.fortresses) {
