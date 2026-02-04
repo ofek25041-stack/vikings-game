@@ -1513,19 +1513,24 @@ const ClanUI = {
         ` : '';
 
         // Add Settings tab for leaders
-        const tabs = isLeader
-            ? `<button class="clan-tab ${this.currentTab === 'overview' ? 'active' : ''}" onclick="ClanUI.switchTab('overview')">Overview</button>
-               <button class="clan-tab ${this.currentTab === 'members' ? 'active' : ''}" onclick="ClanUI.switchTab('members')">Members</button>
-               <button class="clan-tab ${this.currentTab === 'chat' ? 'active' : ''}" onclick="ClanUI.switchTab('chat')">Chat</button>
-               <button class="clan-tab ${this.currentTab === 'treasury' ? 'active' : ''}" onclick="ClanUI.switchTab('treasury')">Treasury</button>
-               <button class="clan-tab ${this.currentTab === 'fortress' ? 'active' : ''}" onclick="ClanUI.switchTab('fortress')">Fortress</button>
-               <button class="clan-tab ${this.currentTab === 'settings' ? 'active' : ''}" onclick="ClanUI.switchTab('settings')">Settings</button>`
-            : `<button class="clan-tab ${this.currentTab === 'overview' ? 'active' : ''}" onclick="ClanUI.switchTab('overview')">Overview</button>
-               <button class="clan-tab ${this.currentTab === 'members' ? 'active' : ''}" onclick="ClanUI.switchTab('members')">Members</button>
-               <button class="clan-tab ${this.currentTab === 'chat' ? 'active' : ''}" onclick="ClanUI.switchTab('chat')">Chat</button>
-               <button class="clan-tab ${this.currentTab === 'treasury' ? 'active' : ''}" onclick="ClanUI.switchTab('treasury')">Treasury</button>
-               <button class="clan-tab ${this.currentTab === 'fortress' ? 'active' : ''}" onclick="ClanUI.switchTab('fortress')">Fortress</button>
-               ${canInvite ? `<button class="clan-tab ${this.currentTab === 'requests' ? 'active' : ''}" onclick="ClanUI.switchTab('requests')">Requests ${(clan.recruitment?.requests?.length || 0) > 0 ? `<span style="background:#ef4444; color:white; padding:2px 6px; border-radius:10px; font-size:0.7em;">${clan.recruitment.requests.length}</span>` : ''}</button>` : ''}`;
+        // Generate Tabs
+        let tabs = `
+            <button class="clan-tab ${this.currentTab === 'overview' ? 'active' : ''}" onclick="ClanUI.switchTab('overview')">Overview</button>
+            <button class="clan-tab ${this.currentTab === 'members' ? 'active' : ''}" onclick="ClanUI.switchTab('members')">Members</button>
+            <button class="clan-tab ${this.currentTab === 'chat' ? 'active' : ''}" onclick="ClanUI.switchTab('chat')">Chat</button>
+            <button class="clan-tab ${this.currentTab === 'treasury' ? 'active' : ''}" onclick="ClanUI.switchTab('treasury')">Treasury</button>
+            <button class="clan-tab ${this.currentTab === 'fortress' ? 'active' : ''}" onclick="ClanUI.switchTab('fortress')">Fortress</button>
+        `;
+
+        if (canInvite) {
+            const reqCount = clan.recruitment?.requests?.length || 0;
+            const badge = reqCount > 0 ? `<span style="background:#ef4444; color:white; padding:2px 6px; border-radius:10px; font-size:0.7em;">${reqCount}</span>` : '';
+            tabs += `<button class="clan-tab ${this.currentTab === 'requests' ? 'active' : ''}" onclick="ClanUI.switchTab('requests')">Requests ${badge}</button>`;
+        }
+
+        if (isLeader) {
+            tabs += `<button class="clan-tab ${this.currentTab === 'settings' ? 'active' : ''}" onclick="ClanUI.switchTab('settings')">Settings</button>`;
+        }
 
         container.innerHTML = `
             <!-- Clan Header -->
