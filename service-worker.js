@@ -1,4 +1,4 @@
-const CACHE_NAME = 'vikings-v1';
+const CACHE_NAME = 'vikings-v2';
 const ASSETS_TO_CACHE = [
     './',
     './index.html',

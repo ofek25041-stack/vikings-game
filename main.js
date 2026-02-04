@@ -3621,13 +3621,20 @@ window.handleLogin = async function () {
             switchView('world');
             updateUI();
 
-            // Mobile: Prevent accidental back button exit
+            // Mobile: Prevent accidental back button exit (Safer)
             history.pushState({ view: 'world' }, "World", "");
+
+            let lastPopTime = 0;
             window.onpopstate = function (event) {
-                // If user presses back, stay on page but maybe show menu or just ignore
+                const now = Date.now();
+                if (now - lastPopTime < 100) {
+                    // Too fast! Ignore to prevent browser crash loops
+                    return;
+                }
+                lastPopTime = now;
+
+                // Keep user in game
                 history.pushState({ view: 'world' }, "World", "");
-                // Optional: show "Use Menu to Exit" toast
-                // notify("השתמש בתפריט כדי לצאת", "info");
             };
 
             // Show Connection Status Indicator
