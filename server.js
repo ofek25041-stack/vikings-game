@@ -906,17 +906,38 @@ const server = http.createServer(async (req, res) => {
                 }
 
                 // Execute
-                // Buyer pays Requesting, gets Offering
+                // Buyer pays Requesting, gets Offering (Calculate NET change first)
+                const buyerNet = {};
+
+                // 1. Deduct Requesting (Cost)
+                for (const [r, amt] of Object.entries(trade.requesting)) {
+                    buyerNet[r] = (buyerNet[r] || 0) - Math.abs(parseInt(amt) || 0);
+                }
+
+                // 2. Add Offering (Gain)
+                for (const [r, amt] of Object.entries(trade.offering)) {
+                    buyerNet[r] = (buyerNet[r] || 0) + Math.abs(parseInt(amt) || 0);
+                }
+
+                // Convert to $inc syntax
                 const buyerInc = {};
-                for (const [r, amt] of Object.entries(trade.requesting)) buyerInc[`state.resources.${r}`] = -Math.abs(parseInt(amt) || 0);
-                for (const [r, amt] of Object.entries(trade.offering)) buyerInc[`state.resources.${r}`] = Math.abs(parseInt(amt) || 0);
+                let hasBuyerChange = false;
+                for (const [r, net] of Object.entries(buyerNet)) {
+                    if (net !== 0) {
+                        buyerInc[`state.resources.${r}`] = net;
+                        hasBuyerChange = true;
+                    }
+                }
 
-                await db.collection('users').updateOne({ username: buyer }, {
-                    $inc: buyerInc,
-                    $set: { resourcesDirty: true }
-                });
-
-                console.log(`[MARKET] Trade ${tradeId} ACCEPTED by ${buyer}. Buyer changes:`, buyerInc);
+                if (hasBuyerChange) {
+                    const updateResult = await db.collection('users').updateOne({ username: buyer }, {
+                        $inc: buyerInc,
+                        $set: { resourcesDirty: true }
+                    });
+                    console.log(`[MARKET] Trade ${tradeId} ACCEPTED by ${buyer}. Modified: ${updateResult.modifiedCount}. Net Changes:`, buyerInc);
+                } else {
+                    console.warn(`[MARKET] Trade ${tradeId} ACCEPTED by ${buyer} but resulted in NO NET CHANGE.`);
+                }
 
                 // Seller gets Requesting
                 const sellerInc = {};
