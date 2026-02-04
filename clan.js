@@ -1976,7 +1976,7 @@ const ClanUI = {
     },
 
     // Donate resources
-    donateResources() {
+    async donateResources() {
         const resources = {};
         ['gold', 'wood', 'food', 'wine', 'marble', 'crystal', 'sulfur'].forEach(res => {
             const amount = parseInt(document.getElementById(`donate-${res}`).value) || 0;
@@ -1990,7 +1990,7 @@ const ClanUI = {
             return;
         }
 
-        const result = ClanSystem.donate(resources);
+        const result = await ClanSystem.donate(resources);
 
         if (result.success) {
             notify('Resources donated successfully!', 'success');
@@ -2508,7 +2508,8 @@ const ClanUI = {
         if (total === 0) return notify('Please enter an amount to deposit', 'warning');
 
         // Execute Deposit via Centralized Logic
-        const result = ClanSystem.donate(depositAmounts);
+        // Execute Deposit via Centralized Logic
+        const result = await ClanSystem.donate(depositAmounts);
 
         if (result.success) {
             notify(`Deposited ${total} resources to clan!`, 'success');
