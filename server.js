@@ -670,6 +670,9 @@ const server = http.createServer(async (req, res) => {
                 // Ideally we'd have specific endpoints. 
                 // For the fix NOW: Implement the endpoint as expected.
 
+                // Sanitization: Remove _id to prevent MongoDB immutable field error
+                delete clan._id;
+
                 await db.collection('clans').updateOne({ id: clan.id }, { $set: clan });
 
                 // Update Cache logic if needed
