@@ -894,7 +894,7 @@ const server = http.createServer(async (req, res) => {
         readBody(req, async (body) => {
             const { username, targetX, targetY } = body;
             const COST = 50000;
-            const RESOURCES = ['gold', 'wood', 'food', 'wine', 'iron'];
+            const RESOURCES = ['gold', 'wood', 'food', 'wine', 'marble'];
             const COOLDOWN_DAYS = 7;
             const COOLDOWN_MS = COOLDOWN_DAYS * 24 * 60 * 60 * 1000;
 

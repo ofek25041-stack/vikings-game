@@ -457,7 +457,7 @@ window.handleTileClick = function (x, y) {
     // Server check logic: ['gold', 'wood', 'food', 'wine', 'iron']
     // User check:
     const COST = 50000;
-    const resources = ['gold', 'wood', 'food', 'wine', 'iron'];
+    const resources = ['gold', 'wood', 'food', 'wine', 'marble'];
     const missing = resources.filter(r => (STATE.resources[r] || 0) < COST);
 
     let costHtml = `
@@ -512,7 +512,7 @@ window.teleportCity = async function (x, y) {
 
             // Also deduct resources visually (optional, but good)
             const COST = 50000;
-            ['gold', 'wood', 'food', 'wine', 'iron'].forEach(r => {
+            ['gold', 'wood', 'food', 'wine', 'marble'].forEach(r => {
                 if (STATE.resources[r]) STATE.resources[r] -= COST;
             });
             updateUI();
