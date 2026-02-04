@@ -299,6 +299,10 @@ function renderWorldMap() {
     // Center on Player or last viewport
     // LEGACY BRIDGE: Redirect to Scrollable Map
     if (window.renderScrollableMap) {
+        // SAFETY: Only render if map layers exist, otherwise init first
+        if (!document.getElementById('map-tiles-layer')) {
+            if (window.initScrollableMap) window.initScrollableMap();
+        }
         window.renderScrollableMap();
         return;
     }
@@ -3797,9 +3801,14 @@ function switchView(viewName) {
                 switchView('world');
                 return;
             } else if (viewName === 'world') {
-                const tpl = document.getElementById('template-world');
                 if (tpl) {
                     main.appendChild(tpl.content.cloneNode(true));
+
+                    // FIX: Ensure Scrollable Map is initialized (creates grid & layers)
+                    if (window.initScrollableMap) {
+                        window.initScrollableMap();
+                    }
+
                     // Load territories from server first, then render map
                     loadAllTerritories().then(() => {
                         renderWorldMap();
