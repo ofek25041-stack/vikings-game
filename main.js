@@ -421,6 +421,8 @@ function renderWorldMap() {
                             <div class="name">${tagHtml}${entity.name || entity.type}</div>
                             <span class="lvl">Lv.${entity.level || 1}</span>
                             ${ownerHtml}
+                            ${entity.isMyCity ? '<span style="color:cyan; font-size:0.6rem;">(ME-LOCAL)</span>' : ''} 
+                            ${(!entity.isMyCity && entity.user === CURRENT_USER) ? '<span style="color:red; font-size:0.6rem;">(ME-REMOTE-GHOST)</span>' : ''}
                         </div>
                     `;
 
