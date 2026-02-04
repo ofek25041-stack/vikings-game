@@ -122,6 +122,8 @@ main {
     background: #1a1a1a;
     position: relative;
     overflow: hidden;
+    direction: ltr !important;
+    /* CRITICAL: Force LTR for coordinate system */
 }
 
 .world-hud-top {
@@ -134,6 +136,8 @@ main {
     color: #fbbf24;
     z-index: 20;
     pointer-events: none;
+    direction: rtl;
+    /* Restore RTL for HUD text */
     /* Let clicks pass through except buttons */
 }
 
@@ -148,6 +152,8 @@ main {
     border: 1px solid #fbbf24;
     font-family: 'Outfit', sans-serif;
     font-weight: bold;
+    direction: ltr;
+    /* Coords should be LTR */
 }
 
 .map-viewport {
@@ -159,6 +165,8 @@ main {
     /* Allow full scrolling without flex centering issues */
     touch-action: pan-x pan-y;
     overscroll-behavior: none;
+    direction: ltr !important;
+    /* CRITICAL: Force LTR for scroll coordinates */
 }
 
 .map-grid {
