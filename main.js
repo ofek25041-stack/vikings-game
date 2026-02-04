@@ -66,8 +66,9 @@ window.activeView = 'login'; // Initialize global view state
 // --- World Map 2.0 Logic ---
 
 // Configuration for Viewport - Optimized for multiplayer
-const VIEW_COLS = 100; // 100x100 tiles - good balance
-const VIEW_ROWS = 100; // 100x100 tiles - good balance
+// Configuration for Viewport - Optimized for multiplayer
+const VIEW_COLS = 30; // Reduced from 100 for Mobile Safety (Fallback)
+const VIEW_ROWS = 30; // Reduced from 100 for Mobile Safety (Fallback)
 const TILE_SIZE = 30; // 30x30 Pixels
 
 function ensureCityExistsAndRender() {
@@ -230,7 +231,6 @@ async function loadAllTerritories() {
 
 function renderWorldMap() {
     // Hook for True Scrollable Map
-    /* TEMPORARILY DISABLED - scrollable_map.js needs fixes
     if (typeof window.initScrollableMap === 'function') {
         const grid = document.getElementById('world-map-grid');
 
@@ -242,14 +242,12 @@ function renderWorldMap() {
             viewport.setAttribute('data-init-done', 'true');
         } else {
             // Already initialized, just force re-render to be safe
-            // console.log("🗺️ Re-render from main.js");
             if (typeof window.renderVisibleArea === 'function') {
                 window.renderVisibleArea();
             }
         }
         return; // Stop legacy render
     }
-    */
 
 
     const grid = document.getElementById('world-map-grid');
