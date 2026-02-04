@@ -653,34 +653,43 @@ const server = http.createServer(async (req, res) => {
 
     } else if (req.url === '/api/clans/save' && req.method === 'POST') {
         readBody(req, async (body) => {
-            const { clan } = body;
-            if (!clan || !clan.id) return sendJSON(res, 400, { error: 'Invalid clan data' });
+            console.log("[API] /api/clans/save Request Received");
 
             try {
-                // In a real app we'd verify the user has permission to update this clan
-                // For now, we trust the client's verified state or just update the fields that matter
-                // To be safe, we should probably do a specific update, but saveClan sends the whole object.
-                // Let's replace the clan object but ensure we don't lose critical server-side-only fields if any.
-                // Actually, Mongo replaceOne or updateOne with $set is fine.
+                if (!body || !body.clan) {
+                    console.error("[API] /api/clans/save Payload Error: Missing clan object", body);
+                    return sendJSON(res, 400, { error: 'Invalid payload' });
+                }
 
-                // Safety: Don't overwrite members list blindly if we can help it? 
-                // The client sends the full members list. If race condition exists (two people joining), 
-                // this might overwrite. 
-                // BUT, 'donate' happens often. 'join' happens less.
-                // Ideally we'd have specific endpoints. 
-                // For the fix NOW: Implement the endpoint as expected.
+                const { clan } = body;
+                if (!clan.id) {
+                    console.error("[API] /api/clans/save Payload Error: Missing clan.id", clan);
+                    return sendJSON(res, 400, { error: 'Invalid clan ID' });
+                }
 
-                // Sanitization: Remove _id to prevent MongoDB immutable field error
-                delete clan._id;
+                console.log(`[API] Saving clan ${clan.id} (${clan.name})`);
 
-                await db.collection('clans').updateOne({ id: clan.id }, { $set: clan });
+                // Safer update: Remove restricted fields
+                const cleanClan = { ...clan };
+                delete cleanClan._id;
 
-                // Update Cache logic if needed
-                // updateWorldCache(); // Clans aren't in world cache usually unless fortress?
+                // Debug logging
+                // console.log("[API] Clan Payload (Cleaned):", JSON.stringify(cleanClan).substring(0, 200) + "...");
 
+                const result = await db.collection('clans').updateOne({ id: clan.id }, { $set: cleanClan });
+
+                if (result.matchedCount === 0) {
+                    console.warn(`[API] No clan found to update with ID: ${clan.id}`);
+                    // Optional: Insert if missing? No, createClan does that.
+                    return sendJSON(res, 404, { error: 'Clan not found' });
+                }
+
+                console.log(`[API] Clan saved successfully. Modified: ${result.modifiedCount}`);
                 sendJSON(res, 200, { success: true });
+
             } catch (e) {
-                sendJSON(res, 500, { error: e.message });
+                console.error("[API] /api/clans/save CRITICAL ERROR:", e);
+                sendJSON(res, 500, { error: e.message || "Internal Server Error" });
             }
         });
 
