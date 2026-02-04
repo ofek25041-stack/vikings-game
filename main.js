@@ -17,6 +17,19 @@ window.onerror = function (msg, url, line, col, error) {
     return false;
 };
 
+// --- CSS Failsafe ---
+// Check if scrollable_map.css is loaded, if not - force load it
+(function ensureMapStyles() {
+    const isLoaded = Array.from(document.styleSheets).some(s => s.href && s.href.includes('scrollable_map.css'));
+    if (!isLoaded) {
+        console.warn("⚠️ scrollable_map.css not detected! Injecting fallback...");
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = 'scrollable_map.css?v=' + Date.now();
+        document.head.appendChild(link);
+    }
+})();
+
 // Default Init State Template
 // Default Init State Template
 const DEFAULT_STATE = {
