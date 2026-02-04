@@ -250,10 +250,24 @@ const server = http.createServer(async (req, res) => {
                     usedServerResources = true;
                 }
 
+                // --- CLAN SYNC PROTECTION ---
+                // Clan state is now Server-Authoritative via dedicated endpoints.
+                // If DB has a clan, but Client sends none (or different?), we trust DB.
+                // Especially important for "Accept Request" flow where client is unaware.
+                let finalClan = state.clan;
+                let usedServerClan = false;
+
+                if (user.state.clan && (!state.clan || state.clan.id !== user.state.clan.id)) {
+                    console.log(`[SYNC] Preserving server clan state for ${username}. DB: ${user.state.clan.id}, Client: ${state.clan ? state.clan.id : 'null'}`);
+                    finalClan = user.state.clan;
+                    usedServerClan = true;
+                }
+
                 // Construct updated state
                 const newState = {
                     ...state,
                     resources: finalResources,
+                    clan: finalClan, // Use authoritative clan
                     reports: mergedReports,
                     chats: serverChats,
                     lastLogin: Date.now()
@@ -277,7 +291,8 @@ const server = http.createServer(async (req, res) => {
                         chats: serverChats
                     },
                     // Return resources if we forced them, so client can sync
-                    forceUpdateResources: usedServerResources ? finalResources : null
+                    forceUpdateResources: usedServerResources ? finalResources : null,
+                    forceUpdateClan: usedServerClan ? finalClan : null
                 });
 
             } catch (err) {

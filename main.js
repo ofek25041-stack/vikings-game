@@ -3397,6 +3397,17 @@ const API = {
                     if (typeof renderResources === 'function') renderResources();
                 }
 
+                // Handle forced clan sync (Join/Kick Sync)
+                if (data.success && data.forceUpdateClan) {
+                    console.warn("⚠️ Server forced clan update (Sync)", data.forceUpdateClan);
+                    STATE.clan = data.forceUpdateClan;
+                    notify("סנכרון קלאן בוצע בהצלחה", "success");
+                    // Refresh clan view if active
+                    if (window.activeView === 'clan' && typeof ClanUI !== 'undefined') {
+                        ClanUI.render();
+                    }
+                }
+
                 return data;
             } catch (err) {
                 console.warn("Lost connection during save. Switching to Offline.", err);
