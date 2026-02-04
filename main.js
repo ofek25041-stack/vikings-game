@@ -3621,6 +3621,15 @@ window.handleLogin = async function () {
             switchView('world');
             updateUI();
 
+            // Mobile: Prevent accidental back button exit
+            history.pushState({ view: 'world' }, "World", "");
+            window.onpopstate = function (event) {
+                // If user presses back, stay on page but maybe show menu or just ignore
+                history.pushState({ view: 'world' }, "World", "");
+                // Optional: show "Use Menu to Exit" toast
+                // notify("השתמש בתפריט כדי לצאת", "info");
+            };
+
             // Show Connection Status Indicator
             updateConnectionStatusUI();
 

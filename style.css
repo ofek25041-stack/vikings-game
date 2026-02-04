@@ -44,6 +44,9 @@ body {
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    /* Prevent Pull-to-Refresh on Mobile */
+    overscroll-behavior-y: none;
+    -webkit-overflow-scrolling: touch;
 }
 
 /* Header */
@@ -154,6 +157,8 @@ main {
     /* Default Sea */
     overflow: auto;
     /* Allow full scrolling without flex centering issues */
+    touch-action: pan-x pan-y;
+    overscroll-behavior: none;
 }
 
 .map-grid {
