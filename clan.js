@@ -544,7 +544,7 @@ const ClanSystem = {
     },
 
     // Donate resources to treasury
-    donate(resources) {
+    async donate(resources) {
         const clan = this.getPlayerClan();
         if (!clan) return { success: false, error: 'You are not in a clan' };
 
@@ -559,25 +559,50 @@ const ClanSystem = {
             }
         }
 
-        // Transfer resources
+        // Optimistic UI Update first
         for (const res in resources) {
             const amount = resources[res];
             STATE.resources[res] -= amount;
             clan.treasury[res] = (clan.treasury[res] || 0) + amount;
 
-            // Track contribution
+            // Track contribution locally
             if (!clan.members[CURRENT_USER].contribution) {
                 clan.members[CURRENT_USER].contribution = { gold: 0, wood: 0, food: 0, wine: 0, marble: 0, crystal: 0, sulfur: 0 };
             }
-            // Double check specific res exists (schema migration)
             if (!clan.members[CURRENT_USER].contribution[res]) {
                 clan.members[CURRENT_USER].contribution[res] = 0;
             }
             clan.members[CURRENT_USER].contribution[res] += amount;
         }
 
-        this.saveClan(clan);
+        // Save local player state
         saveGame();
+        updateUI(); // Refresh top bar
+
+        // Send to Server
+        try {
+            const response = await fetch('/api/clan/donate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    clanId: clan.id,
+                    username: CURRENT_USER,
+                    resources: resources
+                })
+            });
+
+            const result = await response.json();
+            if (!result.success) {
+                notify(result.error || 'Donation failed on server', 'error');
+                // Could rollback here, but for now just warn
+            } else {
+                // If server returns updated clan, sync it?
+                // result.clan => might be useful
+            }
+        } catch (e) {
+            console.error("Donation network error:", e);
+            notify('Server connection failed (Donation might not be saved remotely)', 'error');
+        }
 
         return { success: true };
     },

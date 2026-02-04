@@ -651,6 +651,49 @@ const server = http.createServer(async (req, res) => {
             }
         });
 
+    } else if (req.url === '/api/clan/donate' && req.method === 'POST') {
+        readBody(req, async (body) => {
+            const { clanId, username, resources } = body;
+
+            try {
+                if (!clanId || !username || !resources) return sendJSON(res, 400, { error: 'Missing data' });
+
+                // Construct MongoDB Update
+                const incUpdate = {};
+
+                // 1. Update Treasury
+                for (const [resKey, amount] of Object.entries(resources)) {
+                    if (amount > 0) {
+                        incUpdate[`treasury.${resKey}`] = amount;
+                    }
+                }
+
+                // 2. Update Member Contribution
+                for (const [resKey, amount] of Object.entries(resources)) {
+                    if (amount > 0) {
+                        incUpdate[`members.${username}.contribution.${resKey}`] = amount;
+                    }
+                }
+
+                if (Object.keys(incUpdate).length === 0) return sendJSON(res, 200, { success: true }); // Nothing to do
+
+                console.log(`[API] Processing Donation: ${username} -> ${clanId}`, incUpdate);
+
+                const result = await db.collection('clans').updateOne(
+                    { id: clanId },
+                    { $inc: incUpdate }
+                );
+
+                if (result.matchedCount === 0) return sendJSON(res, 404, { error: 'Clan not found' });
+
+                sendJSON(res, 200, { success: true });
+
+            } catch (e) {
+                console.error("[API] Donation Error:", e);
+                sendJSON(res, 500, { error: e.message });
+            }
+        });
+
     } else if (req.url === '/api/clans/save' && req.method === 'POST') {
         readBody(req, async (body) => {
             console.log("[API] /api/clans/save Request Received");
