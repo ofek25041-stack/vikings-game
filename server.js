@@ -219,6 +219,10 @@ const server = http.createServer(async (req, res) => {
                 sendJSON(res, 500, { success: false, message: 'Could not create user' });
             }
         });
+    } else if (req.url.startsWith('/api/territories') && req.method === 'GET') {
+        // Return the cached world state (cities, fortresses)
+        // Refresh cache if needed or just return current
+        sendJSON(res, 200, { success: true, territories: WORLD_CACHE });
     } else if (req.url === '/api/save' && req.method === 'POST') {
         readBody(req, async (body) => {
             const { username, state } = body;

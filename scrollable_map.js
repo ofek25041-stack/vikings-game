@@ -101,19 +101,37 @@ function initScrollableMap() {
 
         // It was a click! Calculate Tile Coordinates.
         const rect = grid.getBoundingClientRect();
-        const clickX = e.clientX - rect.left; // x position within the element.
-        const clickY = e.clientY - rect.top;  // y position within the element.
 
-        const tileX = Math.floor(clickX / MAP_CONFIG.TILE_SIZE);
-        const tileY = Math.floor(clickY / MAP_CONFIG.TILE_SIZE);
+        // METHOD 1: Classic (might fail if rect is weird)
+        const classicX = e.clientX - rect.left;
+        const classicY = e.clientY - rect.top;
+        const tileX_Classic = Math.floor(classicX / MAP_CONFIG.TILE_SIZE);
+        const tileY_Classic = Math.floor(classicY / MAP_CONFIG.TILE_SIZE);
 
-        console.log(`🖱️ Global Click: ${tileX}, ${tileY}`);
+        // METHOD 2: Robust Scroll Offset (Assumes Grid is at 0,0 of Scrollable Area)
+        // ScrollLeft is the "camera position". ClientX is the "offset on screen".
+        // Note: ClientX is from WINDOW left. We need offset from VIEWPORT left.
+        const vpRect = viewport.getBoundingClientRect();
+        const offsetX = e.clientX - vpRect.left;
+        const offsetY = e.clientY - vpRect.top;
+
+        const absoluteX = viewport.scrollLeft + offsetX;
+        const absoluteY = viewport.scrollTop + offsetY;
+
+        const tileX_Robust = Math.floor(absoluteX / MAP_CONFIG.TILE_SIZE);
+        const tileY_Robust = Math.floor(absoluteY / MAP_CONFIG.TILE_SIZE);
+
+        console.log(`🖱️ Click Analysis: Classic(${tileX_Classic},${tileY_Classic}) Robust(${tileX_Robust},${tileY_Robust})`);
+
+        // PREFER ROBUST METHOD
+        const finalTileX = tileX_Robust;
+        const finalTileY = tileY_Robust;
 
         // DEBUG: VISIBLE TO USER
-        notify(`Debug: Tile(${tileX},${tileY}) RectT(${Math.round(rect.top)})`, 'info');
+        notify(`Debug: T(${finalTileX},${finalTileY}) [C:${tileX_Classic} vs R:${tileX_Robust}]`, 'info');
 
         // Handle the Logic
-        handleGlobalClick(tileX, tileY);
+        handleGlobalClick(finalTileX, finalTileY);
     };
 
     // Mark as done
