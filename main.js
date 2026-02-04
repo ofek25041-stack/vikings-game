@@ -3502,81 +3502,66 @@ async function syncWorldPlayers() {
             }
         }
 
-        // Deduplicate users (Server might have issues, or just safety)
-        const processedUsers = new Set();
-
         // DEBUG SYNC
         console.groupCollapsed(`Sync World (${data.players.length} players)`);
 
-        // PRIORITIZE ME: Sort players so current user is processed first
-        // This ensures if duplicates exist, 'Me' (with client coords overrides) wins.
-        const cNameLower = (CURRENT_USER || '').trim().toLowerCase();
-        data.players.sort((a, b) => {
-            const aIsMe = a.username.trim().toLowerCase() === cNameLower;
-            const bIsMe = b.username.trim().toLowerCase() === cNameLower;
-            return aIsMe ? -1 : (bIsMe ? 1 : 0);
-        });
+        // 1. Identify ME (Server Record)
+        const myNameLower = (CURRENT_USER || '').trim().toLowerCase();
+        const myServerRecord = data.players.find(p => p.username.trim().toLowerCase() === myNameLower);
 
-        // Add player cities with clan tags
-        data.players.forEach(p => {
-            // Normalized username for check
-            const pNameLower = p.username.trim().toLowerCase();
+        // 2. Determine MY Coordinates (Prefer Local)
+        let myX = myServerRecord ? myServerRecord.x : 0;
+        let myY = myServerRecord ? myServerRecord.y : 0;
 
-            if (processedUsers.has(pNameLower)) {
-                console.warn("Duplicate user ignored:", p.username);
-                return; // Skip duplicates
-            }
-            processedUsers.add(pNameLower);
+        if (STATE.homeCoords) {
+            myX = STATE.homeCoords.x;
+            myY = STATE.homeCoords.y;
+        } else if (myServerRecord) {
+            // First login or sync? Update homeCoords
+            STATE.homeCoords = { x: myX, y: myY };
+        }
 
-            const isMe = pNameLower === cNameLower;
-
-            // Fix Teleport Ghosting: Prefer Client Coords for Self
-            // If server is lagging, we trust our local move to avoid jumping back
-            let finalX = p.x;
-            let finalY = p.y;
-            if (isMe && STATE.homeCoords) {
-                finalX = STATE.homeCoords.x;
-                finalY = STATE.homeCoords.y;
-                console.log(`-> Overriding coords for SELF to ${finalX},${finalY}`);
-            }
-
-            const key = `${finalX},${finalY}`;
-
-            // CRITICAL: Don't overwrite fortresses!
-            if (STATE.mapEntities[key]?.type === 'fortress') {
-                console.log(`⚠️ Skipping city at ${key} - fortress exists there`);
-                return;
-            }
-
-            STATE.mapEntities[key] = {
-                type: 'city',
-                name: isMe ? (STATE.city ? STATE.city.name : 'My City') : `${p.username}'s City`,
-                user: p.username, // Keep original casing for display
-                level: p.level || 1,
-                score: p.score || 0,
-                lastLogin: p.lastLogin,
-                clanTag: p.clanTag || null,
-                isMyCity: isMe
-            };
-        });
-
-        // SAFETY NET: Ensure 'Me' exists at homeCoords even if server list somehow missed me
-        if (CURRENT_USER && STATE.homeCoords) {
-            const myKey = `${STATE.homeCoords.x},${STATE.homeCoords.y}`;
-            if (!STATE.mapEntities[myKey] || STATE.mapEntities[myKey].type !== 'city') {
-                console.warn("⚠️ Self-entity missing after sync. Force-adding at", myKey);
+        // 3. Place ME (Single Entity Guarantee)
+        if (CURRENT_USER) {
+            const myKey = `${myX},${myY}`;
+            if (STATE.mapEntities[myKey]?.type !== 'fortress') {
                 STATE.mapEntities[myKey] = {
                     type: 'city',
                     name: (STATE.city && STATE.city.name) ? STATE.city.name : 'My City',
                     user: CURRENT_USER,
                     level: (STATE.buildings && STATE.buildings.townHall) ? STATE.buildings.townHall.level : 1,
-                    score: 0,
+                    score: myServerRecord ? (myServerRecord.score || 0) : 0,
                     lastLogin: Date.now(),
-                    clanTag: STATE.clan ? STATE.clan.tag : null,
+                    clanTag: myServerRecord ? (myServerRecord.clanTag || null) : (STATE.clan ? STATE.clan.tag : null),
                     isMyCity: true
                 };
             }
         }
+
+        // 4. Place OTHERS (Skip Me)
+        data.players.forEach(p => {
+            const pNameLower = p.username.trim().toLowerCase();
+            if (pNameLower === myNameLower) return; // SKIP ME
+
+            const key = `${p.x},${p.y}`;
+
+            // Skip fortresses
+            if (STATE.mapEntities[key]?.type === 'fortress') return;
+            // Skip if space occupied by ME (e.g. if I are at same coords as someone else?)
+            if (STATE.mapEntities[key]?.isMyCity) return;
+
+            STATE.mapEntities[key] = {
+                type: 'city',
+                name: `${p.username}'s City`,
+                user: p.username,
+                level: p.level || 1,
+                score: p.score || 0,
+                lastLogin: p.lastLogin,
+                clanTag: p.clanTag || null,
+                isMyCity: false
+            };
+        });
+
         console.groupEnd();
 
         // Add clan fortresses (2x2 entities)
