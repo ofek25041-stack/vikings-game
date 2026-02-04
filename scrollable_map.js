@@ -398,7 +398,12 @@ function renderVisibleArea() {
     }
 
     // VISIBLE DEBUG FOR USER
-    notify(`Entities Visibles: ${entityCount}`, 'info');
+    let extraDebug = "";
+    if (tilesLayer.children.length > 0) {
+        const firstTile = tilesLayer.children[0];
+        extraDebug = ` | Tile[0]: ${firstTile.style.left},${firstTile.style.top}`;
+    }
+    notify(`Entities: ${entityCount}${extraDebug}`, 'info');
 }
 
 function createEntityDOM(entity, x, y) {
