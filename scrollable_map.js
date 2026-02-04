@@ -197,6 +197,11 @@ function renderVisibleArea() {
     // 1. Calculate Visible Coordinates
     const scrollLeft = viewport.scrollLeft;
     const scrollTop = viewport.scrollTop;
+
+    // DEBUG: Border on Grid and Layer
+    const grid = document.getElementById('world-map-grid');
+    if (grid) grid.style.border = '5px solid red';
+    if (tilesLayer) tilesLayer.style.border = '5px solid yellow';
     const width = viewport.clientWidth;
     const height = viewport.clientHeight;
 
@@ -276,9 +281,15 @@ function renderVisibleArea() {
             // Background
             if (type !== 'water') {
                 tile.style.backgroundColor = bgColor;
-                tile.style.opacity = '0.7';
-                tile.style.border = '1px solid rgba(255,255,255,0.2)';
+                tile.style.opacity = '0.9'; // Increased opacity
+                tile.style.border = '1px solid white'; // FORCE BORDER
+            } else {
+                tile.style.border = '1px solid rgba(0,0,255,0.3)'; // Border for water too for debug
             }
+
+            // DEBUG: FORCE VISIBILITY
+            tile.style.boxSizing = 'border-box';
+            tile.style.display = 'block';
 
             if (entity) {
                 entityCount++;
