@@ -3493,16 +3493,27 @@ async function syncWorldPlayers() {
             return;
         }
 
-        // Clear existing player cities (but keep resources/barbarians/rebels)
+        // Clear ALL player cities to prevent ghosts (rebuild from fresh data)
         for (const key in STATE.mapEntities) {
-            if (STATE.mapEntities[key].type === 'city' && !STATE.mapEntities[key].isMyCity) {
+            if (STATE.mapEntities[key].type === 'city') {
                 delete STATE.mapEntities[key];
             }
         }
 
         // Add player cities with clan tags
         data.players.forEach(p => {
-            const key = `${p.x},${p.y}`;
+            const isMe = p.username === CURRENT_USER;
+
+            // Fix Teleport Ghosting: Prefer Client Coords for Self
+            // If server is lagging, we trust our local move to avoid jumping back
+            let finalX = p.x;
+            let finalY = p.y;
+            if (isMe && STATE.homeCoords) {
+                finalX = STATE.homeCoords.x;
+                finalY = STATE.homeCoords.y;
+            }
+
+            const key = `${finalX},${finalY}`;
 
             // CRITICAL: Don't overwrite fortresses!
             if (STATE.mapEntities[key]?.type === 'fortress') {
@@ -3510,7 +3521,6 @@ async function syncWorldPlayers() {
                 return;
             }
 
-            const isMe = p.username === CURRENT_USER;
             STATE.mapEntities[key] = {
                 type: 'city',
                 name: isMe ? (STATE.city ? STATE.city.name : 'My City') : `${p.username}'s City`,
