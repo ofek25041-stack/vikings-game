@@ -949,640 +949,657 @@ const server = http.createServer(async (req, res) => {
             } catch (e) {
                 sendJSON(res, 500, { error: e.message });
             }
-        });
-
-    } else if (req.url === '/api/clan/chat' && req.method === 'POST') {
-        readBody(req, async (body) => {
-            const { clanId, sender, text } = body;
-            try {
-                // Validate membership is optional for speed, but good practice
-                // For now, assume client checks. Or quick DB check:
-                const clan = await db.collection('clans').findOne({ id: clanId });
-                if (!clan) return sendJSON(res, 404, { error: 'Clan not found' });
-
-                // Allow "system" messages
-                if (sender !== 'system' && !clan.members[sender]) {
-                    return sendJSON(res, 403, { error: 'Not a member' });
-                }
-
-                const message = {
-                    id: Date.now() + '_' + Math.random().toString(36).substr(2, 9),
-                    sender, text, timestamp: Date.now()
-                };
-
-                // Atomically push and slice to keep last 50
-                // MongoDB 4.4+ supports $slice in update? Yes, $push with $slice.
-                await db.collection('clans').updateOne({ id: clanId }, {
-                    $push: {
-                        messages: {
-                            $each: [message],
-                            $slice: -50
-                        }
-                    },
-                    $set: { lastActivity: Date.now() }
-                });
-
-                sendJSON(res, 200, { success: true, message });
-            } catch (e) { sendJSON(res, 500, { error: e.message }); }
-        });
-
-    } else if (req.url.startsWith('/api/clan/data') && req.method === 'GET') {
-        const urlParams = new URLSearchParams(req.url.split('?')[1]);
-        const clanId = urlParams.get('id');
-
-        if (!clanId) return sendJSON(res, 400, { error: 'Missing clanId' });
-
-        try {
-            const clan = await db.collection('clans').findOne({ id: clanId });
-            if (!clan) return sendJSON(res, 404, { error: 'Clan not found' });
-
-            sendJSON(res, 200, { success: true, clan });
-        } catch (e) { sendJSON(res, 500, { error: e.message }); }
-
-    } else if (req.url === '/api/world' && req.method === 'GET') {
-        // CRITICAL: Separate players (cities) from fortresses
-        const players = WORLD_CACHE.filter(e => e.type === 'city' || !e.type);
-        const fortresses = WORLD_CACHE.filter(e => e.type === 'fortress');
-
-        sendJSON(res, 200, { success: true, players, fortresses });
-
-    } else if (req.url === '/api/players' && req.method === 'GET') {
-        try {
-            const profiles = await db.collection('users').find({}, {
-                projection: { username: 1, "state.buildings": 1, "state.army": 1, "state.research": 1, "state.stats": 1, "state.mapEntities": 1 }
-            }).toArray();
-
-            // Remap to flatten structure for client if needed, or client handles nesting?
-            // Client expects { username, buildings:..., army:... }
-            const mapped = profiles.map(p => ({
-                username: p.username,
-                buildings: p.state?.buildings || {},
-                army: p.state?.army || {},
-                research: p.state?.research || {},
-                stats: p.state?.stats || {},
-                mapEntities: p.state?.mapEntities || {}
-            }));
-            sendJSON(res, 200, { players: mapped });
-        } catch (e) { sendJSON(res, 500, { error: e.message }); }
-
-    } else if (req.url === '/api/market/offer' && req.method === 'POST') {
-        readBody(req, async (body) => {
-            const { seller, offering, requesting } = body;
-            try {
-                // Deduct from seller
-                const sellerUser = await db.collection('users').findOne({ username: seller });
-                if (!sellerUser) return sendJSON(res, 404, { success: false, message: 'User not found' });
-
-                // VALIDATION: Check resources
-                const dec = {};
-                let hasValidOffer = false;
-
-                for (const [r, amt] of Object.entries(offering)) {
-                    const validAmt = Math.abs(parseInt(amt) || 0); // Ensure positive integer
-                    if (validAmt > 0) {
-                        if ((sellerUser.state.resources[r] || 0) < validAmt) {
-                            return sendJSON(res, 400, { success: false, message: `Not enough ${r}` });
-                        }
-                        dec[`state.resources.${r}`] = -validAmt;
-                        hasValidOffer = true;
-                    }
-                }
-
-                if (!hasValidOffer) {
-                    return sendJSON(res, 400, { success: false, message: 'Must offer at least one resource' });
-                }
-
-                // Execute Deduction
-                await db.collection('users').updateOne({ username: seller }, {
-                    $inc: dec,
-                    $set: { resourcesDirty: true }
-                });
-
-                console.log(`[MARKET] Offer created by ${seller}. Deducted:`, dec);
-
-                // Fetch updated state to return to client
-                const updatedSeller = await db.collection('users').findOne({ username: seller });
-
-                // Create Trade
-                const trade = {
-                    id: 'trade_' + Date.now(),
-                    seller,
-                    offering, // We keep original object, but we validated it
-                    requesting,
-                    status: 'active',
-                    createdAt: Date.now(),
-                    expiresAt: Date.now() + 86400000
-                };
-                await db.collection('trades').insertOne(trade);
-
-                sendJSON(res, 200, { success: true, trade, updatedResources: updatedSeller.state.resources });
-
-            } catch (e) {
-                console.error('[MARKET] Offer Error:', e);
-                sendJSON(res, 500, { error: e.message });
-            }
-        });
-
-    } else if (req.url === '/api/market/offers' && req.method === 'GET') {
-        try {
-            const offers = await db.collection('trades').find({ status: 'active', expiresAt: { $gt: Date.now() } }).toArray();
-            sendJSON(res, 200, { success: true, offers });
-        } catch (e) { sendJSON(res, 500, { error: e.message }); }
-
-    } else if (req.url === '/api/market/accept' && req.method === 'POST') {
-        readBody(req, async (body) => {
-            const { tradeId, buyer } = body;
-            try {
-                const trade = await db.collection('trades').findOne({ id: tradeId, status: 'active' });
-                if (!trade) return sendJSON(res, 404, { error: 'Trade not valid' });
-
-                if (trade.seller === buyer) {
-                    return sendJSON(res, 400, { success: false, message: 'Cannot buy your own offer' });
-                }
-
-                const buyerUser = await db.collection('users').findOne({ username: buyer });
-                if (!buyerUser) return sendJSON(res, 404, { success: false, message: 'Buyer not found' });
-
-                // VALIDATION: Check Buyer Resources
-                for (const [r, amt] of Object.entries(trade.requesting)) {
-                    const validAmt = Math.abs(parseInt(amt) || 0);
-                    if ((buyerUser.state.resources[r] || 0) < validAmt) {
-                        return sendJSON(res, 400, { success: false, message: `Not enough ${r}` });
-                    }
-                }
-
-                // Execute
-                // Buyer pays Requesting, gets Offering (Calculate NET change first)
-                const buyerNet = {};
-
-                // 1. Deduct Requesting (Cost)
-                for (const [r, amt] of Object.entries(trade.requesting)) {
-                    buyerNet[r] = (buyerNet[r] || 0) - Math.abs(parseInt(amt) || 0);
-                }
-
-                // 2. Add Offering (Gain)
-                for (const [r, amt] of Object.entries(trade.offering)) {
-                    buyerNet[r] = (buyerNet[r] || 0) + Math.abs(parseInt(amt) || 0);
-                }
-
-                // Convert to $inc syntax
-                const buyerInc = {};
-                let hasBuyerChange = false;
-                for (const [r, net] of Object.entries(buyerNet)) {
-                    if (net !== 0) {
-                        buyerInc[`state.resources.${r}`] = net;
-                        hasBuyerChange = true;
-                    }
-                }
-
-                if (hasBuyerChange) {
-                    const updateResult = await db.collection('users').updateOne({ username: buyer }, {
-                        $inc: buyerInc,
-                        $set: { resourcesDirty: true }
-                    });
-                    console.log(`[MARKET] Trade ${tradeId} ACCEPTED by ${buyer}. Modified: ${updateResult.modifiedCount}. Net Changes:`, buyerInc);
-                } else {
-                    console.warn(`[MARKET] Trade ${tradeId} ACCEPTED by ${buyer} but resulted in NO NET CHANGE.`);
-                }
-
-                // Seller gets Requesting
-                const sellerInc = {};
-                for (const [r, amt] of Object.entries(trade.requesting)) sellerInc[`state.resources.${r}`] = Math.abs(parseInt(amt) || 0);
-
-                await db.collection('users').updateOne({ username: trade.seller }, {
-                    $inc: sellerInc,
-                    $set: { resourcesDirty: true }
-                });
-
-                console.log(`[MARKET] Trade ${tradeId} SELLER ${trade.seller} receives:`, sellerInc);
-
-                await db.collection('trades').updateOne({ id: tradeId }, { $set: { status: 'completed', acceptedBy: buyer, completedAt: Date.now() } });
-
-                // Fetch Updated Buyer State
-                const updatedBuyer = await db.collection('users').findOne({ username: buyer });
-
-                sendJSON(res, 200, { success: true, trade: { ...trade, status: 'completed' }, updatedResources: updatedBuyer.state.resources });
-
-            } catch (e) {
-                console.error('[MARKET] Accept Error:', e);
-                sendJSON(res, 500, { error: e.message });
-            }
-        });
-
-    } else if (req.url === '/api/message/send' && req.method === 'POST') {
-        readBody(req, async (body) => {
-            const { to, subject, content, from } = body;
-            if (!to || !content || !from) return sendJSON(res, 400, { success: false, message: 'Missing fields' });
-
-            try {
-                // Find Users (Case insensitive for target)
-                const targetUser = await db.collection('users').findOne({ username: { $regex: new RegExp(`^${to}$`, 'i') } });
-                const senderUser = await db.collection('users').findOne({ username: from });
-
-                if (!targetUser) return sendJSON(res, 404, { success: false, message: 'משתמש לא נמצא' });
-                if (!senderUser) return sendJSON(res, 404, { success: false, message: 'שגיאה בזיהוי השולח' });
-
-                // Create Message
-                const msg = {
-                    id: Date.now().toString(36) + Math.random().toString(36).substr(2),
-                    from: senderUser.username,
-                    to: targetUser.username,
-                    timestamp: Date.now(),
-                    content: content,
-                    read: false
-                };
-
-                // Add to Sender History
-                await db.collection('users').updateOne(
-                    { username: from },
-                    { $push: { [`state.chats.${targetUser.username}`]: { $each: [msg], $slice: -50 } } }
-                );
-
-                // Add to Recipient History
-                await db.collection('users').updateOne(
-                    { username: targetUser.username },
-                    { $push: { [`state.chats.${senderUser.username}`]: { $each: [msg], $slice: -50 } } }
-                );
-
-                sendJSON(res, 200, { success: true, message: msg });
-
-            } catch (e) {
-                console.error("Message Error:", e);
-                sendJSON(res, 500, { success: false, message: 'שגיאה בשליחת הודעה' });
-            }
-        });
-
-    } else if (req.url.startsWith('/api/market/history/') && req.method === 'GET') {
-        try {
-            const username = decodeURIComponent(req.url.split('/api/market/history/')[1]);
-            const history = await db.collection('trades').find({
-                $or: [{ seller: username }, { acceptedBy: username }]
-            }).sort({ createdAt: -1 }).limit(50).toArray();
-
-            sendJSON(res, 200, { success: true, history });
-        } catch (e) { sendJSON(res, 500, { error: e.message }); }
-
-    } else if (req.url === '/api/market/cancel' && req.method === 'POST') {
-        readBody(req, async (body) => {
-            const { tradeId, username } = body;
-            try {
-                const trade = await db.collection('trades').findOne({ id: tradeId });
-                if (!trade) return sendJSON(res, 404, { error: 'Trade not found' });
-                if (trade.seller !== username) return sendJSON(res, 403, { error: 'Not your trade' });
-                if (trade.status !== 'active') return sendJSON(res, 400, { error: 'Not active' });
-
-                // Refund
-                const inc = {};
-                for (const [r, amt] of Object.entries(trade.offering)) inc[`state.resources.${r}`] = amt;
-
-                await db.collection('users').updateOne({ username }, {
-                    $inc: inc,
-                    $set: { resourcesDirty: true }
-                });
-                await db.collection('trades').updateOne({ id: tradeId }, { $set: { status: 'cancelled', cancelledAt: Date.now() } });
-
-                // Fetch Updated State
-                const updatedUser = await db.collection('users').findOne({ username: username });
-
-                sendJSON(res, 200, { success: true, trade: { ...trade, status: 'cancelled' }, updatedResources: updatedUser.state.resources });
-            } catch (e) { sendJSON(res, 500, { error: e.message }); }
-        });
-    } else if (req.url === '/api/fortress/create' && req.method === 'POST') {
-        // Create fortress for clan
-        readBody(req, async (body) => {
-            try {
-                // CRITICAL: Check if database is connected
-                if (!db) {
-                    console.error('[FORTRESS CREATE] ❌ Database not connected!');
-                    return sendJSON(res, 503, {
-                        success: false,
-                        message: 'Database not connected. Please try again later.'
-                    });
-                }
-
-                const { clanId, x, y } = body;
-                console.log(`[FORTRESS CREATE] Request for clan ${clanId} at (${x}, ${y})`);
-
-                const clan = await db.collection('clans').findOne({ id: clanId });
-
-                if (!clan) {
-                    console.error(`[FORTRESS CREATE] ❌ Clan not found: ${clanId}`);
-                    return sendJSON(res, 404, { success: false, message: 'Clan not found' });
-                }
-
-                if (clan.fortress) {
-                    console.warn(`[FORTRESS CREATE] ⚠️ Clan ${clanId} already has fortress`);
-                    return sendJSON(res, 400, { success: false, message: 'Fortress already exists' });
-                }
-
-                // Create fortress object
-                const fortress = {
-                    x: parseInt(x),
-                    y: parseInt(y),
-                    level: 1,
-                    hp: 5000,
-                    maxHp: 5000,
-                    garrison: {},
-                    deposits: {},
-                    createdAt: Date.now()
-                };
-
-                await db.collection('clans').updateOne({ id: clanId }, { $set: { fortress: fortress } });
-                console.log(`[FORTRESS CREATE] ✅ Fortress created for clan ${clanId} at (${x}, ${y})`);
-
-                updateWorldCache();
-
-                sendJSON(res, 200, { success: true, fortress: fortress });
-            } catch (err) {
-                console.error('[FORTRESS CREATE] 💥 Error:', err);
-                sendJSON(res, 500, { success: false, message: err.message });
-            }
-        });
-    } else if (req.url === '/api/fortress/update' && req.method === 'POST') {
-        // Update fortress (deploy/withdraw troops/resources)
-        readBody(req, async (body) => {
-            try {
-                const { clanId, action, data } = body;
-                const clan = await db.collection('clans').findOne({ id: clanId });
-
-                if (!clan) return sendJSON(res, 404, { success: false, message: 'Clan not found' });
-                if (!clan.fortress) return sendJSON(res, 400, { success: false, message: 'No fortress' });
-
-                const updates = {};
-
-                // Initialize checks if missing
-                if (!clan.fortress.deposits) clan.fortress.deposits = {};
-                if (!clan.fortress.garrison) clan.fortress.garrison = {};
-
-                if (action === 'deploy_troops' && data.troops && data.username) {
-                    for (const [type, count] of Object.entries(data.troops)) {
-                        updates[`fortress.garrison.${type}`] = (clan.fortress.garrison[type] || 0) + count;
-                        updates[`fortress.deposits.${data.username}.${type}`] = (clan.fortress.deposits?.[data.username]?.[type] || 0) + count;
-                    }
-                    await db.collection('clans').updateOne({ id: clanId }, { $set: updates });
-                }
-                // Let's do memory-edit-save pattern for complex nested updates as it's safer for logic preservation for now.
-
-                // Reload clan fully to be safe on state
-                // Actually we already have it.
-                // Let's just implement the logic:
-                if (action === 'withdraw_troops') {
-                    const pDeps = clan.fortress.deposits[data.username] || {};
-                    for (const [t, c] of Object.entries(data.troops)) {
-                        if ((pDeps[t] || 0) < c) return sendJSON(res, 400, { error: 'Not enough deposited' });
-                        clan.fortress.garrison[t] = Math.max(0, (clan.fortress.garrison[t] || 0) - c);
-                        clan.fortress.deposits[data.username][t] -= c;
-                    }
-                    await db.collection('clans').updateOne({ id: clanId }, { $set: { fortress: clan.fortress } });
-                }
-
-                if (action === 'add_resources') {
-                    // This involves deducting from USER and adding to CLAN FORTRESS? 
-                    // No, usually treasury. But Fortress might have its own storage? 
-                    // The code said "fortress.resources".
-                    if (!clan.fortress.resources) clan.fortress.resources = {};
-                    const userInc = {};
-
-                    // Verify user funds
-                    const user = await db.collection('users').findOne({ username: data.username });
-                    for (const [r, amt] of Object.entries(data.resources)) {
-                        if ((user.state.resources[r] || 0) < amt) return sendJSON(res, 400, { error: 'Not enough resources' });
-                        userInc[`state.resources.${r}`] = -amt;
-                        clan.fortress.resources[r] = (clan.fortress.resources[r] || 0) + amt;
-                    }
-
-                    await db.collection('users').updateOne({ username: data.username }, { $inc: userInc });
-                    await db.collection('clans').updateOne({ id: clanId }, { $set: { fortress: clan.fortress } });
-                }
-
-                sendJSON(res, 200, { success: true, fortress: clan.fortress });
-            } catch (err) {
-                console.error('Error updating fortress:', err);
-                sendJSON(res, 500, { success: false, message: err.message });
-            }
-        });
-
-    } else if (req.url === '/api/attack' && req.method === 'POST') {
-        // Attack endpoint - battles are calculated client-side
-        // This endpoint just acknowledges the attack request
-        readBody(req, async (body) => {
-            try {
-                const { attacker, targetX, targetY, troops } = body;
-
-                // Basic validation
-                if (!attacker || targetX == null || targetY == null || !troops) {
-                    return sendJSON(res, 400, {
-                        success: false,
-                        message: 'Missing required fields'
-                    });
-                }
-
-                // Return success - battle calculations happen client-side
-                sendJSON(res, 200, {
-                    success: true,
-                    message: 'Attack acknowledged',
-                    battleResult: {
-                        // Client will calculate the actual battle
-                        // This is just to confirm the attack was received
-                    }
-                });
-            } catch (err) {
-                console.error('Error processing attack:', err);
-                sendJSON(res, 500, { success: false, message: err.message });
-            }
-        });
-
-    } else if (req.url === '/api/territory/upgrade' && req.method === 'POST') {
-        readBody(req, async (body) => {
-            const { username, x, y } = body;
-            try {
-                const user = await db.collection('users').findOne({ username });
-                if (!user) return sendJSON(res, 404, { error: 'User not found' });
-
-                const key = `${x},${y}`;
-                const entity = user.state.mapEntities ? user.state.mapEntities[key] : null;
-
-                if (!entity) return sendJSON(res, 404, { error: 'Territory not found or not owned' });
-                if (entity.owner !== username) return sendJSON(res, 403, { error: 'Not your territory' });
-
-                const currentLevel = entity.level || 1;
-                if (currentLevel >= 10) return sendJSON(res, 400, { error: 'Max level reached' });
-
-                // Calculate Cost (Same logic as client)
-                const nextLevel = currentLevel + 1;
-                const multiplier = Math.pow(2, nextLevel - 1);
-
-                // Base costs
-                const baseCosts = {
-                    gold: 10000, wood: 8000, food: 5000, wine: 3000,
-                    marble: 2000, crystal: 1500, sulfur: 1000
-                };
-
-                const cost = {};
-                const userRes = user.state.resources || {};
-                const updates = {};
-                let hasSafeResources = true;
-
-                // Check and Deduct Resources
-                for (const [resName, baseAmt] of Object.entries(baseCosts)) {
-                    const required = baseAmt * multiplier;
-                    if ((userRes[resName] || 0) < required) {
-                        hasSafeResources = false;
-                        break; // Fail fast
-                    }
-                    cost[resName] = required;
-                    updates[`state.resources.${resName}`] = (userRes[resName] || 0) - required;
-                }
-
-                if (!hasSafeResources) return sendJSON(res, 400, { error: 'Insufficient resources' });
-
-                // Apply Updates
-                updates[`state.mapEntities.${key}.level`] = nextLevel;
-                updates[`resourcesDirty`] = true;
-
-                await db.collection('users').updateOne({ username }, { $set: updates });
-
-                // Fetch updated user to return fresh state
-                const updatedUser = await db.collection('users').findOne({ username });
-
-                updateWorldCache();
-
-                sendJSON(res, 200, {
-                    success: true,
-                    newLevel: nextLevel,
-                    resources: updatedUser.state.resources
-                });
-
-            } catch (e) {
-                console.error('[Territory Upgrade] Error:', e);
-                sendJSON(res, 500, { error: e.message });
-            }
-        });
-
-    } else if (req.url === '/api/territories' && req.method === 'GET') {
-        try {
-            console.log('[API] /api/territories called');
-
-            // Return players cities and fortresses as "territories" for the map
-            const users = await db.collection('users').find({}).toArray();
-            const territories = {};
-
-            // 1. Get Cities (Players)
-            users.forEach(u => {
-                try {
-                    if (u.state && u.state.homeCoords) {
-                        const key = `${u.state.homeCoords.x},${u.state.homeCoords.y}`;
-                        territories[key] = {
-                            type: 'city',
-                            name: `${u.username}'s City`,
-                            user: u.username,
-                            owner: u.username,
-                            level: u.state.buildings?.townHall?.level || 1,
-                            x: u.state.homeCoords.x,
-                            y: u.state.homeCoords.y,
-                            clanTag: u.state.clan?.tag
-                        };
-                    }
-                } catch (userErr) {
-                    console.error(`[API] Error processing user ${u.username}:`, userErr);
-                }
-            });
-
-            // 2. Get Fortresses - wrapped in separate try/catch
-            try {
-                const clans = await db.collection('clans').find({}).toArray();
-                console.log(`[API] Found ${clans.length} clans for fortress processing`);
-
-                let fortressesAdded = 0;
-                clans.forEach(c => {
-                    try {
-                        if (c.fortress && c.fortress.x != null && c.fortress.y != null) {
-                            const fX = Number(c.fortress.x);
-                            const fY = Number(c.fortress.y);
-                            const key = `${fX},${fY}`;
-
-                            console.log(`[API] Adding fortress for ${c.tag} at ${key}`);
-
-                            territories[key] = {
-                                type: 'fortress',
-                                clanId: c.id,
-                                clanTag: c.tag,
-                                name: `מבצר [${c.tag}]`,
-                                x: fX,
-                                y: fY,
-                                level: c.fortress.level || 1,
-                                hp: c.fortress.hp || 5000,
-                                maxHp: c.fortress.maxHp || 5000,
-                                lastActive: Date.now(),
-                                owner: 'Clan'
-                            };
-                            fortressesAdded++;
-                        }
-                    } catch (clanErr) {
-                        console.error(`[API] Error processing clan ${c?.tag}:`, clanErr);
-                    }
-                });
-
-                console.log(`[API] Successfully added ${fortressesAdded} fortresses`);
-            } catch (fortressErr) {
-                console.error('[API] Error processing fortresses (will continue with cities only):', fortressErr);
-            }
-
-            const fortressCount = Object.values(territories).filter(t => t.type === 'fortress').length;
-            const cityCount = Object.values(territories).filter(t => t.type === 'city').length;
-
-            console.log(`[API] Returning ${Object.keys(territories).length} territories (${cityCount} cities, ${fortressCount} fortresses)`);
-
-            sendJSON(res, 200, {
-                success: true,
-                territories,
-                _debug: {
-                    serverCodeVersion: 'v1.3.1-STABLE',
-                    totalClans: territories.length,
-                    fortressesFound: fortressCount,
-                    citiesFound: cityCount,
-                    timestamp: new Date().toISOString()
-                }
-            });
-
-        } catch (e) {
-            console.error("[API] CRITICAL ERROR in /api/territories:", e);
-            // Return minimal response to prevent total failure
-            sendJSON(res, 200, {
-                success: false,
-                territories: {},
-                error: e.message,
-                _debug: { serverCodeVersion: 'v1.3.1-ERROR' }
-            });
-        }
-
-    } else if (req.url === '/api/debug/fortresses' && req.method === 'GET') {
-        // DEBUG ENDPOINT - Shows raw fortress data from DB
-        try {
-            const clans = await db.collection('clans').find({}).toArray();
-
-            const debugInfo = {
-                totalClans: clans.length,
-                clans: clans.map(c => ({
-                    tag: c.tag,
-                    id: c.id,
-                    deleted: c.deleted || false,
-                    hasFortress: !!c.fortress,
-                    fortress: c.fortress || null,
-                    fortressXType: c.fortress?.x ? typeof c.fortress.x : 'undefined',
-                    fortressYType: c.fortress?.y ? typeof c.fortress.y : 'undefined'
-                }))
-            };
-
-            sendJSON(res, 200, debugInfo);
         } catch (e) {
             sendJSON(res, 500, { error: e.message });
         }
+    });
 
+    } else if (req.url === '/api/force_coords' && req.method === 'POST') {
+    // EMERGENCY FIX ENDPOINT
+    readBody(req, async (body) => {
+        const { username, x, y } = body;
+        try {
+            await db.collection('users').updateOne(
+                { username },
+                { $set: { "state.homeCoords.x": x, "state.homeCoords.y": y, lastTeleport: 0 } } // Reset cooldown too
+            );
+            await updateWorldCache();
+            sendJSON(res, 200, { success: true });
+        } catch (e) { sendJSON(res, 500, { error: e.message }); }
+    });
 
-    } else {
-        serveStatic(req, res);
+} else if (req.url === '/api/clan/chat' && req.method === 'POST') {
+    readBody(req, async (body) => {
+        const { clanId, sender, text } = body;
+        try {
+            // Validate membership is optional for speed, but good practice
+            // For now, assume client checks. Or quick DB check:
+            const clan = await db.collection('clans').findOne({ id: clanId });
+            if (!clan) return sendJSON(res, 404, { error: 'Clan not found' });
+
+            // Allow "system" messages
+            if (sender !== 'system' && !clan.members[sender]) {
+                return sendJSON(res, 403, { error: 'Not a member' });
+            }
+
+            const message = {
+                id: Date.now() + '_' + Math.random().toString(36).substr(2, 9),
+                sender, text, timestamp: Date.now()
+            };
+
+            // Atomically push and slice to keep last 50
+            // MongoDB 4.4+ supports $slice in update? Yes, $push with $slice.
+            await db.collection('clans').updateOne({ id: clanId }, {
+                $push: {
+                    messages: {
+                        $each: [message],
+                        $slice: -50
+                    }
+                },
+                $set: { lastActivity: Date.now() }
+            });
+
+            sendJSON(res, 200, { success: true, message });
+        } catch (e) { sendJSON(res, 500, { error: e.message }); }
+    });
+
+} else if (req.url.startsWith('/api/clan/data') && req.method === 'GET') {
+    const urlParams = new URLSearchParams(req.url.split('?')[1]);
+    const clanId = urlParams.get('id');
+
+    if (!clanId) return sendJSON(res, 400, { error: 'Missing clanId' });
+
+    try {
+        const clan = await db.collection('clans').findOne({ id: clanId });
+        if (!clan) return sendJSON(res, 404, { error: 'Clan not found' });
+
+        sendJSON(res, 200, { success: true, clan });
+    } catch (e) { sendJSON(res, 500, { error: e.message }); }
+
+} else if (req.url === '/api/world' && req.method === 'GET') {
+    // CRITICAL: Separate players (cities) from fortresses
+    const players = WORLD_CACHE.filter(e => e.type === 'city' || !e.type);
+    const fortresses = WORLD_CACHE.filter(e => e.type === 'fortress');
+
+    sendJSON(res, 200, { success: true, players, fortresses });
+
+} else if (req.url === '/api/players' && req.method === 'GET') {
+    try {
+        const profiles = await db.collection('users').find({}, {
+            projection: { username: 1, "state.buildings": 1, "state.army": 1, "state.research": 1, "state.stats": 1, "state.mapEntities": 1 }
+        }).toArray();
+
+        // Remap to flatten structure for client if needed, or client handles nesting?
+        // Client expects { username, buildings:..., army:... }
+        const mapped = profiles.map(p => ({
+            username: p.username,
+            buildings: p.state?.buildings || {},
+            army: p.state?.army || {},
+            research: p.state?.research || {},
+            stats: p.state?.stats || {},
+            mapEntities: p.state?.mapEntities || {}
+        }));
+        sendJSON(res, 200, { players: mapped });
+    } catch (e) { sendJSON(res, 500, { error: e.message }); }
+
+} else if (req.url === '/api/market/offer' && req.method === 'POST') {
+    readBody(req, async (body) => {
+        const { seller, offering, requesting } = body;
+        try {
+            // Deduct from seller
+            const sellerUser = await db.collection('users').findOne({ username: seller });
+            if (!sellerUser) return sendJSON(res, 404, { success: false, message: 'User not found' });
+
+            // VALIDATION: Check resources
+            const dec = {};
+            let hasValidOffer = false;
+
+            for (const [r, amt] of Object.entries(offering)) {
+                const validAmt = Math.abs(parseInt(amt) || 0); // Ensure positive integer
+                if (validAmt > 0) {
+                    if ((sellerUser.state.resources[r] || 0) < validAmt) {
+                        return sendJSON(res, 400, { success: false, message: `Not enough ${r}` });
+                    }
+                    dec[`state.resources.${r}`] = -validAmt;
+                    hasValidOffer = true;
+                }
+            }
+
+            if (!hasValidOffer) {
+                return sendJSON(res, 400, { success: false, message: 'Must offer at least one resource' });
+            }
+
+            // Execute Deduction
+            await db.collection('users').updateOne({ username: seller }, {
+                $inc: dec,
+                $set: { resourcesDirty: true }
+            });
+
+            console.log(`[MARKET] Offer created by ${seller}. Deducted:`, dec);
+
+            // Fetch updated state to return to client
+            const updatedSeller = await db.collection('users').findOne({ username: seller });
+
+            // Create Trade
+            const trade = {
+                id: 'trade_' + Date.now(),
+                seller,
+                offering, // We keep original object, but we validated it
+                requesting,
+                status: 'active',
+                createdAt: Date.now(),
+                expiresAt: Date.now() + 86400000
+            };
+            await db.collection('trades').insertOne(trade);
+
+            sendJSON(res, 200, { success: true, trade, updatedResources: updatedSeller.state.resources });
+
+        } catch (e) {
+            console.error('[MARKET] Offer Error:', e);
+            sendJSON(res, 500, { error: e.message });
+        }
+    });
+
+} else if (req.url === '/api/market/offers' && req.method === 'GET') {
+    try {
+        const offers = await db.collection('trades').find({ status: 'active', expiresAt: { $gt: Date.now() } }).toArray();
+        sendJSON(res, 200, { success: true, offers });
+    } catch (e) { sendJSON(res, 500, { error: e.message }); }
+
+} else if (req.url === '/api/market/accept' && req.method === 'POST') {
+    readBody(req, async (body) => {
+        const { tradeId, buyer } = body;
+        try {
+            const trade = await db.collection('trades').findOne({ id: tradeId, status: 'active' });
+            if (!trade) return sendJSON(res, 404, { error: 'Trade not valid' });
+
+            if (trade.seller === buyer) {
+                return sendJSON(res, 400, { success: false, message: 'Cannot buy your own offer' });
+            }
+
+            const buyerUser = await db.collection('users').findOne({ username: buyer });
+            if (!buyerUser) return sendJSON(res, 404, { success: false, message: 'Buyer not found' });
+
+            // VALIDATION: Check Buyer Resources
+            for (const [r, amt] of Object.entries(trade.requesting)) {
+                const validAmt = Math.abs(parseInt(amt) || 0);
+                if ((buyerUser.state.resources[r] || 0) < validAmt) {
+                    return sendJSON(res, 400, { success: false, message: `Not enough ${r}` });
+                }
+            }
+
+            // Execute
+            // Buyer pays Requesting, gets Offering (Calculate NET change first)
+            const buyerNet = {};
+
+            // 1. Deduct Requesting (Cost)
+            for (const [r, amt] of Object.entries(trade.requesting)) {
+                buyerNet[r] = (buyerNet[r] || 0) - Math.abs(parseInt(amt) || 0);
+            }
+
+            // 2. Add Offering (Gain)
+            for (const [r, amt] of Object.entries(trade.offering)) {
+                buyerNet[r] = (buyerNet[r] || 0) + Math.abs(parseInt(amt) || 0);
+            }
+
+            // Convert to $inc syntax
+            const buyerInc = {};
+            let hasBuyerChange = false;
+            for (const [r, net] of Object.entries(buyerNet)) {
+                if (net !== 0) {
+                    buyerInc[`state.resources.${r}`] = net;
+                    hasBuyerChange = true;
+                }
+            }
+
+            if (hasBuyerChange) {
+                const updateResult = await db.collection('users').updateOne({ username: buyer }, {
+                    $inc: buyerInc,
+                    $set: { resourcesDirty: true }
+                });
+                console.log(`[MARKET] Trade ${tradeId} ACCEPTED by ${buyer}. Modified: ${updateResult.modifiedCount}. Net Changes:`, buyerInc);
+            } else {
+                console.warn(`[MARKET] Trade ${tradeId} ACCEPTED by ${buyer} but resulted in NO NET CHANGE.`);
+            }
+
+            // Seller gets Requesting
+            const sellerInc = {};
+            for (const [r, amt] of Object.entries(trade.requesting)) sellerInc[`state.resources.${r}`] = Math.abs(parseInt(amt) || 0);
+
+            await db.collection('users').updateOne({ username: trade.seller }, {
+                $inc: sellerInc,
+                $set: { resourcesDirty: true }
+            });
+
+            console.log(`[MARKET] Trade ${tradeId} SELLER ${trade.seller} receives:`, sellerInc);
+
+            await db.collection('trades').updateOne({ id: tradeId }, { $set: { status: 'completed', acceptedBy: buyer, completedAt: Date.now() } });
+
+            // Fetch Updated Buyer State
+            const updatedBuyer = await db.collection('users').findOne({ username: buyer });
+
+            sendJSON(res, 200, { success: true, trade: { ...trade, status: 'completed' }, updatedResources: updatedBuyer.state.resources });
+
+        } catch (e) {
+            console.error('[MARKET] Accept Error:', e);
+            sendJSON(res, 500, { error: e.message });
+        }
+    });
+
+} else if (req.url === '/api/message/send' && req.method === 'POST') {
+    readBody(req, async (body) => {
+        const { to, subject, content, from } = body;
+        if (!to || !content || !from) return sendJSON(res, 400, { success: false, message: 'Missing fields' });
+
+        try {
+            // Find Users (Case insensitive for target)
+            const targetUser = await db.collection('users').findOne({ username: { $regex: new RegExp(`^${to}$`, 'i') } });
+            const senderUser = await db.collection('users').findOne({ username: from });
+
+            if (!targetUser) return sendJSON(res, 404, { success: false, message: 'משתמש לא נמצא' });
+            if (!senderUser) return sendJSON(res, 404, { success: false, message: 'שגיאה בזיהוי השולח' });
+
+            // Create Message
+            const msg = {
+                id: Date.now().toString(36) + Math.random().toString(36).substr(2),
+                from: senderUser.username,
+                to: targetUser.username,
+                timestamp: Date.now(),
+                content: content,
+                read: false
+            };
+
+            // Add to Sender History
+            await db.collection('users').updateOne(
+                { username: from },
+                { $push: { [`state.chats.${targetUser.username}`]: { $each: [msg], $slice: -50 } } }
+            );
+
+            // Add to Recipient History
+            await db.collection('users').updateOne(
+                { username: targetUser.username },
+                { $push: { [`state.chats.${senderUser.username}`]: { $each: [msg], $slice: -50 } } }
+            );
+
+            sendJSON(res, 200, { success: true, message: msg });
+
+        } catch (e) {
+            console.error("Message Error:", e);
+            sendJSON(res, 500, { success: false, message: 'שגיאה בשליחת הודעה' });
+        }
+    });
+
+} else if (req.url.startsWith('/api/market/history/') && req.method === 'GET') {
+    try {
+        const username = decodeURIComponent(req.url.split('/api/market/history/')[1]);
+        const history = await db.collection('trades').find({
+            $or: [{ seller: username }, { acceptedBy: username }]
+        }).sort({ createdAt: -1 }).limit(50).toArray();
+
+        sendJSON(res, 200, { success: true, history });
+    } catch (e) { sendJSON(res, 500, { error: e.message }); }
+
+} else if (req.url === '/api/market/cancel' && req.method === 'POST') {
+    readBody(req, async (body) => {
+        const { tradeId, username } = body;
+        try {
+            const trade = await db.collection('trades').findOne({ id: tradeId });
+            if (!trade) return sendJSON(res, 404, { error: 'Trade not found' });
+            if (trade.seller !== username) return sendJSON(res, 403, { error: 'Not your trade' });
+            if (trade.status !== 'active') return sendJSON(res, 400, { error: 'Not active' });
+
+            // Refund
+            const inc = {};
+            for (const [r, amt] of Object.entries(trade.offering)) inc[`state.resources.${r}`] = amt;
+
+            await db.collection('users').updateOne({ username }, {
+                $inc: inc,
+                $set: { resourcesDirty: true }
+            });
+            await db.collection('trades').updateOne({ id: tradeId }, { $set: { status: 'cancelled', cancelledAt: Date.now() } });
+
+            // Fetch Updated State
+            const updatedUser = await db.collection('users').findOne({ username: username });
+
+            sendJSON(res, 200, { success: true, trade: { ...trade, status: 'cancelled' }, updatedResources: updatedUser.state.resources });
+        } catch (e) { sendJSON(res, 500, { error: e.message }); }
+    });
+} else if (req.url === '/api/fortress/create' && req.method === 'POST') {
+    // Create fortress for clan
+    readBody(req, async (body) => {
+        try {
+            // CRITICAL: Check if database is connected
+            if (!db) {
+                console.error('[FORTRESS CREATE] ❌ Database not connected!');
+                return sendJSON(res, 503, {
+                    success: false,
+                    message: 'Database not connected. Please try again later.'
+                });
+            }
+
+            const { clanId, x, y } = body;
+            console.log(`[FORTRESS CREATE] Request for clan ${clanId} at (${x}, ${y})`);
+
+            const clan = await db.collection('clans').findOne({ id: clanId });
+
+            if (!clan) {
+                console.error(`[FORTRESS CREATE] ❌ Clan not found: ${clanId}`);
+                return sendJSON(res, 404, { success: false, message: 'Clan not found' });
+            }
+
+            if (clan.fortress) {
+                console.warn(`[FORTRESS CREATE] ⚠️ Clan ${clanId} already has fortress`);
+                return sendJSON(res, 400, { success: false, message: 'Fortress already exists' });
+            }
+
+            // Create fortress object
+            const fortress = {
+                x: parseInt(x),
+                y: parseInt(y),
+                level: 1,
+                hp: 5000,
+                maxHp: 5000,
+                garrison: {},
+                deposits: {},
+                createdAt: Date.now()
+            };
+
+            await db.collection('clans').updateOne({ id: clanId }, { $set: { fortress: fortress } });
+            console.log(`[FORTRESS CREATE] ✅ Fortress created for clan ${clanId} at (${x}, ${y})`);
+
+            updateWorldCache();
+
+            sendJSON(res, 200, { success: true, fortress: fortress });
+        } catch (err) {
+            console.error('[FORTRESS CREATE] 💥 Error:', err);
+            sendJSON(res, 500, { success: false, message: err.message });
+        }
+    });
+} else if (req.url === '/api/fortress/update' && req.method === 'POST') {
+    // Update fortress (deploy/withdraw troops/resources)
+    readBody(req, async (body) => {
+        try {
+            const { clanId, action, data } = body;
+            const clan = await db.collection('clans').findOne({ id: clanId });
+
+            if (!clan) return sendJSON(res, 404, { success: false, message: 'Clan not found' });
+            if (!clan.fortress) return sendJSON(res, 400, { success: false, message: 'No fortress' });
+
+            const updates = {};
+
+            // Initialize checks if missing
+            if (!clan.fortress.deposits) clan.fortress.deposits = {};
+            if (!clan.fortress.garrison) clan.fortress.garrison = {};
+
+            if (action === 'deploy_troops' && data.troops && data.username) {
+                for (const [type, count] of Object.entries(data.troops)) {
+                    updates[`fortress.garrison.${type}`] = (clan.fortress.garrison[type] || 0) + count;
+                    updates[`fortress.deposits.${data.username}.${type}`] = (clan.fortress.deposits?.[data.username]?.[type] || 0) + count;
+                }
+                await db.collection('clans').updateOne({ id: clanId }, { $set: updates });
+            }
+            // Let's do memory-edit-save pattern for complex nested updates as it's safer for logic preservation for now.
+
+            // Reload clan fully to be safe on state
+            // Actually we already have it.
+            // Let's just implement the logic:
+            if (action === 'withdraw_troops') {
+                const pDeps = clan.fortress.deposits[data.username] || {};
+                for (const [t, c] of Object.entries(data.troops)) {
+                    if ((pDeps[t] || 0) < c) return sendJSON(res, 400, { error: 'Not enough deposited' });
+                    clan.fortress.garrison[t] = Math.max(0, (clan.fortress.garrison[t] || 0) - c);
+                    clan.fortress.deposits[data.username][t] -= c;
+                }
+                await db.collection('clans').updateOne({ id: clanId }, { $set: { fortress: clan.fortress } });
+            }
+
+            if (action === 'add_resources') {
+                // This involves deducting from USER and adding to CLAN FORTRESS? 
+                // No, usually treasury. But Fortress might have its own storage? 
+                // The code said "fortress.resources".
+                if (!clan.fortress.resources) clan.fortress.resources = {};
+                const userInc = {};
+
+                // Verify user funds
+                const user = await db.collection('users').findOne({ username: data.username });
+                for (const [r, amt] of Object.entries(data.resources)) {
+                    if ((user.state.resources[r] || 0) < amt) return sendJSON(res, 400, { error: 'Not enough resources' });
+                    userInc[`state.resources.${r}`] = -amt;
+                    clan.fortress.resources[r] = (clan.fortress.resources[r] || 0) + amt;
+                }
+
+                await db.collection('users').updateOne({ username: data.username }, { $inc: userInc });
+                await db.collection('clans').updateOne({ id: clanId }, { $set: { fortress: clan.fortress } });
+            }
+
+            sendJSON(res, 200, { success: true, fortress: clan.fortress });
+        } catch (err) {
+            console.error('Error updating fortress:', err);
+            sendJSON(res, 500, { success: false, message: err.message });
+        }
+    });
+
+} else if (req.url === '/api/attack' && req.method === 'POST') {
+    // Attack endpoint - battles are calculated client-side
+    // This endpoint just acknowledges the attack request
+    readBody(req, async (body) => {
+        try {
+            const { attacker, targetX, targetY, troops } = body;
+
+            // Basic validation
+            if (!attacker || targetX == null || targetY == null || !troops) {
+                return sendJSON(res, 400, {
+                    success: false,
+                    message: 'Missing required fields'
+                });
+            }
+
+            // Return success - battle calculations happen client-side
+            sendJSON(res, 200, {
+                success: true,
+                message: 'Attack acknowledged',
+                battleResult: {
+                    // Client will calculate the actual battle
+                    // This is just to confirm the attack was received
+                }
+            });
+        } catch (err) {
+            console.error('Error processing attack:', err);
+            sendJSON(res, 500, { success: false, message: err.message });
+        }
+    });
+
+} else if (req.url === '/api/territory/upgrade' && req.method === 'POST') {
+    readBody(req, async (body) => {
+        const { username, x, y } = body;
+        try {
+            const user = await db.collection('users').findOne({ username });
+            if (!user) return sendJSON(res, 404, { error: 'User not found' });
+
+            const key = `${x},${y}`;
+            const entity = user.state.mapEntities ? user.state.mapEntities[key] : null;
+
+            if (!entity) return sendJSON(res, 404, { error: 'Territory not found or not owned' });
+            if (entity.owner !== username) return sendJSON(res, 403, { error: 'Not your territory' });
+
+            const currentLevel = entity.level || 1;
+            if (currentLevel >= 10) return sendJSON(res, 400, { error: 'Max level reached' });
+
+            // Calculate Cost (Same logic as client)
+            const nextLevel = currentLevel + 1;
+            const multiplier = Math.pow(2, nextLevel - 1);
+
+            // Base costs
+            const baseCosts = {
+                gold: 10000, wood: 8000, food: 5000, wine: 3000,
+                marble: 2000, crystal: 1500, sulfur: 1000
+            };
+
+            const cost = {};
+            const userRes = user.state.resources || {};
+            const updates = {};
+            let hasSafeResources = true;
+
+            // Check and Deduct Resources
+            for (const [resName, baseAmt] of Object.entries(baseCosts)) {
+                const required = baseAmt * multiplier;
+                if ((userRes[resName] || 0) < required) {
+                    hasSafeResources = false;
+                    break; // Fail fast
+                }
+                cost[resName] = required;
+                updates[`state.resources.${resName}`] = (userRes[resName] || 0) - required;
+            }
+
+            if (!hasSafeResources) return sendJSON(res, 400, { error: 'Insufficient resources' });
+
+            // Apply Updates
+            updates[`state.mapEntities.${key}.level`] = nextLevel;
+            updates[`resourcesDirty`] = true;
+
+            await db.collection('users').updateOne({ username }, { $set: updates });
+
+            // Fetch updated user to return fresh state
+            const updatedUser = await db.collection('users').findOne({ username });
+
+            updateWorldCache();
+
+            sendJSON(res, 200, {
+                success: true,
+                newLevel: nextLevel,
+                resources: updatedUser.state.resources
+            });
+
+        } catch (e) {
+            console.error('[Territory Upgrade] Error:', e);
+            sendJSON(res, 500, { error: e.message });
+        }
+    });
+
+} else if (req.url === '/api/territories' && req.method === 'GET') {
+    try {
+        console.log('[API] /api/territories called');
+
+        // Return players cities and fortresses as "territories" for the map
+        const users = await db.collection('users').find({}).toArray();
+        const territories = {};
+
+        // 1. Get Cities (Players)
+        users.forEach(u => {
+            try {
+                if (u.state && u.state.homeCoords) {
+                    const key = `${u.state.homeCoords.x},${u.state.homeCoords.y}`;
+                    territories[key] = {
+                        type: 'city',
+                        name: `${u.username}'s City`,
+                        user: u.username,
+                        owner: u.username,
+                        level: u.state.buildings?.townHall?.level || 1,
+                        x: u.state.homeCoords.x,
+                        y: u.state.homeCoords.y,
+                        clanTag: u.state.clan?.tag
+                    };
+                }
+            } catch (userErr) {
+                console.error(`[API] Error processing user ${u.username}:`, userErr);
+            }
+        });
+
+        // 2. Get Fortresses - wrapped in separate try/catch
+        try {
+            const clans = await db.collection('clans').find({}).toArray();
+            console.log(`[API] Found ${clans.length} clans for fortress processing`);
+
+            let fortressesAdded = 0;
+            clans.forEach(c => {
+                try {
+                    if (c.fortress && c.fortress.x != null && c.fortress.y != null) {
+                        const fX = Number(c.fortress.x);
+                        const fY = Number(c.fortress.y);
+                        const key = `${fX},${fY}`;
+
+                        console.log(`[API] Adding fortress for ${c.tag} at ${key}`);
+
+                        territories[key] = {
+                            type: 'fortress',
+                            clanId: c.id,
+                            clanTag: c.tag,
+                            name: `מבצר [${c.tag}]`,
+                            x: fX,
+                            y: fY,
+                            level: c.fortress.level || 1,
+                            hp: c.fortress.hp || 5000,
+                            maxHp: c.fortress.maxHp || 5000,
+                            lastActive: Date.now(),
+                            owner: 'Clan'
+                        };
+                        fortressesAdded++;
+                    }
+                } catch (clanErr) {
+                    console.error(`[API] Error processing clan ${c?.tag}:`, clanErr);
+                }
+            });
+
+            console.log(`[API] Successfully added ${fortressesAdded} fortresses`);
+        } catch (fortressErr) {
+            console.error('[API] Error processing fortresses (will continue with cities only):', fortressErr);
+        }
+
+        const fortressCount = Object.values(territories).filter(t => t.type === 'fortress').length;
+        const cityCount = Object.values(territories).filter(t => t.type === 'city').length;
+
+        console.log(`[API] Returning ${Object.keys(territories).length} territories (${cityCount} cities, ${fortressCount} fortresses)`);
+
+        sendJSON(res, 200, {
+            success: true,
+            territories,
+            _debug: {
+                serverCodeVersion: 'v1.3.1-STABLE',
+                totalClans: territories.length,
+                fortressesFound: fortressCount,
+                citiesFound: cityCount,
+                timestamp: new Date().toISOString()
+            }
+        });
+
+    } catch (e) {
+        console.error("[API] CRITICAL ERROR in /api/territories:", e);
+        // Return minimal response to prevent total failure
+        sendJSON(res, 200, {
+            success: false,
+            territories: {},
+            error: e.message,
+            _debug: { serverCodeVersion: 'v1.3.1-ERROR' }
+        });
     }
+
+} else if (req.url === '/api/debug/fortresses' && req.method === 'GET') {
+    // DEBUG ENDPOINT - Shows raw fortress data from DB
+    try {
+        const clans = await db.collection('clans').find({}).toArray();
+
+        const debugInfo = {
+            totalClans: clans.length,
+            clans: clans.map(c => ({
+                tag: c.tag,
+                id: c.id,
+                deleted: c.deleted || false,
+                hasFortress: !!c.fortress,
+                fortress: c.fortress || null,
+                fortressXType: c.fortress?.x ? typeof c.fortress.x : 'undefined',
+                fortressYType: c.fortress?.y ? typeof c.fortress.y : 'undefined'
+            }))
+        };
+
+        sendJSON(res, 200, debugInfo);
+    } catch (e) {
+        sendJSON(res, 500, { error: e.message });
+    }
+
+
+} else {
+    serveStatic(req, res);
+}
 });
 
 server.listen(PORT, () => {

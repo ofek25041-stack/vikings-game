@@ -599,8 +599,31 @@ function updateFortressButton() {
     });
 
     btn.style.display = hasClanWithFortress ? 'inline-block' : 'none';
-    console.log('🏰 Button display set to:', btn.style.display);
+    // console.log('🏰 Button display set to:', btn.style.display);
 }
+
+// EMERGENCY FIX
+window.fixMyCoords = async function () {
+    if (!STATE.homeCoords) return;
+    const x = prompt("Confirm X coordinate:", STATE.homeCoords.x);
+    const y = prompt("Confirm Y coordinate:", STATE.homeCoords.y);
+    if (!x || !y) return;
+
+    try {
+        const res = await fetch('/api/force_coords', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username: CURRENT_USER, x: parseInt(x), y: parseInt(y) })
+        });
+        const d = await res.json();
+        if (d.success) {
+            alert("Coordinates fixed! Reloading...");
+            location.reload();
+        } else {
+            alert("Error: " + d.error);
+        }
+    } catch (e) { alert(e.message); }
+};
 
 // Pseudo-Random Deterministic Noise for Terrain
 function getTerrainType(x, y) {
