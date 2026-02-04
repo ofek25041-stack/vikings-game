@@ -333,6 +333,12 @@ main {
     /* Slightly higher */
 }
 
+/* DEBUG VISIBILITY */
+.entity-my-city {
+    border: 3px solid magenta !important;
+    background: rgba(255, 0, 255, 0.2);
+}
+
 .entity-my-city .entity-icon {
     filter: drop-shadow(0 0 8px #fbbf24);
 }

@@ -3506,8 +3506,21 @@ async function syncWorldPlayers() {
         console.groupCollapsed(`Sync World (${data.players.length} players)`);
 
         // 1. Identify ME (Server Record)
-        const myNameLower = (CURRENT_USER || '').trim().toLowerCase();
-        const myServerRecord = data.players.find(p => p.username.trim().toLowerCase() === myNameLower);
+        const cleanName = (name) => (name || '').replace(/[\u200B-\u200D\uFEFF]/g, '').trim().toLowerCase();
+
+        const myNameRaw = CURRENT_USER || '';
+        const myNameClean = cleanName(myNameRaw);
+
+        console.log(`[DEBUG] Comparing names. Me: "${myNameRaw}" (Clean: "${myNameClean}")`);
+
+        const myServerRecord = data.players.find(p => {
+            const pNameClean = cleanName(p.username);
+            const match = pNameClean === myNameClean;
+            if (p.username.includes(myNameRaw) || myNameRaw.includes(p.username)) {
+                console.log(`   - vs "${p.username}" (Clean: "${pNameClean}") -> Match? ${match}`);
+            }
+            return match;
+        });
 
         // 2. Determine MY Coordinates (Prefer Local)
         let myX = myServerRecord ? myServerRecord.x : 0;
@@ -3524,6 +3537,9 @@ async function syncWorldPlayers() {
         // 3. Place ME (Single Entity Guarantee)
         if (CURRENT_USER) {
             const myKey = `${myX},${myY}`;
+            // Log rendering attempt
+            console.log(`[DEBUG] Placing MY CITY at ${myKey}. Visible? Should be.`);
+
             if (STATE.mapEntities[myKey]?.type !== 'fortress') {
                 STATE.mapEntities[myKey] = {
                     type: 'city',
@@ -3540,8 +3556,11 @@ async function syncWorldPlayers() {
 
         // 4. Place OTHERS (Skip Me)
         data.players.forEach(p => {
-            const pNameLower = p.username.trim().toLowerCase();
-            if (pNameLower === myNameLower) return; // SKIP ME
+            const pNameClean = cleanName(p.username);
+            if (pNameClean === myNameClean) {
+                console.log(`[DEBUG] Skipped valid duplicate for ${p.username}`);
+                return; // SKIP ME
+            }
 
             const key = `${p.x},${p.y}`;
 
