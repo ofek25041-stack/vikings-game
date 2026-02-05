@@ -522,13 +522,15 @@ main {
     width: 60px;
     height: 60px;
     background-image: url('icon_fortress.jpg');
-    background-size: contain;
+    background-size: cover;
     background-repeat: no-repeat;
-    background-position: center bottom;
-    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.6));
-    animation: fortressPulse 3s infinite;
-    /* Attempt to blend if white background */
+    background-position: center;
+    /* Masking the white box */
+    border-radius: 12px;
+    /* Blending white background into map */
     mix-blend-mode: multiply;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4)) contrast(1.1);
+    animation: fortressPulse 3s infinite;
 }
 
 /* Ensure the label sits above the blended icon */
@@ -553,7 +555,7 @@ main {
 }
 
 /* Custom City Icon Styles */
-/* Applies to both my-city and other cities if we add a generic class, 
+/* Applies to both my-city and other cities if we add a generic class,
    but currently targeting via existing structure */
 
 .entity-city .entity-icon,
@@ -563,17 +565,19 @@ main {
     width: 30px;
     height: 30px;
     background-image: url('icon_city.jpg');
-    background-size: contain;
+    background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
-    /* Attempt to blend if white background */
+    /* Circle mask for city */
+    border-radius: 50%;
+    /* Blending */
     mix-blend-mode: multiply;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4)) contrast(1.1);
 }
 
 .entity-my-city .entity-icon {
-    /* Add a glow for my city */
-    filter: drop-shadow(0 0 4px #fbbf24);
+    /* Add a glow for my city - needs to be separate if blend mode is on icon */
+    box-shadow: 0 0 8px 2px rgba(251, 191, 36, 0.6);
 }
 
 .entity-my-fortress .entity-label {
