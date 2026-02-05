@@ -481,10 +481,11 @@ main {
 }
 
 /* DEBUG VISIBILITY */
-.entity-my-city {
+/* DEBUG VISIBILITY REMOVED */
+/* .entity-my-city {
     border: 3px solid magenta !important;
     background: rgba(255, 0, 255, 0.2);
-}
+} */
 
 .entity-my-city .entity-icon {
     filter: drop-shadow(0 0 8px #fbbf24);
@@ -544,12 +545,31 @@ main {
 }
 
 /* Ensure the label sits above the blended icon */
+/* Ensure the label sits below the icon and looks like a nameplate */
 .entity-fortress .entity-label {
     z-index: 25;
     position: absolute;
+    top: unset;
     bottom: -15px;
-    /* Adjust label position */
+    /* Position below the icon */
+    left: 50%;
+    transform: translateX(-50%);
+
+    /* Make it look like a small nameplate */
+    background: rgba(0, 0, 0, 0.8) !important;
+    /* Force dark background */
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+    padding: 2px 6px;
+
+    font-size: 0.65rem;
+    line-height: 1.2;
+    width: max-content;
+    max-width: 120px;
+    white-space: nowrap;
+
     mix-blend-mode: normal;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 @keyframes fortressPulse {
