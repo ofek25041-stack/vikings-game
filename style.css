@@ -653,19 +653,9 @@ main {
 }
 
 /* Land Mass (Cliffs/Grass) */
+/* Land Mass overlay removed to fix city view glitch */
 .city-landscape::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 70%;
-    background:
-        linear-gradient(175deg, #10b981 0%, #059669 30%, transparent 30.5%),
-        linear-gradient(175deg, transparent 30%, #78350f 30%, #451a03 100%);
-    clip-path: ellipse(150% 100% at 50% 100%);
-    z-index: 1;
-    box-shadow: inset 0 20px 40px rgba(0, 0, 0, 0.2);
+    display: none;
 }
 
 .sun-glow {
