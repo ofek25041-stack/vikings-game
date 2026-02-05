@@ -531,7 +531,7 @@ main {
     height: 80px;
     top: -10px;
     left: -10px;
-    background-image: url('assets/icon_fortress.png');
+    background-image: url('assets/icon_fortress_transparent.png');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
@@ -539,7 +539,7 @@ main {
     border-radius: 0;
 
     /* Blending white background into map */
-    mix-blend-mode: multiply;
+    /* mix-blend-mode: multiply; */
     filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4)) contrast(1.1);
     animation: fortressPulse 3s infinite;
 }
@@ -594,7 +594,7 @@ main {
     /* Hide emoji */
     width: 40px;
     height: 40px;
-    background-image: url('assets/icon_city.png');
+    background-image: url('assets/icon_city_transparent.png');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -602,7 +602,7 @@ main {
     border-radius: 0;
 
     /* Blending white background into map */
-    mix-blend-mode: multiply;
+    /* mix-blend-mode: multiply; */
     filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4)) contrast(1.1);
 }
 
