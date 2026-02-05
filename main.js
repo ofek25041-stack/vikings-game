@@ -250,6 +250,15 @@ async function loadAllTerritories() {
                 }
             });
         }
+
+        // TRIGGER RENDER AFTER LOAD
+        // This ensures the green labels appear immediately after data arrives
+        if (window.activeView === 'world') {
+            try {
+                if (window.renderScrollableMap) window.renderScrollableMap();
+                else renderWorldMap();
+            } catch (e) { console.error("Post-load render failed", e); }
+        }
     }
 }
 
