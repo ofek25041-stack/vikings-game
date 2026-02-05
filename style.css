@@ -532,7 +532,7 @@ main {
     height: 100px;
     top: -20px;
     left: -20px;
-    background-image: url('/assets/icon_fortress.jpg');
+    background-image: url('assets/icon_fortress.jpg');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
@@ -595,7 +595,7 @@ main {
     /* Hide emoji */
     width: 30px;
     height: 30px;
-    background-image: url('/assets/icon_city.jpg');
+    background-image: url('assets/icon_city.jpg');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
