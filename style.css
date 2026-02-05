@@ -512,14 +512,18 @@ main {
 /* Fortress Entity (2x2) */
 /* Fortress Entity (2x2) */
 /* Fortress Entity (2x2) */
+/* Fortress Entity (2x2) */
 .entity-fortress {
     z-index: 20 !important;
+    /* CRITICAL FIX: Ensure no background color from other rules */
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
 }
 
 .entity-fortress .fortress-icon {
     font-size: 0;
     /* Hide emoji */
-    width: 60px;
     width: 60px;
     height: 60px;
     background-image: url('assets/icon_fortress.jpg');
@@ -528,8 +532,8 @@ main {
     background-position: center;
     /* Masking the white box */
     border-radius: 12px;
-    /* Blending DISABLED for debugging */
-    /* mix-blend-mode: multiply; */
+    /* Blending white background into map */
+    mix-blend-mode: multiply;
     filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4)) contrast(1.1);
     animation: fortressPulse 3s infinite;
 }
@@ -579,6 +583,12 @@ main {
 .entity-my-city .entity-icon {
     /* Add a glow for my city - needs to be separate if blend mode is on icon */
     /* box-shadow: 0 0 8px 2px rgba(251, 191, 36, 0.6); */
+}
+
+/* Specific override for MY fortress to prevent orange box */
+.entity-my-fortress {
+    background: transparent !important;
+    border: none !important;
 }
 
 .entity-my-fortress .entity-label {
