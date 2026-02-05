@@ -531,15 +531,15 @@ main {
     height: 80px;
     top: -10px;
     left: -10px;
-    background-image: url('assets/fortress_v1.jpg');
+    background-image: url('assets/icon_fortress.png');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
-    /* Masking the white box */
-    border-radius: 50%;
+    /* Remove rounding for building shape */
+    border-radius: 0;
 
     /* Blending white background into map */
-    /* mix-blend-mode: multiply; */
+    mix-blend-mode: multiply;
     filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4)) contrast(1.1);
     animation: fortressPulse 3s infinite;
 }
