@@ -1,12 +1,16 @@
 /* --- IMAGE MAP CITY VIEW STYLING --- */
 
 /* Make the city composite image fit properly in the island container */
+/* Make the city composite image fit properly in the island container */
 .city-composite-image {
-    width: 100%;
+    width: auto;
     height: 100%;
-    object-fit: contain;
+    min-width: 100%;
+    min-height: 100%;
+    object-fit: cover;
     pointer-events: auto;
     display: block;
+    /* Ensure it can be scrolled if container allows */
 }
 
 /* Building Labels Overlay */

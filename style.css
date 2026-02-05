@@ -637,7 +637,12 @@ main {
     height: 100%;
     min-height: 600px;
     background: linear-gradient(to bottom, #38bdf8 0%, #bae6fd 60%, #e0f2fe 100%);
-    overflow: hidden;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    /* Smooth scroll on iOS */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /* Sea Horizon */
