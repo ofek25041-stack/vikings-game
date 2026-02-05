@@ -645,9 +645,12 @@ main {
 }
 
 /* Explicit collision handling: Clan City = Green but Big */
-.entity-city.entity-clan-member .entity-label {
+/* SIMPLIFIED AND FORCED */
+.entity-clan-member .entity-label {
     background: linear-gradient(to bottom, #22c55e, #15803d) !important;
     border: 1px solid #86efac !important;
+    color: white !important;
+    z-index: 100 !important;
 }
 
 .entity-owned .name {

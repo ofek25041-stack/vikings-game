@@ -410,6 +410,11 @@ function createEntityDOM(entity, x, y) {
     else {
         // Check for Clan Member (Green Label)
         const isClanMember = STATE.clan && entity.clanId && STATE.clan.id === entity.clanId;
+        // DEBUG LOGGING
+        if (entity.clanId) {
+            console.log(`Checking clan match: MyClan=${STATE.clan?.id} EntityClan=${entity.clanId} Match=${isClanMember}`);
+        }
+
         if (isClanMember) {
             div.classList.add('entity-clan-member');
         } else if (entity.owner === CURRENT_USER) {
