@@ -180,8 +180,8 @@ main {
     /* GLOBAL BACKGROUND: Rich Natural World */
     background-color: #3f6212;
     background-image: url('world_terrain.png');
-    background-size: cover;
-    background-repeat: no-repeat;
+    background-size: 1000px 1000px;
+    background-repeat: repeat;
 }
 
 .map-tile {
