@@ -377,6 +377,7 @@ function renderVisibleArea() {
 function createEntityDOM(entity, x, y) {
     const div = document.createElement('div');
     div.classList.add('map-entity', `entity-${entity.type}`);
+    if (entity.resource) div.classList.add(`resource-${entity.resource}`);
 
     // FORTRESS RENDERING (60x60px, 2x2 tiles)
     if (entity.type === 'fortress') {

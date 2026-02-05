@@ -314,8 +314,151 @@ main {
     cursor: pointer;
 }
 
-.entity:hover .entity-icon {
-    transform: scale(1.2);
+/* --- Specific Structure Designs (Premium) --- */
+
+/* Wheat Field */
+.entity-field {
+    background: linear-gradient(135deg, #fcd34d 0%, #d97706 100%);
+    border-radius: 4px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    /* Wheat pattern */
+    background-image: repeating-linear-gradient(90deg, transparent, transparent 4px, rgba(0, 0, 0, 0.1) 4px, rgba(0, 0, 0, 0.1) 8px);
+}
+
+.entity-field::before {
+    content: "🌾";
+    font-size: 1.4rem;
+    filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.3));
+}
+
+/* Wood Camp */
+.entity-wood {
+    background: #4a3424;
+    /* Dark wood */
+    border-radius: 50% 50% 4px 4px;
+    /* Hut shape */
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.4);
+    border: 2px solid #78350f;
+}
+
+.entity-wood::before {
+    content: "🪓";
+    font-size: 1.2rem;
+}
+
+/* Vineyard (Wine) */
+.entity-farm {
+    /* Wine Farm */
+    background: linear-gradient(45deg, #a855f7 25%, #22c55e 25%, #22c55e 50%, #a855f7 50%, #a855f7 75%, #22c55e 75%, #22c55e 100%);
+    background-size: 10px 10px;
+    border-radius: 4px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.entity-farm::before {
+    content: "🍇";
+    background: rgba(0, 0, 0, 0.5);
+    /* Contrast backing */
+    border-radius: 50%;
+    padding: 2px;
+    font-size: 1.2rem;
+}
+
+/* Gold Mine */
+.resource-gold {
+    background: radial-gradient(circle at 30% 30%, #fde047, #b45309);
+    border-radius: 8px 8px 2px 2px;
+    /* Mound shape */
+    box-shadow: inset -2px -2px 6px rgba(0, 0, 0, 0.4), 0 4px 4px rgba(0, 0, 0, 0.3);
+    border: 1px solid #fcd34d;
+}
+
+.resource-gold::before {
+    content: "⛏️";
+    font-size: 1.2rem;
+    filter: grayscale(0) drop-shadow(0 1px 1px black);
+}
+
+.resource-gold::after {
+    /* Sparkles */
+    content: "✨";
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    font-size: 0.8rem;
+    animation: pulseGold 2s infinite;
+}
+
+/* Marble Quarry */
+.resource-marble {
+    background: repeating-linear-gradient(45deg, #e2e8f0, #e2e8f0 10px, #cbd5e1 10px, #cbd5e1 20px);
+    border-radius: 2px;
+    box-shadow: 3px 3px 0 #94a3b8;
+    /* Blocky 3D look */
+}
+
+.resource-marble::before {
+    content: "🏛️";
+    font-size: 1.2rem;
+    filter: grayscale(100%) opacity(0.8);
+}
+
+/* Sulfur Mine */
+.resource-sulfur {
+    background: radial-gradient(circle, #fef08a 0%, #854d0e 100%);
+    border-radius: 50%;
+    box-shadow: 0 0 10px #facc15;
+    position: relative;
+}
+
+.resource-sulfur::before {
+    content: "🌋";
+    font-size: 1.2rem;
+}
+
+.resource-sulfur::after {
+    /* Fumes */
+    content: "";
+    position: absolute;
+    top: -5px;
+    width: 10px;
+    height: 20px;
+    background: rgba(253, 224, 71, 0.5);
+    filter: blur(4px);
+    animation: float 2s infinite;
+}
+
+/* Crystal Cave */
+.resource-crystal {
+    background: linear-gradient(135deg, #c084fc 0%, #6366f1 100%);
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    /* Diamond shape */
+    box-shadow: 0 0 10px #a855f7;
+}
+
+.resource-crystal::before {
+    content: "💎";
+    font-size: 1.2rem;
+    animation: pulseGold 3s infinite alternate;
+    /* Reuse pulse */
+}
+
+/* Common overrides to hide default emojis if we use pseudo-elements exclusively? 
+   Actually, the JS injects an icon into .entity-icon. 
+   We want to HIDE the default .entity-icon children if we are using ::before on the container, 
+   OR style the .entity-icon div itself. 
+   Let's target .entity-icon inside these classes.
+*/
+
+.entity-field .entity-icon,
+.entity-wood .entity-icon,
+.entity-farm .entity-icon,
+.resource-gold .entity-icon,
+.resource-marble .entity-icon,
+.resource-sulfur .entity-icon,
+.resource-crystal .entity-icon {
+    display: none;
+    /* Hide default JS icon, use our custom CSS pseudo-elements */
 }
 
 /* --- Dedicated Label Styling --- */
