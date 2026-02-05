@@ -267,12 +267,12 @@ function renderVisibleArea() {
             tile.style.height = `${MAP_CONFIG.TILE_SIZE}px`;
             tile.style.zIndex = '10';
 
-            // Background
-            if (type !== 'water') {
-                tile.style.backgroundColor = bgColor;
-                tile.style.opacity = '0.7';
-                tile.style.border = '1px solid rgba(255,255,255,0.2)';
-            }
+            // Background - REMOVED to show global map background
+            // if (type !== 'water') {
+            //     tile.style.backgroundColor = bgColor;
+            //     tile.style.opacity = '0.7';
+            //     tile.style.border = '1px solid rgba(255,255,255,0.2)';
+            // }
 
             if (entity) {
                 // SKIP FORTRESS: Handled by "Force Render" loop (lines 300+)
