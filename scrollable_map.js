@@ -407,7 +407,15 @@ function createEntityDOM(entity, x, y) {
     // REGULAR ENTITY RENDERING
     if (entity.type === 'city') div.classList.add('entity-city');
     if (entity.isMyCity) div.classList.add('entity-my-city');
-    else if (entity.owner === CURRENT_USER) div.classList.add('entity-owned');
+    else {
+        // Check for Clan Member (Green Label)
+        const isClanMember = STATE.clan && entity.clanId && STATE.clan.id === entity.clanId;
+        if (isClanMember) {
+            div.classList.add('entity-clan-member');
+        } else if (entity.owner === CURRENT_USER) {
+            div.classList.add('entity-owned');
+        }
+    }
 
     let icon = '❓';
     if (typeof getTypeIcon === 'function') icon = getTypeIcon(entity.type || entity.resource);
