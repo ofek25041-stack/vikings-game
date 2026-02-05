@@ -175,18 +175,19 @@ main {
     width: 3000px;
     height: 3000px;
 
-    /* OPTIMIZED: Tiled background - repeats seamlessly */
-    /* OPTIMIZED: Tiled background - repeats seamlessly */
-    /* background-image: url('world_terrain_artistic.png') !important; DEPRECATED FOR DEBUG */
-    background-color: #1e40af !important;
-    /* Fallback Blue */
-    background-image: radial-gradient(#2563eb 1px, transparent 1px);
-    background-size: 30px 30px;
-    /* Grid Lines */
-    /* Larger tile size for better detail */
-    background-color: #1e40af;
+    /* PREMIUM OCEAN BACKGROUND */
+    background-color: #0c4a6e;
+    /* Deep Ocean */
+    background-image:
+        /* Grid Lines (Subtle) */
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        /* Deep Water Pattern */
+        radial-gradient(circle at 100% 50%, transparent 20%, rgba(255, 255, 255, 0.03) 21%, rgba(255, 255, 255, 0.03) 34%, transparent 35%, transparent),
+        radial-gradient(circle at 0% 50%, transparent 20%, rgba(255, 255, 255, 0.03) 21%, rgba(255, 255, 255, 0.03) 34%, transparent 35%, transparent);
 
-    /* Tiles will be positioned absolutely within this container */
+    background-size: 30px 30px, 30px 30px, 100px 100px, 100px 100px;
+    background-position: 0 0, 0 0, 0 0, 50px 50px;
 }
 
 .map-tile {
