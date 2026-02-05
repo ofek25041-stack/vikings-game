@@ -405,6 +405,7 @@ function createEntityDOM(entity, x, y) {
     }
 
     // REGULAR ENTITY RENDERING
+    if (entity.type === 'city') div.classList.add('entity-city');
     if (entity.isMyCity) div.classList.add('entity-my-city');
     else if (entity.owner === CURRENT_USER) div.classList.add('entity-owned');
 

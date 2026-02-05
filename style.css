@@ -511,15 +511,33 @@ main {
 
 /* Fortress Entity (2x2) */
 /* Fortress Entity (2x2) */
+/* Fortress Entity (2x2) */
 .entity-fortress {
-    /* Make it stand out */
     z-index: 20 !important;
 }
 
-.entity-fortress .entity-icon {
-    font-size: 2.5rem;
+.entity-fortress .fortress-icon {
+    font-size: 0;
+    /* Hide emoji */
+    width: 60px;
+    height: 60px;
+    background-image: url('icon_fortress.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center bottom;
     filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.6));
     animation: fortressPulse 3s infinite;
+    /* Attempt to blend if white background */
+    mix-blend-mode: multiply;
+}
+
+/* Ensure the label sits above the blended icon */
+.entity-fortress .entity-label {
+    z-index: 25;
+    position: absolute;
+    bottom: -15px;
+    /* Adjust label position */
+    mix-blend-mode: normal;
 }
 
 @keyframes fortressPulse {
@@ -530,12 +548,32 @@ main {
     }
 
     50% {
-        transform: scale(1.1);
+        transform: scale(1.05);
     }
 }
 
-.entity-my-fortress .fortress-icon {
-    filter: drop-shadow(0 0 12px #fbbf24);
+/* Custom City Icon Styles */
+/* Applies to both my-city and other cities if we add a generic class, 
+   but currently targeting via existing structure */
+
+.entity-city .entity-icon,
+.entity-my-city .entity-icon {
+    font-size: 0 !important;
+    /* Hide emoji */
+    width: 30px;
+    height: 30px;
+    background-image: url('icon_city.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+    /* Attempt to blend if white background */
+    mix-blend-mode: multiply;
+}
+
+.entity-my-city .entity-icon {
+    /* Add a glow for my city */
+    filter: drop-shadow(0 0 4px #fbbf24);
 }
 
 .entity-my-fortress .entity-label {
