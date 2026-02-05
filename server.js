@@ -1614,5 +1614,5 @@ const server = http.createServer(async (req, res) => {
 
 server.listen(PORT, () => {
     console.log(`Vikings DB Server running at http://localhost:${PORT}`);
-    console.log(`[v1.1.1] Connecting to MongoDB... (Restarted at: ${new Date().toLocaleTimeString()})`);
+    console.log(`[v1.1.2] Force Deploy Triggered at: ${new Date().toISOString()}`);
 });
