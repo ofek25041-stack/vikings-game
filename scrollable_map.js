@@ -409,10 +409,13 @@ function createEntityDOM(entity, x, y) {
     if (entity.isMyCity) div.classList.add('entity-my-city');
     else {
         // Check for Clan Member (Green Label)
-        const isClanMember = STATE.clan && entity.clanId && STATE.clan.id === entity.clanId;
+        // Check for Clan Member (Green Label)
+        const isClanMember = (STATE.clan && entity.clanId && STATE.clan.id === entity.clanId) ||
+            (STATE.clan && entity.clanTag && STATE.clan.tag === entity.clanTag);
+
         // DEBUG LOGGING
-        if (entity.clanId) {
-            console.log(`Checking clan match: MyClan=${STATE.clan?.id} EntityClan=${entity.clanId} Match=${isClanMember}`);
+        if (entity.clanId || entity.clanTag) {
+            console.log(`Checking clan match: MyClan=${STATE.clan?.id}/${STATE.clan?.tag} Entity=${entity.clanId}/${entity.clanTag} Match=${isClanMember}`);
         }
 
         if (isClanMember) {

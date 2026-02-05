@@ -1507,7 +1507,8 @@ const server = http.createServer(async (req, res) => {
                             level: u.state.buildings?.townHall?.level || 1,
                             x: u.state.homeCoords.x,
                             y: u.state.homeCoords.y,
-                            clanTag: u.state.clan?.tag
+                            clanTag: u.state.clan?.tag,
+                            clanId: u.state.clan?.id   // <--- Added for green label logic
                         };
                     }
                 } catch (userErr) {
