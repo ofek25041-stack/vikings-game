@@ -602,8 +602,6 @@ main {
     background-position: center;
     /* Circle mask for city */
     border-radius: 50%;
-    /* Debug border */
-    border: 1px dashed cyan;
 
     /* Blending DISABLED for debugging */
     /* mix-blend-mode: multiply; */
