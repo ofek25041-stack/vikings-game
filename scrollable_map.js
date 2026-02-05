@@ -124,10 +124,31 @@ function handleGlobalClick(x, y) {
     if (x < 0 || y < 0 || x >= MAP_CONFIG.WORLD_SIZE || y >= MAP_CONFIG.WORLD_SIZE) return;
 
     const key = `${x},${y}`;
-    const entity = STATE.mapEntities ? STATE.mapEntities[key] : null;
+    let entity = STATE.mapEntities ? STATE.mapEntities[key] : null;
+
+    // Check for Virtual Entity if no server entity exists
+    if (!entity && typeof window.generateVirtualEntity === 'function') {
+        // Re-calculate terrain type for this coordinate (Same logic as render)
+        const noise = Math.sin(x * 12.9898 + y * 78.233) * 43758.5453;
+        const val = noise - Math.floor(noise);
+        let type = 'water';
+        if (val < 0.15) type = 'grass';
+        else if (val < 0.22) type = 'forest';
+        else if (val < 0.27) type = 'mountain';
+        else if (val < 0.30) type = 'desert';
+
+        const virtual = window.generateVirtualEntity(x, y, type);
+        // Only treat as entity if it's not an NPC city (which we might ignore) or if logic allows
+        if (virtual && !(virtual.type === 'city' && virtual.user === 'NPC')) {
+            entity = virtual;
+            // Ensure it has necessary props for interaction
+            entity.x = x;
+            entity.y = y;
+        }
+    }
 
     if (entity) {
-        // Interact with Entity
+        // Interact with Entity (Attack/Conquer)
         if (typeof interactEntity === 'function') interactEntity(x, y, entity);
     } else {
         // Empty Tile -> Teleport
