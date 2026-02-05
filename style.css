@@ -195,13 +195,14 @@ main {
     width: 3000px;
     height: 3000px;
 
-    /* GLOBAL BACKGROUND: Clean, Dark, Uniform */
-    background-color: #0f172a;
-    /* Slate 900 */
-    background-image: radial-gradient(#1e293b 15%, transparent 16%);
-    /* Subtle dots */
-    background-size: 30px 30px;
-    /* Aligned with tiles */
+    /* GLOBAL BACKGROUND: Rich Fantasy Landscape */
+    background-color: #3f6212;
+    /* Complex organic texture: Grass + Noise + subtle patterns */
+    background-image:
+        radial-gradient(circle at 15% 50%, rgba(255, 255, 255, 0.08) 0%, transparent 20%),
+        radial-gradient(circle at 85% 30%, rgba(255, 255, 255, 0.08) 0%, transparent 20%),
+        repeating-linear-gradient(45deg, rgba(0, 0, 0, 0.03) 0, rgba(0, 0, 0, 0.03) 2px, transparent 2px, transparent 12px);
+    background-size: 300px 300px, 300px 300px, 60px 60px;
 }
 
 .map-tile {
@@ -212,21 +213,19 @@ main {
     cursor: pointer;
     transition: all 0.1s;
 
-    /* CARD STYLE: Distinct, Opaque, Slightly Smaller for Gaps */
-    width: 28px;
-    height: 28px;
-    margin: 1px;
-    /* Creates the 2px gap (1px on each side) */
+    /* INVISIBLE GRID - Logic only */
+    width: 30px;
+    height: 30px;
 
-    background: #1e293b;
-    /* Default Base */
-    border-radius: 6px;
-    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.3);
-    /* "Button" depth */
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    /* TRANSPARENT BACKGROUND - Show Global Map */
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 0;
+
+    /* CRITICAL FIX: Visible Labels */
+    overflow: visible !important;
     z-index: 1;
-    overflow: hidden;
-    /* Keep content inside card */
 }
 
 .map-tile:hover {
@@ -238,62 +237,54 @@ main {
 
 /* Terrains - High Contrast Cards */
 
+/* Terrains - Transparent or Features */
+
 .tile-water {
-    background: linear-gradient(180deg, #1d4ed8 0%, #1e40af 100%) !important;
-    border-color: #3b82f6;
-    opacity: 1;
-    border-radius: 6px;
-    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
-    transform: none;
-    animation: none;
+    /* Water pools/Lakes */
+    background: radial-gradient(circle, #3b82f6 20%, #1d4ed8 100%) !important;
+    border-radius: 50%;
+    transform: scale(0.9);
+    opacity: 0.9;
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.6);
 }
 
 .tile-grass {
-    background: linear-gradient(180deg, #15803d 0%, #14532d 100%) !important;
-    border-color: #22c55e;
-    opacity: 1;
-    box-shadow: 0 3px 0 #052e16 !important;
+    background: transparent !important;
 }
 
 .tile-forest {
-    background: linear-gradient(180deg, #064e3b 0%, #022c22 100%) !important;
-    border-color: #059669;
-    z-index: 1;
+    background: transparent !important;
+    z-index: 2;
 }
 
 .tile-forest::before {
     content: "🌲";
     position: absolute;
-    font-size: 1.2rem;
-    filter: none;
+    font-size: 1.6rem;
     bottom: 2px;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
 }
 
 .tile-mountain {
-    background: linear-gradient(180deg, #475569 0%, #334155 100%) !important;
-    border-color: #94a3b8;
-    border-radius: 6px;
-    transform: none;
-    z-index: 1;
+    background: transparent !important;
+    z-index: 2;
 }
 
 .tile-mountain::after {
     display: none;
-    /* Remove fancy peak overlay */
 }
 
 .tile-mountain::before {
     content: "⛰️";
-    font-size: 1.2rem;
+    font-size: 1.6rem;
+    filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.5));
 }
 
 .tile-desert {
-    background: linear-gradient(180deg, #d97706 0%, #b45309 100%) !important;
-    border-color: #f59e0b;
-    border-radius: 6px;
-    transform: none;
-    opacity: 1;
-    box-shadow: 0 3px 0 #78350f !important;
+    /* Sand patch */
+    background: radial-gradient(circle, #facc15 10%, transparent 80%) !important;
+    opacity: 0.7;
+    transform: scale(1.4);
 }
 
 /* Entities - Centered Icons on Cards */
