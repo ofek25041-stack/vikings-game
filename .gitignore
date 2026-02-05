@@ -43,3 +43,5 @@ fix_*.js
 # ngrok
 ngrok.exe
 cloudflared.exe
+*.exe
+*.exe.exe
