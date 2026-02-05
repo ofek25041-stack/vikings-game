@@ -523,20 +523,22 @@ main {
 
 .entity-fortress .fortress-icon {
     font-size: 0;
+    color: transparent;
+    /* Extra safety to hide emoji */
     /* Hide emoji */
     position: absolute;
     width: 100px;
     height: 100px;
     top: -20px;
     left: -20px;
-    background-image: url('assets/icon_fortress.jpg');
+    background-image: url('/assets/icon_fortress.jpg');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
     /* Masking the white box */
     border-radius: 12px;
     /* Blending white background into map */
-    mix-blend-mode: multiply;
+    /* mix-blend-mode: multiply; */
     filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4)) contrast(1.1);
     animation: fortressPulse 3s infinite;
 }
@@ -569,10 +571,11 @@ main {
 .entity-city .entity-icon,
 .entity-my-city .entity-icon {
     font-size: 0 !important;
+    color: transparent;
     /* Hide emoji */
     width: 30px;
     height: 30px;
-    background-image: url('assets/icon_city.jpg');
+    background-image: url('/assets/icon_city.jpg');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
