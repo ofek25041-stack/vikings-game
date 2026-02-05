@@ -527,18 +527,16 @@ main {
     color: transparent;
     /* Hide emoji */
     position: absolute;
-    width: 100px;
-    height: 100px;
-    top: -20px;
-    left: -20px;
+    width: 70px;
+    height: 70px;
+    top: -5px;
+    left: -5px;
     background-image: url('assets/fortress_v1.jpg');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
     /* Masking the white box */
-    border-radius: 12px;
-    /* Debug border */
-    border: 2px dashed cyan;
+    border-radius: 50%;
 
     /* Blending white background into map */
     /* mix-blend-mode: multiply; */
