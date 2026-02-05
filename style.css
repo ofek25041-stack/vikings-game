@@ -169,40 +169,34 @@ main {
     /* CRITICAL: Force LTR for scroll coordinates */
 }
 
-.map-grid {
-    /* Optimized map: 100 cols x 100 rows x 30px = 3000x3000 */
-    position: relative;
-    width: 3000px;
-    height: 3000px;
 
-    /* PREMIUM OCEAN BACKGROUND */
-    background-color: #0c4a6e;
-    /* Deep Ocean */
-    background-image:
-        /* Grid Lines (Subtle) */
-        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-        /* Deep Water Pattern */
-        radial-gradient(circle at 100% 50%, transparent 20%, rgba(255, 255, 255, 0.03) 21%, rgba(255, 255, 255, 0.03) 34%, transparent 35%, transparent),
-        radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.05) 0%, transparent 10%),
-        repeating-linear-gradient(45deg, rgba(0, 0, 0, 0.05) 0, rgba(0, 0, 0, 0.05) 2px, transparent 2px, transparent 8px);
-    background-size: 30px 30px;
-    background-position: 0 0;
-}
 
 .map-grid {
     position: relative;
     width: 3000px;
     height: 3000px;
 
-    /* GLOBAL BACKGROUND: Rich Fantasy Landscape */
+    /* GLOBAL BACKGROUND: Rich Natural World */
     background-color: #3f6212;
-    /* Complex organic texture: Grass + Noise + subtle patterns */
+    /* Mossy Green Base */
+
+    /* Layered organic texture */
     background-image:
-        radial-gradient(circle at 15% 50%, rgba(255, 255, 255, 0.08) 0%, transparent 20%),
-        radial-gradient(circle at 85% 30%, rgba(255, 255, 255, 0.08) 0%, transparent 20%),
-        repeating-linear-gradient(45deg, rgba(0, 0, 0, 0.03) 0, rgba(0, 0, 0, 0.03) 2px, transparent 2px, transparent 12px);
-    background-size: 300px 300px, 300px 300px, 60px 60px;
+        /* 1. Large organic patches (Forest/Darker areas) */
+        radial-gradient(circle at 20% 80%, rgba(20, 83, 45, 0.4) 0%, transparent 40%),
+        radial-gradient(circle at 80% 20%, rgba(20, 83, 45, 0.4) 0%, transparent 40%),
+
+        /* 2. Smaller variation (Grass/Lighter areas) */
+        radial-gradient(circle at 50% 50%, rgba(132, 204, 22, 0.15) 0%, transparent 30%),
+
+        /* 3. River-like veins (Subtle wavy lines) */
+        repeating-linear-gradient(45deg, rgba(0, 0, 0, 0.05) 0px, transparent 2px, transparent 20px),
+        repeating-linear-gradient(-45deg, rgba(0, 0, 0, 0.05) 0px, transparent 2px, transparent 15px),
+
+        /* 4. Tiny noise/texture for grit */
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+
+    background-size: 1000px 1000px, 1000px 1000px, 800px 800px, 300px 300px, 300px 300px, 200px 200px;
 }
 
 .map-tile {
